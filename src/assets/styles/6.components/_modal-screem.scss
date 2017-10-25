@@ -1,0 +1,52 @@
+.cont-modal-screem {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba($black-0, 0.5);
+    z-index: 1000;
+    display: none;
+}
+
+.cmp-modal-screem {
+    width: 400px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba($black-0, 0.5);
+    background-color: $white-0;
+    padding: 20px;
+    .cmp-modal-screem__header {
+        h3 {
+            color: $skyblue-0 !important;
+            text-align: left;
+        }
+        button {}
+        .fa-close {
+            color: $grey-2;
+            font-size: 20px;
+            cursor: pointer;
+            &:hover {
+                color: $black-1;
+            }
+        }
+    }
+    .cmp-line {
+        margin: 30px 0;
+    }
+    .cmp-modal-screem__body {
+        // margin-top: 10px;
+    }
+    .cmp-modal-screem__footer {
+        margin-top: 50px;
+        text-align: right;
+        .cmp-btn-white {
+            border-color: white;
+            &:hover {}
+        }
+    }
+}

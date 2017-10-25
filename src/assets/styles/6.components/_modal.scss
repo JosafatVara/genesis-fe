@@ -1,0 +1,90 @@
+.cmp-modal {
+    position: absolute;
+    width: 380px;
+    top: 50px;
+    right: 0;
+    .cmp-modal__arrow {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid $skyblue-0;
+        margin-left: 180px;
+    }
+    .cmp-modal__cont-modal {
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0px 1px 7px $grey-1;
+        .cont-modal__header {
+            background-color: $skyblue-0;
+            color: $white-0;
+            padding: 15px;
+        }
+        .cont-modal__body {
+            height: 200px;
+            overflow: auto;
+            background-color: $white-0;
+            .body__user {
+                cursor: pointer;
+                padding: 10px 15px;
+                transition: .5s;
+                .user__logo {
+                    width: 50px;
+                    border-radius: 60px;
+                }
+                .user__user-data {
+                    margin-left: 10px;
+                    .user-data__name {
+                        color: $black-2;
+                        font-weight: 600;
+                        font-size: 14px;
+                        span {
+                            font-size: 9px;
+                            color: $grey-1;
+                        }
+                    }
+                    .user-data__action {
+                        font-size: 10px;
+                    }
+                }
+                &:hover {
+                    background-color: $white-4;
+                }
+            }
+        }
+        .cont-modal__footer {
+            cursor: pointer;
+            border-top: 1px solid #EAEAEA;
+            text-align: center;
+            background-color: $white-3;
+            color: $grey-1;
+            padding: 15px;
+            transition: .5s;
+            &:hover {
+                background-color: $skyblue-0;
+                color: $white-0;
+            }
+        }
+    }
+}
+
+.cmp-modal-perfil {
+    background-color: $white-0;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0px 1px 7px $grey-1;
+    .cont-modal__action {
+        cursor: pointer;
+        width: 200px;
+        padding: 10px 15px;
+        .action__text {
+            font-size: 14px;
+        }
+        &:hover {
+            background-color: $white-3;
+        }
+    }
+}

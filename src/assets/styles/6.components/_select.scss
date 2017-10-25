@@ -1,0 +1,14 @@
+.cmp-select {
+    margin-top:10px;
+    width: 100%;
+    padding: 10px 25px;
+    background-color: $white-3;
+    border-radius: 3px;
+    border: 1px solid $grey-3;
+    outline: none;
+    cursor: pointer;
+    option {}
+    &:focus {
+        border: 1px solid $skyblue-0;
+    }
+}

@@ -1,0 +1,10 @@
+.completer-holder {
+    position: relative;
+    .completer-dropdown-holder {
+        // overflow: hidden;
+        // width: 100% !important;
+        .completer-dropdown {
+            width: 100%;
+        }
+    }
+}
