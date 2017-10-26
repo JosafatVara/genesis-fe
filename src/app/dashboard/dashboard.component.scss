@@ -1,1 +1,23 @@
 // component css goes here
+// component css goes here
+@import '../../assets/styles/1.settings/_colors.scss';
+.cont-admin {
+    position: relative;
+    height: 100%;
+    padding-top: 85px;
+    // overflow: hidden;
+    .cont-admin__cont-body {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        .cont-body__body {
+            overflow: auto;
+            // overflow: hidden;
+            height: 100%;
+            width: 100%;
+            // padding: 50px;
+            padding-left: 250px;
+            background-color: $white-3;
+        }
+    }
+}

@@ -25,8 +25,9 @@
         user-select: none;
     }
 }
-.cmp-btn-skyblue--trash{
-    &:hover{
+
+.cmp-btn-skyblue--trash {
+    &:hover {
         background-color: $red-1;
         color: $white-1;
         border: 1px solid $red-1;
