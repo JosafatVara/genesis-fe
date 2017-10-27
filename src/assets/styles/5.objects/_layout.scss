@@ -1,0 +1,30 @@
+/*.wrapper {
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+    max-width: 1400px;
+}
+
+.content {
+    width: 100%; 
+}
+
+@media screen and (max-width: 599px) {}
+
+*/
+
+.wrapper {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.o-full-parent{
+    height: 100%;
+    width: 100%;
+}
+
+.o-full-window{
+    height: 100vh;
+    width: 100vw;
+}
