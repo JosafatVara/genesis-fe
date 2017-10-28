@@ -6,15 +6,15 @@ export class LocalStorageService {
   constructor() { }
 
   public save(key: string, value: any): void{
-
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   public load<T>(key: string): T{
-    return undefined;
+    return JSON.parse(localStorage.getItem(key));
   }
 
-  public remove<T>(key: string): T{
-    return undefined;
+  public remove<T>(key: string): void{
+    return localStorage.removeItem(key);
   }
 
 }
