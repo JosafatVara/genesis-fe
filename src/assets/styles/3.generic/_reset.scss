@@ -1,12 +1,11 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing:border-box;
-    
+    box-sizing: border-box;
 }
 
 ul {
-    list-style: none ;
+    list-style: none;
 }
 
 button {
@@ -19,9 +18,10 @@ button {
     background-color: transparent;
     font-family: 'Montserrat';
 }
-a{
+
+a {
     cursor: pointer;
     transition: .5s;
     font-size: 15px;
-    text-decoration: none;    
+    text-decoration: none;
 }
