@@ -1,14 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { MustBeAuthenticatedGuard } from './guards/must-be-authenticated-guard';
+import { MustBeUnauthenticatedGuard } from './guards/must-be-unauthenticated-guard';
 
 const routes: Routes = [
   {
-    path: '/login',
-    loadChildren: 'app/authentication/authentication.module#AuthenticationModule'
+    path: '',
+    redirectTo: '/dashboard',
+    pathMatch: 'full'
   },
   {
-    path: '/dashboard',
-    loadChildren: 'app/dashboard/dashboard.module#DashboardModule'
+    path: 'login',
+    loadChildren: 'app/authentication/authentication.module#AuthenticationModule',
+    canActivate: [
+      MustBeUnauthenticatedGuard
+    ]
+  },
+  {
+    path: 'dashboard',
+    loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
+    canActivate: [
+      MustBeAuthenticatedGuard
+    ]
   }
 ];
 
@@ -17,6 +30,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   declarations: [],
+  providers: [
+    MustBeAuthenticatedGuard,
+    MustBeUnauthenticatedGuard
+  ],
   exports: [
     RouterModule
   ]

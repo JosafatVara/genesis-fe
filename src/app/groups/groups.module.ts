@@ -4,7 +4,6 @@ import { GroupsComponent } from './groups.component';
 
 @NgModule({
   imports: [
-    CommonModule
   ],
   declarations: [GroupsComponent]
 })
