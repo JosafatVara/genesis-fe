@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   constructor(route: ActivatedRoute, router: Router) {
     this.route = route;
     this.router = router;
-    this.route.data.do(console.log)
+    this.route.data
     .subscribe((data: { enterprises: Enterprise[] }) => {
       if(data.enterprises && data.enterprises.length == 0){
         this.router.navigateByUrl('dashboard/empresas/sin-empresa');
@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
+
 
 }

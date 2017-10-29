@@ -1,4 +1,42 @@
-// component css goes here
+@import '../../../assets/styles/1.settings/_colors.scss';
+.wrapper--header {
+    max-width: 90%;
+    height: 100%;
+}
+
 .header {
-    // background-color: $white-0;
+    color: $grey-5;
+    overflow: hidden;
+    height: 80px;
+    position: fixed;
+    width: 100%;
+    background-color: $white-0;
+    border-bottom: 1px solid $white-5;
+    .header__logo {
+        .logo {
+            // width: 100px;
+            max-width: 60px;
+        }
+    }
+    .header__icon-bell {
+        padding: 0 10px;
+        .fa-bell-o {
+            cursor: pointer;
+        }
+    }
+    .header__user {
+        padding: 0 10px;
+        .user__photo {
+            max-width: 50px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        .user__name {
+            font-size: 14px;
+            margin: 0 15px;
+        }
+        .fa-angle-down {
+            cursor: pointer;
+        }
+    }
 }
