@@ -1,16 +1,21 @@
 $btn-color: #ffffff;
 $btn-color-bg: $purple-1;
+$btn-border-radius: 20px 50%;
 $btn-color-bg-hover: lighten($btn-color-bg,15%);
-$btn-padding: 10px !default;
+$btn-padding: 15px !default;
 $btn-margin: 5px !default;
 $btn-font-family: 'Montserrat';
 
 .c-btn{
     display: inline-block;
-    padding: 10px 25px;
+    text-transform: uppercase;
     vertical-align: middle;
     text-align: center;
     text-decoration: none;
+    border-top-left-radius: $btn-border-radius;
+    border-top-right-radius: $btn-border-radius;
+    border-bottom-left-radius: $btn-border-radius;
+    border-bottom-right-radius: $btn-border-radius;
     cursor: pointer;
     font-size: 12px;
     color: $btn-color;
@@ -40,6 +45,10 @@ $btn-font-family: 'Montserrat';
         /* Internet Explorer/Edge */
         user-select: none;
     }
+}
+
+.c-btn--large {
+    padding: round(2.0 * $btn-padding);
 }
 
 .c-btn-skyblue {

@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 
 export interface AsyncCrudService<T> {
 
-    get(specification: Specification<T>) : Observable<Array<T>>;
+    get(specification?: Specification<T>) : Observable<Array<T>>;
 
     update(entity: T): Observable<T>;
 

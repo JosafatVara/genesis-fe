@@ -1,0 +1,18 @@
+@import "../../../assets/styles/1.settings/_colors.scss";
+
+:host{
+    width: 60%;
+}
+
+.login{
+    .login__credential{
+        .c-input{
+            input{
+                font-weight: 600;
+            }
+        }
+    }
+    .login__img{
+        background-color: $purple-1;
+    }
+}

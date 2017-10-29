@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { EnterprisesComponent } from '../enterprises.component';
 import { EnterpriseListComponent } from '../enterprise-list/enterprise-list.component';
+import { EnterpriseNoneComponent } from '../enterprise-none/enterprise-none.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,9 @@ const routes: Routes = [
       {
         path: '',
         component: EnterpriseListComponent
+      },{
+        path: 'sin-empresa',
+        component: EnterpriseNoneComponent
       }
     ]
   }
@@ -18,8 +22,11 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-
+    RouterModule.forChild(routes)
   ],
-  declarations: []
+  declarations: [],
+  exports: [
+    RouterModule
+  ]
 })
 export class EnterprisesRoutingModule { }

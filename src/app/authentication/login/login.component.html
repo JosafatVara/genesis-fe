@@ -1,20 +1,15 @@
-<div class="o-full-size" fxLayout="row">
-  <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-    <div fxLayout="column">
-      <mat-form-field>
-        <input matInput placeholder="Usuario">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Contraseña">
-      </mat-form-field>
-      <div fxLayout="row">
-        <a routerLink="/recuperar-password">¿Olvidaste tu contraseña?</a>
-        <span fxFlex></span>
-        <button class="c-btn">INGRESAR</button>
-      </div>
-    </div>
+<form fxLayout="column" class="o-full-size login" fxLayoutGap="15px">
+  <mat-form-field class="o-full-width login__credential c-input">
+    <input required matInput placeholder="Usuario"  name="user" [(ngModel)]="user">
+    <mat-error>Usuario requerido</mat-error>
+  </mat-form-field>
+  <mat-form-field class="o-full-width login__credential c-input">
+    <input required matInput placeholder="Contraseña"  name="password" [(ngModel)]="password">
+    <mat-error>Contraseña requerida</mat-error>
+  </mat-form-field>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a routerLink="recuperar-password">¿No recuerdas tu contraseña?</a>
+    <span fxFlex></span>
+    <button type="submit" class="c-btn" (click)="login()">Ingresar</button>
   </div>
-  <div fxFlex="50">
-    
-  </div>
-</div>
+</form>

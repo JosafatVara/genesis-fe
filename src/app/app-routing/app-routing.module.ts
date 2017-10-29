@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MustBeAuthenticatedGuard } from './guards/must-be-authenticated-guard';
 import { MustBeUnauthenticatedGuard } from './guards/must-be-unauthenticated-guard';
+import { EnterpriseListResolver } from '../core/resolvers/enterprise-list-resolver';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full'
   },
   {
-    path: 'login',
+    path: 'auth',
     loadChildren: 'app/authentication/authentication.module#AuthenticationModule',
     canActivate: [
       MustBeUnauthenticatedGuard
@@ -19,9 +20,8 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
-    canActivate: [
-      MustBeAuthenticatedGuard
-    ]
+    canActivate: [ MustBeAuthenticatedGuard ],
+    resolve: { enterprises: EnterpriseListResolver }
   }
 ];
 

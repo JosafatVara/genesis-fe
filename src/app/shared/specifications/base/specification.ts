@@ -4,8 +4,6 @@ export abstract class Specification<T> {
         return this.evaluate(entity);
     }
 
-    protected abstract evaluate(entity: T): boolean;
-
-    
+    protected abstract evaluate(entity: T): boolean;    
 
 }

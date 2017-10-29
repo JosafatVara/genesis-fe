@@ -1,3 +1,5 @@
+$input-color-error: $purple-1;
+
 .c-input {
     margin-top: 15px;
     width: 100%;
@@ -32,6 +34,35 @@
         color: #ff3c3c !important;
         text-align: left;
         margin-top: 5px;
+    }
+    /**OVERRIDE @angular/material INVALID INPUT COLOR**/
+    &.mat-input-container.ng-touched.ng-invalid, &.mat-form-field-invalid {
+        /deep/ .mat-input-placeholder{
+            
+            color: $input-color-error;
+        }
+
+        /deep/ .mat-form-field-required-marker{
+            color: $input-color-error;
+        }
+
+        /deep/ .mat-error {
+            color: $input-color-error;
+        }
+    
+        /deep/ .mat-input-underline {
+            border-top-width: 1px;
+            border-color: $input-color-error;
+        }
+    
+        /deep/ .mat-input-ripple {
+            background-color: $input-color-error;
+        }
+    
+        mat-hint {
+            color: $input-color-error;
+            float: right;
+        }
     }
 }
 

@@ -10,11 +10,14 @@ export class MustBeAuthenticatedGuard implements CanActivate {
         
     }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        if(!this.auth.isLogged()){
-            this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-            return false;
-        }    
-        return true;
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {  
+        return this.auth.isLogged().map(
+            logged => {
+                if(!logged){
+                    this.router.navigate(['/auth'], { queryParams: { returnUrl: state.url }});
+                }
+                return logged;
+            }
+        );
     }
 }

@@ -7,11 +7,14 @@ import { Observable } from 'rxjs';
 export class MustBeUnauthenticatedGuard implements CanActivate{
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-    if(this.auth.isLogged()){
-      this.router.navigate(['/']);
-      return false;
-    }    
-    return true;
+    return this.auth.isLogged().map(
+      logged => {
+        if(logged){
+          this.router.navigate(['/']);
+        }
+        return !logged;
+      }
+    );
   }
 
   constructor(private router : Router, private auth : AuthenticationService){

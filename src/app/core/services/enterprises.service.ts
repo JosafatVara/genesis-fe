@@ -17,7 +17,7 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
     this.currentEnterprise = new BehaviorSubject<Enterprise>(new Enterprise());
   }
   
-  public get(specification: Specification<Enterprise>): Observable<Enterprise[]> {
+  public get(specification?: Specification<Enterprise>): Observable<Enterprise[]> {
     return Observable.of([]);
   }
 
