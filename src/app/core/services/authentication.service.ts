@@ -16,7 +16,7 @@ export class AuthenticationService{
   }
 
   public isLogged(): Observable<boolean>{
-    return Observable.of(true);
+    return Observable.of(false);
   }
 
   public getToken(): string{

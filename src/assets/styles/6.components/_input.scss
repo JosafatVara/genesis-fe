@@ -1,7 +1,7 @@
-.cmp-input {
+.c-input {
     margin-top: 15px;
     width: 100%;
-    .cmp-input__tag {
+    .c-input__tag {
         font-size: 14px;
         color: $grey-1;
         font-weight: 600;
@@ -10,7 +10,7 @@
     input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px white inset;
     }
-    .cmp-input__input {
+    .c-input__input {
         margin-top: 10px;
         width: 100%;
         border-radius: 3px;
@@ -35,9 +35,9 @@
     }
 }
 
-.cmp-input-file {
+.c-input-file {
     margin-top: 10px;
-    .cmp-btn-skyblue--upload {
+    .c-btn-skyblue--upload {
         display: block;
         cursor: pointer;
         width: 100%;

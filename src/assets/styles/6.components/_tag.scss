@@ -1,4 +1,4 @@
-.cmp-tag {
+.c-tag {
     display: inline-block;
     margin-right: 3px;
     margin-bottom: 3px;
@@ -8,7 +8,7 @@
     background-color: $white-4;
     position: relative;
     transition: .5s;
-    .cmp-tag__icon {
+    .c-tag__icon {
         position: absolute;
         z-index: -1;
         top: 50%;
@@ -20,7 +20,7 @@
         color: $red-1;
         border: 1px solid $red-1;
         background-color: $red-1;
-        .cmp-tag__icon {
+        .c-tag__icon {
             z-index: 1;
             color: $white-0;
         }

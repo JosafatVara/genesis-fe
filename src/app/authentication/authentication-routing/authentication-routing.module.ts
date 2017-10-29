@@ -15,7 +15,7 @@ const routes: Routes = [
         component: LoginComponent
       },
       {
-        path: 'recuperar-contraseña',
+        path: 'recuperar-password',
         component: PasswordRecoveryComponent
       }
     ]
