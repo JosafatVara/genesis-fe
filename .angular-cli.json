@@ -19,7 +19,8 @@
         "prefix": "gen",
         "styles": [
             "styles.scss",
-            "./assets/styles/_main.scss"
+            "./assets/styles/_main.scss",
+            "../node_modules/font-awesome/css/font-awesome.css"
         ],
         "scripts": [],
         "environmentSource": "environments/environment.ts",

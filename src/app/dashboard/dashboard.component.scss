@@ -3,26 +3,12 @@
     height: 100%;
 }
 
-.app__header {
-    height: 80px;
-    position: fixed;
-    width: 100%;
-    background-color: $white-0;
-    border-bottom: 1px solid $white-5;
-}
-
 .app__body {
+    overflow: hidden;
     height: 100%;
     padding-top: 80px;
-    .body__sidevar {
-        height: 100%;
-        left: 0;
-        position: fixed;
-        width: 200px;
-        background-color: $white-0;
-    }
     .body__main {
-        padding-left: 200px;
+        padding-left: 220px;
         height: 100%;
     }
 }
