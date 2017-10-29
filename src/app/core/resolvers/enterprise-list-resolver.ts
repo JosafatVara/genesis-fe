@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 import { EnterprisesService } from "../../core/services/enterprises.service";
 import { Enterprise } from "../../shared/models/enterprise";
-
 
 @Injectable()
 export class EnterpriseListResolver implements Resolve<Array<Enterprise>>{
@@ -14,7 +13,7 @@ export class EnterpriseListResolver implements Resolve<Array<Enterprise>>{
         this.enterprises = enterprises;
     }
 
-    resolve(): Observable<Enterprise[]> {
-        return this.enterprises.get();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Enterprise[]> {
+        return this.enterprises.get().first();
     }
 }

@@ -23,4 +23,8 @@ export class DialogEnterpriseNoneComponent implements OnInit {
     this.dialogRef.close({ exitSelected: true });
   }
 
+  public createSelected(){
+    this.createEnterpriseSelected = true;
+  }
+
 }

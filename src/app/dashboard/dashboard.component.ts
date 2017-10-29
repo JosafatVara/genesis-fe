@@ -12,18 +12,18 @@ export class DashboardComponent implements OnInit {
   private router: Router;
   private route: ActivatedRoute;
 
-  constructor(route: ActivatedRoute, router: Router) { 
+  constructor(route: ActivatedRoute, router: Router) {
     this.route = route;
     this.router = router;
-  }
-
-  ngOnInit() {
-    this.route.data
-    .subscribe((data: { enterprises: Array<Enterprise> }) => {
+    this.route.data.do(console.log)
+    .subscribe((data: { enterprises: Enterprise[] }) => {
       if(data.enterprises && data.enterprises.length == 0){
         this.router.navigateByUrl('dashboard/empresas/sin-empresa');
       }
     });
+  }
+
+  ngOnInit() {
   }
 
 }

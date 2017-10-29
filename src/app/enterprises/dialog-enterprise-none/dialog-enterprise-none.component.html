@@ -1,9 +1,9 @@
 <div>    
     <div *ngIf="!createEnterpriseSelected; else createEnterprise" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
         <h2>Hola Dinjo Josafat</h2>
-        <p>Actulamente no tienes ningún negocio registrado.</p>
+        <p>Actualmente no tienes ningún negocio registrado.</p>
         <p>Vamos a registrar tu primer negocio para continuar.</p>
-        <button class="c-btn">Crear negocio</button>
+        <button class="c-btn" (click)="createSelected()">Crear negocio</button>
         <a (click)="exitSelected()">Salir de genesis</a>
     </div>
     <ng-template #createEnterprise>

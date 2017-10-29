@@ -10,7 +10,7 @@ export class MustBeUnauthenticatedGuard implements CanActivate{
     return this.auth.isLogged().map(
       logged => {
         if(logged){
-          this.router.navigate(['/']);
+          this.router.navigate(['/auth']);
         }
         return !logged;
       }

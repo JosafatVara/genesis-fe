@@ -1,3 +1,6 @@
-<p>
-  enterprise-details works!
-</p>
+<div fxLayout="column">
+  <h1>{{mode=='create'?'Crear':'***'}} empresa</h1>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button class="c-btn" (click)="finish()">{{mode=='create'?'Crear':'***'}} empresa</button>
+  </div>
+</div>

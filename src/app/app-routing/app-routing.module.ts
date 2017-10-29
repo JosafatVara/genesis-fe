@@ -8,7 +8,8 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: '/dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full',    
+    resolve: { enterprises: EnterpriseListResolver }
   },
   {
     path: 'auth',
@@ -20,7 +21,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
-    canActivate: [ MustBeAuthenticatedGuard ],
+    // canActivate: [ MustBeAuthenticatedGuard ],
     resolve: { enterprises: EnterpriseListResolver }
   }
 ];

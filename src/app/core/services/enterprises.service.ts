@@ -10,15 +10,17 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise> {
   
+  protected enterprises: BehaviorSubject<Array<Enterprise>>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient){
     super(auth, http, '**********');
     this.currentEnterprise = new BehaviorSubject<Enterprise>(new Enterprise());
+    this.enterprises = new BehaviorSubject<Array<Enterprise>>([]);
   }
   
   public get(specification?: Specification<Enterprise>): Observable<Enterprise[]> {
-    return Observable.of([]);
+    return this.enterprises.asObservable();
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
@@ -26,7 +28,10 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
   }
 
   public create(entity: Enterprise): Observable<Enterprise> {
-    return Observable.of(new Enterprise());
+    let newEnterprises = this.enterprises.value.slice();
+    newEnterprises.concat([entity]);
+    this.enterprises.next(newEnterprises);
+    return Observable.of(entity);
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {

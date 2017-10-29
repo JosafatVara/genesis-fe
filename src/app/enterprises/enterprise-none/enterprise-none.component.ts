@@ -26,7 +26,7 @@ export class EnterpriseNoneComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(function() {
+    setTimeout(() => {
       let dialogRef = this.matDialog.open(DialogEnterpriseNoneComponent,{
         disableClose: true
       });
@@ -39,7 +39,7 @@ export class EnterpriseNoneComponent implements OnInit {
           
         }
       });
-    }.bind(this), 0);    
+    }, 0);    
   }
 
 }
