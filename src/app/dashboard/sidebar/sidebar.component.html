@@ -1,137 +1,141 @@
 <!--component html goes here -->
-<ul class="sidebar">
-    <li class="sidebar__menu-item sidebar__menu-item--first">
-        <a class="menu-item__item" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(1)">
-            <!-- <img class="item__icon" src="assets/images/icons/menu-grid.png" alt=""> Panel de control -->
-            <i class="fa fa-angle-left" aria-hidden="true" *ngIf="!flagArray[1]"></i>
-            <i class="fa fa-angle-right" aria-hidden="true" *ngIf="flagArray[1]"></i>
-        </a>
+<ul class="sidebar" [ngClass]="{'sidebar--closed': menuState}">
+    <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="end center">
+        <button class="cmp-btn " (click)="changeStateMenu()"> 
+                <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
+                <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
+            </button>
     </li>
-    <li class="sidebar__menu-item sidebar__menu-item--first">
-        <a class="menu-item__item" fxLayoutAlign="space-between center">
-            <img class="item__icon" src="assets/images/icons/menu-grid.png" alt=""> Panel de control
-            <i class="fa " aria-hidden="true"></i>
+    <li class="sidebar__menu-item sidebar__menu-item--first ">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center">
+            <img class="item__icon " src="assets/images/icons/menu-grid.png " alt=" ">
+            <span class="item__title">Panel de control</span>
+            <i class="fa " aria-hidden="true "></i>
         </a>
-        <ul></ul>
+        <!-- <ul></ul> -->
     </li>
     <li class="sidebar__menu-item ">
-        <a class="menu-item__item" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(2)">
-            <img class="item__icon" src="assets/images/icons/delivery-truck.png" alt=""> Ventas
-            <i class="fa fa-angle-down" aria-hidden="true" *ngIf="!flagArray[2]" [@menuState]="flagArray[2]"></i>
-            <i class="fa fa-angle-up" aria-hidden="true" *ngIf="flagArray[2]" [@menuState]="flagArray[2]"></i>
+        <a class="menu-item__item" fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(2) ">
+            <img class="item__icon " src="assets/images/icons/delivery-truck.png " alt=" ">
+            <span class="item__title">Ventas</span>
+            <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[2] " [@menuState]="flagArray[2] "></i>
+            <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[2] " [@menuState]="flagArray[2] "></i>
         </a>
-        <ul class="menu-item__submenu" *ngIf="flagArray[2]" [@menuState]="flagArray[2]">
+        <ul class="menu-item__submenu " *ngIf="flagArray[2] " [@menuState]="flagArray[2] ">
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Ventas
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                     Ventas
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Clientes
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Clientes
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Cotizaciones
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Cotizaciones
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Ordenes
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Ordenes
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Informes
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Informes
+                    
                 </a>
             </li>
         </ul>
     </li>
     <li class="sidebar__menu-item ">
-        <a class="menu-item__item" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(3)">
-            <img class="item__icon" src="assets/images/icons/online-shopping-cart.png" alt=""> Compras
-            <i class="fa fa-angle-down" aria-hidden="true" *ngIf="!flagArray[3]"></i>
-            <i class="fa fa-angle-up" aria-hidden="true" *ngIf="flagArray[3]"></i>
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(3) ">
+            <img class="item__icon " src="assets/images/icons/online-shopping-cart.png " alt=" ">
+            <span class="item__title">Compras</span>
+            <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[3] "></i>
+            <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[3] "></i>
         </a>
-        <ul class="menu-item__submenu" *ngIf="flagArray[3]">
+        <ul class="menu-item__submenu " *ngIf="flagArray[3] ">
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Grupos
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Grupos
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Proveedores
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Proveedores
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Productos
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Productos
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Facturas de Compra
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Facturas de Compra
+                    
                 </a>
             </li>
         </ul>
     </li>
     <li class="sidebar__menu-item ">
-        <a class="menu-item__item" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(4)">
-            <img class="item__icon" src="assets/images/icons/text-line-form.png" alt=""> Inventario
-            <i class="fa fa-angle-down" aria-hidden="true" *ngIf="!flagArray[4]"></i>
-            <i class="fa fa-angle-up" aria-hidden="true" *ngIf="flagArray[4]"></i>
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(4) ">
+            <img class="item__icon " src="assets/images/icons/text-line-form.png " alt=" ">
+            <span class="item__title">Inventario</span>
+            <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[4] "></i>
+            <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[4] "></i>
         </a>
-        <ul class="menu-item__submenu" *ngIf="flagArray[4]">
+        <ul class="menu-item__submenu " *ngIf="flagArray[4] ">
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Productos
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Productos
+                    
                 </a>
             </li>
         </ul>
     </li>
     <li class="sidebar__menu-item ">
-        <a class="menu-item__item" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(5)">
-            <img class="item__icon" src="assets/images/icons/messenger-user-avatar.png" alt=""> Personal
-            <i class="fa fa-angle-down" aria-hidden="true" *ngIf="!flagArray[5]"></i>
-            <i class="fa fa-angle-up" aria-hidden="true" *ngIf="flagArray[5]"></i>
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(5) ">
+            <img class="item__icon " src="assets/images/icons/messenger-user-avatar.png " alt=" ">
+            <span class="item__title">Personal</span>
+            <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[5] "></i>
+            <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[5] "></i>
         </a>
-        <ul class="menu-item__submenu" *ngIf="flagArray[5]">
+        <ul class="menu-item__submenu " *ngIf="flagArray[5] ">
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Personal
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Personal
+                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Independientes
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Independientes                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="space-between center">
-                    <img class="item__icon" src="" alt=""> Pagos a Personal
-                    <i class="fa " aria-hidden="true"></i>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                   Pagos a Personal
+                    
                 </a>
             </li>
         </ul>
     </li>
-    <li class="sidebar__menu-item sidebar__menu-item--last">
-        <a class="menu-item__item" fxLayoutAlign="space-between center">
-            <img class="item__icon" src="assets/images/icons/power-on-buton.png" alt=""> Salir
-            <i class="fa " aria-hidden="true"></i>
+    <li class="sidebar__menu-item sidebar__menu-item--last ">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center ">
+            <img class="item__icon " src="assets/images/icons/power-on-buton.png " alt=" ">
+            <span class="item__title">Salir</span>
+            <i class="fa " aria-hidden="true "></i>
         </a>
         <ul></ul>
     </li>
