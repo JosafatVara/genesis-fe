@@ -1,6 +1,6 @@
 export abstract class BaseEntity<T> {
 
-    protected Id?: number;
+    public id?: number;
 
     constructor(partial?:Partial<T>){
         Object.assign(this,partial);

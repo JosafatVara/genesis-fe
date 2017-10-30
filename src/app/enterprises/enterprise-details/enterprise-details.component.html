@@ -1,6 +1,39 @@
-<div fxLayout="column">
-  <h1>{{mode=='create'?'Crear':'***'}} empresa</h1>
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <button class="c-btn" (click)="finish()">{{mode=='create'?'Crear':'***'}} empresa</button>
+<form #form="ngForm" fxLayout="column" class="enterprise-details" (submit)="finish(form)">
+  <h1 class="u-h-center">{{title}}</h1>
+  <div layout="row">
+    <div fxFlex="30" fxLayout="column" class="enterprise-details__photo">
+      <gen-photo-input [(photoSrc)]="managedEntity.photo"></gen-photo-input>
+    </div>
+    <div fxFlex fxLayout="column">
+      <mat-form-field class="c-input o-full-width">
+        <input required matInput placeholder="Nombre de la empresa" name="name" [(ngModel)]="managedEntity.name">
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="c-input o-full-width">
+        <input required matInput placeholder="Razón social" name="businessName" [(ngModel)]="managedEntity.businessName">
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="c-input o-full-width">
+        <input required matInput placeholder="RUC" name="ruc" [(ngModel)]="managedEntity.Ruc">
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="c-input o-full-widtt">
+        <mat-select name="department" placeholder="Rubro" [(ngModel)]="managedEntity.department">
+          <mat-option *ngFor="let department of departmentList" [value]="department">
+            {{ department.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="c-input o-full-widtt">
+        <mat-select name="employeesQuantity" placeholder="Número de empleados" [(ngModel)]="managedEntity.employeesQuantity">
+          <mat-option *ngFor="let employeesQuantity of employeesQuantityList" [value]="employeesQuantity">
+            {{ employeesQuantity.quantityDescription }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
-</div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button type="submit" class="c-btn">{{buttonLabel}}</button>
+  </div>
+</form>

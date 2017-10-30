@@ -10,27 +10,22 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise> {
   
-  protected enterprises: BehaviorSubject<Array<Enterprise>>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient){
     super(auth, http, '**********');
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(new Enterprise());
-    this.enterprises = new BehaviorSubject<Array<Enterprise>>([]);
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(undefined);
   }
   
   public get(specification?: Specification<Enterprise>): Observable<Enterprise[]> {
-    return this.enterprises.asObservable();
+    return Observable.of([]);
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
     return Observable.of(new Enterprise());
   }
 
-  public create(entity: Enterprise): Observable<Enterprise> {
-    let newEnterprises = this.enterprises.value.slice();
-    newEnterprises.concat([entity]);
-    this.enterprises.next(newEnterprises);
+  public create(entity: Enterprise): Observable<Enterprise> {    
     return Observable.of(entity);
   }
   
@@ -40,5 +35,9 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
 
   public getCurrentEnterprise(): Observable<Enterprise>{
     return this.currentEnterprise.asObservable();
+  }
+
+  public setCurrentEnterprise(enterprise: Enterprise): void{
+    this.currentEnterprise.next(enterprise);
   }
 }

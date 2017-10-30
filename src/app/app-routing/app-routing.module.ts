@@ -21,7 +21,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
-    // canActivate: [ MustBeAuthenticatedGuard ],
+    canActivate: [ MustBeAuthenticatedGuard ],
     resolve: { enterprises: EnterpriseListResolver }
   }
 ];

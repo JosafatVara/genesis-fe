@@ -7,6 +7,8 @@ import { LocalStorageService } from './services/local-storage.service';
 import { EnterprisesService } from './services/enterprises.service';
 import { EnterpriseListResolver } from './resolvers/enterprise-list-resolver';
 import { HttpClientModule } from '@angular/common/http';
+import { DepartmentsService } from './services/departments.service';
+import { EmployeesQuantitiesService } from './services/employees-quantities.service';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     UsersService,
     EnterprisesService,
     LocalStorageService,
+    DepartmentsService,
+    EmployeesQuantitiesService,
 
     //RESOLVERS
     EnterpriseListResolver,

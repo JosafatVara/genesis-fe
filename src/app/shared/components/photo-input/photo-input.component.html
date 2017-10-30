@@ -1,0 +1,18 @@
+<div class="photo-input o-full-size u-circle c-overlay__container" (click)="photoFile.click()"
+  [ngClass]="{'u-bg-gray': !photoLoaded}">
+  <div *ngIf="!photoLoaded; else loadedImage" class="photo-input__image o-full-size" fxLayout="column" fxLayoutAlign="center center">
+      <i class="fa fa-camera fa-3x u-font-white" aria-hidden="true"></i>      
+  </div>
+  <ng-template #loadedImage>
+      <div class="photo-input__image o-full-size u-circle" fxLayout="column" fxLayoutAlign="center center"
+        [style.background-image]="urlPhotoSource">
+      </div>
+  </ng-template>
+  <div class="c-overlay u-circle">
+    <div class="c-overlay__content">
+      <i class="fa fa-pencil fa-lg"></i>
+      <small>Cargar imagen</small>
+    </div>
+  </div>
+  <input #photoFile type="file" accept="image/*" class="photo-input__file" (change)="photoChange($event)">
+</div>

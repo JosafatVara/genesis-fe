@@ -1,0 +1,16 @@
+.photo-input{    
+    padding-top: 100% !important;
+    position: relative;
+    cursor: pointer;
+    .photo-input__image{
+        position:  absolute;
+        top: 0;
+        left: 0;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .photo-input__file{
+        display: none;
+    }
+}

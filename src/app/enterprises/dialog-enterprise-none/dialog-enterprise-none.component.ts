@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { Enterprise } from '../../shared/models/enterprise';
+import { EnterprisesService } from '../../core/services/enterprises.service';
 
 @Component({
   selector: 'gen-dialog-enterprise-none',
@@ -8,12 +10,15 @@ import { MatDialogRef } from '@angular/material';
 })
 export class DialogEnterpriseNoneComponent implements OnInit {
 
-  public createEnterpriseSelected: boolean;
+  public createdEnterprise: Enterprise;
+  public enterprises: EnterprisesService;
+  public currentState: number;
   public dialogRef: MatDialogRef<DialogEnterpriseNoneComponent>;
 
-  constructor(dialogRef: MatDialogRef<DialogEnterpriseNoneComponent>) { 
-    this.createEnterpriseSelected = false;
+  constructor(enterprises: EnterprisesService, dialogRef: MatDialogRef<DialogEnterpriseNoneComponent>) { 
+    this.currentState = 0;
     this.dialogRef = dialogRef;
+    this.enterprises = enterprises;
   }
 
   ngOnInit() {
@@ -24,7 +29,16 @@ export class DialogEnterpriseNoneComponent implements OnInit {
   }
 
   public createSelected(){
-    this.createEnterpriseSelected = true;
+    this.currentState = 1;
+  }
+
+  public enterpriseCreated(enterprise: Enterprise): void{
+    this.createdEnterprise = enterprise;
+    this.currentState = 2;
+  }
+
+  public manageEnterprise(){
+    this.enterprises.setCurrentEnterprise(this.createdEnterprise);
   }
 
 }

@@ -27,19 +27,28 @@ export class EnterpriseNoneComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      let dialogRef = this.matDialog.open(DialogEnterpriseNoneComponent,{
-        disableClose: true
-      });
-      dialogRef.afterClosed().subscribe( (response: { exitSelected: boolean, createdEnterprise: Enterprise }) => {
-        if(response.exitSelected){
-          this.auth.logout().subscribe( logout => {
-            this.router.navigateByUrl('auth');
-          })
-        }else{
-          
-        }
-      });
+      this.openDialog();
     }, 0);    
+  }
+
+  private openDialog(){
+    let dialogRef = this.matDialog.open(DialogEnterpriseNoneComponent,{
+      disableClose: true,
+      width: '750px'
+    });
+    dialogRef.afterClosed().subscribe( (response: { exitSelected: boolean, createdEnterprise: Enterprise }) => {
+      if(!response){
+        this.openDialog();
+        return;
+      }
+      if(response.exitSelected){
+        this.auth.logout().subscribe( logout => {
+          this.router.navigateByUrl('auth');
+        })
+      }else{
+        
+      }
+    });
   }
 
 }
