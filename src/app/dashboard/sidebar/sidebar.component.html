@@ -1,7 +1,7 @@
 <!--component html goes here -->
 <ul class="sidebar" [ngClass]="{'sidebar--closed': menuState}">
     <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="end center">
-        <button class="cmp-btn " (click)="changeStateMenu()"> 
+        <button class="cmp-btn cmp-btn--blue" (click)="changeStateMenu()"> 
                 <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
                 <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
             </button>

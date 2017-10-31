@@ -26,6 +26,18 @@
     }
 }
 
+.cmp-btn--blue {
+    background-color: $blue-1;
+    border: 1px solid $blue-1;
+    box-shadow: none;
+    color: $white-0;
+    &:hover {
+        color: $blue-1;
+        background-color: $white-1;
+        // border: 1px solid $violet-1;
+    }
+}
+
 // .cmp-btn-skyblue {{
 //     border-radius: 3px;
 //     padding: 10px 25px;
