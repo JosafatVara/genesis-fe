@@ -6,20 +6,23 @@
     border-radius: 30px;
     box-shadow: 0 5px 10px $grey-3;
     text-transform: uppercase;
+    font-weight: 500;
+    font-size: 12px;
     &:hover {
-        color: $blue-1;
-        border: 1px solid $blue-1;
+        color: $violet-1;
+        border: 1px solid $violet-1;
     }
 }
 
-.cmp-btn--gradiant-violet {
-    background-color: $blue-1;
-    border: 1px solid $blue-1;
+.cmp-btn--violet {
+    background-color: $violet-1;
+    border: 1px solid $violet-1;
     box-shadow: none;
+    color: $white-0;
     &:hover {
-        color: $blue-1;
+        color: $violet-1;
         background-color: $white-1;
-        // border: 1px solid $blue-1;
+        // border: 1px solid $violet-1;
     }
 }
 

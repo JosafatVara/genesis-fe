@@ -8,17 +8,26 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    // children: [
-    //   {
-    //     path: 'inicio',
-    //     loadChildren: 'app/home/home.module#HomeModule'
-    //   },
-    //   {
-    //     path: 'estadisticas',
-    //     loadChildren: 'app/statistics/statistics.module#StatisticsModule'
-    //   },
+    children: [
+      {
+        path: 'panel-de-control',
+        loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule'
+      },
+      // {
+      //   path: 'ventas',
+      //   loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+      // },
+      {
 
-    // ]
+        path: 'compras',
+        loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+      },
+      {
+        path: 'proveedores',
+        loadChildren: 'app/providers/providers.module#ProvidersModule'
+      },
+   
+    ]
   }
 ];
 
