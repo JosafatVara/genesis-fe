@@ -2,30 +2,48 @@ import { Injectable } from '@angular/core';
 import { AuthenticatedService } from './base/authenticated-service';
 import { AsyncCrudService } from './contracts/async-crud-service';
 import { Enterprise } from '../../shared/models/enterprise';
-import { Specification } from '../../shared/specifications/base/specification';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { HttpClient } from '@angular/common/http';
+import { DataSource } from '@angular/cdk/collections';
+import { EntityDataSource } from './base/entity-data-source';
+import { MatPaginator } from '@angular/material';
+import { Sorter } from './shared/sorter';
+import { Refresher } from './shared/refresher';
+import { QueryParamsSpecification } from './specifications/contracts/query-params-specification';
+import { Specification } from './specifications/base/specification';
+import { EnterprisePagedSpecification } from './specifications/entreprise-specification';
+import { PaginationSpecification } from './specifications/base/pagination-specification';
 
 @Injectable()
-export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise> {
-  
+export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
+
+  protected mockStock = 10;
+  protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient){
     super(auth, http, '**********');
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(undefined);
+    this.mockEnterprises = this.genMock();
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockEnterprises[2]);
   }
   
-  public get(specification?: Specification<Enterprise>): Observable<Enterprise[]> {
-    return Observable.of([]);
+  public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
+    if(!specification){
+      return Observable.of(this.mockEnterprises);
+    }
+    if(specification instanceof Specification){      
+      return Observable.of(this.mockEnterprises.filter( e => specification.isSatisfiedBy(e))).delay(500);
+    }
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
     return Observable.of(new Enterprise());
   }
 
-  public create(entity: Enterprise): Observable<Enterprise> {    
+  public create(entity: Enterprise): Observable<Enterprise> {
+    entity.id = this.mockEnterprises.length == 0 ? 0 : this.mockEnterprises[this.mockEnterprises.length-1].id+1;
+    this.mockEnterprises = this.mockEnterprises.concat([entity]);
     return Observable.of(entity);
   }
   
@@ -40,4 +58,28 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
   public setCurrentEnterprise(enterprise: Enterprise): void{
     this.currentEnterprise.next(enterprise);
   }
+
+  private genMock(): Array<Enterprise>{
+    let mock: Array<Enterprise> = [];
+    for(let i: number = 0; i <= this.mockStock; i++){
+      mock = mock.concat([new Enterprise({id: i})]);
+    }
+    return mock;
+  }
+}
+
+export class EnterpriseListDataSource extends EntityDataSource<Enterprise>{
+
+  private enterprises: EnterprisesService;
+
+  constructor(enterprises: EnterprisesService, paginator: MatPaginator, sorter: Sorter, refresher: Refresher){
+    super(enterprises,paginator,sorter,refresher);
+  }  
+  
+  protected getSpecification(): QueryParamsSpecification {
+    let pageIndex = this.paginator? this.paginator.pageIndex : 0;
+    let pageSize = this.paginator? this.paginator.pageSize : 10;
+    return new EnterprisePagedSpecification(new PaginationSpecification(pageIndex,pageSize));
+  }
+
 }

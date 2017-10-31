@@ -4,8 +4,8 @@ import { AuthenticationService } from './authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { Department } from '../../shared/models/department';
 import { AsyncCrudService } from './contracts/async-crud-service';
-import { Specification } from '../../shared/specifications/base/specification';
 import { Observable } from 'rxjs';
+import { Specification } from './specifications/base/specification';
 
 @Injectable()
 export class DepartmentsService extends AuthenticatedService implements AsyncCrudService<Department>{

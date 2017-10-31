@@ -4,8 +4,8 @@ import { AsyncCrudService } from './contracts/async-crud-service';
 import { EmployeesQuantity } from '../../shared/models/employees-quantity';
 import { AuthenticationService } from './authentication.service';
 import { HttpClient } from '@angular/common/http';
-import { Specification } from '../../shared/specifications/base/specification';
 import { Observable } from 'rxjs/Observable';
+import { Specification } from './specifications/base/specification';
 
 @Injectable()
 export class EmployeesQuantitiesService extends AuthenticatedService implements AsyncCrudService<EmployeesQuantity> {

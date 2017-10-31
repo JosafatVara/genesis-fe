@@ -1,9 +1,10 @@
-import { Specification } from "../../../shared/specifications/base/specification";
 import { Observable } from "rxjs";
+import { QueryParamsSpecification } from "../specifications/contracts/query-params-specification";
+import { Specification } from "../specifications/base/specification";
 
 export interface AsyncCrudService<T> {
 
-    get(specification?: Specification<T>) : Observable<Array<T>>;
+    get(specification?: QueryParamsSpecification | Specification<T>) : Observable<Array<T>>;
 
     update(entity: T): Observable<T>;
 

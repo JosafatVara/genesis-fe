@@ -1,3 +1,44 @@
-<p>
-  enterprise-list works!
-</p>
+<div fxLayout="column" class="enterprise-list">
+  <div fxLayout="row" class="enterprise-list__header">
+    <h2>Empresas</h2>
+    <span fxFlex></span>
+    <button class="c-btn">Crear Empresa</button> 
+  </div>
+  <div class="enterprise-list__message">
+    Hola {{currentUser?currentUser.firstName:''}}, en esta sección tu administras tus empresas, recuerda que cada empresa es,
+    independiente entre sí y se puede elegir cuál es la que se está administrando actualmente.
+    Para agregar más usuarios administrador hace click en Equipo.
+  </div>
+  <div classs="enterprise-list__dataset">
+    <mat-table #table [dataSource]="enterpriseDS">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row ? row.name: ''}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ruc">
+        <mat-header-cell *matHeaderCellDef> RUC </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row ? row.ruc: ''}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="manage">
+        <mat-header-cell *matHeaderCellDef> Administrar </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row ? (row.id == currentEnterprise.id?'Administrando':'Administrar') : '' }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="team">
+          <mat-header-cell *matHeaderCellDef> Equipo </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span>{{row ? row.teamQuantity: ''}}</span>
+            <i class="fa fa-users"></i>
+          </mat-cell>
+        </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let row">          
+          <i class="fa fa-pencil"></i>          
+          <i class="fa fa-trash"></i>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
