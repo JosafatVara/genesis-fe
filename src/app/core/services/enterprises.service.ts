@@ -18,7 +18,7 @@ import { PaginationSpecification } from './specifications/base/pagination-specif
 @Injectable()
 export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
 
-  protected mockStock = 10;
+  protected mockStock = 0;
   protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
@@ -61,7 +61,7 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
 
   private genMock(): Array<Enterprise>{
     let mock: Array<Enterprise> = [];
-    for(let i: number = 0; i <= this.mockStock; i++){
+    for(let i: number = 0; i < this.mockStock; i++){
       mock = mock.concat([new Enterprise({id: i})]);
     }
     return mock;

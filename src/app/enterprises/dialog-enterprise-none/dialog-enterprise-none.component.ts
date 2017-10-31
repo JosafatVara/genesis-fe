@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Enterprise } from '../../shared/models/enterprise';
 import { EnterprisesService } from '../../core/services/enterprises.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'gen-dialog-enterprise-none',
@@ -38,7 +39,7 @@ export class DialogEnterpriseNoneComponent implements OnInit {
   }
 
   public manageEnterprise(){
-    this.enterprises.setCurrentEnterprise(this.createdEnterprise);
+    this.dialogRef.close({ exitSelected: false, createdEnterprise: this.createdEnterprise });
   }
 
 }

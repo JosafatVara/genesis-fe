@@ -1,15 +1,14 @@
-@import '../../../assets/styles/1.settings/_colors.scss';
+@import '../../../assets/styles/_main.scss';
 .sidebar {
     height: 100%;
     left: 0;
     position: fixed;
     width: 220px;
     background-color: $white-0;
-    // color: $grey-5;
-    position: relative;
-    overflow: hidden; // padding: 20px 0;
+    overflow: hidden;
     .sidebar__menu-item {
         .menu-item__item {
+            @include noSelect();
             cursor: pointer;
             padding: 15px 18px;
             color: $grey-5;
@@ -17,14 +16,17 @@
             .item__icon {
                 max-width: 18px;
             }
-            .fa-angle-down {
-                // font-size: 20px;
+            .item__title {
+                text-align: center;
+                margin: 5px 0;
             }
+            .fa-angle-down {}
             &:hover {
                 background-color: $grey-3;
             }
-        } // font-size: 20px;
+        }
         .menu-item__submenu {
+            text-align: center;
             background-color: $grey-5;
             .menu-item__item--submenu {
                 color: $white-1;
@@ -36,10 +38,36 @@
     }
     .sidebar__menu-item--first {
         margin-top: 20px;
+        // padding: 0 10px;
     }
     .sidebar__menu-item--last {
         bottom: 20px;
         position: absolute;
         width: 100%;
     }
+    .sidebar__menu-item--breakdown {
+        padding: 10px;
+    }
+}
+
+.sidebar--closed {
+    width: 85px;
+    .sidebar__menu-item {
+        .menu-item__item {
+            .item__icon {}
+            .item__title {}
+            &:hover {}
+        }
+        .menu-item__submenu {
+            .menu-item__item--submenu {
+                font-size: 12px;
+                &:hover {}
+            }
+        }
+    }
+    .sidebar__menu-item--first {
+        // padding: 0 10px;
+    }
+    .sidebar__menu-item--last {}
+    .sidebar__menu-item--breakdown {}
 }
