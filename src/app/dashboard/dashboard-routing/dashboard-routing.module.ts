@@ -11,10 +11,24 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: 'app/users/users.module#UsersModule'
-      },{
+      }, 
+      {
         path: 'empresas',
         loadChildren: 'app/enterprises/enterprises.module#EnterprisesModule'
-      }
+      }, 
+      {
+        path: 'panel-de-control',
+        loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule'
+      },
+      {
+        path: 'compras',
+        loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+      },
+      {
+        path: 'proveedores',
+        loadChildren: 'app/providers/providers.module#ProvidersModule'
+      },
+
     ]
   }
 ]

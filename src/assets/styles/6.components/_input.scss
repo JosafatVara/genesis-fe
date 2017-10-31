@@ -1,80 +1,90 @@
-$input-color-error: $purple-1;
-
-.c-input {
-    margin-top: 15px;
-    width: 100%;
-    .c-input__tag {
-        font-size: 14px;
-        color: $grey-1;
-        font-weight: 600;
-        text-align: left;
-    }
-    input:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 30px white inset;
-    }
-    .c-input__input {
-        margin-top: 10px;
-        width: 100%;
-        border-radius: 3px;
-        border: 1px solid $grey-3;
-        padding: 10px 25px;
-        outline: none;
-        background-color: $white-3;
-        box-sizing: border-box;
-        /* add this */
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        transition: .5s;
-        &:focus {
-            border: 1px solid $skyblue-0;
-        }
-    }
-    .input__message {
-        font-size: 14px !important;
-        color: #ff3c3c !important;
-        text-align: left;
-        margin-top: 5px;
-    }
-    /**OVERRIDE @angular/material INVALID INPUT COLOR**/
-    &.mat-input-container.ng-touched.ng-invalid, &.mat-form-field-invalid {
-        /deep/ .mat-input-placeholder{
-            
-            color: $input-color-error;
-        }
-
-        /deep/ .mat-form-field-required-marker{
-            color: $input-color-error;
-        }
-
-        /deep/ .mat-error {
-            color: $input-color-error;
-        }
-    
-        /deep/ .mat-input-underline {
-            border-top-width: 1px;
-            border-color: $input-color-error;
-        }
-    
-        /deep/ .mat-input-ripple {
-            background-color: $input-color-error;
-        }
-    
-        mat-hint {
-            color: $input-color-error;
-            float: right;
-        }
-    }
-}
-
-.c-input-file {
-    margin-top: 10px;
-    .c-btn-skyblue--upload {
-        display: block;
-        cursor: pointer;
-        width: 100%;
-        transition: 0.5s;
-    }
-    input[type="file"] {
-        display: none;
-    }
-}
+ $input-color-error: $purple-1;
+ .c-input {
+     margin-top: 15px;
+     width: 100%;
+     .c-input__tag {
+         font-size: 14px;
+         color: $grey-1;
+         font-weight: 600;
+         text-align: left;
+     }
+     input:-webkit-autofill {
+         -webkit-box-shadow: 0 0 0 30px white inset;
+     }
+     .c-input__input {
+         margin-top: 10px;
+         width: 100%;
+         border-radius: 3px;
+         border: 1px solid $grey-3;
+         padding: 10px 25px;
+         outline: none;
+         background-color: $white-3;
+         box-sizing: border-box;
+         /* add this */
+         -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+         transition: .5s;
+         &:focus {
+             border: 1px solid $skyblue-1;
+         }
+     }
+     .input__message {
+         font-size: 14px !important;
+         color: #ff3c3c !important;
+         text-align: left;
+         margin-top: 5px;
+     }
+ }
+ 
+ .cmp-input {
+     padding: 10px 35px;
+     background-image: url('/assets/images/icons/magnifying-glass.png');
+     background-size: 16px;
+     background-repeat: no-repeat;
+     background-position: 10px 10px;
+     border-radius: 30px;
+     border: 1px solid $white-0;
+     outline: none;
+     box-shadow: 0 5px 10px $grey-3;
+     transition: 0.5s;
+     &:hover {
+         border: 1px solid $violet-1;
+     }
+     /**OVERRIDE @angular/material INVALID INPUT COLOR**/
+     &.mat-input-container.ng-touched.ng-invalid,
+     &.mat-form-field-invalid {
+         /deep/ .mat-input-placeholder {
+             color: $input-color-error;
+         }
+         /deep/ .mat-form-field-required-marker {
+             color: $input-color-error;
+         }
+         /deep/ .mat-error {
+             color: $input-color-error;
+         }
+         /deep/ .mat-input-underline {
+             border-top-width: 1px;
+             border-color: $input-color-error;
+         }
+         /deep/ .mat-input-ripple {
+             background-color: $input-color-error;
+         }
+         mat-hint {
+             color: $input-color-error;
+             float: right;
+         }
+     }
+ }
+ 
+ .c-input-file {
+     margin-top: 10px;
+     .c-btn-skyblue--upload {
+         display: block;
+         cursor: pointer;
+         width: 100%;
+         transition: 0.5s;
+     }
+     input[type="file"] {
+         display: none;
+     }
+ }

@@ -1,0 +1,23 @@
+.cmp-table {
+    margin-top: 15px;
+    padding: 5px;
+    .cmp-table__header {
+        border-bottom: 1px solid $grey-3;
+        .header__title {
+            padding: 15px;
+            display: inline-block;
+        }
+        .header__title--action {
+            cursor: pointer;
+        }
+    }
+    .cmp-table__body {
+        display: inline-block;
+        .body__text {
+            padding: 10px 15px;
+            .cmp-btn--actions {
+                padding: 8px 20px;
+            }
+        }
+    }
+}

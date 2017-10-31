@@ -5,8 +5,8 @@ import {
     style,
     animate,
     transition
-  } from '@angular/animations';
-  
+} from '@angular/animations';
+
 
 @Component({
     moduleId: module.id,
@@ -14,14 +14,16 @@ import {
     templateUrl: 'sidebar.component.html',
     styleUrls: ['sidebar.component.scss'],
     animations: [
-        trigger('menuState', [         
-          transition('false <=> true', animate('10s')),
+        trigger('menuState', [
+            transition('false <=> true', animate('10s')),
         ])
-      ]
+    ]
 })
 export class SidebarComponent {
     flagArray: any;
-
+    menuState: boolean = false;
+    menuLayout: string;
+    menuLayoutAlign:string;
     constructor() {
         this.flagArray = {
             1: false,
@@ -30,6 +32,8 @@ export class SidebarComponent {
             4: false,
             5: false
         }
+        this.menuLayout = "row";
+        this.menuLayoutAlign="space-between center";
     }
 
     breakdownSubmenu(value: number) {
@@ -52,5 +56,13 @@ export class SidebarComponent {
             default:
                 break;
         }
+    }
+
+    changeStateMenu() {
+        this.menuState = !this.menuState;
+        this.menuLayout = this.menuState ? "column" : "row";
+        this.menuLayoutAlign = this.menuState ? "center center" : "space-between center";
+        
+        // this.menuLayout = "space-between center";
     }
 }

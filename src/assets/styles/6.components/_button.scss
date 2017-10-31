@@ -1,12 +1,11 @@
 $btn-color: #ffffff;
 $btn-color-bg: $purple-1;
 $btn-border-radius: 20px 50%;
-$btn-color-bg-hover: lighten($btn-color-bg,15%);
+$btn-color-bg-hover: lighten($btn-color-bg, 15%);
 $btn-padding: 15px !default;
 $btn-margin: 5px !default;
 $btn-font-family: 'Montserrat';
-
-.c-btn{
+.c-btn {
     display: inline-block;
     text-transform: uppercase;
     vertical-align: middle;
@@ -23,13 +22,14 @@ $btn-font-family: 'Montserrat';
     padding: $btn-padding;
     margin: $btn-margin;
     font-family: $btn-font-family;
-    
-    &:hover, &:active, &:focus{
+    &:hover,
+    &:active,
+    &:focus {
         background-color: $btn-color-bg-hover;
         text-decoration: none;
     }
-
-    &:disabled, &--disabled {
+    &:disabled,
+    &--disabled {
         cursor: not-allowed;
         opacity: 0.5;
         pointer-events: none;
@@ -53,47 +53,43 @@ $btn-font-family: 'Montserrat';
 
 .c-btn-skyblue {
     border-radius: 3px;
+}
+
+.cmp-btn {
     padding: 10px 25px;
-    background-color: $skyblue-0;
+    background-color: $white-0;
+    color: $black-0;
+    border: 1px solid $white-0;
+    border-radius: 30px;
+    box-shadow: 0 5px 10px $grey-3;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 12px;
+    &:hover {
+        color: $violet-1;
+        border: 1px solid $violet-1;
+    }
+}
+
+.cmp-btn--violet {
+    background-color: $violet-1;
+    border: 1px solid $violet-1;
+    box-shadow: none;
     color: $white-0;
-    border: 1px solid $skyblue-0;
     &:hover {
-        background-color: $white-0;
-        color: $skyblue-0;
-    }
-    &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-        pointer-events: none;
-        -webkit-touch-callout: none;
-        /* iOS Safari */
-        -webkit-user-select: none;
-        /* Safari */
-        -khtml-user-select: none;
-        /* Konqueror HTML */
-        -moz-user-select: none;
-        /* Firefox */
-        -ms-user-select: none;
-        /* Internet Explorer/Edge */
-        user-select: none;
+        color: $violet-1;
+        background-color: $white-1; // border: 1px solid $violet-1;
     }
 }
 
-.c-btn-skyblue--trash {
-    &:hover {
-        background-color: $red-1;
-        color: $white-1;
-        border: 1px solid $red-1;
-    }
-}
-
-.c-btn-blue {
+.cmp-btn--blue {
     background-color: $blue-1;
-    color: $white-0;
     border: 1px solid $blue-1;
+    box-shadow: none;
+    color: $white-0;
     &:hover {
-        background-color: $white-0;
         color: $blue-1;
+        background-color: $white-1; // border: 1px solid $violet-1;
     }
 }
 
@@ -101,10 +97,10 @@ $btn-font-family: 'Montserrat';
     border-radius: 3px;
     padding: 10px 25px;
     background-color: $white-0;
-    color: $skyblue-0;
-    border: 1px solid $skyblue-0;
+    color: $skyblue-1;
+    border: 1px solid $skyblue-1;
     &:hover {
-        background-color: $skyblue-0;
+        background-color: $skyblue-1;
         color: $white-0;
         border: 1px solid $white-0;
     }
@@ -119,8 +115,8 @@ $btn-font-family: 'Montserrat';
     color: #9baab0;
     &:hover {
         background-color: $white-0;
-        color: $skyblue-0;
-        border-bottom: 2px solid $skyblue-0;
+        color: $skyblue-1;
+        border-bottom: 2px solid $skyblue-1;
     }
 }
 
@@ -136,8 +132,8 @@ $btn-font-family: 'Montserrat';
         margin-right: 10px;
     }
     &:hover {
-        background-color: $skyblue-0;
+        background-color: $skyblue-1;
         color: $white-0;
-        border-top: 1px solid $skyblue-0;
+        border-top: 1px solid $skyblue-1;
     }
 }
