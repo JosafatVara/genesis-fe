@@ -18,7 +18,7 @@ import { PaginationSpecification } from './specifications/base/pagination-specif
 @Injectable()
 export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
 
-  protected mockStock = 0;
+  protected mockStock = 10;
   protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
@@ -62,9 +62,34 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
   private genMock(): Array<Enterprise>{
     let mock: Array<Enterprise> = [];
     for(let i: number = 0; i < this.mockStock; i++){
-      mock = mock.concat([new Enterprise({id: i})]);
+      mock = mock.concat([new Enterprise({
+        id: i,
+        adminsQuantity: Math.ceil(Math.random()*10),
+        name: this.makeRandomString(10),
+        ruc: this.makeRandomNumber(8)
+      })]);
     }
     return mock;
+  }
+
+  private makeRandomString(length: number){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < length; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
+
+  private makeRandomNumber(length: number){
+    var text = "";
+    var possible = "1234567890";
+
+    for (var i = 0; i < length; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
   }
 }
 

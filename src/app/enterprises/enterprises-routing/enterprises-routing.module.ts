@@ -4,6 +4,7 @@ import { EnterprisesComponent } from '../enterprises.component';
 import { EnterpriseListComponent } from '../enterprise-list/enterprise-list.component';
 import { EnterpriseNoneComponent } from '../enterprise-none/enterprise-none.component';
 import { MustBeManagingAnEnterpriseGuard } from './guards/must-be-managing-an-enterprise-guard';
+import { MustNotHaveAnyCompanyGuard } from "./guards/must-not-have-any-company-guard";
 
 const routes: Routes = [
   {
@@ -12,12 +13,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: EnterpriseListComponent
+        component: EnterpriseListComponent,
+        data: {
+          inDashboard: true
+        }
       },{
         path: 'sin-empresa',
         component: EnterpriseNoneComponent,
         canDeactivate: [
           MustBeManagingAnEnterpriseGuard
+        ],
+        canActivate: [
+          MustNotHaveAnyCompanyGuard
         ]
       }
     ]
@@ -30,7 +37,8 @@ const routes: Routes = [
   ],
   declarations: [],
   providers :[
-    MustBeManagingAnEnterpriseGuard
+    MustBeManagingAnEnterpriseGuard,
+    MustNotHaveAnyCompanyGuard
   ],
   exports: [
     RouterModule

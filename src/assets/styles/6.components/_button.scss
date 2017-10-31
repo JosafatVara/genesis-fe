@@ -6,65 +6,65 @@ $btn-padding: 15px !default;
 $btn-margin: 5px !default;
 $btn-font-family: 'Montserrat';
 
-.c-btn{
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-    display: inline-block;
-    text-transform: uppercase;
-    vertical-align: middle;
-    text-align: center;
-    text-decoration: none;
-    border-top-left-radius: $btn-border-radius;
-    border-top-right-radius: $btn-border-radius;
-    border-bottom-left-radius: $btn-border-radius;
-    border-bottom-right-radius: $btn-border-radius;
-    cursor: pointer;
-    font-size: 12px;
-    color: $btn-color;
-    background-color: $btn-color-bg;
-    padding: $btn-padding;
-    margin: $btn-margin;
-    font-family: $btn-font-family;
+// .c-btn{
+//     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+//     display: inline-block;
+//     text-transform: uppercase;
+//     vertical-align: middle;
+//     text-align: center;
+//     text-decoration: none;
+//     border-top-left-radius: $btn-border-radius;
+//     border-top-right-radius: $btn-border-radius;
+//     border-bottom-left-radius: $btn-border-radius;
+//     border-bottom-right-radius: $btn-border-radius;
+//     cursor: pointer;
+//     font-size: 12px;
+//     color: $btn-color;
+//     background-color: $btn-color-bg;
+//     padding: $btn-padding;
+//     margin: $btn-margin;
+//     font-family: $btn-font-family;
     
-    &:hover{
-        background-color: $btn-color-bg-hover;
-        text-decoration: none;
-    }
-    &:disabled,
-    &--disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-        pointer-events: none;
-        -webkit-touch-callout: none;
-        /* iOS Safari */
-        -webkit-user-select: none;
-        /* Safari */
-        -khtml-user-select: none;
-        /* Konqueror HTML */
-        -moz-user-select: none;
-        /* Firefox */
-        -ms-user-select: none;
-        /* Internet Explorer/Edge */
-        user-select: none;
-    }
-}
+//     &:hover{
+//         background-color: $btn-color-bg-hover;
+//         text-decoration: none;
+//     }
+//     &:disabled,
+//     &--disabled {
+//         cursor: not-allowed;
+//         opacity: 0.5;
+//         pointer-events: none;
+//         -webkit-touch-callout: none;
+//         /* iOS Safari */
+//         -webkit-user-select: none;
+//         /* Safari */
+//         -khtml-user-select: none;
+//         /* Konqueror HTML */
+//         -moz-user-select: none;
+//         /* Firefox */
+//         -ms-user-select: none;
+//         /* Internet Explorer/Edge */
+//         user-select: none;
+//     }
+// }
 
-.c-btn--large {
-    padding: round(2.0 * $btn-padding);
-}
+// .c-btn--large {
+//     padding: round(2.0 * $btn-padding);
+// }
 
-.c-btn--fab{
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-    .c-btn--fab>*{
-        text-align: center;
-    }
-}
+// .c-btn--fab{
+//     border-radius: 50%;
+//     width: 50px;
+//     height: 50px;
+//     vertical-align: middle;
+//     .c-btn--fab>*{
+//         text-align: center;
+//     }
+// }
 
-.c-btn-skyblue {
-    border-radius: 3px;
-}
+// .c-btn-skyblue {
+//     border-radius: 3px;
+// }
 
 .cmp-btn {
     padding: 10px 25px;
@@ -79,6 +79,30 @@ $btn-font-family: 'Montserrat';
     &:hover {
         color: $violet-1;
         border: 1px solid $violet-1;
+    }
+}
+
+.cmp-btn--grey{
+    background-color: $grey-1;
+    border: 1px solid $grey-1;
+    box-shadow: none;
+    color: $white-0;
+    &:hover{
+        color: $grey-1;
+        background: $white-1;
+        border: 1px solid $grey-1;
+    }
+}
+
+.cmp-btn--green{
+    background-color: $green-1;
+    border: 1px solid $green-1;
+    box-shadow: none;
+    color: $white-0;
+    &:hover{
+        color: $green-1;
+        background: $white-1;
+        border: 1px solid $green-1;
     }
 }
 

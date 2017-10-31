@@ -1,0 +1,18 @@
+@import "../../../assets/styles/1.settings/_colors.scss";
+
+.enterprise-list{
+    .enterprise-list__header{
+        // padding-bottom: 16px;
+        // border-bottom: 1px solid gray;
+    }
+    .enterprise-list__message{
+        margin-top: 15px; 
+        margin-bottom: 15px;
+    }
+    .enterprise-list__dataset{
+        .enterprise-list__dataset__item{
+            .enterprise-list__dataset__item__managing-indicator{
+            }
+        }
+    }
+}

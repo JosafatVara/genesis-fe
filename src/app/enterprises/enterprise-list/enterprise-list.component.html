@@ -1,16 +1,11 @@
-<div fxLayout="column" class="enterprise-list">
-  <div fxLayout="row" class="enterprise-list__header">
+<div fxLayout="column" class="enterprise-list" [ngClass]="{'cont wrapper':inDashboard}">
+  <div fxLayout="row" class="enterprise-list__header" [ngClass]="{'cont__title':inDashboard}">
     <h2>Empresas</h2>
     <span fxFlex></span>
-    <button class="c-btn">Crear Empresa</button> 
-  </div>
-  <div class="enterprise-list__message">
-    Hola {{currentUser?currentUser.firstName:''}}, en esta sección tu administras tus empresas, recuerda que cada empresa es,
-    independiente entre sí y se puede elegir cuál es la que se está administrando actualmente.
-    Para agregar más usuarios administrador hace click en Equipo.
-  </div>
-  <div classs="enterprise-list__dataset">
-    <mat-table #table [dataSource]="enterpriseDS">
+    <button class="cmp-btn cmp-btn--violet">Crear Empresa</button> 
+  </div>  
+  <div class="enterprise-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
+    <!-- <mat-table #table [dataSource]="enterpriseDS">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row ? row.name: ''}} </mat-cell>
@@ -26,7 +21,7 @@
       <ng-container matColumnDef="team">
           <mat-header-cell *matHeaderCellDef> Equipo </mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <span>{{row ? row.teamQuantity: ''}}</span>
+            <span>{{row ? row.adminsQuantity: ''}}</span>
             <i class="fa fa-users"></i>
           </mat-cell>
         </ng-container>
@@ -39,6 +34,36 @@
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+    </mat-table> -->
+    <div [ngClass]="{'cmp-card__title':inDashboard}">
+      <div class="enterprise-list__message">
+        Hola {{currentUser?currentUser.firstName:''}}, en esta sección tu administras tus empresas, recuerda que cada empresa es,
+        independiente entre sí y se puede elegir cuál es la que se está administrando actualmente.
+        Para agregar más usuarios administrador hacer <b>click</b> en Equipo.
+      </div>
+    </div>
+    <div [ngClass]="{'cmp-card__body':inDashboard}">
+      <div class="cmp-table">
+        <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+          <li fxFlex class="header__title header__title--action" *ngFor="let column of displayedColumns">{{column}}</li>
+          <li fxFlex class="header__title ">Acciones</li>
+        </ul>
+        <ul class="cmp-table__body enterprise-list__dataset__item" *ngFor="let enterprise of enterpriseList">
+          <li fxFlex class="body__text">{{enterprise.name}}</li>
+          <li fxFlex class="body__text">{{enterprise.ruc}}</li>
+          <li fxFlex class="body__text">
+            <button class="cmp-btn cmp-btn--grey enterprise-list__dataset__item__managing-indicator"
+            [ngClass]="{'cmp-btn--green': isManaging(enterprise)}">
+              {{isManaging(enterprise)?'Administrando':'Administrar'}}
+            </button>          
+          </li>
+          <li fxFlex class="body__text"><i class="fa fa-users"></i>&nbsp;{{enterprise.adminsQuantity || 0}} </li>
+          <li class="body__text">
+              <button class="cmp-btn cmp-btn--actions"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</button>
+              <button class="cmp-btn cmp-btn--violet cmp-btn--actions"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</button>
+          </li>
+        </ul>
+      </div>
+    </div>    
   </div>
 </div>

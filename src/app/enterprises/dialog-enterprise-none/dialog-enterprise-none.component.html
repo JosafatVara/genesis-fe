@@ -7,7 +7,7 @@
                 <p>Vamos a registrar tu primera empresa para continuar.</p>
             </div>
             <br><br><br>
-            <button class="c-btn" (click)="createSelected()">Crear empresa</button>
+            <button class="cmp-btn" (click)="createSelected()">Crear empresa</button>
             <a (click)="exitSelected()">Salir de genesis</a>
         </div>    
         <gen-enterprise-details class="dialog-enterprise-none__creation" *ngSwitchCase="1" mode="create" [doChangesOnFinish]="false" (onFinish)="enterpriseCreated($event)"></gen-enterprise-details>
@@ -15,7 +15,7 @@
             <h2>Felicitaciones</h2>
             <img class="dialog-enterprise-none__congrats__img u-circle" *ngIf="createdEnterprise.photo" [src]="createdEnterprise.photo">
             <p>La empresa <b>{{createdEnterprise.name}}</b> fue creada con éxito.</p>
-            <button class="c-btn" (click)="manageEnterprise()">Administrar empresa</button>
+            <button class="cmp-btn cmp-btn--blue" (click)="manageEnterprise()">Administrar empresa</button>
         </div>
     </div>
 </div>

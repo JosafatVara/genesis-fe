@@ -10,7 +10,7 @@ export class Enterprise extends BaseEntity<Enterprise> {
     public address: string;
     public department: Department = new Department();
     public photo: string;
-    public teamQuantity: number;
+    public adminsQuantity: number;
     public employeesQuantity: EmployeesQuantity = new EmployeesQuantity();
 
 }
