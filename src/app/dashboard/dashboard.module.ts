@@ -7,12 +7,12 @@ import { DashboardRoutingModule } from "./dashboard-routing/dashboard-routing.mo
 import { ControlPanelModule } from "../control-panel/control-panel.module";
 import { PurchasesProductsModule } from "../purchases-products/purchases-products.module";
 import { ProvidersModule } from "../providers/providers.module";
-
-
-import { DashboardComponent } from './dashboard.component';
+import { GroupsModule } from "../groups/groups.module";
 import { SharedModule } from '../shared/shared.module';
 
 //components
+
+import { DashboardComponent } from './dashboard.component';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
@@ -21,7 +21,7 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
     SharedModule,
     DashboardRoutingModule,
     FlexLayoutModule, CommonModule,
-    DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule
+    DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule
   ],
   declarations: [
     DashboardComponent, HeaderComponent, SidebarComponent
