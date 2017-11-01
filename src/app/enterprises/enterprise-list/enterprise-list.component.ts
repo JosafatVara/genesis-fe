@@ -6,6 +6,8 @@ import { Refresher } from '../../core/services/shared/refresher';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
 import { ActivatedRoute } from "@angular/router";
+import { MatDialog } from '@angular/material';
+import { DialogEnterpriseDetailsComponent } from '../dialog-enterprise-details/dialog-enterprise-details.component';
 
 @Component({
   selector: 'gen-enterprise-list',
@@ -26,7 +28,8 @@ export class EnterpriseListComponent implements OnInit, AfterViewInit {
   public enterpriseDS: DataSource<Enterprise>;
   private refresher: Refresher;
 
-  constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute) {
+  constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute
+    ,private matDialog: MatDialog) {
     this.refresher = new Refresher();
     this.refresher.refreshEvent = new EventEmitter();
     enterprises.get().subscribe( es => this.enterpriseList = es );
@@ -41,6 +44,17 @@ export class EnterpriseListComponent implements OnInit, AfterViewInit {
 
   public isManaging(enterprise: Enterprise) : boolean{
     return enterprise.id == this.currentEnterprise.id;
+  }
+
+  public createEnterprise(){
+    let dialogRef = this.matDialog.open(DialogEnterpriseDetailsComponent,{
+      disableClose: true,
+      width: '750px',
+      data: {
+        mode: 'create'
+      }
+    });
+
   }
   
 }

@@ -2,7 +2,7 @@
   <div fxLayout="row" class="enterprise-list__header" [ngClass]="{'cont__title':inDashboard}">
     <h2>Empresas</h2>
     <span fxFlex></span>
-    <button class="cmp-btn cmp-btn--violet">Crear Empresa</button> 
+    <button class="cmp-btn cmp-btn--violet" (click)="createEnterprise()">Crear Empresa</button> 
   </div>  
   <div class="enterprise-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
     <!-- <mat-table #table [dataSource]="enterpriseDS">

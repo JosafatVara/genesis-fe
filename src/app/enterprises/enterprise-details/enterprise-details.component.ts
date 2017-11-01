@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implements OnInit {  
 
+  @Input('enterprise') enterprise: Enterprise;
   private departmentList: Array<Department>;
   private employeesQuantityList: Array<EmployeesQuantity>;
   private enterprises: EnterprisesService;
@@ -38,6 +39,7 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   }
 
   ngOnInit() {
+    this.managedEntity = this.enterprise || this.managedEntity;
   }
 
   private fillSelects(): void{

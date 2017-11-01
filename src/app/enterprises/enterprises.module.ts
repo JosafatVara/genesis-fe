@@ -7,6 +7,7 @@ import { EnterpriseNoneComponent } from './enterprise-none/enterprise-none.compo
 import { SharedModule } from '../shared/shared.module';
 import { EnterprisesRoutingModule } from './enterprises-routing/enterprises-routing.module';
 import { DialogEnterpriseNoneComponent } from './dialog-enterprise-none/dialog-enterprise-none.component';
+import { DialogEnterpriseDetailsComponent } from './dialog-enterprise-details/dialog-enterprise-details.component';
 
 @NgModule({
   imports: [
@@ -18,10 +19,11 @@ import { DialogEnterpriseNoneComponent } from './dialog-enterprise-none/dialog-e
     EnterpriseListComponent, 
     EnterpriseDetailsComponent, 
     EnterpriseNoneComponent, 
-    DialogEnterpriseNoneComponent
+    DialogEnterpriseNoneComponent, DialogEnterpriseDetailsComponent
   ],
   entryComponents: [
-    DialogEnterpriseNoneComponent
+    DialogEnterpriseNoneComponent,
+    DialogEnterpriseDetailsComponent
   ]
 })
 export class EnterprisesModule { }

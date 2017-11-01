@@ -17,14 +17,14 @@
         <input required matInput placeholder="RUC" name="ruc" [(ngModel)]="managedEntity.Ruc">
         <mat-error>Requerido</mat-error>
       </mat-form-field>
-      <mat-form-field class="c-input o-full-widtt">
+      <mat-form-field class="c-input o-full-width">
         <mat-select name="department" placeholder="Rubro" [(ngModel)]="managedEntity.department">
           <mat-option *ngFor="let department of departmentList" [value]="department">
             {{ department.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="c-input o-full-widtt">
+      <mat-form-field class="c-input o-full-width">
         <mat-select name="employeesQuantity" placeholder="Número de empleados" [(ngModel)]="managedEntity.employeesQuantity">
           <mat-option *ngFor="let employeesQuantity of employeesQuantityList" [value]="employeesQuantity">
             {{ employeesQuantity.quantityDescription }}
@@ -34,6 +34,6 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="center center">
-    <button type="submit" class="cmp-btn cmp-btn--blue">{{buttonLabel}}</button>
+    <button type="submit" class="cmp-btn cmp-btn--violet">{{buttonLabel}}</button>
   </div>
 </form>
