@@ -33,14 +33,14 @@ export class DialogEnterpriseDetailsComponent extends BaseComponent implements O
         observable = this.enterprises.create(enterprise);
         break;
       case 'update':
-        observable = this.enterprises.delete(enterprise);
+        observable = this.enterprises.update(enterprise);
         break;
       default:
         observable = Observable.of(undefined);
     }
     observable.subscribe( e => {
       if(e!=undefined){
-        this.dialogRef.close(true);
+        this.dialogRef.close({cancelled:false});
       }else{
 
       }

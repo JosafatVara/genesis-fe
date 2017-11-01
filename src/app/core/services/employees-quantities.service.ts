@@ -12,9 +12,9 @@ export class EmployeesQuantitiesService extends AuthenticatedService implements 
 
   get(specification?: Specification<EmployeesQuantity>): Observable<EmployeesQuantity[]> {
     return Observable.of([
-      new EmployeesQuantity({quantityDescription: 'De 1 a 10'}),
-      new EmployeesQuantity({quantityDescription: 'De 10 a 50'}),
-      new EmployeesQuantity({quantityDescription: 'De 50 a 100'}),
+      new EmployeesQuantity({quantityDescription: 'De 1 a 10', id: 1}),
+      new EmployeesQuantity({quantityDescription: 'De 10 a 50', id: 2}),
+      new EmployeesQuantity({quantityDescription: 'De 50 a 100', id: 3}),
     ]);
   }
   update(entity: EmployeesQuantity): Observable<EmployeesQuantity> {

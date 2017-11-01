@@ -7,12 +7,17 @@ import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter }
 })
 export class PhotoInputComponent implements OnInit {
 
+  @Input('required') required: boolean;
+  public get showInvalid(): boolean{
+    return this.required && ( this.photoSource == undefined || this.photoSource == "" );
+  }
+
   @Input('photoSrc') 
   get photoSource(): string{
     return this.photoSourceValue;
   }
 
-  @Output() photoSrcChange = new EventEmitter<string>();
+  @Output('photoSrcChange') photoSrcChange = new EventEmitter<string>();
   set photoSource(value: string){
     this.photoSourceValue = value;
     this.photoSrcChange.emit(value);

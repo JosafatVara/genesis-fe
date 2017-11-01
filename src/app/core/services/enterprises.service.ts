@@ -38,6 +38,8 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
+    let indexToUpdate = this.mockEnterprises.findIndex( e => e.id == entity.id);
+    this.mockEnterprises[indexToUpdate] = entity;
     return Observable.of(new Enterprise());
   }
 
@@ -48,6 +50,8 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {
+    let indexToRemove = this.mockEnterprises.findIndex( e => e.id == entity.id);
+    this.mockEnterprises.splice(indexToRemove,1);
     return Observable.of(new Enterprise());
   }
 

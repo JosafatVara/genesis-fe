@@ -22,24 +22,26 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   private enterprises: EnterprisesService;
   private router: Router;
 
-  constructor(enterprises: EnterprisesService, router: Router, departments: DepartmentsService
-    , employeesQuantities: EmployeesQuantitiesService){ 
+  constructor(enterprises: EnterprisesService, router: Router, private departments: DepartmentsService
+    , private employeesQuantities: EmployeesQuantitiesService){ 
     super(enterprises);
     this.managedEntity = new Enterprise();
     this.employeesQuantityList = [new EmployeesQuantity({quantityDescription: '---'})];
     this.departmentList = [new Department({name: '---'})];
-    this.fillSelects();
     this.enterprises = enterprises;
+  }
+
+  ngOnInit() {
+    this.validateMode();
+    this.managedEntity = this.enterprise || this.managedEntity;
+    
+    //  this.fillSelects();
     Observable.forkJoin(
-      departments.get(),employeesQuantities.get()).subscribe( results => {
+      this.departments.get(),this.employeesQuantities.get()).subscribe( results => {
         this.departmentList = results[0];
         this.employeesQuantityList = results[1];
         this.fillSelects();
       });
-  }
-
-  ngOnInit() {
-    this.managedEntity = this.enterprise || this.managedEntity;
   }
 
   private fillSelects(): void{
@@ -58,7 +60,14 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   }
 
   protected get buttonLabel(): string{
-    return (this.mode=='create'?'Crear':'***') + ' empresa';
+    let lbl = "";
+    switch (this.mode){
+      case 'create': lbl = 'Crear Empresa'; break;
+      case 'update': lbl = 'Actualizar Empresa'; break;
+      case 'read': lbl = 'OK'; break;
+      default: lbl = '---'; break;
+    }
+    return lbl;
   }
 
   protected validate(): boolean{

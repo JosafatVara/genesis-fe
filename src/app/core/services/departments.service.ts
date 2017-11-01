@@ -12,10 +12,10 @@ export class DepartmentsService extends AuthenticatedService implements AsyncCru
   
   get(specification?: Specification<Department>): Observable<Department[]> {
     return Observable.of([
-      new Department({name: 'Salud'}),
-      new Department({name: 'Tecnología'}),
-      new Department({name: 'Juguetes'}),
-      new Department({name: 'Digimones'}),
+      new Department({name: 'Salud', id: 1}),
+      new Department({name: 'Tecnología', id: 2}),
+      new Department({name: 'Juguetes', id: 3}),
+      new Department({name: 'Digimones', id: 4}),
     ])
   }
   update(entity: Department): Observable<Department> {

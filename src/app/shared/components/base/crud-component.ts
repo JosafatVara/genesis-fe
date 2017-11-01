@@ -14,7 +14,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
         this.onFinish = new EventEmitter<T>();
     }
 
-    @Input('mode') mode: string = "read";    
+    @Input('mode') mode: string;    
     @Output('onFinish') onFinish: EventEmitter<T>;
     @Input('doChangesOnFinish') doChangesOnFinish: boolean;
     public managedEntity: T;
@@ -38,6 +38,12 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
                     break;
             }
             this.afterFinish();
+        }
+    }
+
+    protected validateMode(){
+        if(!['create','update','read','delete'].includes(this.mode)){
+            throw new Error('Crud mode not supporte');
         }
     }
 

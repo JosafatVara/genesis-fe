@@ -1,5 +1,8 @@
+@import "../1.settings/_colors.scss";
+
 $overlay-color: #ffffff;
 $overlay-color-bg: rgba(0,0,0,0.5);
+$overlay-color-bg-error: rgba($red-1,0.5);
 
 .c-overlay__container{
     position: relative;
@@ -12,6 +15,9 @@ $overlay-color-bg: rgba(0,0,0,0.5);
         left: 0;
         background: $overlay-color-bg;
         transition: all 0.2s ease-in-out;
+        &--required{
+            opacity: 1;
+        }
         .c-overlay__content{
             text-align: center;
             color: $overlay-color;

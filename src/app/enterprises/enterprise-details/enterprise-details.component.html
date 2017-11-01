@@ -1,8 +1,8 @@
 <form #form="ngForm" fxLayout="column" class="enterprise-details" (submit)="finish(form)">
-  <h1 class="u-h-center">{{title}}</h1>
+  <h1 class="enterprise-details__header u-h-center">{{title}}</h1>
   <div layout="row">
     <div fxFlex="30" fxLayout="column" class="enterprise-details__photo">
-      <gen-photo-input [(photoSrc)]="managedEntity.photo"></gen-photo-input>
+      <gen-photo-input [required]="true" [(photoSrc)]="managedEntity.photo"></gen-photo-input>
     </div>
     <div fxFlex fxLayout="column">
       <mat-form-field class="c-input o-full-width">
@@ -14,18 +14,18 @@
         <mat-error>Requerido</mat-error>
       </mat-form-field>
       <mat-form-field class="c-input o-full-width">
-        <input required matInput placeholder="RUC" name="ruc" [(ngModel)]="managedEntity.Ruc">
+        <input required matInput placeholder="RUC" name="ruc" [(ngModel)]="managedEntity.ruc">
         <mat-error>Requerido</mat-error>
       </mat-form-field>
       <mat-form-field class="c-input o-full-width">
-        <mat-select name="department" placeholder="Rubro" [(ngModel)]="managedEntity.department">
+        <mat-select name="department" required placeholder="Rubro" [(ngModel)]="managedEntity.department">
           <mat-option *ngFor="let department of departmentList" [value]="department">
             {{ department.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="c-input o-full-width">
-        <mat-select name="employeesQuantity" placeholder="Número de empleados" [(ngModel)]="managedEntity.employeesQuantity">
+        <mat-select name="employeesQuantity" required placeholder="Número de empleados" [(ngModel)]="managedEntity.employeesQuantity">
           <mat-option *ngFor="let employeesQuantity of employeesQuantityList" [value]="employeesQuantity">
             {{ employeesQuantity.quantityDescription }}
           </mat-option>

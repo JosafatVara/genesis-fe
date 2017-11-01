@@ -1,0 +1,14 @@
+:host>div{
+    height: 200px;
+    width: 400px;
+    padding: 16px;
+}
+
+.confirm-dialog{
+    &__title{
+        font-weight: bold;
+    }
+    &__content{
+        font-size: 15px;
+    }
+}

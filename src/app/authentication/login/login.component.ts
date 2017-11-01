@@ -34,8 +34,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.route.queryParams.subscribe( params => {
           if(params['returnUrl']){
             this.router.navigateByUrl(params['returnUrl']);
+            return;
           }else{
             this.router.navigateByUrl('dashboard');
+            return;
           }          
         })
       }else{

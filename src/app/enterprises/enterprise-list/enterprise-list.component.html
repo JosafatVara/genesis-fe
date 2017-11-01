@@ -2,7 +2,7 @@
   <div fxLayout="row" class="enterprise-list__header" [ngClass]="{'cont__title':inDashboard}">
     <h2>Empresas</h2>
     <span fxFlex></span>
-    <button class="cmp-btn cmp-btn--violet" (click)="createEnterprise()">Crear Empresa</button> 
+    <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Empresa</button> 
   </div>  
   <div class="enterprise-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
     <!-- <mat-table #table [dataSource]="enterpriseDS">
@@ -53,14 +53,20 @@
           <li fxFlex class="body__text">{{enterprise.ruc}}</li>
           <li fxFlex class="body__text">
             <button class="cmp-btn cmp-btn--grey enterprise-list__dataset__item__managing-indicator"
-            [ngClass]="{'cmp-btn--green': isManaging(enterprise)}">
+            [ngClass]="{'cmp-btn--green': isManaging(enterprise)}" (click)="manageThis(enterprise)">
               {{isManaging(enterprise)?'Administrando':'Administrar'}}
             </button>          
           </li>
           <li fxFlex class="body__text"><i class="fa fa-users"></i>&nbsp;{{enterprise.adminsQuantity || 0}} </li>
           <li class="body__text">
-              <button class="cmp-btn cmp-btn--actions"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</button>
-              <button class="cmp-btn cmp-btn--violet cmp-btn--actions"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</button>
+              <button class="cmp-btn cmp-btn--actions" (click)="crud('update',enterprise)">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+              </button>
+              <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',enterprise)"
+                [disabled]="isManaging(enterprise)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                Eliminar
+              </button>
           </li>
         </ul>
       </div>

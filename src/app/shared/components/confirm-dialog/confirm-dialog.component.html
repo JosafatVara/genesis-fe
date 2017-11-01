@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayoutAling="center center" fxLayoutGap="30px" class="confirm-dialog">
+  <h2 class="confirm-dialog__title" mat-dialog-title>Confirmar</h2>
+  <div class="confirm-dialog__content">{{message}}</div>
+  <div fxLayout="row" fxLayoutGap="20px">
+    <span fxFlex></span>
+    <button class="cmp-btn cmp-btn--orange" mat-dialog-close>
+      Cancelar
+    </button>
+    <button class="cmp-btn cmp-btn--violet" (click)="confirm()">
+      Confirmar
+    </button>
+  </div>
+</div>

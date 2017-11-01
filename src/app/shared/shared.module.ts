@@ -4,13 +4,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule, MatFormFieldModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { PhotoInputComponent } from './components/photo-input/photo-input.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
+    MatDialogModule,
     FlexLayoutModule,
     CommonModule
   ],
-  declarations: [PhotoInputComponent],
+  declarations: [PhotoInputComponent, ConfirmDialogComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -19,8 +21,10 @@ import { PhotoInputComponent } from './components/photo-input/photo-input.compon
     MatFormFieldModule,
     MatDialogModule,
     MatSelectModule,
-    MatPaginatorModule,
     PhotoInputComponent,
+  ],
+  entryComponents: [
+    ConfirmDialogComponent
   ]
 })
 export class SharedModule { }
