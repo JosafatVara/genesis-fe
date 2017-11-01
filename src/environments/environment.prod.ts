@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  beUrl: '*****************'
+  beUrl: 'http://genesis.indagostudio.pe/'
 };

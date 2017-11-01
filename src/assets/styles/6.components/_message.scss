@@ -1,0 +1,16 @@
+@import "../1.settings/_colors.scss";
+
+.cmp-message{
+    &--error{
+        color: $red-1;
+        &--bold{
+            font-weight: bold;
+        }
+    }
+    &--success{
+        color: $green-1;
+        &--bold{
+            font-weight: bold;
+        }
+    }
+}

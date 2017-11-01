@@ -1,15 +1,20 @@
 <form fxLayout="column" class="o-full-size login" fxLayoutGap="15px">
   <mat-form-field class="o-full-width login__credential c-input">
-    <input required matInput placeholder="Usuario"  name="user" [(ngModel)]="user">
+    <input required matInput placeholder="Usuario" email="true" name="user" [(ngModel)]="user">
     <mat-error>Usuario requerido</mat-error>
   </mat-form-field>
   <mat-form-field class="o-full-width login__credential c-input">
-    <input required matInput placeholder="Contraseña"  name="password" [(ngModel)]="password">
+    <input required matInput placeholder="Contraseña" name="password" [(ngModel)]="password" type="password">
     <mat-error>Contraseña requerida</mat-error>
   </mat-form-field>
+  <div class="cmp-message--error" fxLayout="row" fxLayoutAlign="start center" *ngIf="failedLogin">
+    Credenciales incorrectas
+  </div>
   <div fxLayout="row" fxLayoutAlign="start center">
-    <a routerLink="recuperar-password">¿No recuerdas tu contraseña?</a>
+    <a class="cmp-btn" routerLink="recuperar-password">¿No recuerdas tu contraseña?</a>
     <span fxFlex></span>
-    <button type="submit" class="cmp-btn cmp-btn--blue" (click)="login()">Ingresar</button>
+    <button type="submit" class="cmp-btn cmp-btn--blue" (click)="login()" [disabled]="isLoading">
+      <span>Ingresar</span>
+    </button>
   </div>
 </form>

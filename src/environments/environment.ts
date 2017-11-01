@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  beUrl: '*****************'
+  beUrl: 'http://genesis.indagostudio.pe/'
 };

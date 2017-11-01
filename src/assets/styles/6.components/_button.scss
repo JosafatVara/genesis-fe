@@ -80,6 +80,23 @@ $btn-font-family: 'Montserrat';
         color: $violet-1;
         border: 1px solid $violet-1;
     }
+    &:disabled,
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        pointer-events: none;
+        -webkit-touch-callout: none;
+        /* iOS Safari */
+        -webkit-user-select: none;
+        /* Safari */
+        -khtml-user-select: none;
+        /* Konqueror HTML */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* Internet Explorer/Edge */
+        user-select: none;
+    }
 }
 
 .cmp-btn--grey{

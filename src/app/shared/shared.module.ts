@@ -19,7 +19,6 @@ import { PhotoInputComponent } from './components/photo-input/photo-input.compon
     MatFormFieldModule,
     MatDialogModule,
     MatSelectModule,
-    MatTableModule,
     MatPaginatorModule,
     PhotoInputComponent,
   ]

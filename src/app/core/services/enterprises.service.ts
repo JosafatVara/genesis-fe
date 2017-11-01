@@ -18,7 +18,7 @@ import { PaginationSpecification } from './specifications/base/pagination-specif
 @Injectable()
 export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
 
-  protected mockStock = 0;
+  protected mockStock = 10;
   protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   

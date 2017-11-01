@@ -2,12 +2,14 @@ import { Input, Output, EventEmitter } from "@angular/core";
 import { BaseEntity } from "../../models/base/base-entity";
 import { AsyncCrudService } from "../../../core/services/contracts/async-crud-service";
 import { FormControl } from "@angular/forms";
+import { BaseComponent } from "./base-component";
 
-export abstract class CrudComponent<T extends BaseEntity<T>> {
+export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseComponent {
 
     protected crudService: AsyncCrudService<T>;
 
     constructor(crudService: AsyncCrudService<T>){
+        super();
         this.crudService = crudService;
         this.onFinish = new EventEmitter<T>();
     }

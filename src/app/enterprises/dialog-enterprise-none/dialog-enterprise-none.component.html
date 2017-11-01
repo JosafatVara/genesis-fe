@@ -7,7 +7,7 @@
                 <p>Vamos a registrar tu primera empresa para continuar.</p>
             </div>
             <br><br><br>
-            <button class="cmp-btn" (click)="createSelected()">Crear empresa</button>
+            <button class="cmp-btn cmp-btn--violet" (click)="createSelected()">Crear empresa</button>
             <a (click)="exitSelected()">Salir de genesis</a>
         </div>    
         <gen-enterprise-details class="dialog-enterprise-none__creation" *ngSwitchCase="1" mode="create" [doChangesOnFinish]="false" (onFinish)="enterpriseCreated($event)"></gen-enterprise-details>
