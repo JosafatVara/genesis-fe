@@ -48,7 +48,8 @@
           <li fxFlex class="header__title header__title--action" *ngFor="let column of displayedColumns">{{column}}</li>
           <li fxFlex class="header__title ">Acciones</li>
         </ul>
-        <ul class="cmp-table__body enterprise-list__dataset__item" *ngFor="let enterprise of enterpriseList">
+        <ul class="cmp-table__body enterprise-list__dataset__item" *ngFor="let enterprise of enterpriseList"
+          fxLayout="row" fxLayoutAlign="start center">
           <li fxFlex class="body__text">{{enterprise.name}}</li>
           <li fxFlex class="body__text">{{enterprise.ruc}}</li>
           <li fxFlex class="body__text">
@@ -57,7 +58,11 @@
               {{isManaging(enterprise)?'Administrando':'Administrar'}}
             </button>          
           </li>
-          <li fxFlex class="body__text"><i class="fa fa-users"></i>&nbsp;{{enterprise.adminsQuantity || 0}} </li>
+          <li fxFlex class="body__text">
+            <a routerLink="/dashboard/usuarios">
+              <i class="fa fa-users"></i>&nbsp;{{enterprise.adminsQuantity || 0}}
+            </a> 
+          </li>
           <li class="body__text">
               <button class="cmp-btn cmp-btn--actions" (click)="crud('update',enterprise)">
                 <i class="fa fa-pencil" aria-hidden="true"></i> Editar

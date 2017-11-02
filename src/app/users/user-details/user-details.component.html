@@ -1,3 +1,48 @@
-<p>
-  user-details works!
-</p>
+<form #form="ngForm" fxLayout="column" class="user-details" (submit)="finish(form)">
+    <h1 class="user-details__header u-h-center">{{title}}</h1>
+    <div layout="row">
+      <div fxFlex="30" fxLayout="column" class="user-details__photo">
+        <gen-photo-input [required]="true" [(photoSrc)]="managedEntity.photo"></gen-photo-input>
+      </div>
+      <div fxFlex fxLayout="column" fxLayoutGap="15px">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50" class="c-input">
+            <input required matInput placeholder="Nombres" name="firstName" [(ngModel)]="managedEntity.firstName">
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="50" class="c-input">
+            <input required matInput placeholder="Apellidos" name="lastName" [(ngModel)]="managedEntity.lastName">
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+        </div>        
+        <mat-form-field class="c-input o-full-width">
+          <input required matInput placeholder="Email" type="email" email="true" name="email" [(ngModel)]="managedEntity.email">
+          <mat-error>Requerido</mat-error>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="10px" *ngIf="mode == 'create'">
+          <mat-form-field fxFlex="50" class="c-input">
+            <input #passwordField="ngModel" required matInput type="password" placeholder="Contraseña" name="password" [(ngModel)]="password">
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="50" class="c-input">
+            <input #confirmPasswordField="ngModel" required matInput type="password" placeholder="Confirmar contraseña" name="confirmPassword" [(ngModel)]="confirmPassword">
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field class="c-input o-full-width">
+          <mat-select name="rol" required placeholder="Rol" [(ngModel)]="managedEntity.role">
+            <mat-option *ngFor="let role of roleList" [value]="role">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="cmp-message--error" [ngClass]="{'u-hidden':equalPasswords}">
+          Las contraseñas no coinciden
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button type="submit" class="cmp-btn cmp-btn--violet">{{buttonLabel}}</button>
+    </div>
+  </form>
+  

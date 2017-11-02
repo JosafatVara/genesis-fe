@@ -12,7 +12,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: UserListComponent
+        component: UserListComponent,
+        data: {
+          inDashboard: true
+        }
       }
     ]
   }

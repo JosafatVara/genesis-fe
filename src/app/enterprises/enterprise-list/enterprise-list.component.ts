@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from '@angular/material';
 
@@ -15,23 +15,16 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
   templateUrl: './enterprise-list.component.html',
   styleUrls: ['./enterprise-list.component.scss']
 })
-export class EnterpriseListComponent implements OnInit, AfterViewInit {
+export class EnterpriseListComponent implements OnInit {
  
-  ngAfterViewInit(): void {
-    this.refresher.refreshEvent.emit();
-  }
-
   public inDashboard: boolean;
   public enterpriseList: Array<Enterprise>;
   public currentUser: User;
   public currentEnterprise: Enterprise;
   public displayedColumns: Array<string> =  ['Nombre','RUC','Administrar', 'Equipo'];
-  private refresher: Refresher;
 
   constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute
     ,private matDialog: MatDialog) {
-    this.refresher = new Refresher();
-    this.refresher.refreshEvent = new EventEmitter();
     enterprises.getCurrentEnterprise().subscribe( e => this.currentEnterprise = e );
     users.getCurrentUser().subscribe( u => this.currentUser = u);
     route.data.subscribe( (data: {inDashboard:boolean}) => this.inDashboard = data.inDashboard);

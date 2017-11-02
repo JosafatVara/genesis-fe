@@ -1,3 +1,39 @@
-<p>
-  user-list works!
-</p>
+<div fxLayout="column" class="user-list" [ngClass]="{'cont wrapper':inDashboard}">
+    <div fxLayout="row" class="user-list__header" [ngClass]="{'cont__title':inDashboard}">
+      <h2>Usuarios</h2>
+      <span fxFlex></span>
+      <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Nuevo Usuario</button> 
+    </div>  
+    <div class="user-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
+      <div [ngClass]="{'cmp-card__body':inDashboard}">
+        <div class="cmp-table">
+          <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+            <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
+            <li fxFlex="20" class="header__title header__title--action u-h-center">Correo Eletrónico</li>
+            <li fxFlex="15" class="header__title header__title--action u-h-center">Rol</li>
+            <li fxFlex="15" class="header__title header__title--action u-h-center">Última conexión</li>
+            <li fxFlex class="header__title u-h-center">Acciones</li>
+          </ul>
+          <ul class="cmp-table__body user-list__dataset__item" *ngFor="let user of userList"
+          fxLayout="row" fxLayout="start center">
+            <li fxFlex="20" class="body__text" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
+              {{user.firstName + ' '+ user.lastName + (youAreTheUser(user)?' (tú)':'')}}
+            </li>
+            <li fxFlex="20" class="body__text">{{user.email}}</li>
+            <li fxFlex="15" class="body__text">{{user.role.name}}</li>
+            <li fxFlex="15" class="body__text">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
+            <li fxFlex class="body__text">
+                <button class="cmp-btn cmp-btn--actions" (click)="crud('update',user)">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>Editar
+                </button>
+                <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',user)"
+                  [disabled]="youAreTheUser(user)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar
+                </button>
+            </li>
+          </ul>
+        </div>
+      </div>    
+    </div>
+  </div>
+  

@@ -6,14 +6,34 @@ export abstract class BaseService {
     protected http: HttpClient;
     protected baseUrl: string;
     protected resourceUrl: string;
-
+    
     protected get actionUrl(): string{
         return Location.joinWithSlash(this.baseUrl,this.resourceUrl);
     }
-
+    
     constructor(http: HttpClient, resourceUrl: string){
         this.resourceUrl = resourceUrl;
         this.http = http;
         this.baseUrl = environment.beUrl;
+    }    
+
+    protected makeRandomString(length: number){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    
+    for (var i = 0; i < length; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    
+    return text;
+    }
+    
+    protected makeRandomNumber(length: number){
+    var text = "";
+    var possible = "1234567890";
+    
+    for (var i = 0; i < length; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    
+    return text;
     }
 }

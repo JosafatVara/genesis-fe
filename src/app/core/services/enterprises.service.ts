@@ -19,39 +19,39 @@ import { PaginationSpecification } from './specifications/base/pagination-specif
 export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
 
   protected mockStock = 10;
-  protected mockEnterprises: Array<Enterprise>;
+  protected mockData: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient){
     super(auth, http, '**********');
-    this.mockEnterprises = this.genMock();
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockEnterprises[2]);
+    this.mockData = this.genMock();
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[2]);
   }
   
   public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
     if(!specification){
-      return Observable.of(this.mockEnterprises);
+      return Observable.of(this.mockData);
     }
     if(specification instanceof Specification){      
-      return Observable.of(this.mockEnterprises.filter( e => specification.isSatisfiedBy(e))).delay(500);
+      return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);
     }
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
-    let indexToUpdate = this.mockEnterprises.findIndex( e => e.id == entity.id);
-    this.mockEnterprises[indexToUpdate] = entity;
+    let indexToUpdate = this.mockData.findIndex( e => e.id == entity.id);
+    this.mockData[indexToUpdate] = entity;
     return Observable.of(new Enterprise());
   }
 
   public create(entity: Enterprise): Observable<Enterprise> {
-    entity.id = this.mockEnterprises.length == 0 ? 0 : this.mockEnterprises[this.mockEnterprises.length-1].id+1;
-    this.mockEnterprises = this.mockEnterprises.concat([entity]);
+    entity.id = this.mockData.length == 0 ? 0 : this.mockData[this.mockData.length-1].id+1;
+    this.mockData = this.mockData.concat([entity]);
     return Observable.of(entity);
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {
-    let indexToRemove = this.mockEnterprises.findIndex( e => e.id == entity.id);
-    this.mockEnterprises.splice(indexToRemove,1);
+    let indexToRemove = this.mockData.findIndex( e => e.id == entity.id);
+    this.mockData.splice(indexToRemove,1);
     return Observable.of(new Enterprise());
   }
 
@@ -74,26 +74,6 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
       })]);
     }
     return mock;
-  }
-
-  private makeRandomString(length: number){
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < length; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-  }
-
-  private makeRandomNumber(length: number){
-    var text = "";
-    var possible = "1234567890";
-
-    for (var i = 0; i < length; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
   }
 }
 
