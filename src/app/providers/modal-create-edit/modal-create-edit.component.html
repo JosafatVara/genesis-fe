@@ -1,0 +1,207 @@
+<div class="choose-person" *ngIf="display.index">
+    <h3 class="choose-person__question">Elija su tipo de persona:</h3>
+    <div class="choose-person__options" fxLayoutAlign="space-around center">
+        <div class="options__option" (click)="selectPerson(1)" fxLayoutAlign="space-around center">
+            Natural
+            <img class="option__img" src="assets/images/natural4.png" alt="">
+        </div>
+        <p>o</p>
+        <div class="options__option options__option--natural" (click)="selectPerson(2)" fxLayoutAlign="space-around center">
+            Jurídica
+            <img class="option__img" src="assets/images/legal1.png" alt="">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="display.natural">
+    <mat-horizontal-stepper [linear]="isLinear">
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Foto</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <!-- <gen-photo-input [required]="true" [(photoSrc)]="managedEntity.photo"></gen-photo-input> -->
+                </div>
+                <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Datos</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Razon Social" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Dirección" formControlName="secondCtrl" required>
+                    </mat-form-field>
+
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Ruc" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Teléfono" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Grupo" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Detalles" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div class="padding-button" fxLayoutAlign="space-between center">
+                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="thirdFormGroup">
+            <form [formGroup]="thirdFormGroup">
+                <ng-template matStepLabel>Contactos</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Nombre Contacto" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Apellidos Contacto" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Cargo" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Teléfono" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Email" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center center">
+                    <button class="cmp-btn cmp-btn--white-blue">Adicionar Contacto</button>
+                </div>
+                <div class="padding-button" fxLayoutAlign="space-between center">
+                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="fourthFormGroup">
+            <form [formGroup]="fourthFormGroup">
+                <ng-template matStepLabel>Cuentas Bancarias</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Cuenta Bancaria" formControlName="fourthCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Banco" formControlName="fourthCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center center">
+                    <button class="cmp-btn cmp-btn--white-blue">Adicionar Cuenta Bancaria</button>
+                </div>
+                <div class="padding-button" fxLayoutAlign="space-between center">
+                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--violet">Crear</button>
+                </div>
+            </form>
+        </mat-step>
+        <!-- <mat-step>
+            <ng-template matStepLabel>Cuentas Bancarias</ng-template>
+            You are now done.
+            <div class="padding-button" fxLayoutAlign="space-between center">
+                <button mat-button matStepperPrevious class="cmp-btn ">Anterior</button>
+                <button mat-button matStepperNext class="cmp-btn cmp-btn--violet">Crear</button>
+            </div>
+        </mat-step> -->
+    </mat-horizontal-stepper>
+</div>
+
+<div *ngIf="display.legal">
+    <mat-horizontal-stepper [linear]="isLinear">
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Foto</ng-template>
+                <div fxLayoutAlign="space-between center">
+                </div>
+                <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Datos</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Nombres Contacto" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Apellidos Contacto" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="DNI/Ruc" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Celular" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Dirección" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Teléfono" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Email" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Notas" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div class="padding-button" fxLayoutAlign="space-between center">
+                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="thirdFormGroup">
+            <form [formGroup]="thirdFormGroup">
+                <ng-template matStepLabel>Cuentas Bancarias</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Cuenta Bancaria" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex=48>
+                        <input matInput placeholder="Banco" formControlName="thirdCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="center center">
+                    <button class="cmp-btn cmp-btn--blue-white">Adicionar Cuenta Bancaria</button>
+                </div>
+                <div class="padding-button" fxLayoutAlign="end center">
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--violet">Crear</button>
+                </div>
+            </form>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</div>

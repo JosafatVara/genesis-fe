@@ -20,9 +20,13 @@ const routes: Routes = [
         path: 'panel-de-control',
         loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule'
       },
+      // {
+      //   path: 'compras',
+      //   loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+      // },
       {
-        path: 'compras',
-        loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+        path: 'grupos',
+        loadChildren: 'app/groups/groups.module#GroupsModule'
       },
       {
         path: 'proveedores',

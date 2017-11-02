@@ -20,6 +20,7 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
 
   protected mockStock = 10;
   protected mockData: Array<Enterprise>;
+  protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient){
