@@ -12,11 +12,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: LoginComponent
+        component: LoginComponent,
+        data: {
+          animation: 'login'
+        }
       },
       {
         path: 'recuperar-password',
-        component: PasswordRecoveryComponent
+        component: PasswordRecoveryComponent,
+        data: {
+          animation: 'recovery-password'
+        }
       }
     ]
   }
