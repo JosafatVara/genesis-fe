@@ -15,6 +15,7 @@ import { SharedModule } from '../shared/shared.module';
 //components
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
+import { AccountOptionsComponent } from './account-options/account-options.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
     DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule
   ],
   declarations: [
-    DashboardComponent, HeaderComponent, SidebarComponent
+    DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
   ],
 
 })

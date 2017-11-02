@@ -9,10 +9,13 @@
             <div class="header__icon-bell">
                 <i class="fa fa-bell-o" aria-hidden="true"></i>
             </div>
-            <div class="header__user" fxLayoutAlign="space-between center">
+            <div class="header__user" fxLayoutAlign="space-between center" (click)="toogleOptions()">
                 <img class="user__photo" src="assets/images/user5.jpg" alt="">
                 <p class="user__name">Juan Gabriel</p>
                 <i class="fa fa-angle-down" aria-hidden="true"></i>
+                <div class="user__options" [ngClass]="{'user__options--visible':accountOptionsAreOpen}">
+                    <gen-account-options></gen-account-options>
+                </div>                
             </div>
         </div>
     </div>

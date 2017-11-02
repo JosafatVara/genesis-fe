@@ -1,0 +1,26 @@
+$max_items_level: 5;
+$base_padding: 16;
+$padding_per_level: 15;
+
+.account-options{
+    &__item{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        transition: all 0.1s ease-in-out;
+        &:hover{
+            background: rgba(0,0,0,0.10);
+            transition: all 0.1s ease-in-out;
+        }
+        &--parent:hover{
+            background: initial;
+        }
+        @for $i from 0 through $max_items_level{
+            &--#{$i+1}{
+                padding-left: #{$i*$padding_per_level+$base_padding}px;
+                @if $i == 0{
+                    border-bottom: 1px solid rgba(0,0,0,0.3);
+                }
+            }    
+        }
+    }
+}
