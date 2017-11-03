@@ -1,7 +1,7 @@
 <!--component html goes here -->
 <ul class="sidebar" [ngClass]="{'sidebar--closed': menuState}">
     <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="end center">
-        <button class="cmp-btn cmp-btn--blue" (click)="changeStateMenu()"> 
+        <button class="cmp-btn cmp-btn--violet" (click)="changeStateMenu()"> 
                 <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
                 <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
             </button>
@@ -145,12 +145,12 @@
             <i class="fa " aria-hidden="true "></i>
         </a>
     </li>
-    <li class="sidebar__menu-item sidebar__menu-item--last ">
+    <!-- <li class="sidebar__menu-item sidebar__menu-item--last ">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center ">
             <img class="item__icon " src="assets/images/icons/power-on-buton.png " alt=" ">
             <span class="item__title">Salir</span>
             <i class="fa " aria-hidden="true "></i>
         </a>
         <ul></ul>
-    </li>
+    </li> -->
 </ul>

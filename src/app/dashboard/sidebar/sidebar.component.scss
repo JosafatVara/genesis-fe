@@ -2,7 +2,7 @@
 .sidebar {
     height: 100%;
     left: 0;
-    position: fixed;
+    // position: fixed;
     width: 220px;
     background-color: $white-0;
     overflow: hidden;
@@ -42,7 +42,7 @@
     }
     .sidebar__menu-item--last {
         bottom: 20px;
-        position: absolute;
+        // position: absolute;
         width: 100%;
     }
     .sidebar__menu-item--breakdown {
