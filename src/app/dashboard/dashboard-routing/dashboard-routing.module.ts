@@ -28,7 +28,10 @@ const routes: Routes = [
         path: 'proveedores',
         loadChildren: 'app/providers/providers.module#ProvidersModule'
       },
-
+      {
+        path: 'personal',
+        loadChildren: 'app/staff/staff.module#StaffModule'
+      }
     ]
   }
 ]

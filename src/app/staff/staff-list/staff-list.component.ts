@@ -55,7 +55,7 @@ export class StaffListComponent implements OnInit {
   private delete(employee: Employee){
     let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       data: {
-        message: `Eliminar el usuario ${employee.firstName} ${employee.lastName}?`
+        message: `Eliminar al trabajador ${employee.firstName} ${employee.lastName}?`
       }
     });
     dialogRef.afterClosed().subscribe( confirm => {

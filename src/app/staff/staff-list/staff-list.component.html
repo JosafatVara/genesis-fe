@@ -1,6 +1,6 @@
 <div fxLayout="column" class="employee-list" [ngClass]="{'cont wrapper':inDashboard}">
     <div fxLayout="row" class="employee-list__header" [ngClass]="{'cont__title':inDashboard}">
-      <h2>Usuarios</h2>
+      <h2>Personal</h2>
       <span fxFlex></span>
       <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Nuevo Usuario</button> 
     </div>  
@@ -16,16 +16,15 @@
           </ul>
           <ul class="cmp-table__body employee-list__dataset__item" *ngFor="let employee of employeeList"
           fxLayout="row" fxLayout="start center">
-            <li fxFlex="20" class="body__text">{{employee.dni}}</li>
-            <li fxFlex="15" class="body__text">{{employee.firstName + employee.lastName}}</li>
-            <li fxFlex="15" class="body__text">{{employee.lastDayPaid | date:'dd/MM/yyyy'}}</li>
-            <li fxFlex="15" class="body__text">{{employee.pay | numeric}}</li>
-            <li fxFlex class="body__text">
-                <button class="cmp-btn cmp-btn--actions" (click)="crud('update',user)">
+            <li fxFlex="20" class="body__text u-h-center">{{employee.dni}}</li>
+            <li fxFlex="20" class="body__text u-h-center">{{employee.firstName + ' ' + employee.lastName}}</li>
+            <li fxFlex="15" class="body__text u-h-center">{{employee.lastDayPaid | date:'dd/MM/yyyy'}}</li>
+            <li fxFlex="15" class="body__text u-h-center">S/. {{employee.pay | numeric}}</li>
+            <li fxFlex class="body__text u-h-center">
+                <button class="cmp-btn cmp-btn--actions" (click)="crud('update',employee)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>Editar
                 </button>
-                <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',user)"
-                  [disabled]="youAreTheUser(user)">
+                <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',employee)">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar
                 </button>
             </li>

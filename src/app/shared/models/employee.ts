@@ -16,4 +16,6 @@ export class Employee extends BaseEntity<Employee>{
     public admissionDate: Date;
     public bankAccounts: BankAccount[];
     public lastDayPaid: Date;
+    public photo: any;
+    public photoPublicUrl: string;
 }
