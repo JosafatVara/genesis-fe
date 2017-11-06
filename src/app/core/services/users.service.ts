@@ -5,11 +5,11 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthenticatedService } from './base/authenticated-service';
 import { AuthenticationService } from './authentication.service';
 import { User } from '../../shared/models/user';
-import { AsyncCrudService } from './contracts/async-crud-service';
+import { CrudService } from './contracts/crud-service';
 import { Specification } from './specifications/base/specification';
 
 @Injectable()
-export class UsersService extends AuthenticatedService implements AsyncCrudService<User> {
+export class UsersService extends AuthenticatedService implements CrudService<User> {  
 
   protected mockStock = 10;
   protected mockData: Array<User>;
@@ -28,6 +28,10 @@ export class UsersService extends AuthenticatedService implements AsyncCrudServi
     if(specification instanceof Specification){      
       return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);
     }
+  }
+
+  getSync(specification?: Specification<User>): User[] {
+    throw new Error("Method not implemented.");
   }
 
   public update(entity: User): Observable<User> {

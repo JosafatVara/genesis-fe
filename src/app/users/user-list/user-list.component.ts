@@ -48,7 +48,7 @@ export class UserListComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
-      if(!result.cancelled){
+      if(result&&!result.cancelled){
         this.refreshUsers();
       }
     });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Role } from '../../shared/models/role';
-import { AsyncCrudService } from './contracts/async-crud-service';
+import { CrudService } from './contracts/crud-service';
 import { AuthenticatedService } from './base/authenticated-service';
 import { AuthenticationService } from './authentication.service';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +8,11 @@ import { Specification } from './specifications/base/specification';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class RolesService extends AuthenticatedService implements AsyncCrudService<Role>{
+export class RolesService extends AuthenticatedService implements CrudService<Role>{
+
+  getSync(specification?: Specification<Role>): Role[] {
+    throw new Error("Method not implemented.");
+  }
 
   get(specification?: Specification<Role>): Observable<Role[]> {
     return Observable.of([

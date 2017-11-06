@@ -61,7 +61,7 @@ export class EnterpriseListComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
-      if(!result.cancelled){
+      if( result && !result.cancelled){
         this.refreshEnterprises();
       }
     });

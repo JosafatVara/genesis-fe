@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'gen-photo-input',
   templateUrl: './photo-input.component.html',
   styleUrls: ['./photo-input.component.scss']
 })
-export class PhotoInputComponent implements OnInit {
+export class PhotoInputComponent implements OnInit, OnChanges {  
 
   @Input('asBase64') asBase64: boolean = true;
 
@@ -40,7 +40,11 @@ export class PhotoInputComponent implements OnInit {
     });
     if(this.asBase64){
       this.photoSourceValueAsBase64 = this.photoSource;
-    }else if(this.photoSource){      
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!this.asBase64 && this.photoSource){      
       this.reader.readAsDataURL(this.photoSource);
     }
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticatedService } from './base/authenticated-service';
-import { AsyncCrudService } from './contracts/async-crud-service';
+import { CrudService } from './contracts/crud-service';
 import { Enterprise } from '../../shared/models/enterprise';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
@@ -14,27 +14,44 @@ import { QueryParamsSpecification } from './specifications/contracts/query-param
 import { Specification } from './specifications/base/specification';
 import { EnterprisePagedSpecification } from './specifications/entreprise-specification';
 import { PaginationSpecification } from './specifications/base/pagination-specification';
+import { DepartmentsService } from './departments.service';
+import { EmployeesQuantitiesService } from './employees-quantities.service';
+import { DepartmentsByNameSpecification } from './specifications/department-specification';
+import { EmployeesQuantitiesByDescriptionSpecification } from './specifications/employees-quantity-specification';
 
 @Injectable()
-export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
+export class EnterprisesService extends AuthenticatedService implements CrudService<Enterprise>{
 
   protected mockStock = 10;
   protected mockData: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
-  constructor(auth: AuthenticationService, http: HttpClient){
-    super(auth, http, '**********');
+  constructor(auth: AuthenticationService, http: HttpClient, private departments: DepartmentsService
+    , private employeesQuantities: EmployeesQuantitiesService){
+    super(auth, http, '');
     this.mockData = this.genMock();
     this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[2]);
   }
   
   public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
     if(!specification){
-      return Observable.of(this.mockData);
+      return this.http
+        .get<any[]>(this.actionUrl+'accounts/enterprises/users/me/',{headers: this.authHttpHeaders})
+        .map( result => {
+          let enterprises: Enterprise[] = [];
+          result.forEach( r => {
+            enterprises = enterprises.concat([ this.mapBeToEnterprise(r.enterprise_selected) ]);
+          });
+          return enterprises;
+        });
     }
     if(specification instanceof Specification){      
       return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);
     }
+  }
+  
+  getSync(specification?: QueryParamsSpecification | Specification<Enterprise>): Enterprise[] {
+    throw new Error("Method not implemented.");
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
@@ -47,6 +64,7 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
     entity.id = this.mockData.length == 0 ? 0 : this.mockData[this.mockData.length-1].id+1;
     this.mockData = this.mockData.concat([entity]);
     return Observable.of(entity);
+    // let formData
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {
@@ -74,6 +92,20 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
       })]);
     }
     return mock;
+  }
+
+  private mapBeToEnterprise(beEntity: any): Enterprise{
+    return new Enterprise({
+      businessName: beEntity.business_name,
+      photoPublicUrl: beEntity.image,
+      address: beEntity.address,
+      ruc: beEntity.ruc,
+      id: beEntity.id,
+      department: this.departments.getSync(new DepartmentsByNameSpecification(beEntity.rubro))[0],
+      employeesQuantity: this.employeesQuantities.getSync(new EmployeesQuantitiesByDescriptionSpecification(beEntity.num_employees))[0],
+      name: beEntity.name,
+      adminsQuantity: beEntity.num_users
+    });
   }
 }
 

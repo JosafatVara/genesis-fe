@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  beUrl: 'http://genesis.indagostudio.pe/'
+  beUrl: 'http://genesis.indagostudio.pe/api/v1/'
 };

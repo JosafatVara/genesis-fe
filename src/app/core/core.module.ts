@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DepartmentsService } from './services/departments.service';
 import { EmployeesQuantitiesService } from './services/employees-quantities.service';
 import { RolesService } from './services/roles.service';
+import { ImagesService } from './utils/images.service';
+import { EmployeesService } from './services/employees.service';
 
 
 @NgModule({
@@ -26,9 +28,13 @@ import { RolesService } from './services/roles.service';
     DepartmentsService,
     EmployeesQuantitiesService,
     RolesService,
+    EmployeesService,
 
     //RESOLVERS
     EnterpriseListResolver,
+
+    //UTILS
+    ImagesService
   ],
   exports: [
     BrowserAnimationsModule
