@@ -17,6 +17,7 @@ import { Observable } from 'rxjs/Observable';
 export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implements OnInit {  
 
   @Input('enterprise') enterprise: Enterprise;
+  private enterprisePhoto: any;
   private departmentList: Array<Department>;
   private employeesQuantityList: Array<EmployeesQuantity>;
   private enterprises: EnterprisesService;
@@ -34,8 +35,7 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   ngOnInit() {
     this.validateMode();
     this.managedEntity = this.enterprise || this.managedEntity;
-    
-    //  this.fillSelects();
+    this.enterprisePhoto = this.managedEntity.photo;
     Observable.forkJoin(
       this.departments.get(),this.employeesQuantities.get()).subscribe( results => {
         this.departmentList = results[0];
@@ -71,7 +71,8 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   }
 
   protected validate(): boolean{
-    return this.managedEntity.photo != undefined && this.managedEntity.photo != "";
+    this.managedEntity.photo = this.enterprisePhoto;
+    return this.managedEntity.photo != undefined;
   }
 
 }

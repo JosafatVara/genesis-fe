@@ -1,7 +1,7 @@
 import { Input, Output, EventEmitter } from "@angular/core";
 import { BaseEntity } from "../../models/base/base-entity";
 import { AsyncCrudService } from "../../../core/services/contracts/async-crud-service";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { BaseComponent } from "./base-component";
 
 export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseComponent {
@@ -19,8 +19,9 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
     @Input('doChangesOnFinish') doChangesOnFinish: boolean;
     public managedEntity: T;
 
-    public finish(form: FormControl){
-        if((form==undefined || (form && form.valid)) && this.validate()){
+    public finish(form: FormGroup){
+        this.fillDataModel();
+        if( (form && form.valid) && this.validate()){
             switch(this.mode){
                 case 'create':
                     this.create();
@@ -39,6 +40,10 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
             }
             this.afterFinish();
         }
+    }
+
+    protected fillDataModel(){
+
     }
 
     protected validateMode(){
