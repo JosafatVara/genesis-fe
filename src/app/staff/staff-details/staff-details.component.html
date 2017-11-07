@@ -1,3 +1,151 @@
-<p>
-  staff-details works!
-</p>
+<div [ngSwitch]="true">
+  <div *ngSwitchCase="mode=='update' || mode=='create'" class="staff-details staff-details--create">
+    <mat-horizontal-stepper [linear]="true">
+      <mat-step [stepControl]="frmEmployeePhoto" [completed]="false">
+        <ng-template matStepLabel>
+          <span>Foto del empleado</span>
+        </ng-template>
+        <form [formGroup]="frmEmployeePhoto" fxLayout="column" fxLayoutAlign="center center">
+           <gen-photo-input class="staff-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="employeePhoto" 
+            (onChange)="onChangePhoto($event)"></gen-photo-input>
+          <input class="u-hidden" type="text" formControlName="photoFlag">
+          <button class="cmp-btn" matStepperNext>Siguiente</button>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="frmPersonalInformation" [completed]="false">
+        <ng-template matStepLabel>
+          <span>Datos personales</span>
+        </ng-template>
+        <form [formGroup]="frmPersonalInformation" fxLayout="column" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="45">
+              <input matInput type="text" placeholder="Nombres" formControlName="firstName">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput type="text" placeholder="Apellidos" formControlName="lastName">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+          </div>
+          <mat-form-field class="o-full-width">
+            <input matInput type="text" placeholder="Dirección" formControlName="address">
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="45">
+              <input matInput type="text" placeholder="DNI" formControlName="dni">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput type="text" placeholder="Email" formControlName="email">
+              <mat-error *ngIf="frmPersonalInformation.get('email').hasError('required')">Requerido</mat-error>
+              <mat-error *ngIf="!frmPersonalInformation.get('email').hasError('required') 
+                && frmPersonalInformation.get('email').hasError('email')">Correo inválido</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row">
+            <button type="button" class="cmp-btn" matStepperPrevious>Anterior</button>
+            <span fxFlex></span>
+            <button class="cmp-btn" matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="frmWorkInformation" [completed]="false">
+        <ng-template matStepLabel>
+          <span>Datos laborales</span>
+        </ng-template>
+        <form [formGroup]="frmWorkInformation" fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field class="o-full-width">
+            <input matInput type="text" placeholder="Cargo" formControlName="workPosition">
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="o-full-width">
+              <input matInput type="text" placeholder="Funciones" formControlName="workFunctions">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+          <div fxLayout="row">
+            <button type="button" class="cmp-btn" matStepperPrevious>Anterior</button>
+            <span fxFlex></span>
+            <button class="cmp-btn" matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="frmAffiliationInformation" [completed]="false">
+        <ng-template matStepLabel>
+          <span>Afiliación</span>
+        </ng-template>
+        <form [formGroup]="frmAffiliationInformation" fxLayout="column" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="45">
+              <mat-select placeholder="Afiliación" formControlName="affiliation">
+                <mat-option *ngFor="let affiliation of affiliationList" [value]="affiliation">
+                  {{ affiliation.description }}
+                </mat-option>
+              </mat-select>
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput type="text" placeholder="Nombre de la AFP" formControlName="affiliationName">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="45">
+              <input matInput type="number" placeholder="Sueldo (Nuevos Soles)" formControlName="pay">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput [matDatepicker]="picker" placeholder="Fecha de ingreso a la empresa" formControlName="admissionDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>           
+          <div fxLayout="row">
+            <button type="button" class="cmp-btn" matStepperPrevious>Anterior</button>
+            <span fxFlex></span>
+            <button class="cmp-btn" matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="frmBankAccounts" [completed]="false">
+        <ng-template matStepLabel>
+          <span>Información bancaria</span>
+        </ng-template>
+        <form [formGroup]="frmBankAccounts" fxLayout="column" fxLayoutGap="10px">
+          <div formArrayName="bankAccounts" fxLayout="column" fxLayoutGap="10px">
+            <div *ngFor="let bankAccount of bankAccounts.controls; let i=index" [formGroupName]="i" fxFlex="row" fxLayoutGap="10px">              
+              <mat-form-field fxFlex>
+                <input matInput type="text" placeholder="Banco" formControlName="bankName">
+                <mat-error>Requerido</mat-error>
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input matInput type="text" placeholder="Cuenta Bancaria" formControlName="number">
+                <mat-error>Requerido</mat-error>
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input matInput type="text" placeholder="Cuenta Interbancaria" formControlName="interbankNumber">
+                <mat-error>Requerido</mat-error>
+              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <button type="button" class="cmp-btn cmp-btn--orange" (click)="removeBankAccount(i)" title="remover">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>              
+            </div>
+            <div fxFlex="column">
+              <button type="button" class="cmp-btn" (click)="addBankAccount()">Añadir cuenta bancaria</button>
+            </div>            
+          </div>
+          <div fxLayout="row">
+            <button type="button" class="cmp-btn" matStepperPrevious>Anterior</button>
+            <span fxFlex></span>
+            <button class="cmp-btn cmp-btn--violet" matStepperNext>Finalizar</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+  <div *ngSwitchDefault class="staff-details">
+
+  </div>
+</div>

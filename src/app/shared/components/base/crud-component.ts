@@ -20,7 +20,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
     public managedEntity: T;
 
     public finish(form: FormGroup){
-        this.fillDataModel();
+        this.fillDataModels();
         if( (form && form.valid) && this.validate()){
             switch(this.mode){
                 case 'create':
@@ -42,7 +42,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
         }
     }
 
-    protected fillDataModel(){
+    protected fillDataModels(){
 
     }
 

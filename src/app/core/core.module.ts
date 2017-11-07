@@ -12,6 +12,7 @@ import { EmployeesQuantitiesService } from './services/employees-quantities.serv
 import { RolesService } from './services/roles.service';
 import { ImagesService } from './utils/images.service';
 import { EmployeesService } from './services/employees.service';
+import { AffiliationsService } from './services/affiliations.service';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { EmployeesService } from './services/employees.service';
     EmployeesQuantitiesService,
     RolesService,
     EmployeesService,
+    AffiliationsService,
 
     //RESOLVERS
     EnterpriseListResolver,

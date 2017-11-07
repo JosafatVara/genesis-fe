@@ -39,10 +39,10 @@ export class StaffListComponent implements OnInit {
     }
     let dialogRef = this.matDialog.open(DialogStaffDetailsComponent,{
       disableClose: true,
-      width: '750px',
+      width: '80%',
       data: {
         mode: mode,
-        user: Object.assign({},employee)
+        employee: Object.assign({},employee)
       }
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {

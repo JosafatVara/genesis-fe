@@ -75,7 +75,7 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   }
   //#endregion  
 
-  protected fillDataModel(){
+  protected fillDataModels(){
     this.managedEntity = new User({ 
       firstName: this.userForm.value.firstName,
       lastName: this.userForm.value.lastName,

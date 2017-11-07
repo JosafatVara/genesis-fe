@@ -3,7 +3,9 @@ import { CrudComponent } from "../../shared/components/base/crud-component";
 import { Employee } from "../../shared/models/employee";
 import { EmployeesService } from "../../core/services/employees.service";
 import { ImagesService } from "../../core/utils/images.service";
-import { FormGroup } from "@angular/forms";
+import { FormGroup, FormArray, FormBuilder, Validators } from "@angular/forms";
+import { AffiliationsService } from '../../core/services/affiliations.service';
+import { Affiliation } from '../../shared/models/affiliation';
 
 @Component({
   selector: 'gen-staff-details',
@@ -15,22 +17,104 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
   @Input('employee') employee: Employee;
   protected title: string;
   protected buttonLabel: string;
+  affiliationList: Affiliation[];
   employeePhoto: any;
-  frmPersonalInformation: FormGroup
+  frmEmployeePhoto: FormGroup;
+  frmPersonalInformation: FormGroup;
+  frmWorkInformation: FormGroup;
+  frmAffiliationInformation: FormGroup;
+  frmBankAccounts: FormGroup;
 
-  constructor(employees: EmployeesService,private images: ImagesService) { 
+  constructor(employees: EmployeesService, private affiliations: AffiliationsService, 
+    private images: ImagesService, private fb: FormBuilder) { 
     super(employees);
-  }
-
-  ngOnInit() {
-    this.managedEntity = this.employee || this.managedEntity;
-    this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( image => {
-      this.employeePhoto = image;
+    this.createForms();
+    this.affiliations.get().subscribe( as => {
+      this.affiliationList = as;
     });
   }
 
-  //#region FormManagement
+  ngOnInit() {
+    this.managedEntity = this.employee || new Employee();
+    if(this.mode!='create' && this.managedEntity.photoPublicUrl){
+      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( image => {
+        this.employeePhoto = image;
+      });      
+    }
+    this.fillFormsModels();
+  }
 
+  //#region FormManagement
+  private createForms(){
+    this.frmEmployeePhoto = this.fb.group({
+      photoFlag: ['', Validators.required]
+    });
+    this.frmPersonalInformation = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['',[Validators.required]],
+      address: ['',[Validators.required]],
+      dni: ['',[Validators.required]],
+      email: ['',[Validators.required, Validators.email]]
+    });
+    this.frmWorkInformation = this.fb.group({
+      workPosition: ['',[Validators.required]],
+      workFunctions: ['',[Validators.required]]
+    });
+    this.frmAffiliationInformation = this.fb.group({
+      affiliation: [undefined, [Validators.required]],
+      affiliationName: ['', [Validators.required]],
+      pay: [0, [Validators.required,Validators.min(1)]],
+      admissionDate: [new Date(), [Validators.required]]
+    });  
+    this.frmBankAccounts = this.fb.group({
+      bankAccounts: this.fb.array([])
+    });
+  }
+
+  private fillFormsModels(){
+    this.frmPersonalInformation.patchValue(this.managedEntity);
+    this.frmWorkInformation.patchValue(this.managedEntity);
+    this.frmAffiliationInformation.patchValue(this.managedEntity);
+    let affiliationInList = this.managedEntity.affiliation ? 
+      this.affiliationList.find( a => a.id == this.managedEntity.affiliation.id):undefined;
+    this.frmAffiliationInformation.patchValue({ affiliation: affiliationInList });
+    let bankAccountsFGs = this.managedEntity.bankAccounts?this.managedEntity.bankAccounts.map( ba => {
+      return this.fb.group({
+        bankName: [ba.bankName,[Validators.required]],
+        number: [ba.number,[Validators.required]],
+        interbankNumber: [ba.interbankNumber, [Validators.required]]
+      });
+    }):[];
+    this.frmBankAccounts.setControl('bankAccounts', this.fb.array(bankAccountsFGs));
+  }
+
+  protected fillDataModels(){
+    Object.assign(this.managedEntity,this.frmPersonalInformation.value, this.frmWorkInformation.value,
+      this.frmAffiliationInformation.value,this.frmBankAccounts.value);
+  }
+
+  get bankAccounts(): FormArray{
+    return this.frmBankAccounts.get('bankAccounts') as FormArray;
+  }
+
+  removeBankAccount(index: number){
+    this.bankAccounts.removeAt(index);
+  }
+
+  addBankAccount(){
+    if(this.frmBankAccounts.valid){
+      this.bankAccounts.push(this.fb.group({
+        bankName: ['',[Validators.required]],
+        number: ['',[Validators.required]],
+        interbankNumber: ['',[Validators.required]]
+      }));
+    }    
+  }
   //#endregion
 
+  onChangePhoto(photo: Blob){
+    if(photo){
+      this.frmEmployeePhoto.setValue({photoFlag: 'OK'});
+    }
+  }
 }
