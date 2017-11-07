@@ -24,7 +24,7 @@
             <li fxFlex="15" class="body__text">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
             <li fxFlex class="body__text">
                 <button class="cmp-btn cmp-btn--actions" (click)="crud('update',user)">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>Editar
+                  <i class="fa fa-pencil" aria-hidden="true"></i> Editar
                 </button>
                 <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',user)"
                   [disabled]="youAreTheUser(user)">
