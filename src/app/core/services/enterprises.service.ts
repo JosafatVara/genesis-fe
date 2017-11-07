@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DataSource } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material';
+
+import { EntityDataSource } from './base/entity-data-source';
 import { AuthenticatedService } from './base/authenticated-service';
 import { CrudService } from './contracts/crud-service';
 import { Enterprise } from '../../shared/models/enterprise';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { AuthenticationService } from './authentication.service';
-import { HttpClient } from '@angular/common/http';
-import { DataSource } from '@angular/cdk/collections';
-import { EntityDataSource } from './base/entity-data-source';
-import { MatPaginator } from '@angular/material';
 import { Sorter } from './shared/sorter';
 import { Refresher } from './shared/refresher';
 import { QueryParamsSpecification } from './specifications/contracts/query-params-specification';
@@ -48,6 +49,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     if(specification instanceof Specification){      
       return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);
     }
+    // return Observable.of(this.mockData).delay(500);
   }
   
   getSync(specification?: QueryParamsSpecification | Specification<Enterprise>): Enterprise[] {
@@ -55,16 +57,37 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
-    let indexToUpdate = this.mockData.findIndex( e => e.id == entity.id);
-    this.mockData[indexToUpdate] = entity;
-    return Observable.of(new Enterprise());
+    let formData: FormData = new FormData();
+    formData.append('name', entity.name);
+    formData.append('image', entity.photo, entity.photoFileName);
+    formData.append('business_name', entity.businessName);
+    formData.append('ruc', entity.ruc);
+    formData.append('address', entity.address);
+    formData.append('rubro', entity.department.name.toUpperCase());
+    formData.append('num_employees', entity.employeesQuantity.quantityDescription);
+    formData.append('business_name', entity.businessName);
+    let headers: HttpHeaders = this.authHttpHeaders;
+    headers = headers.append('Accept', 'application/json');
+    return this.http.patch(this.actionUrl+`enterprises/enterprises/${entity.id.toString()}/`,formData,{headers: headers}).map( result => {
+      return entity;
+    });
   }
 
   public create(entity: Enterprise): Observable<Enterprise> {
-    entity.id = this.mockData.length == 0 ? 0 : this.mockData[this.mockData.length-1].id+1;
-    this.mockData = this.mockData.concat([entity]);
-    return Observable.of(entity);
-    // let formData
+    let formData: FormData = new FormData();
+    formData.append('name', entity.name);
+    formData.append('image', entity.photo, entity.photoFileName);
+    formData.append('business_name', entity.businessName);
+    formData.append('ruc', entity.ruc);
+    formData.append('address', entity.address);
+    formData.append('rubro', entity.department.name.toUpperCase());
+    formData.append('num_employees', entity.employeesQuantity.quantityDescription);
+    formData.append('business_name', entity.businessName);
+    let headers: HttpHeaders = this.authHttpHeaders;
+    headers = headers.append('Accept', 'application/json');
+    return this.http.post(this.actionUrl+'enterprises/enterprises/',formData,{headers: headers}).map( result => {
+      return entity;
+    });
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {

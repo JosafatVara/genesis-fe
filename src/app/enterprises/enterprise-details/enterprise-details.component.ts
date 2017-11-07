@@ -36,6 +36,9 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   ngOnInit() {
     this.validateMode();
     this.managedEntity = this.enterprise || this.managedEntity;
+    if(this.managedEntity.photo){
+      this.enterprisePhoto = this.managedEntity.photo;
+    }
     if(this.managedEntity.photoPublicUrl){
       this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
         this.enterprisePhoto = blob
@@ -77,8 +80,8 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   }
 
   protected validate(): boolean{
-    debugger;
     this.managedEntity.photo = this.enterprisePhoto;
+    this.managedEntity.photoFileName = this.enterprisePhoto.name;
     return this.managedEntity.photo != undefined;
   }
 

@@ -9,8 +9,9 @@ export class Enterprise extends BaseEntity<Enterprise> {
     public ruc: string;
     public address: string;
     public department: Department;
-    public photo: any;
+    public photo: File;
     public photoPublicUrl: string;
+    public photoFileName: string;
     public adminsQuantity: number;
     public employeesQuantity: EmployeesQuantity;
 

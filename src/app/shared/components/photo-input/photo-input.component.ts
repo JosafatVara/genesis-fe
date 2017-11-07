@@ -18,18 +18,19 @@ export class PhotoInputComponent implements OnInit, OnChanges {
     return this.photoSourceValue;
   }
 
-  @Output('photoSrcChange') photoSrcChange = new EventEmitter<string>();
+  @Output('photoSrcChange') photoSrcChange = new EventEmitter<any>();
   set photoSource(value: any){
     this.photoSourceValue = value;
     this.photoSrcChange.emit(value);
   }
 
   public get showInvalid(): boolean{
-    return this.required && ( this.photoSource == undefined || this.photoSource == "" );
+    return this.required && !this.photoSourceValueAsBase64;
   }
 
   private photoSourceValueAsBase64: string;
-  private photoSourceValue: string;
+  private photoSourceValue: any;
+  private photoFileNameValue: string;
   private reader = new FileReader();
   private photo: any;
 
@@ -69,7 +70,7 @@ export class PhotoInputComponent implements OnInit, OnChanges {
   }
 
   public photoChange(event: any){
-    this.photo = event.srcElement.files[0];
+    this.photo = event.target.files[0];
     if(this.photo){
       this.reader.readAsDataURL(this.photo);
     }
