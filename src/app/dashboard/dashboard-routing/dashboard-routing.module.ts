@@ -11,11 +11,11 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: 'app/users/users.module#UsersModule'
-      }, 
+      },
       {
         path: 'empresas',
         loadChildren: 'app/enterprises/enterprises.module#EnterprisesModule'
-      }, 
+      },
       {
         path: 'panel-de-control',
         loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule'
@@ -32,7 +32,14 @@ const routes: Routes = [
         path: 'proveedores',
         loadChildren: 'app/providers/providers.module#ProvidersModule'
       },
-
+      {
+        path: 'cotizaciones',
+        loadChildren: 'app/quotations/quotations.module#QuotationsModule'
+      },
+      {
+        path: 'clientes',
+        loadChildren: 'app/customers/customers.module#CustomersModule'
+      }
     ]
   }
 ]

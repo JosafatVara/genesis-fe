@@ -1,0 +1,83 @@
+<div>
+    <mat-horizontal-stepper [linear]="isLinear">
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Foto</ng-template>
+                <div fxLayoutAlign="space-between center">
+                </div>
+                <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Datos</ng-template>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Cliente" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center">
+                    <mat-form-field fxFlex=100>
+                        <input matInput placeholder="Fecha" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                </div>
+
+                <div class="padding-button" fxLayoutAlign="space-between center">
+                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="fourthFormGroup">
+            <form [formGroup]="fourthFormGroup">
+                <ng-template matStepLabel>Productos</ng-template>
+
+                <div class="cmp-table">
+                    <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                        <li fxFlex class="header__title header__title--action">Cantidad <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                        <li fxFlex class="header__title header__title--action">Descripción <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                        <li fxFlex=20 class="header__title header__title--action">Monto <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                        <!-- <li fxFlex=30 class="header__title ">Acciones</li> -->
+                    </ul>
+                    <ul class="cmp-table__body">
+                        <li fxFlex class="body__text" fxLayoutAlign="start center">3000</li>
+                        <li fxFlex class="body__text" fxLayoutAlign="start center">Periodicos Halcon</li>
+                        <li fxFlex=20 class="body__text" fxLayoutAlign="start center">580</li>
+
+                    </ul>
+                    <ul class="cmp-table__body">
+                        <li fxFlex class="body__text" fxLayoutAlign="start center">7000</li>
+                        <li fxFlex class="body__text" fxLayoutAlign="start center">Kodevian SAC</li>
+                        <li fxFlex=20 class="body__text" fxLayoutAlign="start center">1000</li>
+                    </ul>
+                </div>
+                <div fxLayoutAlign="center center">
+                    <button class="cmp-btn cmp-btn--white-blue">Adicionar Producto</button>
+                </div>
+
+                <div class="cmp-table">
+                    <ul class="cmp-table__header" fxLayoutAlign="end center">
+                        <li fxFlex=20 class="header__title header__title--action">Resultados</li>
+                    </ul>
+                    <ul class="cmp-table__body">
+                        <li fxFlex class="body__text" fxLayoutAlign="end center">10000(Subtotal)</li>
+                    </ul>
+                    <ul class="cmp-table__body">
+                        <li fxFlex class="body__text" fxLayoutAlign="end center">1180(IGV)</li>
+                    </ul>
+                    <ul class="cmp-table__body">
+                        <li fxFlex class="body__text" fxLayoutAlign="end center">8820(Total en Nuevos Soles)</li>
+                    </ul>
+                </div>
+                <div class="padding-button" fxLayoutAlign="space-between center">
+                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--violet" (click)="confirm()">Crear</button>
+                </div>
+            </form>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</div>
