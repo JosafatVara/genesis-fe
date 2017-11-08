@@ -20,7 +20,7 @@
               {{user.firstName + ' '+ user.lastName + (youAreTheUser(user)?' (tú)':'')}}
             </li>
             <li fxFlex="20" class="body__text">{{user.email}}</li>
-            <li fxFlex="15" class="body__text">{{user.role.name}}</li>
+            <li fxFlex="15" class="body__text">{{user.role ? user.role.name: ''}}</li>
             <li fxFlex="15" class="body__text">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
             <li fxFlex class="body__text">
                 <button class="cmp-btn cmp-btn--actions" (click)="crud('update',user)">

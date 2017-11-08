@@ -16,6 +16,7 @@ import { DashboardComponent } from './dashboard.component';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { ActionsComponent } from "./actions/actions.component";
+import { AccountOptionsComponent } from './account-options/account-options.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { ActionsComponent } from "./actions/actions.component";
     DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule
   ],
   declarations: [
-    DashboardComponent, HeaderComponent, SidebarComponent,ActionsComponent
+    ActionsComponent,
+    DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
   ],
 
 })

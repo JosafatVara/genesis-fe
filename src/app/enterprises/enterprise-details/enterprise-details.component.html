@@ -2,7 +2,7 @@
   <h1 class="enterprise-details__header u-h-center">{{title}}</h1>
   <div layout="row">
     <div fxFlex="30" fxLayout="column" class="enterprise-details__photo">
-      <gen-photo-input [required]="true" [(photoSrc)]="managedEntity.photo"></gen-photo-input>
+      <gen-photo-input [required]="true" [asBase64]="false" [(photoSrc)]="enterprisePhoto"></gen-photo-input>
     </div>
     <div fxFlex fxLayout="column">
       <mat-form-field class="c-input o-full-width">

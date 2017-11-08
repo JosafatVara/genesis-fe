@@ -5,8 +5,9 @@
 }
 
 .header {
-    color: $grey-4;
     overflow: hidden;
+    color: $grey-5;
+    //overflow: hidden;
     height: 80px;
     position: fixed;
     width: 100%;
@@ -25,7 +26,9 @@
         }
     }
     .header__user {
+        cursor: pointer;
         padding: 0 10px;
+        position: relative;
         .user__photo {
             max-width: 50px;
             border-radius: 50px;
@@ -37,6 +40,18 @@
         }
         .fa-angle-down {
             cursor: pointer;
+        }
+        .user__options {
+            width: 220px;
+            display: none;
+            position: absolute;
+            bottom: 0px;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            transform: translate(-10%, 102%);
+            background: $white-0;
+            &--visible {
+                display: block;
+            }
         }
     }
 }

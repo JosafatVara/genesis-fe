@@ -1,0 +1,36 @@
+<ul class="account-options">
+  <li routerLink="/dashboard">
+    <p class="account-options__item account-options__item--1">Mi Cuenta</p>
+  </li>
+  <li outerLink="/dashboard/empresas">
+    <p class="account-options__item account-options__item--1" >Perfil de mi empresa</p>
+  </li>
+  <li>
+    <p class="account-options__item account-options__item--parent account-options__item--1" >Mis Negocios</p>
+    <ul>
+      <li routerLink="/dashboard/empresas">
+          <p class="account-options__item account-options__item--2" >
+            <i class="fa fa-star"></i>&nbsp;
+            {{currentEnterprise? currentEnterprise.name : ''}}
+          </p>
+      </li>
+      <li routerLink="/dashboard/empresas/">
+          <p class="account-options__item account-options__item--2" >
+            <i class="fa fa-bars"></i>&nbsp;
+            Ver Todos
+          </p>
+      </li>
+      <li routerLink="/dashboard/empresas">
+        <p class="account-options__item account-options__item--2" >
+          <i class="fa fa-plus-circle"></i>&nbsp;
+          Crear Nuevo
+        </p>
+      </li>
+    </ul>
+  </li>
+  <li (click)="logout()">
+    <p class="account-options__item account-options__item--1" >
+      Cerrar Sesión
+    </p>
+  </li>
+</ul>
