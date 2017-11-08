@@ -9,31 +9,24 @@ import { PurchasesProductsModule } from "../purchases-products/purchases-product
 import { ProvidersModule } from "../providers/providers.module";
 import { GroupsModule } from "../groups/groups.module";
 import { SharedModule } from '../shared/shared.module';
+import { QuotationsModule } from "../quotations/quotations.module";
+import { CustomersModule } from "../customers/customers.module";
 
 //components
 
 import { DashboardComponent } from './dashboard.component';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-// <<<<<<< HEAD
 // import { ActionsComponent } from "./actions/actions.component";
-// =======
 import { AccountOptionsComponent } from './account-options/account-options.component';
-// >>>>>>> f237b1b804ab71de4e23e78679ce546dd47b9fca
 
 @NgModule({
   imports: [
-    SharedModule,
-    DashboardRoutingModule,
     FlexLayoutModule, CommonModule,
-    DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule
+    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule, QuotationsModule,CustomersModule
   ],
   declarations: [
-// <<<<<<< HEAD
-//     DashboardComponent, HeaderComponent, SidebarComponent,ActionsComponent
-// =======
     DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
-// >>>>>>> f237b1b804ab71de4e23e78679ce546dd47b9fca
   ],
 
 })
