@@ -1,7 +1,12 @@
 <!--component html goes here -->
 <ul class="sidebar" [ngClass]="{'sidebar--closed': menuState}">
+    <!-- <<<<<<< HEAD
     <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="center center">
         <button class="cmp-btn cmp-btn--blue cmp-btn--sidebar" (click)="changeStateMenu()"> 
+======= -->
+    <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="end center">
+        <button class="cmp-btn cmp-btn--violet" (click)="changeStateMenu()"> 
+<!-- >>>>>>> f237b1b804ab71de4e23e78679ce546dd47b9fca -->
                 <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
                 <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
             </button>
@@ -114,12 +119,26 @@
             </li>
         </ul>
     </li>
-    <li class="sidebar__menu-item sidebar__menu-item--last ">
+    <li class="sidebar__menu-item ">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" routerLink="/dashboard/usuarios">
+            <i class="fa fa-users"></i>
+            <span class="item__title">Usuarios</span>
+            <i class="fa " aria-hidden="true "></i>
+        </a>
+    </li>
+    <li class="sidebar__menu-item ">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" routerLink="/dashboard/empresas">
+            <i class="fa fa-building"></i>
+            <span class="item__title">Empresas</span>
+            <i class="fa " aria-hidden="true "></i>
+        </a>
+    </li>
+    <!-- <li class="sidebar__menu-item sidebar__menu-item--last ">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center ">
             <img class="item__icon " src="assets/images/icons/power-on-buton.png " alt=" ">
             <span class="item__title">Salir</span>
             <i class="fa " aria-hidden="true "></i>
         </a>
         <ul></ul>
-    </li>
+    </li> -->
 </ul>

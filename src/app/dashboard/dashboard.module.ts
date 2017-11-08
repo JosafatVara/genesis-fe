@@ -15,7 +15,11 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-import { ActionsComponent } from "./actions/actions.component";
+// <<<<<<< HEAD
+// import { ActionsComponent } from "./actions/actions.component";
+// =======
+import { AccountOptionsComponent } from './account-options/account-options.component';
+// >>>>>>> f237b1b804ab71de4e23e78679ce546dd47b9fca
 
 @NgModule({
   imports: [
@@ -25,7 +29,11 @@ import { ActionsComponent } from "./actions/actions.component";
     DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule
   ],
   declarations: [
-    DashboardComponent, HeaderComponent, SidebarComponent,ActionsComponent
+// <<<<<<< HEAD
+//     DashboardComponent, HeaderComponent, SidebarComponent,ActionsComponent
+// =======
+    DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
+// >>>>>>> f237b1b804ab71de4e23e78679ce546dd47b9fca
   ],
 
 })

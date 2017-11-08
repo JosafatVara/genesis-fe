@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '../../shared/components/base/base-component';
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: 'gen-login',
@@ -27,7 +28,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
-  public login(){
+  public login(form: FormControl){
+    if(!form.valid){
+      return;
+    }
     this.loadingOn();
     this.auth.login(this.user, this.password).subscribe( logged => {
       if(logged){
