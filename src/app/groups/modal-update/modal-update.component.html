@@ -1,0 +1,18 @@
+<div class="cmp-modal">
+    <form [formGroup]="groupForm" novalidate>
+        <div class="cmp-modal__body" fxLayout="column" fxLayoutAlign="center center">
+            <h3 class="body__message">Recuerde que los Grupos son designados a sus Proveedores</h3>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="NOMBRE DEL GRUPO" formControlName="name">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="cmp-modal__footer" fxLayoutAlign="end center">
+            <button class="cmp-btn cmp-btn--white-blue" (click)="cancel()">Cancelar</button>
+            <button class="cmp-btn cmp-btn--blue" fxFlexOffset=10px type="submit" (click)="create()"> 
+                    <span class="cmp-loader"  *ngIf="loader"><span class="cmp-loader-inner"></span></span>                                
+                    <span *ngIf="!loader">Actualizar</span> 
+                </button>
+        </div>
+    </form>
+</div>
