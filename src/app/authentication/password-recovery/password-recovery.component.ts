@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { BaseComponent } from '../../shared/components/base/base-component';
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: 'gen-password-recovery',
@@ -8,6 +9,8 @@ import { BaseComponent } from '../../shared/components/base/base-component';
   styleUrls: ['./password-recovery.component.scss']
 })
 export class PasswordRecoveryComponent extends BaseComponent implements OnInit {
+
+  @ViewChild('form') form: FormControl;
 
   public sendEmail?: boolean = null;
   public email: string;
@@ -22,6 +25,9 @@ export class PasswordRecoveryComponent extends BaseComponent implements OnInit {
   }
 
   public recover(){
+    if(!this.form.valid){
+      return;
+    }
     this.loadingOn();
     this.auth.recoverPassword(this.email).subscribe( send => {
       this.sendEmail = send;
