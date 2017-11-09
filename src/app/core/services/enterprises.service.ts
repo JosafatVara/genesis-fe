@@ -25,6 +25,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
 
   protected mockStock = 10;
   protected mockData: Array<Enterprise>;
+  protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient, private departments: DepartmentsService

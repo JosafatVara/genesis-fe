@@ -7,24 +7,27 @@ import { DashboardRoutingModule } from "./dashboard-routing/dashboard-routing.mo
 import { ControlPanelModule } from "../control-panel/control-panel.module";
 import { PurchasesProductsModule } from "../purchases-products/purchases-products.module";
 import { ProvidersModule } from "../providers/providers.module";
-
-
-import { DashboardComponent } from './dashboard.component';
+import { GroupsModule } from "../groups/groups.module";
 import { SharedModule } from '../shared/shared.module';
+import { QuotationsModule } from "../quotations/quotations.module";
+import { CustomersModule } from "../customers/customers.module";
 
 //components
+
+import { DashboardComponent } from './dashboard.component';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
+import { ActionsComponent } from "./actions/actions.component";
+// import { ActionsComponent } from "./actions/actions.component";
 import { AccountOptionsComponent } from './account-options/account-options.component';
 
 @NgModule({
   imports: [
-    SharedModule,
-    DashboardRoutingModule,
     FlexLayoutModule, CommonModule,
-    DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule
+    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule, QuotationsModule,CustomersModule
   ],
   declarations: [
+    ActionsComponent,
     DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
   ],
 

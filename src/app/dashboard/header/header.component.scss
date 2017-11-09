@@ -5,6 +5,7 @@
 }
 
 .header {
+    overflow: hidden;
     color: $grey-5;
     //overflow: hidden;
     height: 80px;
@@ -40,15 +41,15 @@
         .fa-angle-down {
             cursor: pointer;
         }
-        .user__options{
+        .user__options {
             width: 220px;
             display: none;
             position: absolute;
             bottom: 0px;
-            border: 1px solid rgba(0,0,0,0.3);
-            transform: translate(-10%,102%);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            transform: translate(-10%, 102%);
             background: $white-0;
-            &--visible{
+            &--visible {
                 display: block;
             }
         }
