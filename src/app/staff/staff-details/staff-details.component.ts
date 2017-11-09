@@ -108,7 +108,17 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
         number: ['',[Validators.required]],
         interbankNumber: ['',[Validators.required]]
       }));
-    }    
+    }else{
+      let FABankAccounts: FormArray = this.frmBankAccounts.get('bankAccounts') as FormArray;
+      let FGBankAccount: FormGroup;
+      for(let control in FABankAccounts.controls){
+        FGBankAccount = FABankAccounts.controls[control] as FormGroup;
+        for( let bankAccountControl in FGBankAccount.controls){
+          FGBankAccount.controls[bankAccountControl].markAsTouched();
+          FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
+        }        
+      }
+    }
   }
   //#endregion
 

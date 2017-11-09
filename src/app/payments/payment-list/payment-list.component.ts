@@ -5,18 +5,20 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { DialogPaymentDetailsComponent } from '../dialog-payment-details/dialog-payment-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { BaseComponent } from "../../shared/components/base/base-component";
 
 @Component({
   selector: 'gen-payment-list',
   templateUrl: './payment-list.component.html',
   styleUrls: ['./payment-list.component.scss']
 })
-export class PaymentListComponent implements OnInit {
+export class PaymentListComponent extends BaseComponent implements OnInit {
 
   public inDashboard: boolean;
   public paymentList: Array<Payment>;
 
   constructor(private payments: PaymentsService, route: ActivatedRoute ,private matDialog: MatDialog) {
+    super();
     route.data.subscribe( (data: {inDashboard:boolean}) => {
       this.inDashboard = data.inDashboard
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog } from '@angular/material';
 
@@ -9,19 +9,22 @@ import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
 import { DialogEnterpriseDetailsComponent } from '../dialog-enterprise-details/dialog-enterprise-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'gen-enterprise-list',
   templateUrl: './enterprise-list.component.html',
   styleUrls: ['./enterprise-list.component.scss']
 })
-export class EnterpriseListComponent implements OnInit {
- 
+export class EnterpriseListComponent implements OnInit, OnDestroy {
+  
   public inDashboard: boolean;
   public enterpriseList: Array<Enterprise>;
   public currentUser: User;
   public currentEnterprise: Enterprise;
   public displayedColumns: Array<string> =  ['Nombre','RUC','Administrar', 'Equipo'];
+  goToUsersSubscription: Subscription;
+  
 
   constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute
     ,private matDialog: MatDialog, private router: Router) {
@@ -32,6 +35,10 @@ export class EnterpriseListComponent implements OnInit {
 
   ngOnInit() {
     this.refreshEnterprises();
+  }
+
+  ngOnDestroy(): void {
+    this.goToUsersSubscription.unsubscribe();
   }
 
   private refreshEnterprises(){
@@ -82,7 +89,7 @@ export class EnterpriseListComponent implements OnInit {
   }
 
   goToEnterpriseUsers(enterprise: Enterprise){
-    this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+    this.goToUsersSubscription = this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
       this.router.navigateByUrl('dashboard/usuarios');
     });
   }

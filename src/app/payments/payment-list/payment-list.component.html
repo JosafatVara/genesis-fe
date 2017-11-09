@@ -9,18 +9,18 @@
         <div class="body__cont-actions" fxLayout="column">
             <div fxLayout="row" fxLayoutGap="15px">
               <mat-form-field>
-                <input type="date" matInput [matDatepicker]="startPicker" placeholder="Fecha de inicio">
+                <input readonly matInput [matDatepicker]="startPicker" placeholder="Fecha de inicio" (focus)="openDatePicker(startPicker)">
                 <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                 <mat-datepicker #startPicker></mat-datepicker>
               </mat-form-field>
               <mat-form-field>
-                <input type="date" matInput [matDatepicker]="endPicker" placeholder="Fecha de fin">
+                <input readonly matInput [matDatepicker]="endPicker" placeholder="Fecha de fin" (focus)="openDatePicker(endPicker)">
                 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                 <mat-datepicker #endPicker></mat-datepicker>
               </mat-form-field>
             </div>
             <div fxLayout="row">
-              <input class="cmp-input" fxFlex="350px" type="text" placeholder="Buscar por nombre...">
+              <input class="cmp-input cmp-input--search" fxFlex="350px" type="text" placeholder="Buscar por nombre...">
             </div>            
         </div>
         <div class="cmp-table">
@@ -38,11 +38,13 @@
               S/. {{(payment.totalContributions? payment.totalContributions: 0) | numeric}}
             </li>
             <li fxFlex="30" class="body__text u-h-center">
-                <button class="cmp-btn cmp-btn--actions" (click)="crud('update',payment)">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>Editar
+                <button class="cmp-btn cmp-btn--actions cmp-btn--responsive" (click)="crud('update',payment)">
+                  <i class="fa fa-pencil cmp-btn--responsive__icon" aria-hidden="true"></i>
+                  <span class="cmp-btn--responsive__label">Editar</span>
                 </button>
-                <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',payment)">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar
+                <button class="cmp-btn cmp-btn--violet cmp-btn--actions cmp-btn--responsive"(click)="crud('delete',payment)">
+                  <i class="fa fa-trash-o cmp-btn--responsive__icon" aria-hidden="true"></i>
+                  <span class="cmp-btn--responsive__label">Eliminar</span>
                 </button>
             </li>
           </ul>
