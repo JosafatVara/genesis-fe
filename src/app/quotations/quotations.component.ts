@@ -18,7 +18,7 @@ export class QuotationsComponent implements OnInit {
 
   openDialog(): void {
     let dialogRef = this.dialog.open(ModalCrudComponent, {
-      width: '700px',
+      width: '720px',
       // data: { name: this.name, animal: this.animal }
     });
 

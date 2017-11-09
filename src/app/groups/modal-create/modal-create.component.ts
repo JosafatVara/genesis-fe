@@ -40,14 +40,15 @@ export class ModalCreateComponent implements OnInit {
         if (this.groupForm.valid) {
             this.loader = true;
             const value = this.groupForm.value;
-            // this.service.create(this.data.enterpriseId).subscribe(
-            // (res) => {
-            // this.thisDialogRef.close(1);            
-            // this.loader = false;     
-            // },
-            // (err) => {
-            // }
-            // )
+            console.log(value,"amiguito");            
+            this.service.create(value,JSON.parse(localStorage.getItem('enterprise')).id).subscribe(
+                (res) => {
+                    this.thisDialogRef.close(1);
+                    this.loader = false;
+                },
+                (err) => {
+                }
+            )
         }
     }
 }

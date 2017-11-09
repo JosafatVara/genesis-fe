@@ -46,10 +46,12 @@ export class EnterpriseListComponent implements OnInit, OnDestroy {
   }
 
   public isManaging(enterprise: Enterprise) : boolean{
-    return enterprise.id == this.currentEnterprise.id;
+    return enterprise.id == this.currentEnterprise.id;    
   }
 
   public manageThis(enterprise: Enterprise): void{
+    localStorage.setItem("enterprise",JSON.stringify(enterprise));
+    // console.log(enterprise.id);    
     this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
       this.currentEnterprise = e;
     });    

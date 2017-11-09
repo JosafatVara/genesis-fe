@@ -21,6 +21,7 @@ export class AuthenticationService extends BaseService{
     }).map( (result: {token: string}) => {
       if(result.token){        
         this.storage.save('token',result.token);
+        localStorage.setItem('token',JSON.stringify(result.token));
         return true;
       }
       return false;
