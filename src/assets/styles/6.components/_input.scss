@@ -67,8 +67,9 @@
      background-repeat: no-repeat;
      background-position: 10px 10px;
      border-radius: 30px;
-     border: 1px solid $grey-2;
-     outline: none; //  box-shadow: 0 5px 10px $grey-3;
+     border: 1px solid $white-0;
+     outline: none;
+     box-shadow: 0 5px 10px $grey-3;
      transition: 0.5s;
      &:hover {
          border: 1px solid $violet-1;
