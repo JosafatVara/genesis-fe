@@ -9,6 +9,8 @@ import { PurchasesProductsModule } from "../purchases-products/purchases-product
 import { ProvidersModule } from "../providers/providers.module";
 import { GroupsModule } from "../groups/groups.module";
 import { SharedModule } from '../shared/shared.module';
+import { QuotationsModule } from "../quotations/quotations.module";
+import { CustomersModule } from "../customers/customers.module";
 
 //components
 
@@ -20,13 +22,13 @@ import { ActionsComponent } from "./actions/actions.component";
 
 @NgModule({
   imports: [
-    SharedModule,
-    DashboardRoutingModule,
     FlexLayoutModule, CommonModule,
-    DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule
+    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule, QuotationsModule,CustomersModule
   ],
   declarations: [
-    DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent, ActionsComponent
+
+    ActionsComponent,
+    DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
   ],
 
 })
