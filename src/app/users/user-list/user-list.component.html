@@ -12,17 +12,17 @@
             <li fxFlex="20" class="header__title header__title--action u-h-center">Correo Eletrónico</li>
             <li fxFlex="15" class="header__title header__title--action u-h-center">Rol</li>
             <li fxFlex="15" class="header__title header__title--action u-h-center">Última conexión</li>
-            <li fxFlex class="header__title u-h-center">Acciones</li>
+            <li fxFlex="30" class="header__title u-h-center">Acciones</li>
           </ul>
           <ul class="cmp-table__body user-list__dataset__item" *ngFor="let user of userList"
           fxLayout="row" fxLayout="start center">
-            <li fxFlex="20" class="body__text" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
+            <li fxFlex="20" class="body__text u-h-center" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
               {{user.firstName + ' '+ user.lastName + (youAreTheUser(user)?' (tú)':'')}}
             </li>
-            <li fxFlex="20" class="body__text">{{user.email}}</li>
-            <li fxFlex="15" class="body__text">{{user.role ? user.role.name: ''}}</li>
-            <li fxFlex="15" class="body__text">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
-            <li fxFlex class="body__text">
+            <li fxFlex="20" class="body__text u-h-center">{{user.email}}</li>
+            <li fxFlex="15" class="body__text u-h-center">{{user.role ? user.role.name: ''}}</li>
+            <li fxFlex="15" class="body__text u-h-center">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
+            <li fxFlex="30" class="body__text u-h-center">
                 <button class="cmp-btn cmp-btn--actions" (click)="crud('update',user)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>Editar
                 </button>

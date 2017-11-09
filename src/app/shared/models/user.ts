@@ -10,5 +10,7 @@ export class User extends BaseEntity<User> {
     public role: Role;
     public lastConnection: Date;
     public photo: any;
+    public photoPublicUrl: string;
+    public photoFileName: string;
 
 }

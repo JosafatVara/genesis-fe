@@ -7,6 +7,10 @@ import { AuthenticationService } from './authentication.service';
 import { User } from '../../shared/models/user';
 import { CrudService } from './contracts/crud-service';
 import { Specification } from './specifications/base/specification';
+import { UsersInEnterpriseSpecification } from './specifications/user-specification';
+import { RolesService } from './roles.service';
+import { RolesByNameSpecification } from './specifications/role-specification';
+import { EnterprisesService } from './enterprises.service';
 
 @Injectable()
 export class UsersService extends AuthenticatedService implements CrudService<User> {  
@@ -15,15 +19,27 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
   protected mockData: Array<User>;
   protected currentUser: BehaviorSubject<User>; 
 
-  constructor(auth: AuthenticationService, http: HttpClient) {
-    super(auth,http,'******')
-    this.mockData = this.genMock();
-    this.currentUser = new BehaviorSubject<User>(this.mockData[2]);
+  constructor(auth: AuthenticationService, http: HttpClient, private roles: RolesService, 
+      private enterprises: EnterprisesService) {
+    super(auth,http,'')
+    // this.mockData = this.genMock();
+    this.currentUser = new BehaviorSubject<User>(undefined);
   }
 
   public get(specification?: Specification<User>): Observable<User[]> {
     if(!specification){
       return Observable.of(this.mockData);
+    }
+    if(specification instanceof UsersInEnterpriseSpecification){
+      return this.http
+      .get<any>(`${this.actionUrl}enterprises/${specification.enterprise.id}/users`, {headers: this.authHttpHeaders})
+      .map( (results: { usuarios: any[] }) => {
+        let userList: User[] = [];
+        results.usuarios.forEach( r => {
+          userList = userList.concat([ this.mapBeToUser(r) ]);
+        });
+        return userList; 
+      });
     }
     if(specification instanceof Specification){      
       return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);
@@ -35,25 +51,47 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
   }
 
   public update(entity: User): Observable<User> {
-    let indexToUpdate = this.mockData.findIndex( e => e.id == entity.id);
-    this.mockData[indexToUpdate] = entity;
-    return Observable.of(entity);
+    let formData = new FormData();
+    formData.append('first_name',entity.firstName);
+    formData.append('last_name',entity.lastName);
+    formData.append('picture',entity.photo, entity.photoFileName);
+    return this.enterprises.getCurrentEnterprise().flatMap( e => {
+      return this.http
+        .put(`${this.actionUrl}accounts/user/${e.id}/update`,formData, {headers: this.authHttpHeaders})
+        .map( u => {return entity});
+    });    
   }
 
   public create(entity: User): Observable<User> {
-    entity.id = this.mockData.length == 0 ? 0 : this.mockData[this.mockData.length-1].id+1;
-    this.mockData = this.mockData.concat([entity]);
-    return Observable.of(entity);
+    let formData = new FormData();
+    formData.append('email', entity.email);
+    formData.append('password',entity.password);
+    formData.append('first_name',entity.firstName);
+    formData.append('last_name',entity.lastName);
+    formData.append('role',entity.role.id.toString());
+    formData.append('picture',entity.photo, entity.photoFileName);
+    return this.enterprises.getCurrentEnterprise().flatMap( e => {
+      return this.http
+        .post(`${this.actionUrl}accounts/enterprises/${e.id}/newuser`,formData, {headers: this.authHttpHeaders})
+        .map( u => {return entity});
+    });    
   }
   
   public delete(entity: User): Observable<User> {
-    let indexToRemove = this.mockData.findIndex( e => e.id == entity.id);
-    this.mockData.splice(indexToRemove,1);
-    return Observable.of(entity);
+    return this.http
+      .delete(`${this.actionUrl}accounts/user/${entity.id}/destroy/`,{headers: this.authHttpHeaders})
+      .map( result => entity );
   }
 
   public getCurrentUser(): Observable<User>{
-    return this.currentUser.asObservable();
+    if(!this.currentUser.value){
+      return this.http.get(`${this.actionUrl}accounts/user/retrieve/`,{headers: this.authHttpHeaders}).map( r => {
+        this.currentUser.next(this.mapBeToUser(r));
+        return  this.currentUser.value
+      });
+    }else{
+      return this.currentUser.asObservable();
+    }    
   }
 
   private genMock(): Array<User>{
@@ -68,5 +106,16 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
       })]);
     }
     return mock;
+  }
+
+  private mapBeToUser(entity: any): User{
+    return new User({
+      id: entity.id,
+      firstName: entity.first_name,
+      lastName: entity.last_name,
+      email: entity.email,
+      photoPublicUrl: entity.picture,
+      role: this.roles.getSync(new RolesByNameSpecification(entity.role))[0]
+    });
   }
 }

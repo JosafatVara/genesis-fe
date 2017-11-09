@@ -38,11 +38,13 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     if(!specification){
       return this.http
         .get<any[]>(this.actionUrl+'accounts/enterprises/users/me/',{headers: this.authHttpHeaders})
-        .map( result => {
+        .map( results => {
           let enterprises: Enterprise[] = [];
-          result.forEach( r => {
-            enterprises = enterprises.concat([ this.mapBeToEnterprise(r.enterprise_selected) ]);
-          });
+          results
+            .filter( r => r.enterprise_selected? r.enterprise_selected.is_enabled : false)
+            .forEach( r => {
+              enterprises = enterprises.concat([ this.mapBeToEnterprise(r.enterprise_selected) ]);
+            });
           return enterprises;
         });
     }
@@ -66,9 +68,10 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     formData.append('rubro', entity.department.name.toUpperCase());
     formData.append('num_employees', entity.employeesQuantity.quantityDescription);
     formData.append('business_name', entity.businessName);
+    formData.append('is_enabled', 'true');
     let headers: HttpHeaders = this.authHttpHeaders;
     headers = headers.append('Accept', 'application/json');
-    return this.http.patch(this.actionUrl+`enterprises/enterprises/${entity.id.toString()}/`,formData,{headers: headers}).map( result => {
+    return this.http.put(this.actionUrl+`enterprises/${entity.id.toString()}`,formData,{headers: headers}).map( result => {
       return entity;
     });
   }
@@ -83,25 +86,28 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     formData.append('rubro', entity.department.name.toUpperCase());
     formData.append('num_employees', entity.employeesQuantity.quantityDescription);
     formData.append('business_name', entity.businessName);
+    formData.append('is_enabled', 'true');
     let headers: HttpHeaders = this.authHttpHeaders;
     headers = headers.append('Accept', 'application/json');
-    return this.http.post(this.actionUrl+'enterprises/enterprises/',formData,{headers: headers}).map( result => {
+    return this.http.post(this.actionUrl+'enterprises/',formData,{headers: headers}).map( result => {
       return entity;
     });
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {
-    let indexToRemove = this.mockData.findIndex( e => e.id == entity.id);
-    this.mockData.splice(indexToRemove,1);
-    return Observable.of(new Enterprise());
+    return this.http.delete(`${this.actionUrl}enterprises/${entity.id.toString()}`, {headers: this.authHttpHeaders})
+      .map( result => {
+        return entity;
+      });
   }
 
   public getCurrentEnterprise(): Observable<Enterprise>{
     return this.currentEnterprise.asObservable();
   }
 
-  public setCurrentEnterprise(enterprise: Enterprise): void{
+  public setCurrentEnterprise(enterprise: Enterprise): Observable<Enterprise>{
     this.currentEnterprise.next(enterprise);
+    return this.currentEnterprise.asObservable();
   }
 
   private genMock(): Array<Enterprise>{

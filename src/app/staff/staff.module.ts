@@ -5,14 +5,12 @@ import { StaffDetailsComponent } from './staff-details/staff-details.component';
 import { DialogStaffDetailsComponent } from './dialog-staff-details/dialog-staff-details.component';
 import { SharedModule } from '../shared/shared.module';
 import { StaffRoutingModule } from "./staff-routing/staff-routing.module";
-import { MatStepperModule } from "@angular/material";
 
 
 @NgModule({
   imports: [
     SharedModule,
-    StaffRoutingModule,
-    MatStepperModule
+    StaffRoutingModule
   ],
   declarations: [StaffComponent, StaffListComponent, StaffDetailsComponent, DialogStaffDetailsComponent],
   entryComponents: [

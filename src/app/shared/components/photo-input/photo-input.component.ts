@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'gen-photo-input',
@@ -34,7 +35,7 @@ export class PhotoInputComponent implements OnInit, OnChanges {
   private reader = new FileReader();
   private photo: any;
 
-  constructor() { 
+  constructor(private _sanitizer: DomSanitizer) { 
     this.onChange = new EventEmitter<any>();
   }
 
@@ -57,6 +58,7 @@ export class PhotoInputComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(!this.asBase64 && changes['photoSource'].currentValue && !this.photoSourceValueAsBase64){     
+      this.photo = this.photoSource;
       this.reader.readAsDataURL(this.photoSource);
     }
   }
@@ -65,8 +67,8 @@ export class PhotoInputComponent implements OnInit, OnChanges {
     return this.photoSourceValueAsBase64 && this.photoSourceValueAsBase64 != "";
   }
 
-  public get urlPhotoSource(): string{
-    return `url(${this.photoSourceValueAsBase64})`;
+  public get urlPhotoSource(){
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${this.photoSourceValueAsBase64})`);
   }
 
   public photoChange(event: any){

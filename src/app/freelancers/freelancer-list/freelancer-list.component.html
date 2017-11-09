@@ -1,0 +1,35 @@
+<div fxLayout="column" class="freelancer-list" [ngClass]="{'cont wrapper':inDashboard}">
+  <div fxLayout="row" class="freelancer-list__header" [ngClass]="{'cont__title':inDashboard}">
+    <h2>Personal</h2>
+    <span fxFlex></span>
+    <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Nuevo Independiente</button> 
+  </div>  
+  <div class="freelancer-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
+    <div [ngClass]="{'cmp-card__body':inDashboard}">
+      <div class="cmp-table">
+        <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+          <li fxFlex="20" class="header__title header__title--action u-h-center">DNI</li>
+          <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
+          <li fxFlex="15" class="header__title header__title--action u-h-center">Último mes que se pagó</li>
+          <li fxFlex="15" class="header__title header__title--action u-h-center">Sueldo</li>
+          <li fxFlex class="header__title u-h-center">Acciones</li>
+        </ul>
+        <ul class="cmp-table__body freelancer-list__dataset__item" *ngFor="let freelancer of freelancerList"
+        fxLayout="row" fxLayout="start center">
+          <li fxFlex="20" class="body__text u-h-center">{{freelancer.dni}}</li>
+          <li fxFlex="20" class="body__text u-h-center">{{freelancer.firstName + ' ' + freelancer.lastName}}</li>
+          <li fxFlex="15" class="body__text u-h-center">{{freelancer.lastDayPaid | date:'dd/MM/yyyy'}}</li>
+          <li fxFlex="15" class="body__text u-h-center">S/. {{freelancer.pay | numeric}}</li>
+          <li fxFlex class="body__text u-h-center">
+              <button class="cmp-btn cmp-btn--actions" (click)="crud('update',freelancer)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>Editar
+              </button>
+              <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',freelancer)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar
+              </button>
+          </li>
+        </ul>
+      </div>
+    </div>    
+  </div>
+</div>

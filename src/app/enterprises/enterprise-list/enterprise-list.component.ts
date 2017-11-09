@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog } from '@angular/material';
 
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
@@ -24,7 +24,7 @@ export class EnterpriseListComponent implements OnInit {
   public displayedColumns: Array<string> =  ['Nombre','RUC','Administrar', 'Equipo'];
 
   constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute
-    ,private matDialog: MatDialog) {
+    ,private matDialog: MatDialog, private router: Router) {
     enterprises.getCurrentEnterprise().subscribe( e => this.currentEnterprise = e );
     users.getCurrentUser().subscribe( u => this.currentUser = u);
     route.data.subscribe( (data: {inDashboard:boolean}) => this.inDashboard = data.inDashboard);
@@ -43,8 +43,9 @@ export class EnterpriseListComponent implements OnInit {
   }
 
   public manageThis(enterprise: Enterprise): void{
-    this.enterprises.setCurrentEnterprise(enterprise);
-    this.enterprises.getCurrentEnterprise().subscribe(e=> this.currentEnterprise = e);
+    this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+      this.currentEnterprise = e;
+    });    
   }
 
   public crud(mode: string, enterprise: Enterprise = undefined ){
@@ -77,6 +78,12 @@ export class EnterpriseListComponent implements OnInit {
       if(confirm){
         this.enterprises.delete(enterprise).subscribe( () => this.refreshEnterprises());
       }
+    });
+  }
+
+  goToEnterpriseUsers(enterprise: Enterprise){
+    this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+      this.router.navigateByUrl('dashboard/usuarios');
     });
   }
 }

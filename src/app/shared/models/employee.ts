@@ -18,4 +18,8 @@ export class Employee extends BaseEntity<Employee>{
     public lastDayPaid: Date;
     public photo: any;
     public photoPublicUrl: string;
+
+    public get fullName(): string{
+        return this.firstName + ' ' + this.lastName;
+    }
 }

@@ -1,5 +1,6 @@
 <div [ngSwitch]="true">
   <div *ngSwitchCase="mode=='update' || mode=='create'" class="staff-details staff-details--create">
+      <h1 class="u-h-center">Datos del trabajador</h1>
     <mat-horizontal-stepper [linear]="true">
       <mat-step [stepControl]="frmEmployeePhoto" [completed]="false">
         <ng-template matStepLabel>

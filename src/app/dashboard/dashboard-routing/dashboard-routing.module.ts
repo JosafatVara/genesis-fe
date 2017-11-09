@@ -30,7 +30,20 @@ const routes: Routes = [
       },
       {
         path: 'personal',
-        loadChildren: 'app/staff/staff.module#StaffModule'
+        children: [
+          {
+            path: 'personal',
+            loadChildren: 'app/staff/staff.module#StaffModule',
+          },
+          {
+            path: 'independientes',
+            loadChildren: 'app/freelancers/freelancers.module#FreelancersModule'
+          },
+          {
+            path: 'pagos',
+            loadChildren: 'app/payments/payments.module#PaymentsModule'
+          }
+        ]
       }
     ]
   }

@@ -10,17 +10,19 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class RolesService extends AuthenticatedService implements CrudService<Role>{
 
+  private mockData: Role[] = [
+    new Role({name: 'Administrador', id: 1}),
+  ];
+
   getSync(specification?: Specification<Role>): Role[] {
-    throw new Error("Method not implemented.");
+    if(specification){
+      return this.mockData.filter(d=>specification.isSatisfiedBy(d));      
+    }
+    return this.mockData;
   }
 
   get(specification?: Specification<Role>): Observable<Role[]> {
-    return Observable.of([
-      new Role({name: 'Contador', id: 1}),
-      new Role({name: 'Admin', id: 2}),
-      new Role({name: 'RRHH', id: 3}),
-      new Role({name: 'Vendedor', id: 4}),
-    ])
+    return Observable.of(this.mockData);
   }
   update(entity: Role): Observable<Role> {
     throw new Error("Method not implemented.");

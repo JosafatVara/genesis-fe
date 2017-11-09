@@ -1,0 +1,9 @@
+<div class="cmp-modal cmp-modal--small" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <button class="cmp-btn cmp-btn--violet" mat-dialog-close>
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+  <gen-payment-details [mode]="mode" [doChangesOnFinish]="false" 
+  (onFinish)="onCrudComponentFinish($event)" [payment]="payment"></gen-payment-details>
+</div>
