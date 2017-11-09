@@ -1,7 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { ModalAddComponent } from "./modal-add/modal-add.component";
+import { Service } from './groups.service'
+import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component'
+
+import { ModalCreateComponent } from "./modal-create/modal-create.component";
+import { ModalUpdateComponent } from "./modal-update/modal-update.component";
+
 
 @Component({
   selector: 'gen-groups',
@@ -12,40 +17,76 @@ export class GroupsComponent implements OnInit {
 
   animal: string = "holiboli animal";
   name: string = "holiboli name";
+  users: any = {};
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private service: Service) { }
 
   ngOnInit() {
-
+    // this.getGroups();
   }
 
-  openDialog(): void {
-    let dialogRef = this.dialog.open(ModalAddComponent, {
+  // getGroups() {
+  //   this.service.getList(JSON.parse(localStorage.getItem("enterprise").id)).subscribe(
+  //     (res) => {
+  //       this.users = res.json();
+  //     },
+  //     (err) => {
+  //     }
+  //   )
+  // }
+
+  openDialogCreate(): void {
+    let dialogRef = this.dialog.open(ModalCreateComponent, {
       width: '350px',
-      data: { name: this.name, animal: this.animal }
+      data: { enterpriseId: JSON.parse(localStorage.getItem('id')) }
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed ${result}');
-      this.animal = result;
+      if (result) {
+        // this.getGroups();
+      }
     });
   }
 
+  openDialogUpdate(id): void {
+    let dialogRef = this.dialog.open(ModalUpdateComponent, {
+      width: '350px',
+      data: { enterpriseId: id }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.getGroups();
+      }
+    });
+  }
 
+  private delete(id) {
+    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: `¿Estas seguro de eliminar el grupo?`
+      }
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+
+        // this.service.delete(JSON.parse(localStorage.getItem("enterprise").id,id)).subscribe(
+        //     (res) => {
+        //       this.getGroups();
+        //     },
+        //     (err) => {
+        //     }
+        //   )
+
+      }
+    });
+  }
 }
 
-// @Component({
-//   selector: 'dialog-overview-example-dialog',
-//   templateUrl: 'dialog-overview-example-dialog.html',
-// })
-// export class DialogOverviewExampleDialog {
 
-//   constructor(
-//     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-//     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-//   onNoClick(): void {
-//     this.dialogRef.close();
-//   }
 
-// }
+
+
+
+
+
+

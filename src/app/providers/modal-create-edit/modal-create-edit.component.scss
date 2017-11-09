@@ -11,7 +11,6 @@
             color: $white-0;
             border-radius: 5px;
             padding: 30px 40px;
-            // background-color: $skyblue-1;
             background-color: #3998D7;
             transition: 0.5s;
             cursor: pointer;
@@ -21,11 +20,9 @@
             }
             &:hover {
                 box-shadow: 0 5px 10px $grey-5;
-                // padding: 35px 45px;
             }
         }
         .options__option--natural {
-            // background-color: $violet-1;
             background-color: $violet-1;
         }
     }
