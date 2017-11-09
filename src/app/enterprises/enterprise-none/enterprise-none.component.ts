@@ -46,11 +46,11 @@ export class EnterpriseNoneComponent implements OnInit {
           this.router.navigateByUrl('auth');
         })
       }else{
-        this.enterprises.create(response.createdEnterprise).subscribe( e => {
-          this.enterprises.setCurrentEnterprise(e).subscribe( e => {
+        // this.enterprises.create(response.createdEnterprise).subscribe( e => {
+          // this.enterprises.setCurrentEnterprise(e).subscribe( e => {
             this.router.navigateByUrl('dashboard/empresas');
-          });                 
-        });
+          // });                 
+        // });a
       }
     });
   }

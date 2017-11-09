@@ -31,7 +31,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     , private employeesQuantities: EmployeesQuantitiesService){
     super(auth, http, '');
     this.mockData = this.genMock();
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[2]);
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(undefined);
   }
   
   public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
@@ -90,7 +90,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     let headers: HttpHeaders = this.authHttpHeaders;
     headers = headers.append('Accept', 'application/json');
     return this.http.post(this.actionUrl+'enterprises/',formData,{headers: headers}).map( result => {
-      return entity;
+      return this.mapBeToEnterprise(result);
     });
   }
   
