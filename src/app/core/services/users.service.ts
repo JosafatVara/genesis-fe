@@ -54,12 +54,11 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
     let formData = new FormData();
     formData.append('first_name',entity.firstName);
     formData.append('last_name',entity.lastName);
+    debugger;
     formData.append('picture',entity.photo, entity.photoFileName);
-    return this.enterprises.getCurrentEnterprise().flatMap( e => {
-      return this.http
-        .put(`${this.actionUrl}accounts/user/${e.id}/update`,formData, {headers: this.authHttpHeaders})
-        .map( u => {return entity});
-    });    
+    return this.http
+      .put(`${this.actionUrl}accounts/user/${entity.id}/update`,formData, {headers: this.authHttpHeaders})
+      .map( u => {return entity});
   }
 
   public create(entity: User): Observable<User> {

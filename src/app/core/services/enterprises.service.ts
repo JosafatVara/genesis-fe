@@ -31,7 +31,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     , private employeesQuantities: EmployeesQuantitiesService){
     super(auth, http, '');
     this.mockData = this.genMock();
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(undefined);
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[1]);
   }
   
   public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
