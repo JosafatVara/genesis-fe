@@ -37,13 +37,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
       if(logged){
         this.route.queryParams.subscribe( params => {
           if(params['returnUrl']){
-            this.router.navigateByUrl(params['returnUrl']);
+            //this.router.navigateByUrl(params['returnUrl']);
+            this.router.navigate(['/auth/seleccionarEmpresa'], { queryParams: { returnUrl: params['returnUrl'] }});
             return;
           }else{
-            this.router.navigateByUrl('dashboard');
+            this.router.navigateByUrl('/auth/seleccionarEmpresa');
             return;
           }          
-        })
+        });
       }else{
         this.failedLogin = true;
       }           

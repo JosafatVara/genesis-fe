@@ -38,7 +38,9 @@ export class EnterpriseListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.goToUsersSubscription.unsubscribe();
+    if(this.goToUsersSubscription){
+      this.goToUsersSubscription.unsubscribe();
+    }    
   }
 
   private refreshEnterprises(){

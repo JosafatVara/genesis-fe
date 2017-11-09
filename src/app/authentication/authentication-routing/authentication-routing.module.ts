@@ -4,6 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from '../login/login.component';
 import { AuthenticationComponent } from '../authentication.component';
 import { PasswordRecoveryComponent } from '../password-recovery/password-recovery.component';
+import { SelectEnterpriseToManageComponent } from "../select-enterprise-to-manage/select-enterprise-to-manage.component";
+import { EnterpriseListResolver } from "../../core/resolvers/enterprise-list-resolver";
+import { MustHaveEnterprisesGuard } from "./guards/must-have-enterprises-guard";
 
 const routes: Routes = [
   {
@@ -18,10 +21,22 @@ const routes: Routes = [
         }
       },
       {
-        path: 'recuperar-password',
+        path: 'recuperarPassword',
         component: PasswordRecoveryComponent,
         data: {
           animation: 'recovery-password'
+        }
+      },{
+        path: 'seleccionarEmpresa',
+        component: SelectEnterpriseToManageComponent,
+        canActivate: [
+          MustHaveEnterprisesGuard
+        ],
+        data: {
+          animation: 'select-enterprise-to-manage'
+        },
+        resolve: {
+          enterpriseList: EnterpriseListResolver
         }
       }
     ]
@@ -33,6 +48,9 @@ const routes: Routes = [
     RouterModule.forChild(routes)    
   ],
   declarations: [],
+  providers: [
+    MustHaveEnterprisesGuard
+  ],
   exports: [
     RouterModule
   ]
