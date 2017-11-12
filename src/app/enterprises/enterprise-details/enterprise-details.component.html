@@ -14,8 +14,8 @@
         <mat-error>Requerido</mat-error>
       </mat-form-field>
       <mat-form-field class="c-input o-full-width">
-        <input required matInput placeholder="RUC" name="ruc" [(ngModel)]="managedEntity.ruc">
-        <mat-error>Requerido</mat-error>
+        <input required type="text" minlength="11" maxlength="11" matInput placeholder="RUC" name="ruc" [(ngModel)]="managedEntity.ruc">
+        <mat-error>Debe tener 11 dígitos</mat-error>
       </mat-form-field>
       <mat-form-field class="c-input o-full-width">
         <mat-select name="department" required placeholder="Rubro" [(ngModel)]="managedEntity.department">

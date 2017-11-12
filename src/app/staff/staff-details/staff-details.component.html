@@ -1,7 +1,7 @@
 <div [ngSwitch]="true">
   <div *ngSwitchCase="mode=='update' || mode=='create'" class="staff-details staff-details--create">
       <h1 class="u-h-center">Datos del trabajador</h1>
-    <mat-horizontal-stepper [linear]="true">
+    <mat-horizontal-stepper [linear]="false">
       <mat-step [stepControl]="frmEmployeePhoto" [completed]="false">
         <ng-template matStepLabel>
           <span>Foto del empleado</span>
@@ -35,7 +35,7 @@
           <div fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="45">
               <input matInput type="text" placeholder="DNI" formControlName="dni">
-              <mat-error>Requerido</mat-error>
+              <mat-error>Debe tener 8 dígitos</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex>
               <input matInput type="text" placeholder="Email" formControlName="email">
@@ -114,25 +114,44 @@
         </ng-template>
         <form [formGroup]="frmBankAccounts" fxLayout="column" fxLayoutGap="10px">
           <div formArrayName="bankAccounts" fxLayout="column" fxLayoutGap="10px">
-            <div *ngFor="let bankAccount of bankAccounts.controls; let i=index" [formGroupName]="i" fxFlex="row" fxLayoutGap="10px">              
-              <mat-form-field fxFlex>
-                <input matInput type="text" placeholder="Banco" formControlName="bankName">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex>
-                <input matInput type="text" placeholder="Cuenta Bancaria" formControlName="number">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex>
-                <input matInput type="text" placeholder="Cuenta Interbancaria" formControlName="interbankNumber">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <div fxLayout="row" fxLayoutAlign="center center">
-                <button type="button" class="cmp-btn cmp-btn--orange" (click)="removeBankAccount(i)" title="remover">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </div>              
-            </div>
+            <div class="cmp-table">
+                <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                    <li fxFlex="25" class="header__title header__title--action u-h-center">Banco</li>
+                    <li fxFlex="30" class="header__title header__title--action u-h-center">Cuenta Bancaria</li>
+                    <li fxFlex="30" class="header__title header__title--action u-h-center">Cuenta Interbancaria</li>
+                    <li fxFlex="15" class="header__title u-h-center"></li>
+                </ul>
+                <ul class="cmp-table__body" *ngFor="let bankAccount of bankAccounts.controls; let i=index" [formGroupName]="i">
+                  <li fxFlex="25" class="body__text u-h-center o-full-width">
+                    <mat-form-field fxFlex>
+                      <input matInput type="text" formControlName="bankName">
+                      <mat-error>Requerido</mat-error>
+                    </mat-form-field>
+                  </li>              
+                  <li fxFlex="30" class="body__text u-h-center o-full-width">
+                    <mat-form-field fxFlex>
+                      <input matInput type="text" formControlName="number">
+                      <mat-error>Requerido</mat-error>
+                    </mat-form-field>
+                  </li>
+                  <li fxFlex="30" class="body__text u-h-center o-full-width">
+                    <mat-form-field fxFlex>
+                      <input matInput type="text" formControlName="interbankNumber">
+                      <mat-error>Requerido</mat-error>
+                    </mat-form-field>
+                  </li>
+                  <li fxFlex="15" class="body__text u-h-center o-full-width">
+                    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+                      <button type="button" class="cmp-btn" (click)="removeBankAccount(i)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                      <button type="button" class="cmp-btn" (click)="toogleEditBankAccount(i)">
+                        <i class="fa" [ngClass]="{'fa-check': bankAccount.enabled, 'fa-pencil': bankAccount.disabled}"></i>
+                      </button>
+                    </div>              
+                  </li>              
+                </ul>
+            </div>            
             <div fxFlex="column">
               <button type="button" class="cmp-btn" (click)="addBankAccount()">Añadir cuenta bancaria</button>
             </div>            
