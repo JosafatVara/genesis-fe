@@ -55,10 +55,5 @@
     "defaults": {
         "styleExt": "scss",
         "component": {}
-    },
-    "stylePreprocessorOptions": {
-        "includePaths": [
-            "./assets/styles/1.settings/_colors.scss"
-        ]
     }
 }
