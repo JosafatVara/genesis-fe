@@ -1,0 +1,19 @@
+:host {
+    position: relative;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+
+    & > div > /deep/ router-outlet ~ * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    & > div > /deep/ router-outlet ~ gen-authentication {
+        z-index: 2;
+    }
+
+}

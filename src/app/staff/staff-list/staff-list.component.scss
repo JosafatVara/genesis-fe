@@ -1,0 +1,17 @@
+@import "../../../assets/styles/1.settings/_colors.scss";
+
+.employee-list{
+    &__header{
+    }
+    &__message{
+        margin-top: 15px; 
+        margin-bottom: 15px;
+    }
+    &__dataset{
+        &__item{
+        }
+    }
+    .cmp-card__body, .cmp-table{
+        margin-top: 0px;
+    }    
+}

@@ -12,23 +12,25 @@
             <li fxFlex="20" class="header__title header__title--action u-h-center">Correo Eletrónico</li>
             <li fxFlex="15" class="header__title header__title--action u-h-center">Rol</li>
             <li fxFlex="15" class="header__title header__title--action u-h-center">Última conexión</li>
-            <li fxFlex class="header__title u-h-center">Acciones</li>
+            <li fxFlex="30" class="header__title u-h-center">Acciones</li>
           </ul>
           <ul class="cmp-table__body user-list__dataset__item" *ngFor="let user of userList"
           fxLayout="row" fxLayout="start center">
-            <li fxFlex="20" class="body__text" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
+            <li fxFlex="20" class="body__text u-h-center" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
               {{user.firstName + ' '+ user.lastName + (youAreTheUser(user)?' (tú)':'')}}
             </li>
-            <li fxFlex="20" class="body__text">{{user.email}}</li>
-            <li fxFlex="15" class="body__text">{{user.role ? user.role.name: ''}}</li>
-            <li fxFlex="15" class="body__text">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
-            <li fxFlex class="body__text">
-                <button class="cmp-btn cmp-btn--actions" (click)="crud('update',user)">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>Editar
+            <li fxFlex="20" class="body__text u-h-center">{{user.email}}</li>
+            <li fxFlex="15" class="body__text u-h-center">{{user.role ? user.role.name: ''}}</li>
+            <li fxFlex="15" class="body__text u-h-center">{{user.lastConnection | date:'dd/MM/yyyy'}}</li>
+            <li fxFlex="30" class="body__text u-h-center">
+                <button class="cmp-btn cmp-btn--actions cmp-btn--responsive" (click)="crud('update',user)">
+                  <i class="fa fa-pencil cmp-btn--responsive__icon" aria-hidden="true"></i>
+                  <span class="cmp-btn--responsive__label">Editar</span>
                 </button>
-                <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',user)"
+                <button class="cmp-btn cmp-btn--violet cmp-btn--actions cmp-btn--responsive"(click)="crud('delete',user)"
                   [disabled]="youAreTheUser(user)">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar
+                  <i class="fa fa-trash-o cmp-btn--responsive__icon" aria-hidden="true"></i>
+                  <span class="cmp-btn--responsive__label">Eliminar</span>
                 </button>
             </li>
           </ul>

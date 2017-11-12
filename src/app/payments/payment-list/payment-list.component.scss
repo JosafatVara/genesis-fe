@@ -1,0 +1,18 @@
+@import "../../../assets/styles/1.settings/_colors.scss";
+
+.payment-list{
+    &__header{
+    }
+    &__message{
+        margin-top: 15px; 
+        margin-bottom: 15px;
+    }
+    &__dataset{
+        overflow-x: auto;
+        &__item{
+        }
+    }
+    .cmp-card__body, .cmp-table{
+        margin-top: 0px;
+    }    
+}

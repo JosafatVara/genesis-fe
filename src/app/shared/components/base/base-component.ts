@@ -12,4 +12,8 @@ export class BaseComponent {
 
     protected errorOff(): void {this.error=false;}
 
+    public openDatePicker(datepicker:any):void{
+      datepicker.open();
+  }
+
 }

@@ -1,10 +1,10 @@
 <div class="o-full-size authentication" fxLayout="row">
-    <div fxFlex fxLayout="column" fxLayoutAlign="center stretch">
+    <div class="authentication--left" fxFlex fxLayout="column" fxLayoutAlign="center stretch">
       <div class="authentication__route-wrapper" fxLayout="row" fxLayoutAlign="center stretch" [@routingAnimation]="prepRouteState(routerOutlet)">
         <router-outlet #routerOutlet="outlet"></router-outlet>
       </div>    
     </div>
-    <div fxFlex="50" class="authentication__img">
+    <div fxFlex="50" class="authentication__img authentication--right">
       <div class="authentication__img__background o-full-size"></div>
       <div class="authentication__img__overlay o-full-size" fxLayout="column"
       fxLayoutAlign="start start">

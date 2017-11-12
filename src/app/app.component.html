@@ -1,3 +1,4 @@
-<!-- <div> -->
-<router-outlet></router-outlet>
-<!-- </div> -->
+ <!-- <router-outlet id="root-outlet" [@routingAnimation]="prepRouteState(routerOutlet)"></router-outlet>  -->
+ <div [@routingAnimation]="prepRouteState(routerOutlet)">
+  <router-outlet #routerOutlet="outlet"></router-outlet>
+</div> 

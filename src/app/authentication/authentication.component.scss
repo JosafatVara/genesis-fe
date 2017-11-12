@@ -3,13 +3,16 @@
 :host{    
     .authentication{
         overflow: hidden;
+        &--left{
+            background: $white-0;
+        }
         &__route-wrapper{ 
-            position: relative;
-            /deep/ router-outlet ~ *{
-                position: absolute;
-                transform: translateY(-50%);
-            }
+        position: relative;
+        /deep/ router-outlet ~ *{
+            position: absolute;
+            transform: translateY(-50%);
         }   
+        }        
         &__img{
             position: relative;
             &__background{

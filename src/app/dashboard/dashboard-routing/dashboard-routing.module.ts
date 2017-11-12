@@ -11,24 +11,51 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: 'app/users/users.module#UsersModule'
-      }, 
+      },
       {
         path: 'empresas',
         loadChildren: 'app/enterprises/enterprises.module#EnterprisesModule'
-      }, 
+      },
       {
         path: 'panel-de-control',
         loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule'
       },
+      // {
+      //   path: 'compras',
+      //   loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+      // },
       {
-        path: 'compras',
-        loadChildren: 'app/purchases-products/purchases-products.module#PurchasesProductsModule'
+        path: 'grupos',
+        loadChildren: 'app/groups/groups.module#GroupsModule'
       },
       {
         path: 'proveedores',
         loadChildren: 'app/providers/providers.module#ProvidersModule'
       },
-
+      {
+        path: 'personal',
+        children: [
+          {
+            path: 'personal',
+            loadChildren: 'app/staff/staff.module#StaffModule',
+          },
+          {
+            path: 'independientes',
+            loadChildren: 'app/freelancers/freelancers.module#FreelancersModule'
+          },
+          {
+            path: 'pagos',
+            loadChildren: 'app/payments/payments.module#PaymentsModule'
+          }
+        ]
+      },
+      {
+        path: 'cotizaciones',
+        loadChildren: 'app/quotations/quotations.module#QuotationsModule'
+      },
+      {
+        path: 'clientes',
+        loadChildren: 'app/customers/customers.module#CustomersModule'}
     ]
   }
 ]

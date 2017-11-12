@@ -8,6 +8,7 @@ import { RolesService } from '../../core/services/roles.service';
 import { Observable } from 'rxjs/Observable';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Alphanumeric } from '../../shared/validators/alphanumeric';
+import { ImagesService } from '../../core/utils/images.service';
 
 @Component({
   selector: 'gen-user-details',
@@ -16,7 +17,6 @@ import { Alphanumeric } from '../../shared/validators/alphanumeric';
 })
 export class UserDetailsComponent extends CrudComponent<User> implements OnInit {
 
-  // @ViewChild('form') form: FormGroup;
   userForm: FormGroup;
 
   @Input('user') user: User;
@@ -25,7 +25,8 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   private router: Router;
   private userPhoto: any;
 
-  constructor(users: UsersService, router: Router, private roles: RolesService, private fb: FormBuilder){ 
+  constructor(users: UsersService, router: Router, private roles: RolesService, private fb: FormBuilder
+    , private images: ImagesService){ 
     super(users);
     this.managedEntity = new User();
     this.roleList = [new Role({name: '---'})];
@@ -35,7 +36,16 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   ngOnInit() {
     this.createForm();
     this.validateMode();
+    this.disableFormControls();
     this.managedEntity = this.user || this.managedEntity;
+    if(this.managedEntity.photo){
+      this.userPhoto = this.managedEntity.photo;
+    }
+    if(this.managedEntity.photoPublicUrl){
+      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
+        this.userPhoto = blob
+      });    
+    }    
     this.fillFormModel();
     this.userPhoto = this.managedEntity.photo;
     this.roles.get().subscribe( results => {
@@ -59,6 +69,12 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
     });
   }
 
+  disableFormControls(){
+    if(this.mode != 'create'){
+      this.userForm.get('email').disable();
+    }
+  }
+
   confirmPasswordValidation(input: AbstractControl){
     if(input.root.get('password') && input.root.get('password').value != input.value){
       return {missmatched: true};
@@ -75,7 +91,7 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   }
   //#endregion  
 
-  protected fillDataModel(){
+  protected fillDataModels(){
     this.managedEntity = new User({ 
       firstName: this.userForm.value.firstName,
       lastName: this.userForm.value.lastName,
@@ -113,6 +129,8 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   }
 
   protected validate(): boolean{
+    this.managedEntity.photo = this.userPhoto;
+    this.managedEntity.photoFileName = this.userPhoto.name;
     return this.managedEntity.photo != undefined && this.managedEntity.photo != "";
   }
 

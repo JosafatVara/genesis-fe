@@ -8,9 +8,6 @@
          font-weight: 600;
          text-align: left;
      }
-     input:-webkit-autofill {
-         -webkit-box-shadow: 0 0 0 30px white inset;
-     }
      .cmp-input__input {
          margin-top: 10px;
          width: 100%;
@@ -34,21 +31,8 @@
          text-align: left;
          margin-top: 5px;
      }
- }
- 
- .cmp-input {
-     padding: 10px 35px;
-     background-image: url('/assets/images/icons/magnifying-glass.png');
-     background-size: 16px;
-     background-repeat: no-repeat;
-     background-position: 10px 10px;
-     border-radius: 30px;
-     border: 1px solid $white-0;
-     outline: none;
-     box-shadow: 0 5px 10px $grey-3;
-     transition: 0.5s;
-     &:hover {
-         border: 1px solid $violet-1;
+     input:-webkit-autofill {
+         -webkit-box-shadow: 0 0 0 30px white inset;
      }
      /**OVERRIDE @angular/material INVALID INPUT COLOR**/
      &.mat-input-container.ng-touched.ng-invalid,
@@ -73,6 +57,22 @@
              color: $input-color-error;
              float: right;
          }
+     }
+ }
+ 
+ .cmp-input--search {
+     padding: 10px 35px;
+     background-image: url('/assets/images/icons/magnifying-glass.png');
+     background-size: 16px;
+     background-repeat: no-repeat;
+     background-position: 10px 10px;
+     border-radius: 30px;
+     border: 1px solid $white-0;
+     outline: none;
+     box-shadow: 0 5px 10px $grey-3;
+     transition: 0.5s;
+     &:hover {
+         border: 1px solid $violet-1;
      }
  }
  

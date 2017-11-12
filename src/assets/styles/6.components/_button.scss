@@ -1,13 +1,13 @@
 $btn-color: #ffffff;
 $btn-color-bg: $purple-1;
 $btn-border-radius: 20px 50%;
-$btn-color-bg-hover: lighten($btn-color-bg,25%);
+$btn-color-bg-hover: lighten($btn-color-bg, 25%);
 $btn-padding: 15px !default;
 $btn-margin: 5px !default;
-$btn-font-family: 'Montserrat';
-$btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border 0.2 ease-in-out;
-
-// .c-btn{
+$btn-font-family: 'Montserrat'; // <<<<<<< HEAD
+$btn-transition: color 0.2 ease-in-out,
+background-color 0.2 ease-in-out,
+border 0.2 ease-in-out; // .c-btn{
 //     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 //     display: inline-block;
 //     text-transform: uppercase;
@@ -25,7 +25,6 @@ $btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border
 //     padding: $btn-padding;
 //     margin: $btn-margin;
 //     font-family: $btn-font-family;
-    
 //     &:hover{
 //         background-color: $btn-color-bg-hover;
 //         text-decoration: none;
@@ -48,11 +47,9 @@ $btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border
 //         user-select: none;
 //     }
 // }
-
 // .c-btn--large {
 //     padding: round(2.0 * $btn-padding);
 // }
-
 // .c-btn--fab{
 //     border-radius: 50%;
 //     width: 50px;
@@ -62,26 +59,37 @@ $btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border
 //         text-align: center;
 //     }
 // }
-
 // .c-btn-skyblue {
 //     border-radius: 3px;
 // }
-
 .cmp-btn {
     padding: 10px 25px;
-    background-color: $white-0;
+    background-color: $white-0; // color: $black-0;
     color: $black-0;
     border: 1px solid $white-0;
     border-radius: 30px;
     box-shadow: 0 5px 10px $grey-3;
+    // .c-btn {
+    //     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    //     display: inline-block;
+    // >>>>>>> jean
     text-transform: uppercase;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 12px; // <<<<<<< HEAD
     transition: $btn-transition;
     &:hover {
         color: $violet-1;
         border: 1px solid $violet-1;
-        transition: $btn-transition;
+        transition: $btn-transition; // =======
+        //     color: $btn-color;
+        //     background-color: $btn-color-bg;
+        //     padding: $btn-padding;
+        //     margin: $btn-margin;
+        //     font-family: $btn-font-family;
+        //     &:hover {
+        //         background-color: $btn-color-bg-hover;
+        //         text-decoration: none;
+        // >>>>>>> jean
     }
     &:disabled,
     &--disabled {
@@ -101,44 +109,74 @@ $btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border
         user-select: none;
         transition: $btn-transition;
     }
-    &--grey{
+    &--grey {
         background-color: $grey-1;
         border: 1px solid $grey-1;
         box-shadow: none;
         color: $white-0;
-        &:hover{
+        &:hover {
             color: $grey-1;
             background: $white-1;
             border: 1px solid $grey-1;
         }
     }
-    &--green{
+    &--responsive{
+        & &__icon{
+            
+        }
+        & &__label{
+
+        }
+        @media screen and (max-width: 1279px){
+            & &__icon{
+
+            }
+            & &__label{
+                display: none;
+            }
+        }
+    }
+}
+
+.c-btn--large {
+    padding: round(2.0 * $btn-padding);
+}
+
+.c-btn--fab {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    .c-btn--fab>* {
+        text-align: center;
+    }
+    &--green {
         background-color: $green-1;
         border: 1px solid $green-1;
         box-shadow: none;
         color: $white-0;
-        &:hover{
+        &:hover {
             color: $green-1;
             background: $white-1;
             border: 1px solid $green-1;
         }
     }
-    &--orange{        
+    &--orange {
         background-color: transparent;
         border: 1px solid $red-1;
         box-shadow: none;
         color: $red-1;
-        &:hover{
+        &:hover {
             color: $white-1;
             background: $red-1;
             border: 1px solid $red-1;
         }
-        &--inverted{
+        &--inverted {
             background-color: $red-1;
             border: 1px solid $red-1;
             box-shadow: none;
             color: $white-0;
-            &:hover{
+            &:hover {
                 color: $red-1;
                 background: $white-1;
                 border: 1px solid $red-1;
@@ -150,7 +188,7 @@ $btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border
 .cmp-btn--violet {
     background-color: $violet-1;
     border: 1px solid $violet-1;
-    box-shadow: none;
+    // box-shadow: none;
     color: $white-0;
     &:hover {
         color: $violet-1;
@@ -158,14 +196,33 @@ $btn-transition: color 0.2 ease-in-out, background-color 0.2 ease-in-out, border
     }
 }
 
+.cmp-btn--green {
+    background-color: $green-1;
+    border: 1px solid $green-1;
+    // box-shadow: none;
+    color: $white-0;
+    &:hover {
+        color: $green-1;
+        background-color: $white-1; // border: 1px solid $violet-1;
+    }
+}
+
 .cmp-btn--blue {
     background-color: $blue-1;
     border: 1px solid $blue-1;
-    box-shadow: none;
+    // box-shadow: none;
     color: $white-0;
     &:hover {
         color: $blue-1;
         background-color: $white-1; // border: 1px solid $violet-1;
+        border: 1px solid $blue-1;
+    }
+}
+
+.cmp-btn--white-blue {
+    &:hover {
+        color: $blue-1;
+        border: 1px solid $blue-1;
     }
 }
 
