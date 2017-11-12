@@ -15,8 +15,8 @@ import { ImagesService } from '../../core/utils/images.service';
 export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implements OnInit {
 
   @Input('freelancer') freelancer: Freelancer;
-  protected title: string;
-  protected buttonLabel: string;
+  public title: string;
+  public buttonLabel: string;
   affiliationList: Affiliation[];
   freelancerPhoto: any;
   frmFreelancerPhoto: FormGroup;

@@ -20,10 +20,10 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   userForm: FormGroup;
 
   @Input('user') user: User;
-  private roleList: Array<Role>;
+  public roleList: Array<Role>;
   private users: UsersService;
   private router: Router;
-  private userPhoto: any;
+  public userPhoto: any;
 
   constructor(users: UsersService, router: Router, private roles: RolesService, private fb: FormBuilder
     , private images: ImagesService){ 
@@ -113,11 +113,11 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
     }
   }
 
-  protected get title(): string{
+  public get title(): string{
     return '';
   }
 
-  protected get buttonLabel(): string{
+  public get buttonLabel(): string{
     let lbl = "";
     switch (this.mode){
       case 'create': lbl = 'Crear Usuario'; break;

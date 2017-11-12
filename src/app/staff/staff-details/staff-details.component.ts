@@ -15,8 +15,8 @@ import { Affiliation } from '../../shared/models/affiliation';
 export class StaffDetailsComponent extends CrudComponent<Employee> implements OnInit{
   
   @Input('employee') employee: Employee;
-  protected title: string;
-  protected buttonLabel: string;
+  public title: string;
+  public buttonLabel: string;
   affiliationList: Affiliation[];
   employeePhoto: any;
   frmEmployeePhoto: FormGroup;

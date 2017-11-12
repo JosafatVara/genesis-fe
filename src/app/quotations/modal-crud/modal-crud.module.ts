@@ -2,17 +2,17 @@
 import { NgModule } from '@angular/core';
 
 // This Module's Components
-import { ModalCrudComponent } from './modal-crud.component';
+// import { ModalCrudComponent } from './modal-crud.component';
 
 @NgModule({
     imports: [
 
     ],
     declarations: [
-        ModalCrudComponent,
+        // ModalCrudComponent,
     ],
     exports: [
-        ModalCrudComponent,
+        // ModalCrudComponent,
     ]
 })
 export class ModalCrudModule {

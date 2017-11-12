@@ -80,7 +80,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
         return true;
     }
 
-    protected abstract get title(): string;
+    public abstract get title(): string;
 
-    protected abstract get buttonLabel(): string;
+    public abstract get buttonLabel(): string;
 }
