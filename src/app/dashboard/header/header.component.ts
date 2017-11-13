@@ -8,10 +8,25 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+    constructor(){
+        document.body.addEventListener('click', (ev) => {
+            this.accountOptionsAreOpen = this.accountOptionsAreOpen ? false: false;
+        });
+    }
+
     public accountOptionsAreOpen: boolean = false;
 
-    public toogleOptions(){
+    public toogleOptions(event){
+        event.stopPropagation();
         this.accountOptionsAreOpen = !this.accountOptionsAreOpen;
+    }
+
+    public openOptions(){
+        this.accountOptionsAreOpen = true;
+    }
+
+    public closeOptions(){
+        this.accountOptionsAreOpen = false;
     }
 
 }

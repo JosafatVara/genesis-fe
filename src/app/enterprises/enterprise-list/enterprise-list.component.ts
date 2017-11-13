@@ -51,12 +51,6 @@ export class EnterpriseListComponent implements OnInit, OnDestroy {
     return enterprise.id == this.currentEnterprise.id;
   }
 
-  public manageThis(enterprise: Enterprise): void{
-    this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
-      this.currentEnterprise = e;
-    });    
-  }
-
   public crud(mode: string, enterprise: Enterprise = undefined ){
     if(mode=='delete'){
       this.delete(Object.assign({},enterprise));
@@ -89,10 +83,35 @@ export class EnterpriseListComponent implements OnInit, OnDestroy {
       }
     });
   }
+  
+  manageThis(enterprise: Enterprise): void{
+    let dialogRef = this.matDialog.open(ConfirmDialogComponent,{
+      data: {
+        message: `Administrar ${enterprise.name}?`
+      }
+    });
+    dialogRef.afterClosed().subscribe( confirm => {
+      if(confirm){
+        this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+          this.currentEnterprise = e;
+        });
+      }
+    })    
+  }
 
   goToEnterpriseUsers(enterprise: Enterprise){
-    this.goToUsersSubscription = this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
-      this.router.navigateByUrl('dashboard/usuarios');
-    });
+  let dialogRef = this.matDialog.open(ConfirmDialogComponent,{
+    data: {
+      message: `Administrar ${enterprise.name}?`
+    }
+  });
+  dialogRef.afterClosed().subscribe( confirm => {
+    if(confirm){
+      this.goToUsersSubscription = this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+        this.router.navigateByUrl('dashboard/usuarios');
+      });
+    }
+  })   
+    
   }
 }
