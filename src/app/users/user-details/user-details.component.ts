@@ -8,7 +8,7 @@ import { RolesService } from '../../core/services/roles.service';
 import { Observable } from 'rxjs/Observable';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Alphanumeric } from '../../shared/validators/alphanumeric';
-import { ImagesService } from '../../core/utils/images.service';
+import { ImagesService } from '../../core/utils/images/images.service';
 
 @Component({
   selector: 'gen-user-details',

@@ -8,7 +8,7 @@ import { DepartmentsService } from '../../core/services/departments.service';
 import { EmployeesQuantitiesService } from '../../core/services/employees-quantities.service';
 import { CrudComponent } from '../../shared/components/base/crud-component';
 import { Observable } from 'rxjs/Observable';
-import { ImagesService } from '../../core/utils/images.service';
+import { ImagesService } from '../../core/utils/images/images.service';
 
 @Component({
   selector: 'gen-enterprise-details',

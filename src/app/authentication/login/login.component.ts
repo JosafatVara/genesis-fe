@@ -3,6 +3,7 @@ import { AuthenticationService } from '../../core/services/authentication.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '../../shared/components/base/base-component';
 import { FormControl } from "@angular/forms";
+import { ToastService } from '../../core/utils/toast/toast.service';
 
 @Component({
   selector: 'gen-login',
@@ -18,7 +19,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
   private route: ActivatedRoute;
   private router: Router;
 
-  constructor(auth: AuthenticationService, route: ActivatedRoute, router: Router) { 
+  constructor(auth: AuthenticationService, route: ActivatedRoute, router: Router, private toast: ToastService) { 
     super();
     this.auth = auth;
     this.route = route;
@@ -47,6 +48,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         });
       }else{
         this.failedLogin = true;
+        this.toast.error('Credenciales incorrectas','Login');
       }           
     },()=>{},()=>{ this.loadingOff() });
   }
