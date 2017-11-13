@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material';
 
 @Component({
@@ -6,17 +6,28 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss']
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('progress') progress: ElementRef;
 
   public message: string;
   public title: string;
   public type: string;
+  public showProgress: boolean;
+  public progressDuration: number;
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) { 
     Object.assign(this,data);
   }
 
   ngOnInit() {
+  }
+
+  
+  ngAfterViewInit(): void {
+    setTimeout(()=>{
+      this.progress.nativeElement.className += " toast__progress--empty";
+    },0);    
   }
 
   public get iconClass(): string{
@@ -47,6 +58,10 @@ export class ToastComponent implements OnInit {
       default:
         return 'toast';
     }
+  }
+
+  public get transitioStyle(): string{
+    return `all ${(this.progressDuration/1000).toString()}s linear`
   }
 
 }
