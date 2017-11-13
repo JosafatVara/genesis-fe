@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar } from '@angular/material';
 import { ToastComponent } from './toast.component';
 
 @Injectable()
 export class ToastService {
 
-  constructor(private toastr: ToastrService, public snackBar: MatSnackBar) { }
+  constructor(public snackBar: MatSnackBar) { }
 
   public success(message: string, title?: string){
     this.snackBar.openFromComponent(ToastComponent,{
