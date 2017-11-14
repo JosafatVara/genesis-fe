@@ -18,6 +18,7 @@ export class GroupModalCrudComponent {
         private fb: FormBuilder,
         private service: Service
     ) {
+console.log(data);
 
     }
     ngOnInit() {

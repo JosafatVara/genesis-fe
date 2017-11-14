@@ -39,19 +39,21 @@ export class GroupListComponent implements OnInit {
     }
 
     private refreshGroups() {
+        console.log(this.currentEnterprise.id,"id de empresa catual");
+        
         this.service.getList(this.currentEnterprise.id).subscribe(
             res => this.groups = res.json()
         )
         console.log(this.groups);
     }
 
-    crud(action: string, group?: Group) {
+    crud(action: string, group: Group = undefined) {
         if (action == 'delete') {
             this.delete(Object.assign({}, group));
             return
         }
         let dialogRef = this.matDialog.open(GroupModalCrudComponent, {
-            width: '380px',
+            width: '350px',
             data: {
                 action: action,
                 group: Object.assign({}, group)
@@ -70,7 +72,7 @@ export class GroupListComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(confirm => {
             if (confirm) {
-                this.groups.delete(group).subscribe(() => this.refreshGroups());
+                this.service.delete(group.id).subscribe(() => this.refreshGroups());
             }
         });
     }

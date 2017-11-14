@@ -5,7 +5,8 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class Service {
-    nameModule = 'api/v1/purchases/enterprises/';
+    nameModule = 'api/v1/purchases/';
+    // nameModule2 = 'api/v1/purchases/groups/';
     token: string;
     // Header set Access-Control-Allow-Origin "http://localhost:4200";
 
@@ -15,17 +16,17 @@ export class Service {
 
     getList(id) {
         let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-        return this.http.get(environment.beUrl + this.nameModule + id + '/groups/', { headers: headers });
+        return this.http.get(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', { headers: headers });
         // return this.http.get('${environment.beUrl} ${this.nameModule} ${id} /groups/', { headers: headers });
 
     }
 
     create(data, id): Observable<Response> {
         let body = JSON.stringify(data);
-        let headers = new Headers({ 'Authorization': 'Token ' + this.token });
+        let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
         // headers.append("token", this.token);
         // headers.append("Authorization", this.token);
-        return this.http.post(environment.beUrl + this.nameModule + id + '/groups/', body, { headers: headers });
+        return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
     }
 
     get(id) {
@@ -41,6 +42,12 @@ export class Service {
         // headers.append("token", this.token);
         // let myParams = new URLSearchParams();        
         return this.http.put(environment.beUrl + this.nameModule + '/' + id, body, { headers: headers });
+    }
+
+    delete(id): Observable<Response> {
+        let body = JSON.stringify(id);
+        let headers = new Headers({ 'Authorization': 'Token ' + this.token });
+        return this.http.put(environment.beUrl + this.nameModule + 'groups/' + id, body, { headers: headers });
     }
 
 
