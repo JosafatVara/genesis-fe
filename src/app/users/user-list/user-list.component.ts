@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material';
 
 import { DialogUserDetailsComponent } from '../dialog-user-details/dialog-user-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { Enterprise } from '../../shared/models/enterprise';
+import { EnterprisesService } from '../../core/services/enterprises.service';
+import { UsersInEnterpriseSpecification } from '../../core/services/specifications/user-specification';
 
 @Component({
   selector: 'gen-user-list',
@@ -17,10 +20,15 @@ export class UserListComponent implements OnInit {
   public inDashboard: boolean;
   public userList: Array<User>;
   public currentUser: User;
+  public currentEnteprirse: Enterprise;
 
-  constructor(private users: UsersService, route: ActivatedRoute ,private matDialog: MatDialog) {
+  constructor(private users: UsersService, route: ActivatedRoute ,private matDialog: MatDialog
+    , private enteprises: EnterprisesService) {
     users.getCurrentUser().subscribe( u => this.currentUser = u);
-    route.data.subscribe( (data: {inDashboard:boolean}) => this.inDashboard = data.inDashboard);
+    enteprises.getCurrentEnterprise().subscribe( e => this.currentEnteprirse = e);
+    route.data.subscribe( (data: {inDashboard:boolean}) => {
+      this.inDashboard = data.inDashboard
+    });
   }
 
   ngOnInit() {
@@ -28,7 +36,7 @@ export class UserListComponent implements OnInit {
   }
 
   private refreshUsers(){
-    this.users.get().subscribe( es => this.userList = es );
+    this.users.get( new UsersInEnterpriseSpecification(this.currentEnteprirse) ).subscribe( es => this.userList = es );
   }
 
   public youAreTheUser(user: User) : boolean{
@@ -49,7 +57,7 @@ export class UserListComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
-      if(!result.cancelled){
+      if(result&&!result.cancelled){
         this.refreshUsers();
       }
     });

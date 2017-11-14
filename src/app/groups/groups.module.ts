@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http';
 
 // import { GroupsComponent } from './groups.component';
-import { Service } from './groups.service'
+import { Service } from '../core/services/groups.service'
 import { GroupsRoutingModule } from "./groups-routing/groups-routing.module";
 
 import { GroupsComponent } from './groups.component';
@@ -18,17 +18,15 @@ import { GroupModalCrudComponent } from "./group-modal-crud/group-modal-crud.com
 
 @NgModule({
   imports: [
-    CommonModule, FlexLayoutModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule,HttpModule,
+    CommonModule, FlexLayoutModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, HttpModule,
     GroupsRoutingModule
   ],
   entryComponents: [
-    // ModalCrudComponent, ModalUpdateComponent, ModalCreateComponent,
     GroupModalCrudComponent
   ],
   declarations: [
-    GroupsComponent, 
-    // ModalCrudComponent, ModalUpdateComponent, ModalCreateComponent,
-    GroupListComponent,GroupModalCrudComponent
+    GroupsComponent,
+    GroupListComponent, GroupModalCrudComponent
   ],
   providers: [
     Service,

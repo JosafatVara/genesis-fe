@@ -1,6 +1,8 @@
 import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Enterprise } from '../shared/models/enterprise';
+import { User } from '../shared/models/user';
+import { UsersService } from '../core/services/users.service';
 
 @Component({
   selector: 'gen-dashboard',
@@ -12,11 +14,11 @@ export class DashboardComponent implements OnInit {
   private router: Router;
   private route: ActivatedRoute;
 
-  constructor(route: ActivatedRoute, router: Router) {
+  constructor(route: ActivatedRoute, router: Router, users: UsersService) {
     this.route = route;
     this.router = router;
     this.route.data
-    .subscribe((data: { enterprises: Enterprise[] }) => {
+    .subscribe((data: { enterprises: Enterprise[], currentUser: User }) => {
       if(data.enterprises && data.enterprises.length == 0){
         this.router.navigateByUrl('dashboard/empresas/sin-empresa');
       }

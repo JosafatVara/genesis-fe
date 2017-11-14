@@ -17,9 +17,8 @@ import { CustomersModule } from "../customers/customers.module";
 import { DashboardComponent } from './dashboard.component';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-import { ActionsComponent } from "./actions/actions.component";
-// import { ActionsComponent } from "./actions/actions.component";
 import { AccountOptionsComponent } from './account-options/account-options.component';
+import { ActionsComponent } from "./actions/actions.component";
 
 @NgModule({
   imports: [
@@ -27,6 +26,7 @@ import { AccountOptionsComponent } from './account-options/account-options.compo
     SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule, QuotationsModule,CustomersModule
   ],
   declarations: [
+
     ActionsComponent,
     DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
   ],

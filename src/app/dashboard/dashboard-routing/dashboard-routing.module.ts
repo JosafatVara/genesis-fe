@@ -33,13 +33,29 @@ const routes: Routes = [
         loadChildren: 'app/providers/providers.module#ProvidersModule'
       },
       {
+        path: 'personal',
+        children: [
+          {
+            path: 'personal',
+            loadChildren: 'app/staff/staff.module#StaffModule',
+          },
+          {
+            path: 'independientes',
+            loadChildren: 'app/freelancers/freelancers.module#FreelancersModule'
+          },
+          {
+            path: 'pagos',
+            loadChildren: 'app/payments/payments.module#PaymentsModule'
+          }
+        ]
+      },
+      {
         path: 'cotizaciones',
         loadChildren: 'app/quotations/quotations.module#QuotationsModule'
       },
       {
         path: 'clientes',
-        loadChildren: 'app/customers/customers.module#CustomersModule'
-      }
+        loadChildren: 'app/customers/customers.module#CustomersModule'}
     ]
   }
 ]

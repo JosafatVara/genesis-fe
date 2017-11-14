@@ -4,6 +4,7 @@ import { HttpParams } from "@angular/common/http";
 import { User } from "../../../shared/models/user";
 import { PaginationSpecification } from "./base/pagination-specification";
 import { PagedAndOrderSpecification } from "./base/paged-and-order-specification";
+import { Enterprise } from "../../../shared/models/enterprise";
 
 export abstract class UserSpecification extends Specification<User>{
     
@@ -40,5 +41,17 @@ export class UserPagedAndSortedSpecification extends UserSpecification implement
         super();
     }
 
+}
+
+export class UsersInEnterpriseSpecification extends UserSpecification{
+
+    constructor(public enterprise: Enterprise){
+        super();
+    }
+
+    protected evaluate(entity: User): boolean {
+        throw new Error("Method not implemented.");
+    }
+    
 }
     

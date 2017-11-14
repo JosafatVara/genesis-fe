@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatInputModule, MatFormFieldModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule } from '@angular/material';
+import { MatInputModule, MatFormFieldModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatStepperModule} from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PhotoInputComponent } from './components/photo-input/photo-input.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { NumericPipe } from "./pipes/numeric.pipe";
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     FlexLayoutModule,
     CommonModule
   ],
-  declarations: [PhotoInputComponent, ConfirmDialogComponent],
+  declarations: [PhotoInputComponent, ConfirmDialogComponent, NumericPipe],
   exports: [
     CommonModule,
     FormsModule,
@@ -22,7 +23,11 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     MatDialogModule,
     MatSelectModule,
     PhotoInputComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
+    NumericPipe
   ],
   entryComponents: [
     ConfirmDialogComponent

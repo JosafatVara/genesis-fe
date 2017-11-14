@@ -8,6 +8,7 @@ import { DepartmentsService } from '../../core/services/departments.service';
 import { EmployeesQuantitiesService } from '../../core/services/employees-quantities.service';
 import { CrudComponent } from '../../shared/components/base/crud-component';
 import { Observable } from 'rxjs/Observable';
+import { ImagesService } from '../../core/utils/images.service';
 
 @Component({
   selector: 'gen-enterprise-details',
@@ -24,7 +25,7 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   private router: Router;
 
   constructor(enterprises: EnterprisesService, router: Router, private departments: DepartmentsService
-    , private employeesQuantities: EmployeesQuantitiesService){ 
+    , private employeesQuantities: EmployeesQuantitiesService, private images: ImagesService){ 
     super(enterprises);
     this.managedEntity = new Enterprise();
     this.employeesQuantityList = [new EmployeesQuantity({quantityDescription: '---'})];
@@ -35,7 +36,14 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   ngOnInit() {
     this.validateMode();
     this.managedEntity = this.enterprise || this.managedEntity;
-    this.enterprisePhoto = this.managedEntity.photo;
+    if(this.managedEntity.photo){
+      this.enterprisePhoto = this.managedEntity.photo;
+    }
+    if(this.managedEntity.photoPublicUrl){
+      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
+        this.enterprisePhoto = blob
+      });    
+    }    
     Observable.forkJoin(
       this.departments.get(),this.employeesQuantities.get()).subscribe( results => {
         this.departmentList = results[0];
@@ -49,9 +57,10 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
       this.managedEntity.department = this.departmentList[0];
       this.managedEntity.employeesQuantity = this.employeesQuantityList[0];
     }else{
-      this.managedEntity.department = this.departmentList.find( d => d.id == this.managedEntity.department.id);
+      this.managedEntity.department = 
+      this.managedEntity.department? this.departmentList.find( d => d.id == this.managedEntity.department.id) : undefined;
       this.managedEntity.employeesQuantity = 
-        this.employeesQuantityList.find( eq => eq.id == this.managedEntity.employeesQuantity.id);
+      this.managedEntity.employeesQuantity? this.employeesQuantityList.find( eq => eq.id == this.managedEntity.employeesQuantity.id) : undefined;
     }
   }
 
@@ -72,6 +81,7 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
 
   protected validate(): boolean{
     this.managedEntity.photo = this.enterprisePhoto;
+    this.managedEntity.photoFileName = this.enterprisePhoto.name;
     return this.managedEntity.photo != undefined;
   }
 

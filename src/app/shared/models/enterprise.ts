@@ -8,9 +8,11 @@ export class Enterprise extends BaseEntity<Enterprise> {
     public businessName: string;
     public ruc: string;
     public address: string;
-    public department: Department = new Department();
-    public photo: any;
+    public department: Department;
+    public photo: File;
+    public photoPublicUrl: string;
+    public photoFileName: string;
     public adminsQuantity: number;
-    public employeesQuantity: EmployeesQuantity = new EmployeesQuantity();
+    public employeesQuantity: EmployeesQuantity;
 
 }

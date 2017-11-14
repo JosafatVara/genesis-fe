@@ -5,38 +5,38 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class Service {
-    nameModule = 'purchases/groups/';
+    nameModule = 'purchases/groups/providers';
     token: string;
     // Header set Access-Control-Allow-Origin "http://localhost:4200";
 
     constructor(private http: Http) {
-        this.token = JSON.parse(localStorage.getItem("access_token"));
+        this.token = JSON.parse(localStorage.getItem("token"));
     }
 
     create(data, id): Observable<Response> {
         let body = JSON.stringify(data);
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        // headers.append("Authorization", this.token);
-        return this.http.post(environment.beUrl + this.nameModule + '/' + id, body);
+        headers.append("Authorization", this.token);
+        return this.http.post(environment.beUrl + this.nameModule + '/' + id, body, { headers: headers });
     }
 
 
     getList(id) {
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        // headers.append("Authorization", this.token);
-        let myParams = new URLSearchParams();
+        headers.append("Authorization", this.token);
+        // let myParams = new URLSearchParams();
         // myParams.set('search', name);
         // return this.http.get(environment.beUrl + "businesses/" +  + "/brands");
-        return this.http.get(environment.beUrl + this.nameModule + '/' + id, { search: myParams });
+        return this.http.get(environment.beUrl + this.nameModule + '/' + id, { headers: headers });
 
     }
 
     get(id) {
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        // headers.append("Authorization", this.token);
-        let myParams = new URLSearchParams();
+        headers.append("Authorization", this.token);
+        // let myParams = new URLSearchParams();
         // myParams.set('search', name);
-        return this.http.get(environment.beUrl + this.nameModule  + "/"+id, { search: myParams });
+        return this.http.get(environment.beUrl + this.nameModule + "/" + id, { headers: headers });
     }
 
     update(data, id): Observable<Response> {
@@ -44,7 +44,7 @@ export class Service {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         // headers.append("Authorization", this.token);
         // let myParams = new URLSearchParams();        
-        return this.http.put(environment.beUrl + this.nameModule + '/' + id, body);
+        return this.http.put(environment.beUrl + this.nameModule + '/' + id, body, { headers: headers });
     }
 
     // update(unDato, businessId, noticeId): Observable<Response> {
@@ -64,5 +64,5 @@ export class Service {
     //     return this.http.post(apiBase + 'businesses/' + businessId + '/postAdvertisement', body, { headers: headers });
     // }
 
-    
+
 }

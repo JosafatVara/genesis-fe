@@ -45,32 +45,36 @@
     <div [ngClass]="{'cmp-card__body':inDashboard}">
       <div class="cmp-table">
         <ul class="cmp-table__header" fxLayoutAlign="space-between center">
-          <li fxFlex class="header__title header__title--action" *ngFor="let column of displayedColumns">{{column}}</li>
-          <li fxFlex class="header__title ">Acciones</li>
+          <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
+          <li fxFlex="20" class="header__title header__title--action u-h-center">RUC</li>
+          <li fxFlex="20" class="header__title header__title--action u-h-center">Administrar</li>
+          <li fxFlex="10" class="header__title header__title--action u-h-center">Equipo</li>
+          <li fxFlex="30" class="header__title u-h-center">Acciones</li>
         </ul>
         <ul class="cmp-table__body enterprise-list__dataset__item" *ngFor="let enterprise of enterpriseList"
           fxLayout="row" fxLayoutAlign="start center">
-          <li fxFlex class="body__text">{{enterprise.name}}</li>
-          <li fxFlex class="body__text">{{enterprise.ruc}}</li>
-          <li fxFlex class="body__text">
+          <li fxFlex="20" class="body__text u-h-center">{{enterprise.name}}</li>
+          <li fxFlex="20" class="body__text u-h-center">{{enterprise.ruc}}</li>
+          <li fxFlex="20" class="body__text u-h-center">
             <button class="cmp-btn cmp-btn--grey enterprise-list__dataset__item__managing-indicator"
             [ngClass]="{'cmp-btn--green': isManaging(enterprise)}" (click)="manageThis(enterprise)">
               {{isManaging(enterprise)?'Administrando':'Administrar'}}
             </button>          
           </li>
-          <li fxFlex class="body__text">
-            <a routerLink="/dashboard/usuarios">
+          <li fxFlex="10" class="body__text u-h-center">
+            <a (click)="goToEnterpriseUsers(enterprise)">
               <i class="fa fa-users"></i>&nbsp;{{enterprise.adminsQuantity || 0}}
             </a> 
           </li>
-          <li class="body__text">
-              <button class="cmp-btn cmp-btn--actions" (click)="crud('update',enterprise)">
-                <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+          <li fxFlex="30" class="body__text u-h-center">
+              <button class="cmp-btn cmp-btn--actions cmp-btn--responsive" (click)="crud('update',enterprise)">
+                <i class="fa fa-pencil cmp-btn--responsive__icon" aria-hidden="true"></i> 
+                <span class="cmp-btn--responsive__label">Editar</span>
               </button>
-              <button class="cmp-btn cmp-btn--violet cmp-btn--actions"(click)="crud('delete',enterprise)"
+              <button class="cmp-btn cmp-btn--violet cmp-btn--actions cmp-btn--responsive" (click)="crud('delete',enterprise)"
                 [disabled]="isManaging(enterprise)">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                Eliminar
+                <i class="fa fa-trash-o cmp-btn--responsive__icon" aria-hidden="true"></i>
+                <span class="cmp-btn--responsive__label">Eliminar</span>
               </button>
           </li>
         </ul>

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from '../users.component';
 import { UserListComponent } from '../user-list/user-list.component';
 import { UserDetailsComponent } from '../user-details/user-details.component';
+import { CurrentEnterpriseResolver } from '../../core/resolvers/current-enterprise-resolver';
 
 const routes: Routes = [
   {

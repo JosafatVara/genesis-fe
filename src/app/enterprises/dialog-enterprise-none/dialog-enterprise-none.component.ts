@@ -34,8 +34,11 @@ export class DialogEnterpriseNoneComponent implements OnInit {
   }
 
   public enterpriseCreated(enterprise: Enterprise): void{
-    this.createdEnterprise = enterprise;
-    this.currentState = 2;
+    this.enterprises.create(enterprise).subscribe( e => {
+      this.enterprises.setCurrentEnterprise(e);
+      this.createdEnterprise = e;
+      this.currentState = 2;
+    })
   }
 
   public manageEnterprise(){

@@ -1,11 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from "@angular/material";
-import { Group } from "../../shared/models/group";
-//modules
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+
+//modules
+import { Service } from '../../core/services/groups.service'
+import { Group } from "../../shared/models/group";
+import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
+import { Enterprise } from '../../shared/models/enterprise';
+// import { Refresher } from '../../core/services/shared/refresher';
+import { UsersService } from '../../core/services/users.service';
+import { User } from '../../shared/models/user';
 //components
 import { GroupModalCrudComponent } from "../group-modal-crud/group-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
+
 
 
 @Component({
@@ -16,29 +26,39 @@ import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/c
 })
 export class GroupListComponent implements OnInit {
 
-    constructor(private matDialog: MatDialog) {
+    groups: any = [];
+    public currentUser: User;
+    public currentEnterprise: Enterprise;
+    constructor(private matDialog: MatDialog, private service: Service, private users: UsersService, private enterprises: EnterprisesService) {
+        enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
+        users.getCurrentUser().subscribe(u => this.currentUser = u);
     }
 
     ngOnInit() {
+        this.refreshGroups();
     }
 
     private refreshGroups() {
-        // this.Groups.get().subscribe(es => this.groupList = es);
+        this.service.getList(this.currentEnterprise.id).subscribe(
+            res => this.groups = res.json()
+        )
+        console.log(this.groups);
     }
 
     crud(action: string, group?: Group) {
         if (action == 'delete') {
-
+            this.delete(Object.assign({}, group));
+            return
         }
         let dialogRef = this.matDialog.open(GroupModalCrudComponent, {
-            width: '750px',
+            width: '380px',
             data: {
                 action: action,
                 group: Object.assign({}, group)
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            // if (!result.cancelled) this.refreshGroups()
+            if (!result.cancelled) this.refreshGroups()
         })
     }
 
@@ -50,7 +70,7 @@ export class GroupListComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(confirm => {
             if (confirm) {
-                // this.groups.delete(group).subscribe(() => this.refreshGroups());
+                this.groups.delete(group).subscribe(() => this.refreshGroups());
             }
         });
     }

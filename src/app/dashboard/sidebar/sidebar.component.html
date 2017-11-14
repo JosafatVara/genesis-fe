@@ -1,9 +1,10 @@
 <ul class="sidebar" [ngClass]="{'sidebar--closed': menuState}">
     <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="center center">
-        <button class="cmp-btn cmp-btn--blue cmp-btn--sidebar" (click)="changeStateMenu()"> 
-                <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
-                <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
-            </button>
+        <button class="cmp-btn cmp-btn--blue cmp-btn--sidebar" (click)="changeStateMenu()">
+            <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
+            <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
+        </button>
+
     </li>
     <li class="sidebar__menu-item sidebar__menu-item--first ">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center">
@@ -21,6 +22,7 @@
         </a>
         <ul class="menu-item__submenu " *ngIf="flagArray[2] " [@menuState]="flagArray[2] ">
             <li>
+
                 <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="center center ">Ventas</a>
             </li>
             <li>
@@ -47,25 +49,25 @@
         <ul class="menu-item__submenu " *ngIf="flagArray[3] ">
             <li>
                 <a class="menu-item__item menu-item__item--submenu" routerLink="./grupos" fxLayoutAlign="center center ">
-                   Grupos                    
+                    Grupos
                 </a>
             </li>
             <li>
                 <a class="menu-item__item menu-item__item--submenu " routerLink="./proveedores" fxLayoutAlign="center center ">
-                   Proveedores
-                    
+                    Proveedores
+
                 </a>
             </li>
             <li>
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Productos
-                    
+                    Productos
+
                 </a>
             </li>
             <li>
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Facturas de Compra
-                    
+                    Facturas de Compra
+
                 </a>
             </li>
         </ul>
@@ -80,8 +82,8 @@
         <ul class="menu-item__submenu " *ngIf="flagArray[4] ">
             <li>
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Productos
-                    
+                    Productos
+
                 </a>
             </li>
         </ul>
@@ -95,20 +97,20 @@
         </a>
         <ul class="menu-item__submenu " *ngIf="flagArray[5] ">
             <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/personal">
                    Personal
                     
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/independientes">
                    Independientes                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Pagos a Personal
-                    
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/pagos">
+                   Pagos a Personal                    
                 </a>
             </li>
         </ul>
