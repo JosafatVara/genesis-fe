@@ -7,11 +7,11 @@ import { PaymentsService } from '../../core/services/payments.service';
 import { EmployeesService } from '../../core/services/employees.service';
 
 @Component({
-  selector: 'gen-payment-details',
-  templateUrl: './payment-details.component.html',
-  styleUrls: ['./payment-details.component.scss']
+  selector: 'gen-staff-payment-details',
+  templateUrl: './staff-payment-details.component.html',
+  styleUrls: ['./staff-payment-details.component.scss']
 })
-export class PaymentDetailsComponent extends CrudComponent<Payment> implements OnInit {
+export class StaffPaymentDetailsComponent extends CrudComponent<Payment> implements OnInit {
 
   paymentForm: FormGroup;
   

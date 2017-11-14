@@ -3,16 +3,16 @@ import { Payment } from '../../shared/models/payment';
 import { PaymentsService } from '../../core/services/payments.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { DialogPaymentDetailsComponent } from '../dialog-payment-details/dialog-payment-details.component';
+import { DialogStaffPaymentDetailsComponent } from '../dialog-staff-payment-details/dialog-staff-payment-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { BaseComponent } from "../../shared/components/base/base-component";
 
 @Component({
-  selector: 'gen-payment-list',
-  templateUrl: './payment-list.component.html',
-  styleUrls: ['./payment-list.component.scss']
+  selector: 'gen-staff-payment-list',
+  templateUrl: './staff-payment-list.component.html',
+  styleUrls: ['./staff-payment-list.component.scss']
 })
-export class PaymentListComponent extends BaseComponent implements OnInit {
+export class StaffPaymentListComponent extends BaseComponent implements OnInit {
 
   public inDashboard: boolean;
   public paymentList: Array<Payment>;
@@ -37,7 +37,7 @@ export class PaymentListComponent extends BaseComponent implements OnInit {
       this.delete(Object.assign({},payment));
       return;
     }
-    let dialogRef = this.matDialog.open(DialogPaymentDetailsComponent,{
+    let dialogRef = this.matDialog.open(DialogStaffPaymentDetailsComponent,{
       disableClose: true,
       width: 'auto',
       data: {

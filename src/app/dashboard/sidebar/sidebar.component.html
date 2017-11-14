@@ -95,19 +95,34 @@
         </a>
         <ul class="menu-item__submenu " *ngIf="flagArray[5] ">
             <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/personal">
-                   Personal
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/planillas">
+                   Planillas                    
+                </a>
+            </li>
+            <li>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/RxH">
+                   RxH
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="sidebar__menu-item ">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(6) ">
+            <i class="fa fa-money"></i>
+            <span class="item__title">Pagos</span>
+            <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[6] "></i>
+            <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[6] "></i>
+        </a>
+        <ul class="menu-item__submenu " *ngIf="flagArray[6] ">
+            <li>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/pagos/planillas">
+                   Planillas
                     
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/independientes">
-                   Independientes                    
-                </a>
-            </li>
-            <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/pagos">
-                   Pagos a Personal                    
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/pagos/RxH">
+                   RxH
                 </a>
             </li>
         </ul>

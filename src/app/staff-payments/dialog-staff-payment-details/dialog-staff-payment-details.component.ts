@@ -6,16 +6,16 @@ import { BaseComponent } from '../../shared/components/base/base-component';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: 'gen-dialog-payment-details',
-  templateUrl: './dialog-payment-details.component.html',
-  styleUrls: ['./dialog-payment-details.component.scss']
+  selector: 'gen-dialog-staff-payment-details',
+  templateUrl: './dialog-staff-payment-details.component.html',
+  styleUrls: ['./dialog-staff-payment-details.component.scss']
 })
-export class DialogPaymentDetailsComponent extends BaseComponent implements OnInit {
+export class DialogStaffPaymentDetailsComponent extends BaseComponent implements OnInit {
 
   public mode: string
   public payment: Payment;
 
-  constructor(private payments: PaymentsService, private dialogRef: MatDialogRef<DialogPaymentDetailsComponent>,
+  constructor(private payments: PaymentsService, private dialogRef: MatDialogRef<DialogStaffPaymentDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {mode: string, payment: Payment}) {
     super();
     this.mode = data.mode || 'read';

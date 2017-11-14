@@ -36,16 +36,21 @@ const routes: Routes = [
         path: 'personal',
         children: [
           {
-            path: 'personal',
+            path: 'planillas',
             loadChildren: 'app/staff/staff.module#StaffModule',
           },
           {
-            path: 'independientes',
+            path: 'RxH',
             loadChildren: 'app/freelancers/freelancers.module#FreelancersModule'
-          },
+          }
+        ]
+      },
+      {
+        path: 'pagos',
+        children: [
           {
-            path: 'pagos',
-            loadChildren: 'app/payments/payments.module#PaymentsModule'
+            path: 'planillas',
+            loadChildren: 'app/staff-payments/staff-payments.module#StaffPaymentsModule'
           }
         ]
       },
