@@ -1,67 +1,114 @@
 import { Injectable } from '@angular/core';
-import { AuthenticatedService } from './base/authenticated-service';
-import { AsyncCrudService } from './contracts/async-crud-service';
-import { Enterprise } from '../../shared/models/enterprise';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataSource } from '@angular/cdk/collections';
-import { EntityDataSource } from './base/entity-data-source';
 import { MatPaginator } from '@angular/material';
+
+import { EntityDataSource } from './base/entity-data-source';
+import { AuthenticatedService } from './base/authenticated-service';
+import { CrudService } from './contracts/crud-service';
+import { Enterprise } from '../../shared/models/enterprise';
 import { Sorter } from './shared/sorter';
 import { Refresher } from './shared/refresher';
 import { QueryParamsSpecification } from './specifications/contracts/query-params-specification';
 import { Specification } from './specifications/base/specification';
 import { EnterprisePagedSpecification } from './specifications/entreprise-specification';
 import { PaginationSpecification } from './specifications/base/pagination-specification';
+import { DepartmentsService } from './departments.service';
+import { EmployeesQuantitiesService } from './employees-quantities.service';
+import { DepartmentsByNameSpecification } from './specifications/department-specification';
+import { EmployeesQuantitiesByDescriptionSpecification } from './specifications/employees-quantity-specification';
 
 @Injectable()
-export class EnterprisesService extends AuthenticatedService implements AsyncCrudService<Enterprise>{
+export class EnterprisesService extends AuthenticatedService implements CrudService<Enterprise>{
 
   protected mockStock = 10;
   protected mockData: Array<Enterprise>;
   protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
   
-  constructor(auth: AuthenticationService, http: HttpClient){
-    super(auth, http, '**********');
+  constructor(auth: AuthenticationService, http: HttpClient, private departments: DepartmentsService
+    , private employeesQuantities: EmployeesQuantitiesService){
+    super(auth, http, '');
     this.mockData = this.genMock();
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[2]);
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[1]);
   }
   
   public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
     if(!specification){
-      return Observable.of(this.mockData);
+      return this.http
+        .get<any[]>(this.actionUrl+'accounts/enterprises/users/me/',{headers: this.authHttpHeaders})
+        .map( results => {
+          let enterprises: Enterprise[] = [];
+          results
+            .filter( r => r.enterprise_selected? r.enterprise_selected.is_enabled : false)
+            .forEach( r => {
+              enterprises = enterprises.concat([ this.mapBeToEnterprise(r.enterprise_selected) ]);
+            });
+          return enterprises;
+        });
     }
     if(specification instanceof Specification){      
       return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);
     }
+    // return Observable.of(this.mockData).delay(500);
+  }
+  
+  getSync(specification?: QueryParamsSpecification | Specification<Enterprise>): Enterprise[] {
+    throw new Error("Method not implemented.");
   }
 
   public update(entity: Enterprise): Observable<Enterprise> {
-    let indexToUpdate = this.mockData.findIndex( e => e.id == entity.id);
-    this.mockData[indexToUpdate] = entity;
-    return Observable.of(new Enterprise());
+    let formData: FormData = new FormData();
+    formData.append('name', entity.name);
+    formData.append('image', entity.photo, entity.photoFileName);
+    formData.append('business_name', entity.businessName);
+    formData.append('ruc', entity.ruc);
+    formData.append('address', entity.address);
+    formData.append('rubro', entity.department.name.toUpperCase());
+    formData.append('num_employees', entity.employeesQuantity.quantityDescription);
+    formData.append('business_name', entity.businessName);
+    formData.append('is_enabled', 'true');
+    let headers: HttpHeaders = this.authHttpHeaders;
+    headers = headers.append('Accept', 'application/json');
+    return this.http.put(this.actionUrl+`enterprises/${entity.id.toString()}`,formData,{headers: headers}).map( result => {
+      return entity;
+    });
   }
 
   public create(entity: Enterprise): Observable<Enterprise> {
-    entity.id = this.mockData.length == 0 ? 0 : this.mockData[this.mockData.length-1].id+1;
-    this.mockData = this.mockData.concat([entity]);
-    return Observable.of(entity);
+    let formData: FormData = new FormData();
+    formData.append('name', entity.name);
+    formData.append('image', entity.photo, entity.photoFileName);
+    formData.append('business_name', entity.businessName);
+    formData.append('ruc', entity.ruc);
+    formData.append('address', entity.address);
+    formData.append('rubro', entity.department.name.toUpperCase());
+    formData.append('num_employees', entity.employeesQuantity.quantityDescription);
+    formData.append('business_name', entity.businessName);
+    formData.append('is_enabled', 'true');
+    let headers: HttpHeaders = this.authHttpHeaders;
+    headers = headers.append('Accept', 'application/json');
+    return this.http.post(this.actionUrl+'enterprises/',formData,{headers: headers}).map( result => {
+      return this.mapBeToEnterprise(result);
+    });
   }
   
   public delete(entity: Enterprise): Observable<Enterprise> {
-    let indexToRemove = this.mockData.findIndex( e => e.id == entity.id);
-    this.mockData.splice(indexToRemove,1);
-    return Observable.of(new Enterprise());
+    return this.http.delete(`${this.actionUrl}enterprises/${entity.id.toString()}`, {headers: this.authHttpHeaders})
+      .map( result => {
+        return entity;
+      });
   }
 
   public getCurrentEnterprise(): Observable<Enterprise>{
     return this.currentEnterprise.asObservable();
   }
 
-  public setCurrentEnterprise(enterprise: Enterprise): void{
+  public setCurrentEnterprise(enterprise: Enterprise): Observable<Enterprise>{
     this.currentEnterprise.next(enterprise);
+    return this.currentEnterprise.asObservable();
   }
 
   private genMock(): Array<Enterprise>{
@@ -75,6 +122,20 @@ export class EnterprisesService extends AuthenticatedService implements AsyncCru
       })]);
     }
     return mock;
+  }
+
+  private mapBeToEnterprise(beEntity: any): Enterprise{
+    return new Enterprise({
+      businessName: beEntity.business_name,
+      photoPublicUrl: beEntity.image,
+      address: beEntity.address,
+      ruc: beEntity.ruc,
+      id: beEntity.id,
+      department: this.departments.getSync(new DepartmentsByNameSpecification(beEntity.rubro))[0],
+      employeesQuantity: this.employeesQuantities.getSync(new EmployeesQuantitiesByDescriptionSpecification(beEntity.num_employees))[0],
+      name: beEntity.name,
+      adminsQuantity: beEntity.num_users
+    });
   }
 }
 

@@ -6,6 +6,7 @@ export abstract class BaseService {
     protected http: HttpClient;
     protected baseUrl: string;
     protected resourceUrl: string;
+    protected clearBaseUrl: string;
     
     protected get actionUrl(): string{
         return Location.joinWithSlash(this.baseUrl,this.resourceUrl);
@@ -14,7 +15,8 @@ export abstract class BaseService {
     constructor(http: HttpClient, resourceUrl: string){
         this.resourceUrl = resourceUrl;
         this.http = http;
-        this.baseUrl = environment.beUrl;
+        this.clearBaseUrl = `${environment.beUrl}`;
+        this.baseUrl = `${environment.beUrl}api/v1/`;
     }    
 
     protected makeRandomString(length: number){

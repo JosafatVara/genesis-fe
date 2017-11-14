@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticatedService } from './base/authenticated-service';
-import { AsyncCrudService } from './contracts/async-crud-service';
+import { CrudService } from './contracts/crud-service';
 import { EmployeesQuantity } from '../../shared/models/employees-quantity';
 import { AuthenticationService } from './authentication.service';
 import { HttpClient } from '@angular/common/http';
@@ -8,14 +8,19 @@ import { Observable } from 'rxjs/Observable';
 import { Specification } from './specifications/base/specification';
 
 @Injectable()
-export class EmployeesQuantitiesService extends AuthenticatedService implements AsyncCrudService<EmployeesQuantity> {
+export class EmployeesQuantitiesService extends AuthenticatedService implements CrudService<EmployeesQuantity> {
+  getSync(specification?: Specification<EmployeesQuantity>): EmployeesQuantity[] {
+    if(specification){
+      return this.employeesQuantityList.filter(e=>specification.isSatisfiedBy(e)); 
+    }
+    return this.employeesQuantityList;
+  }
+  private employeesQuantityList: EmployeesQuantity[] = [
+    new EmployeesQuantity({quantityDescription: 'TENTOTWENTY', id: 1}),
+  ];
 
   get(specification?: Specification<EmployeesQuantity>): Observable<EmployeesQuantity[]> {
-    return Observable.of([
-      new EmployeesQuantity({quantityDescription: 'De 1 a 10', id: 1}),
-      new EmployeesQuantity({quantityDescription: 'De 10 a 50', id: 2}),
-      new EmployeesQuantity({quantityDescription: 'De 50 a 100', id: 3}),
-    ]);
+      return Observable.of(this.employeesQuantityList);
   }
   update(entity: EmployeesQuantity): Observable<EmployeesQuantity> {
     throw new Error("Method not implemented.");

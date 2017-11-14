@@ -15,12 +15,13 @@ export class AuthenticationService extends BaseService{
   }
 
   public login(username: string, password: string): Observable<boolean>{
-    return this.http.post(this.baseUrl+'api/v1/accounts/login/',{
+    return this.http.post(this.baseUrl+'accounts/login/',{
       email: username,
       password: password
     }).map( (result: {token: string}) => {
       if(result.token){        
         this.storage.save('token',result.token);
+        localStorage.setItem('token',JSON.stringify(result.token));
         return true;
       }
       return false;
@@ -41,7 +42,7 @@ export class AuthenticationService extends BaseService{
   }
 
   public getToken(): string{
-    return '******';
+    return this.storage.load<string>('token');
   }
 
   public recoverPassword(email: string): Observable<boolean>{

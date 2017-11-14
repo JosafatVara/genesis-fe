@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MustBeAuthenticatedGuard } from './guards/must-be-authenticated-guard';
 import { MustBeUnauthenticatedGuard } from './guards/must-be-unauthenticated-guard';
 import { EnterpriseListResolver } from '../core/resolvers/enterprise-list-resolver';
+import { MustRecoverMeGuard } from './guards/must-recover-me-guard';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
-    canActivate: [ MustBeAuthenticatedGuard ],
+    canActivate: [ MustBeAuthenticatedGuard, MustRecoverMeGuard ],
     resolve: { enterprises: EnterpriseListResolver }
   },
   {
@@ -37,7 +38,8 @@ export const routes: Routes = [
   declarations: [],
   providers: [
     MustBeAuthenticatedGuard,
-    MustBeUnauthenticatedGuard
+    MustBeUnauthenticatedGuard,
+    MustRecoverMeGuard
   ],
   exports: [
     RouterModule

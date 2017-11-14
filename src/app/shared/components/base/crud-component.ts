@@ -1,14 +1,14 @@
 import { Input, Output, EventEmitter } from "@angular/core";
 import { BaseEntity } from "../../models/base/base-entity";
-import { AsyncCrudService } from "../../../core/services/contracts/async-crud-service";
+import { CrudService } from "../../../core/services/contracts/crud-service";
 import { FormControl, FormGroup } from "@angular/forms";
 import { BaseComponent } from "./base-component";
 
 export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseComponent {
 
-    protected crudService: AsyncCrudService<T>;
+    protected crudService: CrudService<T>;
 
-    constructor(crudService: AsyncCrudService<T>){
+    constructor(crudService: CrudService<T>){
         super();
         this.crudService = crudService;
         this.onFinish = new EventEmitter<T>();
@@ -20,7 +20,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
     public managedEntity: T;
 
     public finish(form: FormGroup){
-        this.fillDataModel();
+        this.fillDataModels();
         if( (form && form.valid) && this.validate()){
             switch(this.mode){
                 case 'create':
@@ -42,7 +42,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
         }
     }
 
-    protected fillDataModel(){
+    protected fillDataModels(){
 
     }
 

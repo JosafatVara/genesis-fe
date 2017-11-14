@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog } from '@angular/material';
 
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
@@ -9,22 +9,25 @@ import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
 import { DialogEnterpriseDetailsComponent } from '../dialog-enterprise-details/dialog-enterprise-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'gen-enterprise-list',
   templateUrl: './enterprise-list.component.html',
   styleUrls: ['./enterprise-list.component.scss']
 })
-export class EnterpriseListComponent implements OnInit {
- 
+export class EnterpriseListComponent implements OnInit, OnDestroy {
+  
   public inDashboard: boolean;
   public enterpriseList: Array<Enterprise>;
   public currentUser: User;
   public currentEnterprise: Enterprise;
   public displayedColumns: Array<string> =  ['Nombre','RUC','Administrar', 'Equipo'];
+  goToUsersSubscription: Subscription;
+  
 
   constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute
-    ,private matDialog: MatDialog) {
+    ,private matDialog: MatDialog, private router: Router) {
     enterprises.getCurrentEnterprise().subscribe( e => this.currentEnterprise = e );
     users.getCurrentUser().subscribe( u => this.currentUser = u);
     route.data.subscribe( (data: {inDashboard:boolean}) => this.inDashboard = data.inDashboard);
@@ -34,17 +37,24 @@ export class EnterpriseListComponent implements OnInit {
     this.refreshEnterprises();
   }
 
+  ngOnDestroy(): void {
+    this.goToUsersSubscription.unsubscribe();
+  }
+
   private refreshEnterprises(){
     this.enterprises.get().subscribe( es => this.enterpriseList = es );
   }
 
   public isManaging(enterprise: Enterprise) : boolean{
-    return enterprise.id == this.currentEnterprise.id;
+    return enterprise.id == this.currentEnterprise.id;    
   }
 
   public manageThis(enterprise: Enterprise): void{
-    this.enterprises.setCurrentEnterprise(enterprise);
-    this.enterprises.getCurrentEnterprise().subscribe(e=> this.currentEnterprise = e);
+    localStorage.setItem("enterprise",JSON.stringify(enterprise));
+    // console.log(enterprise.id);    
+    this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+      this.currentEnterprise = e;
+    });    
   }
 
   public crud(mode: string, enterprise: Enterprise = undefined ){
@@ -61,7 +71,7 @@ export class EnterpriseListComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
-      if(!result.cancelled){
+      if( result && !result.cancelled){
         this.refreshEnterprises();
       }
     });
@@ -77,6 +87,12 @@ export class EnterpriseListComponent implements OnInit {
       if(confirm){
         this.enterprises.delete(enterprise).subscribe( () => this.refreshEnterprises());
       }
+    });
+  }
+
+  goToEnterpriseUsers(enterprise: Enterprise){
+    this.goToUsersSubscription = this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+      this.router.navigateByUrl('dashboard/usuarios');
     });
   }
 }

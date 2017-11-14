@@ -13,7 +13,7 @@
         <gen-enterprise-details class="dialog-enterprise-none__creation" *ngSwitchCase="1" mode="create" [doChangesOnFinish]="false" (onFinish)="enterpriseCreated($event)"></gen-enterprise-details>
         <div  class="dialog-enterprise-none__congrats" *ngSwitchCase="2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
             <h2>Felicitaciones</h2>
-            <img class="dialog-enterprise-none__congrats__img u-circle" *ngIf="createdEnterprise.photo" [src]="createdEnterprise.photo">
+            <img class="dialog-enterprise-none__congrats__img u-circle" [src]="createdEnterprise.photoPublicUrl">
             <p>La empresa <b>{{createdEnterprise.name}}</b> fue creada con éxito.</p>
             <button class="cmp-btn cmp-btn--violet" (click)="manageEnterprise()">Administrar empresa</button>
         </div>

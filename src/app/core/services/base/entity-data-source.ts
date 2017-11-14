@@ -2,7 +2,7 @@ import { DataSource } from "@angular/cdk/collections";
 import { Observable } from "rxjs/Observable";
 import { MatPaginator, Sort } from "@angular/material";
 import { EventEmitter } from "@angular/core";
-import { AsyncCrudService } from "../contracts/async-crud-service";
+import { CrudService } from "../contracts/crud-service";
 import { Sorter } from "../shared/sorter";
 import { Refresher } from "../shared/refresher";
 import { QueryParamsSpecification } from "../specifications/contracts/query-params-specification";
@@ -11,7 +11,7 @@ export abstract class EntityDataSource<T> implements DataSource<T>{
 
     public size: number;
 
-    constructor(protected crudService: AsyncCrudService<T>, protected paginator: MatPaginator, 
+    constructor(protected crudService: CrudService<T>, protected paginator: MatPaginator, 
         protected sorter: Sorter, protected refresher: Refresher){
         
     }

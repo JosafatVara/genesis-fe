@@ -17,32 +17,40 @@ export class GroupsComponent implements OnInit {
 
   animal: string = "holiboli animal";
   name: string = "holiboli name";
-  users: any = {};
+  groups: any = [];
+  enterpriseId: string;
+  constructor(public dialog: MatDialog, private service: Service) {
 
-  constructor(public dialog: MatDialog, private service: Service) { }
-
-  ngOnInit() {
-    // this.getGroups();
   }
 
-  // getGroups() {
-  //   this.service.getList(JSON.parse(localStorage.getItem("enterprise").id)).subscribe(
-  //     (res) => {
-  //       this.users = res.json();
-  //     },
-  //     (err) => {
-  //     }
-  //   )
-  // }
+  ngOnInit() {
+    this.getGroups();
+    console.log(JSON.parse(localStorage.getItem("enterprise")).id);
+    
+    
+  }
+
+  getGroups() {
+    this.service.getList(JSON.parse(localStorage.getItem("enterprise")).id).subscribe(
+      (res) => {
+        console.log("holio");
+        
+        this.groups = res.json();
+        console.log(this.groups );        
+      },
+      (err) => {
+      }
+    )
+  }
 
   openDialogCreate(): void {
     let dialogRef = this.dialog.open(ModalCreateComponent, {
       width: '350px',
-      data: { enterpriseId: JSON.parse(localStorage.getItem('id')) }
+      data: { enterpriseId: JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("enterprise")).id)) }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.getGroups();
+        this.getGroups();
       }
     });
   }

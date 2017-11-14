@@ -1,0 +1,11 @@
+.staff-details{
+    &__photo{
+        height: 300px;
+        width: 300px;
+    }
+    &--create{
+        form{
+            padding: 8px;
+        }
+    }
+}

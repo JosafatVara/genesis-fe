@@ -8,9 +8,11 @@
         margin-bottom: 15px;
     }
     &__dataset{
+        overflow-x: auto;
         &__item{
             &__you__name{
                 color: $green-1;
+                font-weight: 600;
             }
         }
     }
