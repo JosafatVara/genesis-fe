@@ -3,6 +3,7 @@ import { User } from '../../shared/models/user';
 import { UsersService } from '../../core/services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
+
 import { DialogUserDetailsComponent } from '../dialog-user-details/dialog-user-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 

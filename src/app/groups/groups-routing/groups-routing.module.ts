@@ -3,11 +3,19 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from "@angular/router";
 
 import { GroupsComponent } from "../groups.component";
+import { GroupListComponent } from "../group-list/group-list.component";
+
 
 const routes: Routes = [
   {
     path: '',
-    component: GroupsComponent
+    component: GroupsComponent,
+    children: [
+      {
+        path: '',
+        component: GroupListComponent,
+      }
+    ]
   }
 ];
 

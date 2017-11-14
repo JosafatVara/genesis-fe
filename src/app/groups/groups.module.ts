@@ -10,9 +10,11 @@ import { Service } from './groups.service'
 import { GroupsRoutingModule } from "./groups-routing/groups-routing.module";
 
 import { GroupsComponent } from './groups.component';
-import { ModalCrudComponent } from "./modal-crud/modal-crud.component";
-import { ModalCreateComponent } from "./modal-create/modal-create.component";
-import { ModalUpdateComponent } from "./modal-update/modal-update.component";
+import { GroupListComponent } from "./group-list/group-list.component";
+import { GroupModalCrudComponent } from "./group-modal-crud/group-modal-crud.component";
+// import { ModalCrudComponent } from "./modal-crud/modal-crud.component";
+// import { ModalCreateComponent } from "./modal-create/modal-create.component";
+// import { ModalUpdateComponent } from "./modal-update/modal-update.component";
 
 @NgModule({
   imports: [
@@ -20,10 +22,13 @@ import { ModalUpdateComponent } from "./modal-update/modal-update.component";
     GroupsRoutingModule
   ],
   entryComponents: [
-    ModalCrudComponent, ModalUpdateComponent, ModalCreateComponent
+    // ModalCrudComponent, ModalUpdateComponent, ModalCreateComponent,
+    GroupModalCrudComponent
   ],
   declarations: [
-    GroupsComponent, ModalCrudComponent, ModalUpdateComponent, ModalCreateComponent
+    GroupsComponent, 
+    // ModalCrudComponent, ModalUpdateComponent, ModalCreateComponent,
+    GroupListComponent,GroupModalCrudComponent
   ],
   providers: [
     Service,
