@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Payment } from '../../shared/models/payment';
+import { StaffPayment } from '../../shared/models/staff-payment';
 import { CrudComponent } from '../../shared/components/base/crud-component';
 import { Employee } from '../../shared/models/employee';
-import { PaymentsService } from '../../core/services/payments.service';
+import { StaffPaymentsService } from '../../core/services/staff-payments.service';
 import { EmployeesService } from '../../core/services/employees.service';
 
 @Component({
@@ -11,36 +11,37 @@ import { EmployeesService } from '../../core/services/employees.service';
   templateUrl: './staff-payment-details.component.html',
   styleUrls: ['./staff-payment-details.component.scss']
 })
-export class StaffPaymentDetailsComponent extends CrudComponent<Payment> implements OnInit {
+export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> implements OnInit {
 
+  plameForm: FormGroup;
   paymentForm: FormGroup;
   
-  @Input('payment') payment: Payment;
+  @Input('payment') payment: StaffPayment;
   public employeeList: Array<Employee>;
-  private payments: PaymentsService;
-  private paymentPhoto: any;
+  private payments: StaffPaymentsService;
 
-  constructor(payments: PaymentsService, private employees: EmployeesService, private fb: FormBuilder){ 
+  constructor(payments: StaffPaymentsService, private employees: EmployeesService, private fb: FormBuilder){ 
     super(payments);
-    this.managedEntity = new Payment();
+    this.managedEntity = new StaffPayment();
     this.employeeList = [new Employee({firstName: '---', lastName: '---'})];
     this.payments = payments;
-    this.createForm();
+    this.createForms();
   } 
 
   ngOnInit() {
     this.validateMode();
     this.managedEntity = this.payment || this.managedEntity;
-    this.fillFormModel();
+    this.fillFormsModels();
     this.employees.get().subscribe( results => {
       this.employeeList = results;
       this.fillSelects();
     });
-    this.disableFormControls();
+    this.disableFormsControls();
   }
 
   //#region FormManagement
-  createForm(){
+  createForms(){
+    this.plameForm = this.fb.group({});
     this.paymentForm = this.fb.group({
       paymentDate: [new Date(),Validators.required],
       employee: [undefined,Validators.required],
@@ -62,7 +63,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<Payment> impleme
     });
   }
 
-  private disableFormControls(){
+  private disableFormsControls(){
     this.paymentForm.get('basePay').disable();
     this.paymentForm.get('remuneration').disable();
     this.paymentForm.get('AFPAmmount').disable();
@@ -72,7 +73,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<Payment> impleme
     this.paymentForm.get('totalContributions').disable();
   }
 
-  private fillFormModel(){
+  private fillFormsModels(){
     this.paymentForm.patchValue(this.payment);
   }
   //#endregion  
@@ -91,11 +92,12 @@ export class StaffPaymentDetailsComponent extends CrudComponent<Payment> impleme
   }
 
   public get title(): string{
-    switch (this.mode){
-      case 'create': return 'Crear pago';
-      case 'update': return 'Actualizar pago';
-      case 'read': return 'Este pago...';
-    }
+    // switch (this.mode){
+    //   case 'create': return 'Crear pago';
+    //   case 'update': return 'Actualizar pago';
+    //   case 'read': return 'Este pago...';
+    // }
+    return 'Datos del pago a Planilla';
   }
 
   public get buttonLabel(): string{

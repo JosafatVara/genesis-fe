@@ -9,6 +9,7 @@ import { QueryParamsSpecification } from './specifications/contracts/query-param
 import { Observable } from 'rxjs/Observable';
 import { Affiliation } from '../../shared/models/affiliation';
 import { BankAccount } from '../../shared/models/bank-account';
+import { FreelancersByNameSpecification } from "./specifications/freelancer-specification";
 
 @Injectable()
 export class FreelancersService extends AuthenticatedService implements CrudService<Freelancer>{
@@ -47,6 +48,14 @@ export class FreelancersService extends AuthenticatedService implements CrudServ
   }
 
   get(specification?: QueryParamsSpecification | Specification<Freelancer>): Observable<Freelancer[]> {
+    if(specification instanceof FreelancersByNameSpecification){
+      let freelancersWithName: Freelancer[] = [
+        new Freelancer({ id: 1, firstName: 'dinjo', lastName: 'joestar' }),
+        new Freelancer({ id: 2, firstName: 'billy', lastName: 'arredondo' }),
+        new Freelancer({ id: 3, firstName: 'said', lastName: 'rat' }),
+      ];
+      return Observable.of( freelancersWithName.filter( f => specification.isSatisfiedBy(f) ) );
+    }
     return Observable.of(this.mockData);
   }
   update(entity: Freelancer): Observable<Freelancer> {

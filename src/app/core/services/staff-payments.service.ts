@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthenticatedService } from './base/authenticated-service';
 import { CrudService } from './contracts/crud-service';
-import { Payment } from '../../shared/models/payment';
+import { StaffPayment } from '../../shared/models/staff-payment';
 import { AuthenticationService } from './authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { QueryParamsSpecification } from './specifications/contracts/query-params-specification';
@@ -10,10 +10,10 @@ import { Observable } from 'rxjs/Observable';
 import { Employee } from '../../shared/models/employee';
 
 @Injectable()
-export class PaymentsService extends AuthenticatedService implements CrudService<Payment>{
+export class StaffPaymentsService extends AuthenticatedService implements CrudService<StaffPayment>{
 
-  private mockData: Payment[] = [
-    new Payment({
+  private mockData: StaffPayment[] = [
+    new StaffPayment({
       paymentDate: new Date(),
       employee: new Employee({
         id: 1,
@@ -28,19 +28,19 @@ export class PaymentsService extends AuthenticatedService implements CrudService
     super(auth,http,'*****');
   }
 
-  get(specification?: QueryParamsSpecification | Specification<Payment>): Observable<Payment[]> {
+  get(specification?: QueryParamsSpecification | Specification<StaffPayment>): Observable<StaffPayment[]> {
     return Observable.of(this.mockData);
   }
-  update(entity: Payment): Observable<Payment> {
+  update(entity: StaffPayment): Observable<StaffPayment> {
     throw new Error("Method not implemented.");
   }
-  create(entity: Payment): Observable<Payment> {
+  create(entity: StaffPayment): Observable<StaffPayment> {
     throw new Error("Method not implemented.");
   }
-  delete(entity: Payment): Observable<Payment> {
+  delete(entity: StaffPayment): Observable<StaffPayment> {
     throw new Error("Method not implemented.");
   }
-  getSync(specification?: QueryParamsSpecification | Specification<Payment>): Payment[] {
+  getSync(specification?: QueryParamsSpecification | Specification<StaffPayment>): StaffPayment[] {
     throw new Error("Method not implemented.");
   }
 }

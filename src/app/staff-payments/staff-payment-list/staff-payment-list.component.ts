@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Payment } from '../../shared/models/payment';
-import { PaymentsService } from '../../core/services/payments.service';
+import { StaffPayment } from '../../shared/models/staff-payment';
+import { StaffPaymentsService } from '../../core/services/staff-payments.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { DialogStaffPaymentDetailsComponent } from '../dialog-staff-payment-details/dialog-staff-payment-details.component';
@@ -15,9 +15,9 @@ import { BaseComponent } from "../../shared/components/base/base-component";
 export class StaffPaymentListComponent extends BaseComponent implements OnInit {
 
   public inDashboard: boolean;
-  public paymentList: Array<Payment>;
+  public paymentList: Array<StaffPayment>;
 
-  constructor(private payments: PaymentsService, route: ActivatedRoute ,private matDialog: MatDialog) {
+  constructor(private payments: StaffPaymentsService, route: ActivatedRoute ,private matDialog: MatDialog) {
     super();
     route.data.subscribe( (data: {inDashboard:boolean}) => {
       this.inDashboard = data.inDashboard
@@ -32,7 +32,7 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
     this.payments.get().subscribe( es => this.paymentList = es );
   }
 
-  public crud(mode: string, payment: Payment = undefined ){
+  public crud(mode: string, payment: StaffPayment = undefined ){
     if(mode=='delete'){
       this.delete(Object.assign({},payment));
       return;
@@ -52,7 +52,7 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
     });
   }
 
-  private delete(payment: Payment){
+  private delete(payment: StaffPayment){
     let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       data: {
         message: `Eliminar el pago de S/. ${payment.totalContributions} de ${payment.employee.fullName}?`

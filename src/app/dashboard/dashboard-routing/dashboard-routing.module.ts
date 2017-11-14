@@ -51,6 +51,10 @@ const routes: Routes = [
           {
             path: 'planillas',
             loadChildren: 'app/staff-payments/staff-payments.module#StaffPaymentsModule'
+          },
+          {
+            path: 'rxh',
+            loadChildren: 'app/freelancers-payments/freelancers-payments.module#FreelancersPaymentsModule'
           }
         ]
       },

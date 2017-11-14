@@ -1,10 +1,10 @@
 import { BaseEntity } from "./base/base-entity";
 import { Employee } from "./employee";
+import { Incentive } from "./incentive";
+import { Discount } from "./discount";
 
-export class Payment extends BaseEntity<Payment>{
+export class StaffPayment extends BaseEntity<StaffPayment>{
     public paymentDate: Date;
-    public employee: Employee;
-    public basePay: number;
     public payPerFamiliar: number;
     public bonus: number;
     public remuneration: number;
@@ -19,5 +19,13 @@ export class Payment extends BaseEntity<Payment>{
     public salaryToPay: number;
     public essalud: number;
     public totalContributions: number;
+    
+    public basePay: number;
+    public employee: Employee;    
+    public month: number;
+    public year: number;
+    public incentives: Incentive[];
+    public discounts: Discount[];
+    public netTotalAmmount: number;
 
 }

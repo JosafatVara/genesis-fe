@@ -14,12 +14,13 @@ import { EmployeesService } from './services/employees.service';
 import { AffiliationsService } from './services/affiliations.service';
 import { FreelancersService } from './services/freelancers.service';
 import { CurrentEnterpriseResolver } from './resolvers/current-enterprise-resolver';
-import { PaymentsService } from './services/payments.service';
+import { StaffPaymentsService } from './services/staff-payments.service';
 import { MatSnackBarModule } from '@angular/material';
 import { ImagesService } from './utils/images/images.service';
 import { ToastService } from './utils/toast/toast.service';
 import { ToastComponent } from './utils/toast/toast.component';
 import { CommonModule } from '@angular/common';
+import { FreelancersPaymentsService } from "./services/freelancers-payments.service";
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { CommonModule } from '@angular/common';
     EmployeesService,
     FreelancersService,
     AffiliationsService,
-    PaymentsService,
+    StaffPaymentsService,
+    FreelancersPaymentsService,
 
     //RESOLVERS
     EnterpriseListResolver,

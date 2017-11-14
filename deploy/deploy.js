@@ -1,4 +1,4 @@
-const git = require('simple-git')('./deploy/');
+const git = require('simple-git')('./');
 
 git.listRemote(['--get-url'], (err, data) => {
     if (!err) {

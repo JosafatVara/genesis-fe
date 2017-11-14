@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { PaymentsService } from '../../core/services/payments.service';
-import { Payment } from '../../shared/models/payment';
+import { StaffPaymentsService } from '../../core/services/staff-payments.service';
+import { StaffPayment } from '../../shared/models/staff-payment';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BaseComponent } from '../../shared/components/base/base-component';
 import { Observable } from 'rxjs/Observable';
@@ -13,21 +13,21 @@ import { Observable } from 'rxjs/Observable';
 export class DialogStaffPaymentDetailsComponent extends BaseComponent implements OnInit {
 
   public mode: string
-  public payment: Payment;
+  public payment: StaffPayment;
 
-  constructor(private payments: PaymentsService, private dialogRef: MatDialogRef<DialogStaffPaymentDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {mode: string, payment: Payment}) {
+  constructor(private payments: StaffPaymentsService, private dialogRef: MatDialogRef<DialogStaffPaymentDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {mode: string, payment: StaffPayment}) {
     super();
     this.mode = data.mode || 'read';
-    this.payment = data.mode == 'create'? new Payment() : data.payment;
+    this.payment = data.mode == 'create'? new StaffPayment() : data.payment;
   }
 
   ngOnInit() {
   }
 
-  onCrudComponentFinish(payment: Payment){
+  onCrudComponentFinish(payment: StaffPayment){
     this.loadingOn();
-    let observable: Observable<Payment>;
+    let observable: Observable<StaffPayment>;
     switch(this.mode){
       case 'create':
         observable = this.payments.create(payment);

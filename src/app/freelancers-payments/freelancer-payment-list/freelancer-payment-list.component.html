@@ -1,10 +1,10 @@
-<div fxLayout="column" class="payment-list" [ngClass]="{'cont wrapper':inDashboard}">
-    <div fxLayout="row" class="payment-list__header" [ngClass]="{'cont__title':inDashboard}">
-      <h2>Pagos Planilla</h2>
+<div fxLayout="column" class="freelancer-payment-list" [ngClass]="{'cont wrapper':inDashboard}">
+    <div fxLayout="row" class="freelancer-payment-list__header" [ngClass]="{'cont__title':inDashboard}">
+      <h2>Pagos RxH</h2>
       <span fxFlex></span>
       <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Ingresa Pago</button> 
     </div>  
-    <div class="payment-list__dataset" [ngClass]="{'cmp-card':inDashboard}">      
+    <div class="freelancer-payment-list__dataset" [ngClass]="{'cmp-card':inDashboard}">      
       <div [ngClass]="{'cmp-card__body':inDashboard}">
         <div class="body__cont-actions" fxLayout="column">
             <div fxLayout="row" fxLayoutGap="15px">
@@ -30,12 +30,12 @@
             <li fxFlex="25" class="header__title header__title--action u-h-center">Pago (S/.)</li>
             <li fxFlex="30" class="header__title u-h-center">Acciones</li>
           </ul>
-          <ul class="cmp-table__body payment-list__dataset__item" *ngFor="let payment of paymentList"
+          <ul class="cmp-table__body freelancer-payment-list__dataset__item" *ngFor="let payment of freelancerPaymentList"
           fxLayout="row" fxLayout="start center">
-            <li fxFlex="20" class="body__text u-h-center">{{payment.paymentDate | date:'dd/MM/yyyy'  }}</li>
-            <li fxFlex="25" class="body__text u-h-center">{{payment.employee ? payment.employee.fullName : ''}}</li>
+            <li fxFlex="20" class="body__text u-h-center">{{payment.creationDate | date:'dd/MM/yyyy'  }}</li>
+            <li fxFlex="25" class="body__text u-h-center">{{payment.freelancer ? payment.freelancer.fullName : ''}}</li>
             <li fxFlex="25" class="body__text u-h-center">
-              S/. {{(payment.totalContributions? payment.totalContributions: 0) | numeric}}
+              S/. {{(payment.rxhs? payment.total: 0) | numeric}}
             </li>
             <li fxFlex="30" class="body__text u-h-center">
                 <button class="cmp-btn cmp-btn--actions cmp-btn--responsive" (click)="crud('update',payment)">
