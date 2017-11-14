@@ -5,6 +5,7 @@ import { CrudComponent } from '../../shared/components/base/crud-component';
 import { Employee } from '../../shared/models/employee';
 import { StaffPaymentsService } from '../../core/services/staff-payments.service';
 import { EmployeesService } from '../../core/services/employees.service';
+import { EmployeesByNameSpecification } from "../../core/services/specifications/employee-specification";
 
 @Component({
   selector: 'gen-staff-payment-details',
@@ -13,6 +14,7 @@ import { EmployeesService } from '../../core/services/employees.service';
 })
 export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> implements OnInit {
 
+  staffPaymentForm: FormGroup;
   plameForm: FormGroup;
   paymentForm: FormGroup;
   
@@ -23,58 +25,64 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   constructor(payments: StaffPaymentsService, private employees: EmployeesService, private fb: FormBuilder){ 
     super(payments);
     this.managedEntity = new StaffPayment();
-    this.employeeList = [new Employee({firstName: '---', lastName: '---'})];
     this.payments = payments;
     this.createForms();
   } 
 
   ngOnInit() {
     this.validateMode();
-    this.managedEntity = this.payment || this.managedEntity;
+    this.managedEntity = this.mode == 'create' ? new StaffPayment({year: (new Date()).getFullYear(),
+        month: (new Date()).getMonth() + 1}) : this.payment;
+    this.createFormsListeners();
     this.fillFormsModels();
-    this.employees.get().subscribe( results => {
-      this.employeeList = results;
-      this.fillSelects();
-    });
     this.disableFormsControls();
   }
 
   //#region FormManagement
   createForms(){
+    this.staffPaymentForm = this.fb.group({
+      employee: [undefined, [Validators.required]],
+      year: [0,[Validators.required]],
+      month: [0, [Validators.required]],
+      plame: this.plameForm,
+      payment: this.paymentForm
+    })
     this.plameForm = this.fb.group({});
     this.paymentForm = this.fb.group({
-      paymentDate: [new Date(),Validators.required],
-      employee: [undefined,Validators.required],
-      basePay: [0,[Validators.required]],
-      payPerFamiliar: [0,[Validators.required]],
-      bonus: [0,[Validators.required]],
-      remuneration: [0,[Validators.required]],
-      AFPAmmount: [0,[Validators.required]],
-      insurance: [0,[Validators.required]],
-      commission: [0,[Validators.required]],
-      gratification: [0,[Validators.required]],
-      mobility: [0,[Validators.required]],
-      prepayment: [0,[Validators.required]],
-      loan: [0,[Validators.required]],
-      totalDiscount: [0,[Validators.required]],
-      salaryToPay: [0,[Validators.required]],
-      essalud: [0,[Validators.required]],
-      totalContributions: [0,[Validators.required]]
+      basePay: [0,[Validators.required]],      
+      netTotalAmmount: [0,[Validators.required]],
+      incentives: this.fb.array([]),
+      discounts: this.fb.array([])
     });
   }
 
   private disableFormsControls(){
-    this.paymentForm.get('basePay').disable();
-    this.paymentForm.get('remuneration').disable();
-    this.paymentForm.get('AFPAmmount').disable();
-    this.paymentForm.get('totalDiscount').disable();
-    this.paymentForm.get('salaryToPay').disable();
-    this.paymentForm.get('essalud').disable();
-    this.paymentForm.get('totalContributions').disable();
+  }
+
+  createFormsListeners(){
+    this.staffPaymentForm.get('employee')
+      .valueChanges.debounceTime(500).subscribe( name => {
+        if( !(name instanceof Employee) ){
+          this.employees.get(new EmployeesByNameSpecification(name))
+          .subscribe( es => {
+            this.employeeList = es;
+          });
+        }else{
+          this.employeeList = [];
+        }
+      });
+  }
+
+  displayEmployeeFn(employee: Employee){
+    return employee ? employee.fullName : '';
+  }
+
+  get employeeSelected() : boolean{
+    return this.staffPaymentForm.get('employee').value instanceof Employee;
   }
 
   private fillFormsModels(){
-    this.paymentForm.patchValue(this.payment);
+    this.staffPaymentForm.patchValue({ year: this.managedEntity.year, month: this.managedEntity.month });
   }
   //#endregion  
 
@@ -83,12 +91,12 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   }
 
   private fillSelects(): void{
-    if(this.mode=='create'){
-      this.paymentForm.get('employee').setValue(this.employeeList[0]);
-    }else{
-      this.paymentForm.get('employee').setValue(
-        this.managedEntity.employee? this.employeeList.find( r => r.id == this.managedEntity.employee.id):undefined );
-    }
+    // if(this.mode=='create'){
+    //   this.paymentForm.get('employee').setValue(this.employeeList[0]);
+    // }else{
+    //   this.paymentForm.get('employee').setValue(
+    //     this.managedEntity.employee? this.employeeList.find( r => r.id == this.managedEntity.employee.id):undefined );
+    // }
   }
 
   public get title(): string{

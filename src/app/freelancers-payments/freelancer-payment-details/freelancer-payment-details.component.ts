@@ -68,6 +68,8 @@ export class FreelancerPaymentDetailsComponent extends CrudComponent<FreelancerP
           .subscribe( fs => {
             this.freelancerList = fs;
           });
+        }else{
+          this.freelancerList = [];
         }
       });
   }

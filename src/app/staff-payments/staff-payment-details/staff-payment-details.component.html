@@ -1,5 +1,26 @@
 <div fxLayout="column" class="payment-details" novalidate>
     <h1 class="payment-details__header u-h-center">{{title}}</h1>
+    <form fxLayout="row" fxLayoutAlign="start center" [formGroup]="staffPaymentForm">
+      <mat-form-field fxFlex="50" class="payment-details__employee-search">
+        <span matPrefix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
+        <input type="text" matInput formControlName="employee" [matAutocomplete]="auto" placeholder="Asignar este pago a...">
+      </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEmployeeFn">
+        <mat-option *ngFor="let employee of employeeList" [value]="employee">
+            {{ employee.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+      <div fxFlex class="u-h-center">
+        <span>
+          <b>Mes:&nbsp;</b>{{staffPaymentForm.get('month').value | toMonth }}
+        </span>        
+      </div>
+      <div fxFlex class="u-h-center">
+        <span>
+          <b>Año:&nbsp;</b>{{staffPaymentForm.get('year').value}}
+        </span>        
+      </div>
+    </form>        
     <mat-horizontal-stepper [linear]="true">
       <mat-step [stepControl]="plameForm" [completed]="false">
         <ng-template matStepLabel>Datos PLAME</ng-template>
@@ -7,116 +28,15 @@
       <mat-step [stepControl]="paymentForm" [completed]="false">
         <ng-template matStepLabel>Datos pago</ng-template>
         <form fxLayout="row" fxLayoutGap="30px" [formGroup]="paymentForm">
-          <div fxFlex fxLayout="column" fxLayoutGap="15px">
-            <div fxLayout="row" fxLayoutGap="20px">
-              <mat-form-field fxFlex="45">
-                <input matInput [matDatepicker]="picker" placeholder="Fecha de pago" formControlName="paymentDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-            </div>        
-            <div fxLayout="row" fxLayoutGap="20px">
-              <mat-form-field fxFlex="45" class="c-input">
-                <mat-select placeholder="Empleado" formControlName="employee">
-                  <mat-option *ngFor="let employee of employeeList" [value]="employee">
-                    {{ employee.fullName }}
-                  </mat-option>
-                </mat-select>
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex class="c-input">
-                <input type="number" matInput placeholder="Sueldo base" formControlName="basePay">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-            </div>        
-            <div fxLayout="row" fxLayoutGap="20px">
-              <mat-form-field fxFlex="45" class="c-input">
-                <input type="number" matInput placeholder="Pago por familiar" formControlName="payPerFamiliar">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex class="c-input">
-                <input type="number" matInput placeholder="Bonificación" formControlName="bonus">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutGap="20px">
-              <mat-form-field fxFlex="45" class="c-input">
-                <input type="number"  matInput placeholder="Remuneración" formControlName="remuneration">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex class="c-input">
-                <input type="number"  matInput placeholder="AFP" formControlName="AFPAmmount">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutGap="20px">
-              <mat-form-field fxFlex="45" class="c-input">
-                <input type="number" matInput placeholder="Seguro" formControlName="insurance">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex class="c-input">
-                <input type="number" matInput placeholder="Comisión" formControlName="commission">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutGap="20px">
-              <mat-form-field fxFlex="45" class="c-input">
-                <input type="number" matInput placeholder="Gratificación" formControlName="gratification">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field fxFlex class="c-input">
-                <input type="number" matInput placeholder="Movilidad" formControlName="mobility">
-                <mat-error>Requerido</mat-error>
-              </mat-form-field>
-            </div>        
+          <div fxLayout="row">
+            <span><b>Monto Base:</b></span>
+            <span fxFlex></span>
           </div>
-          <div fxLayout="column" fxLayoutGap="15px">
-              <div class="u-hidden">
-                <mat-form-field>
-                  <input type="number" matInput placeholder="Adelanto">
-                </mat-form-field>
-              </div>
-              <div fxLayout="row" fxLayoutGap="20px">
-                <mat-form-field fxFlex="45" class="c-input">
-                  <input type="number" matInput placeholder="Adelanto" formControlName="prepayment">
-                  <mat-error>Requerido</mat-error>
-                </mat-form-field>
-                <mat-form-field fxFlex class="c-input">
-                  <input type="number" matInput placeholder="Préstamo" formControlName="loan">
-                  <mat-error>Requerido</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxLayout="row" fxLayoutGap="20px">
-                <mat-form-field fxFlex="45">
-                  <input type="number"  matInput placeholder="Total descuento" formControlName="totalDiscount">
-                  <mat-error>Requerido</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxLayout="row" fxLayoutGap="20px">
-                <mat-form-field fxFlex="45">
-                  <input type="number"  matInput placeholder="Sueldo a pagar" formControlName="salaryToPay">
-                  <mat-error>Requerido</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxLayout="row" fxLayoutGap="20px">
-                <mat-form-field fxFlex="45">
-                  <input type="number"  matInput placeholder="Essalud 9%" formControlName="essalud">
-                  <mat-error>Requerido</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxLayout="row" fxLayoutGap="20px">            
-                <mat-form-field fxFlex="45">
-                  <input type="number"  matInput placeholder="Total de aportes" formControlName="totalContributions">
-                  <mat-error>Requerido</mat-error>
-                </mat-form-field>
-              </div>
-          </div>      
         </form>
       </mat-step>
     </mat-horizontal-stepper>    
     <div fxLayout="row" fxLayoutAlign="center center">
-      <button type="submit" class="cmp-btn cmp-btn--violet">{{buttonLabel}}</button>
+      <button type="submit" class="cmp-btn cmp-btn--violet" [disabled]="!employeeSelected">{{buttonLabel}}</button>
     </div>
   </div>
   
