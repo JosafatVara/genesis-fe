@@ -39,8 +39,8 @@ export class GroupListComponent implements OnInit {
     }
 
     private refreshGroups() {
-        console.log(this.currentEnterprise.id,"id de empresa catual");
-        
+        console.log(this.currentEnterprise.id, "id de empresa catual");
+
         this.service.getList(this.currentEnterprise.id).subscribe(
             res => this.groups = res.json()
         )
@@ -67,13 +67,11 @@ export class GroupListComponent implements OnInit {
     private delete(group: Group) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
-                message: `Eliminar el grupo ${group.name}?`
+                message: `¿Esta seguro de eliminar el grupo ${group.name}?`
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) {
-                this.service.delete(group.id).subscribe(() => this.refreshGroups());
-            }
+            if (confirm) this.service.delete(group.id).subscribe(() => this.refreshGroups());
         });
     }
 
