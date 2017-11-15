@@ -1,10 +1,9 @@
+@import "../../../assets/styles/1.settings/_colors.scss";
+
 .payment-details{
     padding: 25px;
     &__header{
         margin-bottom: 20px; 
-    }
-    &__photo{
-        padding: 30px 16px 0px 0px;
     }
     &__employee-search{
         margin-bottom: 0px !important;
@@ -12,7 +11,58 @@
             margin-bottom: 0px !important;
         }
     }
-    .cmp-message--error{
-        margin-bottom: 15px;
+    &__payment{
+        // &__detail{
+        //     padding: 8px;
+        //     &__item{
+        //         padding: 10px;
+        //         &__deleter{
+        //             background: $red-1;
+        //             color: $white-0;
+        //             border-radius: 3px;
+        //             cursor: pointer;
+        //         }
+        //     }
+        // }
+        table{
+            border-collapse: collapse;
+            thead{
+                tr{
+                    background-color: $violet-1;
+                    color: $white-0;
+                }
+            }
+            tr{
+                &:nth-child(even){
+                    background-color: $white-6;
+                }
+                th,td{
+                    text-align: center;
+                    padding: 5px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+                td:nth-child(2){
+                    color: $green-1;
+                }
+                td:nth-child(3){
+                    color: $red-1;
+                }
+            }
+        }
     }
+    /deep/ mat-horizontal-stepper{
+        display: flex;
+        flex-direction: column;
+        .mat-horizontal-content-container{
+            flex: 1;
+            .mat-horizontal-stepper-content[aria-expanded="true"]{
+                height: 100%;
+                // .mat-form-field-underline{
+                //     bottom: 1.40em;
+                // }
+            }
+        }
+    }    
 }

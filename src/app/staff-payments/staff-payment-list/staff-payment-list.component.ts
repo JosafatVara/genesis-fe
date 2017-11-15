@@ -39,7 +39,8 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
     }
     let dialogRef = this.matDialog.open(DialogStaffPaymentDetailsComponent,{
       disableClose: true,
-      width: '700px',
+      width: '900px',
+      height: '85%',
       data: {
         mode: mode,
         payment: Object.assign({},payment)

@@ -1,0 +1,20 @@
+<form fxLayout="column" fxLayoutGap="10px">
+  <h3>{{title}}</h3>
+  <mat-form-field>
+    <input matInput type="text" name="concept" required [(ngModel)]="modifier.concept" placeholder="Concepto">
+    <mat-error>Requerido</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" name="ammount" required [(ngModel)]="modifier.ammount" placeholder="Monto">
+    <mat-error>Requerido</mat-error>
+  </mat-form-field>
+  <div fxLayout="row">
+    <button type="button" class="cmp-btn" mat-dialog-close>
+      Cancelar
+    </button>
+    <span fxFlex></span>
+    <button class="cmp-btn cmp-btn--violet" (click)="confirm()">
+      {{buttonLabel}}
+    </button>
+  </div>
+</form>
