@@ -8,30 +8,32 @@ import { Group } from '../../shared/models/group';
 import { AuthenticatedService } from './base/authenticated-service';
 
 @Injectable()
-export class Service extends AuthenticatedService{
+export class Service extends AuthenticatedService {
     nameModule = 'api/v1/purchases/';
     token: string;
 
     constructor(http: HttpClient, auth: AuthenticationService) {
-        super(auth,http,'/api/v1/');
+        super(auth, http, '/api/v1/');
         this.token = JSON.parse(localStorage.getItem("token"));
     }
 
-    getList(id) : Observable<Group[]> {
+    getList(id): Observable<Group[]> {
         // let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-        return this.http.get<any>(`${this.actionUrl}/purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
-            .map( (result: { count: number, page_number: number, page: number, results: any[]  }) => {
+        return this.http.get(`${this.actionUrl}/purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
+            .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
                 let groups: Group[] = [];
-                groups = result.results.map( r => this.mapBeToGroup(r) );
+                groups = result.results.map(r => this.mapBeToGroup(r));
                 return groups;
             });
         // return this.http.get('${environment.beUrl} ${this.nameModule} ${id} /groups/', { headers: headers });
     }
 
-    create(data, id): Observable<Response> {
-        let body = JSON.stringify(data);
-        let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-        return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
+    create(data, id): Observable<Group> {
+        return this.http.post(`${this.actionUrl}/purchases/enterprises/${id}/groups`, { headers: this.authHttpHeaders })
+        .map((result))
+        // let body = JSON.stringify(data);
+        // let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
+        // return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
     }
 
     get(id) {
@@ -51,10 +53,10 @@ export class Service extends AuthenticatedService{
         return this.http.delete(environment.beUrl + this.nameModule + 'groups/' + id, { headers: headers });
     }
 
-    mapBeToGroup(be: any){
+    mapBeToGroup(be: any) {
         return new Group({
             id: be.id,
             name: be.name
         });
-    }    
+    }
 }
