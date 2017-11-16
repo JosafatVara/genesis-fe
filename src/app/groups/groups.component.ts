@@ -33,8 +33,7 @@ export class GroupsComponent implements OnInit {
   getGroups() {
     this.service.getList(JSON.parse(localStorage.getItem("enterprise")).id).subscribe(
       (res) => {
-        console.log("holio");
-        
+        console.log("holio");        
         this.groups = res.json();
         console.log(this.groups );        
       },
