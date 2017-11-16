@@ -4,23 +4,22 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Service } from '../../core/services/groups.service'
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
-import { Group } from "../../shared/models/group";
+import { Order } from "../../shared/models/order";
 
 @Component({
     moduleId: module.id,
-    selector: 'group-modal-crud',
-    templateUrl: 'group-modal-crud.component.html',
-    styleUrls: ['group-modal-crud.component.scss']
+    selector: 'orders-modal-crud',
+    templateUrl: 'orders-modal-crud.component.html',
+    styleUrls: ['orders-modal-crud.component.scss']
 })
-export class GroupModalCrudComponent {
-
+export class OrdersModalCrudComponent {
     public currentEnterprise: Enterprise;
     loader: boolean;
     btnLabel: string;
     groupForm: FormGroup;
     constructor(
-        public thisDialogRef: MatDialogRef<GroupModalCrudComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { action: string, group: Group },
+        public thisDialogRef: MatDialogRef<OrdersModalCrudComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: { action: string, order: Order },
         private fb: FormBuilder,
         private service: Service,
         private enterprises: EnterprisesService
@@ -31,14 +30,15 @@ export class GroupModalCrudComponent {
         this.setValidateForm();
         this.setBtnLabel();
     }
-
     cancel() {
         this.thisDialogRef.close({ cancelled: true })
     }
 
     validateForm(data) {
         this.groupForm = this.fb.group({
-            name: [data, Validators.required]
+            client: [data, Validators.required],
+            name: [data, Validators.required],
+            quantity: [data, Validators.required]
         });
     }
 
@@ -51,7 +51,7 @@ export class GroupModalCrudComponent {
     }
 
     setValidateForm() {
-        this.data.action == 'update' ? this.validateForm(this.data.group.name) : this.validateForm('');
+        this.data.action == 'update' ? this.validateForm(this.data.order.orderName) : this.validateForm('');
     }
 
     doAction() {
@@ -65,12 +65,11 @@ export class GroupModalCrudComponent {
             case 'update':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.update(value, this.data.group.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
+                    this.service.update(value, this.data.order.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
                 }
                 break;
             default:
                 break;
         }
     }
-
 }

@@ -11,6 +11,9 @@ import { GroupsModule } from "../groups/groups.module";
 import { SharedModule } from '../shared/shared.module';
 import { QuotationsModule } from "../quotations/quotations.module";
 import { CustomersModule } from "../customers/customers.module";
+import { OrdersModule } from "../orders/orders.module";
+import { ReportsModule } from "../reports/reports.module";
+
 
 //components
 
@@ -23,10 +26,9 @@ import { ActionsComponent } from "./actions/actions.component";
 @NgModule({
   imports: [
     FlexLayoutModule, CommonModule,
-    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule, QuotationsModule,CustomersModule
+    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, ProvidersModule, GroupsModule, QuotationsModule, CustomersModule, OrdersModule, ReportsModule
   ],
   declarations: [
-
     ActionsComponent,
     DashboardComponent, HeaderComponent, SidebarComponent, AccountOptionsComponent
   ],

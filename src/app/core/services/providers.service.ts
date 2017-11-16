@@ -14,8 +14,8 @@ export class Service {
 
     getList(id) {
         let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-        return this.http.get(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', { headers: headers });
-        // return this.http.get('${environment.beUrl} ${this.nameModule} ${id} /groups/', { headers: headers });
+        return this.http.get(environment.beUrl + this.nameModule + 'groups/' + id + '/providers', { headers: headers });
+        // return this.http.get(`${environment.beUrl} ${this.nameModule} groups/providers/ ${id}`, { headers: headers });
     }
 
     create(data, id): Observable<Response> {
@@ -38,7 +38,7 @@ export class Service {
 
     delete(id): Observable<Response> {
         let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-        return this.http.delete(environment.beUrl + this.nameModule + 'groups/' + id, { headers: headers });
+        return this.http.delete(environment.beUrl + this.nameModule + 'groups/providers/' + id, { headers: headers });
     }
 
 }

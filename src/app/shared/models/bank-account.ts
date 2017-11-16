@@ -4,5 +4,4 @@ export class BankAccount extends BaseEntity<BankAccount> {
     public bankName: string;
     public number: string;
     public interbankNumber: string;
-
 }

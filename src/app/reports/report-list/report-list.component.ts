@@ -2,31 +2,32 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from "@angular/material";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
-
 //modules
 import { Service } from '../../core/services/groups.service'
-import { Group } from "../../shared/models/group";
+import { Order } from "../../shared/models/order";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
-// import { Refresher } from '../../core/services/shared/refresher';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
 //components
-import { GroupModalCrudComponent } from "../group-modal-crud/group-modal-crud.component";
+import { ReportModalCrudComponent } from "../report-modal-crud/report-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
 
 
 
 @Component({
     moduleId: module.id,
-    selector: 'group-list',
-    templateUrl: 'group-list.component.html',
-    styleUrls: ['group-list.component.scss']
+    selector: 'report-list',
+    templateUrl: 'report-list.component.html',
+    styleUrls: ['report-list.component.scss']
 })
-export class GroupListComponent implements OnInit {
-
+export class ReportListComponent {
     groups: any = [];
+    days: any = [];
+    months: any = [];
+    years: any = [];
+    date: any;
+
     public currentUser: User;
     public currentEnterprise: Enterprise;
     constructor(private matDialog: MatDialog, private service: Service, private users: UsersService, private enterprises: EnterprisesService) {
@@ -35,9 +36,43 @@ export class GroupListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.refreshGroups();
+        // this.refreshGroups();
+        this.date = {
+            day: '',
+            month: '',
+            year: ''
+        }
+        this.days = [
+            { value: 'todos' },
+            { value: 'lunes' },
+            { value: 'martes' },
+            { value: 'miercoles' },
+            { value: 'jueves' },
+            { value: 'viernes' },
+            { value: 'sábado' },
+            { value: 'domingo' },
+        ];
+        this.months = [
+            { value: 'todos' },
+            { value: 'Enero' },
+            { value: 'Febrero' },
+            { value: 'Marzo' },
+            { value: 'Abril' },
+            { value: 'Mayo' },
+            { value: 'Junio' },
+            { value: 'Julio' },
+            { value: 'Agosto' },
+            { value: 'Setiembre' },
+            { value: 'Octubre' },
+            { value: 'Noviembre' },
+            { value: 'Diciembre' },
+        ];
+        this.years = [
+            { value: '2017' },
+            { value: '2018' },
+            { value: '2019' },
+        ];
     }
-
     private refreshGroups() {
         console.log(this.currentEnterprise.id, "id de empresa catual");
 
@@ -47,16 +82,16 @@ export class GroupListComponent implements OnInit {
         console.log(this.groups);
     }
 
-    crud(action: string, group: Group = undefined) {
+    crud(action: string, order: Order = undefined) {
         if (action == 'delete') {
-            this.delete(Object.assign({}, group));
+            this.delete(Object.assign({}, order));
             return
         }
-        let dialogRef = this.matDialog.open(GroupModalCrudComponent, {
-            width: '350px',
+        let dialogRef = this.matDialog.open(ReportModalCrudComponent, {
+            width: '440px',
             data: {
                 action: action,
-                group: Object.assign({}, group)
+                order: Object.assign({}, order)
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
@@ -64,14 +99,14 @@ export class GroupListComponent implements OnInit {
         })
     }
 
-    private delete(group: Group) {
+    private delete(order: Order) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
-                message: `¿Esta seguro de eliminar el grupo ${group.name}?`
+                message: `¿Esta seguro de eliminar la orden ${order.orderName}?`
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.service.delete(group.id).subscribe(() => this.refreshGroups());
+            if (confirm) this.service.delete(order.id).subscribe(() => this.refreshGroups());
         });
     }
 }

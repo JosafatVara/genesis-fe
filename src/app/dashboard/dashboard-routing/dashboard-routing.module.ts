@@ -55,7 +55,18 @@ const routes: Routes = [
       },
       {
         path: 'clientes',
-        loadChildren: 'app/customers/customers.module#CustomersModule'}
+        loadChildren: 'app/customers/customers.module#CustomersModule'
+      }
+      ,
+      {
+        path: 'ordenes',
+        loadChildren: 'app/orders/orders.module#OrdersModule'
+      }
+      ,
+      {
+        path: 'informes',
+        loadChildren: 'app/reports/reports.module#ReportsModule'
+      }
     ]
   }
 ]
