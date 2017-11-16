@@ -1,0 +1,83 @@
+<div class="cmp-card ">
+    <h3 class="cmp-card__title">Informe</h3>
+    <div class="cmp-card__body">
+        <div class="body__cont-actions" fxLayoutAlign="space-between center">
+            <div fxLayoutAlign="start center">
+                <mat-form-field>
+                    <mat-select placeholder="Año">
+                        <mat-option *ngFor="let year of years" [value]="date.year">
+                            {{ year.value }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field fxFlexOffset=10px>
+                    <mat-select placeholder="Mes">
+                        <mat-option *ngFor="let month of months" [value]="date.month">
+                            {{ month.value }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlexOffset=10px>
+                    <mat-select placeholder="Día">
+                        <mat-option *ngFor="let day of days" [value]="date.day">
+                            {{ day.value }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <button class="cmp-btn cmp-btn--violet">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i> Descargar Informe </button>
+        </div>
+        <div class="body__cont-body">
+            <div class="cmp-table">
+                <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                    <li fxFlex class="header__title header__title--action">Cliente
+                        <!-- <i class="fa fa-angle-down" aria-hidden="true"></i> -->
+                    </li>
+                    <li fxFlex class="header__title header__title--action">Orden
+                        <!-- <i class="fa fa-angle-down" aria-hidden="true"></i> -->
+                    </li>
+                    <li fxFlex class="header__title header__title--action">Cantidad
+                        <!-- <i class="fa fa-angle-down" aria-hidden="true"></i> -->
+                    </li>
+                    <li fxFlex class="header__title header__title--action">Precio por Unidad(s/.)
+                        <!-- <i class="fa fa-angle-down" aria-hidden="true"></i> -->
+                    </li>
+                    <li fxFlex class="header__title header__title--action">Total
+                        <!-- <i class="fa fa-angle-down" aria-hidden="true"></i> -->
+                    </li>
+                    <!-- <li fxFlex class="header__title ">Acciones</li> -->
+                </ul>
+                <ul class="cmp-table__body">
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Kodevian Studio</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Pizzas</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">10</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">20</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">200</li>
+                </ul>
+                <ul class="cmp-table__body">
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Kodevian Studio</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Pizzas</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">10</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">20</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">200</li>
+                </ul>
+                <ul class="cmp-table__body">
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Kodevian Studio</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Pizzas</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">10</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">20</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">200</li>
+                </ul>
+                <ul class="cmp-table__body">
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Kodevian Studio</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">Pizzas</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">10</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">20</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">200</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
