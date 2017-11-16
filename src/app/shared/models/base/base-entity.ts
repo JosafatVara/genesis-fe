@@ -6,3 +6,5 @@ export abstract class BaseEntity<T> {
         Object.assign(this,partial);
     }
 }
+
+

@@ -1,20 +1,30 @@
+import { AuthenticationService } from './authentication.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions, Headers, ResponseContentType, URLSearchParams } from '@angular/http';
+import { Response, RequestOptions, Headers, ResponseContentType, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
+import { Group } from '../../shared/models/group';
+import { AuthenticatedService } from './base/authenticated-service';
 
 @Injectable()
-export class Service {
+export class Service extends AuthenticatedService{
     nameModule = 'api/v1/purchases/';
     token: string;
 
-    constructor(private http: Http) {
+    constructor(http: HttpClient, auth: AuthenticationService) {
+        super(auth,http,'/api/v1/');
         this.token = JSON.parse(localStorage.getItem("token"));
     }
 
-    getList(id) {
-        let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-        return this.http.get(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', { headers: headers });
+    getList(id) : Observable<Group[]> {
+        // let headers = new Headers({ 'Authorization': 'Token ' + this.token });
+        return this.http.get<any>(`${this.actionUrl}/purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
+            .map( (result: { count: number, page_number: number, page: number, results: any[]  }) => {
+                let groups: Group[] = [];
+                groups = result.results.map( r => this.mapBeToGroup(r) );
+                return groups;
+            });
         // return this.http.get('${environment.beUrl} ${this.nameModule} ${id} /groups/', { headers: headers });
     }
 
@@ -41,4 +51,10 @@ export class Service {
         return this.http.delete(environment.beUrl + this.nameModule + 'groups/' + id, { headers: headers });
     }
 
+    mapBeToGroup(be: any){
+        return new Group({
+            id: be.id,
+            name: be.name
+        });
+    }    
 }

@@ -1,23 +1,26 @@
+import { Contact } from './contact';
+import { Group } from './group';
 import { BaseEntity } from "./base/base-entity";
 import { BankAccount } from './bank-account'
-import { Contact } from './contact'
-
 
 export class Provider extends BaseEntity<Provider>{
-    public businessName: string;
-    public firstName: string
-    public lastName: string;
-    public type: string;
-    public cellphone: number;
     public address: string;
-    public ruc: number;
-    public phone: number;
-    public details: string;
-    public contacts: Contact[];
+    public ruc: string;
+    public phone: string;
     public bankAccounts: BankAccount[];
-    // public photo: any;
-    // public photoPublicUrl: string;
-    // public get fullName(): string {
-    //     return this.firstName + ' ' + this.lastName;
-    // }
+}
+
+export class LegalProvider extends Provider{
+    public businessName: string;
+    public group: Group;
+    public details: string;
+    public contacts: Contact[]
+}
+
+export class NaturalProvider extends Provider{
+    public cellphone: string;
+    public firstName: string; 
+    public lastName: string;
+    public email: string;
+    public notes: string;
 }

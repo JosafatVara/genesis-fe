@@ -21,7 +21,7 @@ export class Service {
     create(data, id): Observable<Response> {
         let body = JSON.stringify(data);
         let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-        return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
+        return this.http.post(environment.beUrl + this.nameModule + 'groups/' + id + '/providers/', body, { headers: headers });
     }
 
     get(id) {
