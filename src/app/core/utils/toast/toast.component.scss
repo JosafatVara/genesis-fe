@@ -1,0 +1,52 @@
+@import "../../../../assets/styles/1.settings/_colors.scss";
+
+.toast{
+    height: 100%;
+    width: 100%;
+    background-color: $violet-1;
+    cursor: pointer;
+    &--success{
+        background-color: $green-1;
+    }
+    &--error{
+        background-color: $red-2;
+    }
+    &--warning{
+        background-color: $orange-1;
+    }
+    &--info{
+        background-color: $blue-2;
+    }
+    &__body{
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        &__icon{
+            padding: 10px;
+            padding-right: 20px;
+            font-size: 25px;
+        }
+        &__content{
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: center;
+            &__title{
+    
+            }
+            &__message{
+    
+            }
+        }        
+    }
+    &__progress{
+        width: 100%;
+        border-top: 2px solid rgba(0,0,0,0.25);
+        border-bottom: 2px solid rgba(0,0,0,0.25);
+        &--empty{
+            width: 0%;
+        }
+    }
+}    

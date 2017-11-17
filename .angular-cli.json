@@ -19,7 +19,6 @@
         "prefix": "gen",
         "styles": [
             "styles.scss",
-            "./assets/styles/_main.scss",
             "../node_modules/font-awesome/css/font-awesome.css"
         ],
         "scripts": [],
@@ -55,10 +54,5 @@
     "defaults": {
         "styleExt": "scss",
         "component": {}
-    },
-    "stylePreprocessorOptions": {
-        "includePaths": [
-            "./assets/styles/1.settings/_colors.scss"
-        ]
     }
 }

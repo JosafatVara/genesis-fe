@@ -2,17 +2,17 @@
 import { NgModule } from '@angular/core';
 
 // This Module's Components
-import { ActionsComponent } from './actions.component';
+// import { ActionsComponent } from './actions.component';
 
 @NgModule({
     imports: [
 
     ],
     declarations: [
-        ActionsComponent,
+        // ActionsComponent,
     ],
     exports: [
-        ActionsComponent,
+        // ActionsComponent,
     ]
 })
 export class ActionsModule {

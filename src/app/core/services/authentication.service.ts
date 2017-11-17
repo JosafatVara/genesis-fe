@@ -3,10 +3,12 @@ import { Observable } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import { BaseService } from './base/base-service';
 import { HttpClient } from '@angular/common/http';
+import { EnterprisesService } from "./enterprises.service";
 
 @Injectable()
 export class AuthenticationService extends BaseService{
 
+  public clearLogout: boolean = false;
   protected storage: LocalStorageService;
 
   constructor(storage: LocalStorageService, http: HttpClient) {
@@ -34,6 +36,8 @@ export class AuthenticationService extends BaseService{
 
   public logout(): Observable<boolean>{
     this.storage.remove('token');
+    this.storage.remove('current-enterprise');
+    this.clearLogout = true;
     return Observable.of(true);
   }
 

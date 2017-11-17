@@ -59,13 +59,13 @@ export class GroupModalCrudComponent {
             case 'create':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.create(value, this.currentEnterprise.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
+                    // this.service.create(value, this.currentEnterprise.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
                 }
                 break;
             case 'update':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.update(value, this.data.group.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
+                    // this.service.update(value, this.data.group.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
                 }
                 break;
             default:

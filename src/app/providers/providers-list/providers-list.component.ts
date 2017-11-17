@@ -59,7 +59,7 @@ export class ProvidersListComponent implements OnInit {
     private delete(provider: Provider) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
-                message: `¿Esta seguro de eliminar el proveedor ${provider.firstName}?`
+                // message: `¿Esta seguro de eliminar el proveedor ${provider.firstName}?`
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {

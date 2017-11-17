@@ -8,7 +8,7 @@ import { RolesService } from '../../core/services/roles.service';
 import { Observable } from 'rxjs/Observable';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Alphanumeric } from '../../shared/validators/alphanumeric';
-import { ImagesService } from '../../core/utils/images.service';
+import { ImagesService } from '../../core/utils/images/images.service';
 
 @Component({
   selector: 'gen-user-details',
@@ -20,10 +20,10 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
   userForm: FormGroup;
 
   @Input('user') user: User;
-  private roleList: Array<Role>;
+  public roleList: Array<Role>;
   private users: UsersService;
   private router: Router;
-  private userPhoto: any;
+  public userPhoto: any;
 
   constructor(users: UsersService, router: Router, private roles: RolesService, private fb: FormBuilder
     , private images: ImagesService){ 
@@ -113,11 +113,11 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
     }
   }
 
-  protected get title(): string{
+  public get title(): string{
     return '';
   }
 
-  protected get buttonLabel(): string{
+  public get buttonLabel(): string{
     let lbl = "";
     switch (this.mode){
       case 'create': lbl = 'Crear Usuario'; break;

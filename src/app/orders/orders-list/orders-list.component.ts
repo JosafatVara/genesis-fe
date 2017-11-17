@@ -38,7 +38,7 @@ export class OrdersListComponent implements OnInit {
         console.log(this.currentEnterprise.id, "id de empresa catual");
 
         this.service.getList(this.currentEnterprise.id).subscribe(
-            res => this.groups = res.json()
+            res => this.groups = res
         )
         console.log(this.groups);
     }
@@ -67,7 +67,7 @@ export class OrdersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.service.delete(order.id).subscribe(() => this.refreshGroups());
+            // if (confirm) this.service.delete(order.id).subscribe(() => this.refreshGroups());
         });
     }
 }

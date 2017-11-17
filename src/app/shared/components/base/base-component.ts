@@ -2,7 +2,7 @@ export class BaseComponent {
 
     protected error: boolean = false;
 
-    protected isLoading: boolean = false;
+    public isLoading: boolean = false;
 
     protected loadingOn():void {this.isLoading=true;}
 

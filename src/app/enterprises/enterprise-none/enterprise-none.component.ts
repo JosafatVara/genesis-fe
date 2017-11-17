@@ -48,6 +48,7 @@ export class EnterpriseNoneComponent implements OnInit {
       }else{
         // this.enterprises.create(response.createdEnterprise).subscribe( e => {
           // this.enterprises.setCurrentEnterprise(e).subscribe( e => {
+            debugger;
             this.router.navigateByUrl('dashboard/empresas');
           // });                 
         // });a

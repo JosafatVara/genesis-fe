@@ -19,6 +19,7 @@ import { DepartmentsService } from './departments.service';
 import { EmployeesQuantitiesService } from './employees-quantities.service';
 import { DepartmentsByNameSpecification } from './specifications/department-specification';
 import { EmployeesQuantitiesByDescriptionSpecification } from './specifications/employees-quantity-specification';
+import { LocalStorageService } from "./local-storage.service";
 
 @Injectable()
 export class EnterprisesService extends AuthenticatedService implements CrudService<Enterprise>{
@@ -27,16 +28,35 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
   protected mockData: Array<Enterprise>;
   protected mockEnterprises: Array<Enterprise>;
   protected currentEnterprise: BehaviorSubject<Enterprise>;
+  private premanagementEntepriseList: Array<Enterprise>;
   
   constructor(auth: AuthenticationService, http: HttpClient, private departments: DepartmentsService
-    , private employeesQuantities: EmployeesQuantitiesService){
+    , private employeesQuantities: EmployeesQuantitiesService, private storage: LocalStorageService){
     super(auth, http, '');
     this.mockData = this.genMock();
-    this.currentEnterprise = new BehaviorSubject<Enterprise>(this.mockData[1]);
+    this.currentEnterprise = new BehaviorSubject<Enterprise>(undefined);
   }
   
   public get(specification?: QueryParamsSpecification | Specification<Enterprise>): Observable<Enterprise[]> {
     if(!specification){
+      // if(!this.currentEnterprise.value){
+      //   if(!this.premanagementEntepriseList){
+          // return this.http
+          // .get<any[]>(this.actionUrl+'accounts/enterprises/users/me/',{headers: this.authHttpHeaders})
+          // .map( results => {
+          //   let enterprises: Enterprise[] = [];
+          //   results
+          //     .filter( r => r.enterprise_selected? r.enterprise_selected.is_enabled : false)
+          //     .forEach( r => {
+          //       enterprises = enterprises.concat([ this.mapBeToEnterprise(r.enterprise_selected) ]);
+          //     });
+          //     this.premanagementEntepriseList = enterprises;
+          //   return enterprises;
+          // });
+        // }else{
+        //   return Observable.of(this.premanagementEntepriseList);
+        // }
+      // }
       return this.http
         .get<any[]>(this.actionUrl+'accounts/enterprises/users/me/',{headers: this.authHttpHeaders})
         .map( results => {
@@ -103,11 +123,19 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
   }
 
   public getCurrentEnterprise(): Observable<Enterprise>{
+    if(this.auth.clearLogout){
+      this.currentEnterprise.next(undefined);
+      this.auth.clearLogout = false;
+    }
+    if(!this.currentEnterprise.value){
+      this.currentEnterprise.next(this.storage.load<Enterprise>('current-enterprise'));
+    }
     return this.currentEnterprise.asObservable();
   }
 
   public setCurrentEnterprise(enterprise: Enterprise): Observable<Enterprise>{
     this.currentEnterprise.next(enterprise);
+    this.storage.save('current-enterprise', this.currentEnterprise.value);
     return this.currentEnterprise.asObservable();
   }
 

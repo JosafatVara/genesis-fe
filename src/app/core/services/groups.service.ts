@@ -9,7 +9,7 @@ import { AuthenticatedService } from './base/authenticated-service';
 
 @Injectable()
 export class Service extends AuthenticatedService {
-    nameModule = 'api/v1/purchases/';
+    nameModule = 'purchases/';
     token: string;
 
     constructor(http: HttpClient, auth: AuthenticationService) {
@@ -28,30 +28,32 @@ export class Service extends AuthenticatedService {
         // return this.http.get('${environment.beUrl} ${this.nameModule} ${id} /groups/', { headers: headers });
     }
 
-    create(data, id): Observable<Group> {
-        return this.http.post(`${this.actionUrl}/purchases/enterprises/${id}/groups`, { headers: this.authHttpHeaders })
-        .map((result))
-        // let body = JSON.stringify(data);
-        // let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-        // return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
-    }
+    // create(data, id): Observable<Group> {
+    //     return this.http.post(`${this.actionUrl}/purchases/enterprises/${id}/groups`, { headers: this.authHttpHeaders })
+    //     .map((result))
 
-    get(id) {
-        let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-        let myParams = new URLSearchParams();
-        return this.http.get(environment.beUrl + this.nameModule + "/" + id, { search: myParams, headers: headers });
-    }
+    //
+    // let body = JSON.stringify(data);
+    // let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
+    // return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
+    // }
 
-    update(data, id): Observable<Response> {
-        let body = JSON.stringify(data);
-        let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-        return this.http.put(environment.beUrl + this.nameModule + 'groups/' + id, body, { headers: headers });
-    }
+    // get(id) {
+    //     let headers = new Headers({ 'Authorization': 'Token ' + this.token });
+    //     let myParams = new URLSearchParams();
+    //     return this.http.get(environment.beUrl + this.nameModule + "/" + id, { search: myParams, headers: headers });
+    // }
 
-    delete(id): Observable<Response> {
-        let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-        return this.http.delete(environment.beUrl + this.nameModule + 'groups/' + id, { headers: headers });
-    }
+    // update(data, id): Observable<Response> {
+    //     let body = JSON.stringify(data);
+    //     let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
+    //     return this.http.put(environment.beUrl + this.nameModule + 'groups/' + id, body, { headers: headers });
+    // }
+
+    // delete(id): Observable<Response> {
+    //     let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
+    //     return this.http.delete(environment.beUrl + this.nameModule + 'groups/' + id, { headers: headers });
+    // }
 
     mapBeToGroup(be: any) {
         return new Group({

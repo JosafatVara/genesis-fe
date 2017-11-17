@@ -2,10 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CrudComponent } from "../../shared/components/base/crud-component";
 import { Employee } from "../../shared/models/employee";
 import { EmployeesService } from "../../core/services/employees.service";
-import { ImagesService } from "../../core/utils/images.service";
 import { FormGroup, FormArray, FormBuilder, Validators } from "@angular/forms";
 import { AffiliationsService } from '../../core/services/affiliations.service';
 import { Affiliation } from '../../shared/models/affiliation';
+import { ImagesService } from '../../core/utils/images/images.service';
 
 @Component({
   selector: 'gen-staff-details',
@@ -15,8 +15,8 @@ import { Affiliation } from '../../shared/models/affiliation';
 export class StaffDetailsComponent extends CrudComponent<Employee> implements OnInit{
   
   @Input('employee') employee: Employee;
-  protected title: string;
-  protected buttonLabel: string;
+  public title: string;
+  public buttonLabel: string;
   affiliationList: Affiliation[];
   employeePhoto: any;
   frmEmployeePhoto: FormGroup;
@@ -53,7 +53,7 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
       firstName: ['', [Validators.required]],
       lastName: ['',[Validators.required]],
       address: ['',[Validators.required]],
-      dni: ['',[Validators.required]],
+      dni: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       email: ['',[Validators.required, Validators.email]]
     });
     this.frmWorkInformation = this.fb.group({
@@ -101,18 +101,33 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
     this.bankAccounts.removeAt(index);
   }
 
+  toogleEditBankAccount(index: number){
+    let FGBankAcount = this.bankAccounts.controls[index] as FormGroup;
+    if(FGBankAcount.valid || FGBankAcount.disabled){
+      if(FGBankAcount.disabled){
+        FGBankAcount.enable();
+      }else{
+        FGBankAcount.disable();
+      }
+    }else{
+      for(let formControl in FGBankAcount.controls){
+        FGBankAcount.controls[formControl].markAsTouched();
+        FGBankAcount.updateValueAndValidity();
+      }
+    }  
+  }
+
   addBankAccount(){
-    if(this.frmBankAccounts.valid){
+    if(this.frmBankAccounts.valid || this.allBankAccountsAreDisabled()){
       this.bankAccounts.push(this.fb.group({
         bankName: ['',[Validators.required]],
         number: ['',[Validators.required]],
         interbankNumber: ['',[Validators.required]]
       }));
     }else{
-      let FABankAccounts: FormArray = this.frmBankAccounts.get('bankAccounts') as FormArray;
       let FGBankAccount: FormGroup;
-      for(let control in FABankAccounts.controls){
-        FGBankAccount = FABankAccounts.controls[control] as FormGroup;
+      for(let control in this.bankAccounts.controls){
+        FGBankAccount = this.bankAccounts.controls[control] as FormGroup;
         for( let bankAccountControl in FGBankAccount.controls){
           FGBankAccount.controls[bankAccountControl].markAsTouched();
           FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
@@ -120,7 +135,17 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
       }
     }
   }
-  //#endregion
+
+  allBankAccountsAreDisabled(){
+    for( let bankAccount in this.bankAccounts.controls ){
+      if( (this.bankAccounts.controls[bankAccount] as FormGroup).enabled ){
+        return false;
+      }
+    }
+    return true;
+  }
+  //#endregion 
+  
 
   onChangePhoto(photo: Blob){
     if(photo){

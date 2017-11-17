@@ -8,7 +8,7 @@ import { DepartmentsService } from '../../core/services/departments.service';
 import { EmployeesQuantitiesService } from '../../core/services/employees-quantities.service';
 import { CrudComponent } from '../../shared/components/base/crud-component';
 import { Observable } from 'rxjs/Observable';
-import { ImagesService } from '../../core/utils/images.service';
+import { ImagesService } from '../../core/utils/images/images.service';
 
 @Component({
   selector: 'gen-enterprise-details',
@@ -18,9 +18,9 @@ import { ImagesService } from '../../core/utils/images.service';
 export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implements OnInit {  
 
   @Input('enterprise') enterprise: Enterprise;
-  private enterprisePhoto: any;
-  private departmentList: Array<Department>;
-  private employeesQuantityList: Array<EmployeesQuantity>;
+  enterprisePhoto: any;
+  public departmentList: Array<Department>;
+  public employeesQuantityList: Array<EmployeesQuantity>;
   private enterprises: EnterprisesService;
   private router: Router;
 
@@ -64,11 +64,11 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
     }
   }
 
-  protected get title(): string{
+  public get title(): string{
     return 'Datos de tu empresa';
   }
 
-  protected get buttonLabel(): string{
+  public get buttonLabel(): string{
     let lbl = "";
     switch (this.mode){
       case 'create': lbl = 'Crear Empresa'; break;

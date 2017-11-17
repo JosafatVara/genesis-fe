@@ -5,7 +5,7 @@ import { Affiliation } from '../../shared/models/affiliation';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { FreelancersService } from '../../core/services/freelancers.service';
 import { AffiliationsService } from '../../core/services/affiliations.service';
-import { ImagesService } from '../../core/utils/images.service';
+import { ImagesService } from '../../core/utils/images/images.service';
 
 @Component({
   selector: 'gen-freelancer-details',
@@ -15,8 +15,8 @@ import { ImagesService } from '../../core/utils/images.service';
 export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implements OnInit {
 
   @Input('freelancer') freelancer: Freelancer;
-  protected title: string;
-  protected buttonLabel: string;
+  public title: string;
+  public buttonLabel: string;
   affiliationList: Affiliation[];
   freelancerPhoto: any;
   frmFreelancerPhoto: FormGroup;
@@ -53,7 +53,7 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
       firstName: ['', [Validators.required]],
       lastName: ['',[Validators.required]],
       address: ['',[Validators.required]],
-      dni: ['',[Validators.required]],
+      dni: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       email: ['',[Validators.required, Validators.email]]
     });
     this.frmWorkInformation = this.fb.group({
@@ -101,24 +101,48 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
     this.bankAccounts.removeAt(index);
   }
 
+  toogleEditBankAccount(index: number){
+    let FGBankAcount = this.bankAccounts.controls[index] as FormGroup;
+    if(FGBankAcount.valid || FGBankAcount.disabled){
+      if(FGBankAcount.disabled){
+        FGBankAcount.enable();
+      }else{
+        FGBankAcount.disable();
+      }
+    }else{
+      for(let formControl in FGBankAcount.controls){
+        FGBankAcount.controls[formControl].markAsTouched();
+        FGBankAcount.updateValueAndValidity();
+      }
+    }  
+  }
+
   addBankAccount(){
-    if(this.frmBankAccounts.valid){
+    if(this.frmBankAccounts.valid || this.allBankAccountsAreDisabled()){
       this.bankAccounts.push(this.fb.group({
         bankName: ['',[Validators.required]],
         number: ['',[Validators.required]],
         interbankNumber: ['',[Validators.required]]
       }));
     }else{
-      let FABankAccounts: FormArray = this.frmBankAccounts.get('bankAccounts') as FormArray;
       let FGBankAccount: FormGroup;
-      for(let control in FABankAccounts.controls){
-        FGBankAccount = FABankAccounts.controls[control] as FormGroup;
+      for(let control in this.bankAccounts.controls){
+        FGBankAccount = this.bankAccounts.controls[control] as FormGroup;
         for( let bankAccountControl in FGBankAccount.controls){
           FGBankAccount.controls[bankAccountControl].markAsTouched();
           FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
         }        
       }
-    }    
+    }
+  }
+
+  allBankAccountsAreDisabled(){
+    for( let bankAccount in this.bankAccounts.controls ){
+      if( (this.bankAccounts.controls[bankAccount] as FormGroup).enabled ){
+        return false;
+      }
+    }
+    return true;
   }
   //#endregion
 

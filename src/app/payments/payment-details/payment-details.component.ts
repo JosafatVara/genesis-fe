@@ -16,7 +16,7 @@ export class PaymentDetailsComponent extends CrudComponent<Payment> implements O
   paymentForm: FormGroup;
   
   @Input('payment') payment: Payment;
-  private employeeList: Array<Employee>;
+  public employeeList: Array<Employee>;
   private payments: PaymentsService;
   private paymentPhoto: any;
 
@@ -90,7 +90,7 @@ export class PaymentDetailsComponent extends CrudComponent<Payment> implements O
     }
   }
 
-  protected get title(): string{
+  public get title(): string{
     switch (this.mode){
       case 'create': return 'Crear pago';
       case 'update': return 'Actualizar pago';
@@ -98,7 +98,7 @@ export class PaymentDetailsComponent extends CrudComponent<Payment> implements O
     }
   }
 
-  protected get buttonLabel(): string{
+  public get buttonLabel(): string{
     let lbl = "";
     switch (this.mode){
       case 'create': lbl = 'Crear pago'; break;

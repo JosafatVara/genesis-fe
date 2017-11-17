@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MustBeAuthenticatedGuard } from './guards/must-be-authenticated-guard';
-import { MustBeUnauthenticatedGuard } from './guards/must-be-unauthenticated-guard';
+import { MustBeUnauthenticatedOrSelectEnterpriseRequiredGuard } from './guards/must-be-unauthenticated-or-select-enterprise-required-guard';
 import { EnterpriseListResolver } from '../core/resolvers/enterprise-list-resolver';
 import { MustRecoverMeGuard } from './guards/must-recover-me-guard';
+import { MustHaveEnterprisesAndMustBeManagingAnEnterprise } from "./guards/must-have-enterprises-and-must-be-managing-an-enterprise-guard";
 
 export const routes: Routes = [
   {
@@ -16,14 +17,16 @@ export const routes: Routes = [
     path: 'auth',
     loadChildren: 'app/authentication/authentication.module#AuthenticationModule',
     canActivate: [
-      MustBeUnauthenticatedGuard
-    ]
+      MustBeUnauthenticatedOrSelectEnterpriseRequiredGuard
+    ],
+    data: { animation : 'authentication' }
   },
   {
     path: 'dashboard',
     loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
-    canActivate: [ MustBeAuthenticatedGuard, MustRecoverMeGuard ],
-    resolve: { enterprises: EnterpriseListResolver }
+    canActivate: [ MustBeAuthenticatedGuard, MustRecoverMeGuard/*, MustHaveEnterprisesAndMustBeManagingAnEnterprise*/ ],
+    resolve: { enterprises: EnterpriseListResolver },
+    data: { animation : 'dashboard' }
   },
   {
     path: '**',
@@ -38,8 +41,9 @@ export const routes: Routes = [
   declarations: [],
   providers: [
     MustBeAuthenticatedGuard,
-    MustBeUnauthenticatedGuard,
-    MustRecoverMeGuard
+    MustBeUnauthenticatedOrSelectEnterpriseRequiredGuard,
+    MustRecoverMeGuard,
+    MustHaveEnterprisesAndMustBeManagingAnEnterprise
   ],
   exports: [
     RouterModule
