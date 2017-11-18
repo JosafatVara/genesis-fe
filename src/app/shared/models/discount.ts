@@ -4,5 +4,5 @@ export class Discount extends BaseEntity<Discount>{
 
     public concept: string;
     public ammount: number;
-
+    public description: string;
 }

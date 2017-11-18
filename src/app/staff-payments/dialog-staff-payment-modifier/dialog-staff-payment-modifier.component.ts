@@ -2,6 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Incentive } from '../../shared/models/incentive';
 import { Discount } from '../../shared/models/discount';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { debounce } from 'rxjs/operators/debounce';
+import { debug } from 'util';
 
 @Component({
   selector: 'gen-dialog-staff-payment-modifier',
@@ -10,11 +13,12 @@ import { Discount } from '../../shared/models/discount';
 })
 export class DialogStaffPaymentModifierComponent implements OnInit {
 
-  private modifier: Incentive | Discount;
-  private modifierName: string;
+  modifierForm: FormGroup;
+  modifier: Incentive | Discount;
+  modifierName: string;
 
   constructor(private dialogRef: MatDialogRef<DialogStaffPaymentModifierComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { modifier: Incentive | Discount }) {
+    @Inject(MAT_DIALOG_DATA) public data: { modifier: Incentive | Discount }, private fb: FormBuilder) {
     if(this.data.modifier instanceof Incentive){
       this.modifierName = 'Incentivo';
       this.modifier = new Incentive(Object.assign({},data.modifier));
@@ -27,34 +31,41 @@ export class DialogStaffPaymentModifierComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createForms();
+    this.fillFormsModels();
+  }
+
+  createForms(){
+    this.modifierForm = this.fb.group({
+      concept: ['', [Validators.required]],
+      description: ['',[Validators.required]],
+      ammount: [0,[Validators.required, this.positiveValidation]]
+    })
+  }
+
+  positiveValidation(input: AbstractControl){
+    if((input.value as number) < 0){
+      return {nonPositive: true};
+    }
+    return null;
+  }
+
+  fillFormsModels(){
+    this.modifierForm.patchValue(this.modifier);
   }
 
   get title(): string{
-    // switch(this.mode){
-    //   case 'create':
-    //     return `Añadir ${this.modifierName}`;
-    //   case 'update':
-    //     return `Actualizar ${this.modifierName}`;
-    //   default:
-    //     return '';
-    // }
     return this.modifierName;
   }
 
   get buttonLabel(): string{
-    // switch(this.mode){
-    //   case 'create':
-    //     return `Añadir`;
-    //   case 'update':
-    //     return `Actualizar`;
-    //   default:
-    //     return '';
-    // }
     return 'OK';
   }
 
   confirm(){
-    this.dialogRef.close(this.modifier);
+    if(this.modifierForm.valid){
+      this.dialogRef.close(this.modifierForm.value);
+    }
   }
 
 }

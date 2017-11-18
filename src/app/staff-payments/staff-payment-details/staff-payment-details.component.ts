@@ -113,6 +113,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
         if(modifier){          
           this.incentives.push(this.fb.group({
             concept: [modifier.concept, Validators.required],
+            description: [modifier.description, Validators.required],
             ammount: [modifier.ammount, Validators.required]
           }));
         }
@@ -151,6 +152,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
         if(modifier){          
           this.discounts.push(this.fb.group({
             concept: [modifier.concept, Validators.required],
+            description: [modifier.description, Validators.required],
             ammount: [modifier.ammount, Validators.required]
           }));
         }

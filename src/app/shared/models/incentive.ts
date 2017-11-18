@@ -4,4 +4,5 @@ export class Incentive extends BaseEntity<Incentive>{
 
     public concept: string;
     public ammount: number;
+    public description: string;
 }

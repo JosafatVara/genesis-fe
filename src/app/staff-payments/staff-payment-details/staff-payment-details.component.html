@@ -47,33 +47,36 @@
                 <thead>
                   <tr fxLayout="row">
                     <th fxFlex="25">Concepto</th>
-                    <th fxFlex="20">+</th>
-                    <th fxFlex="20">-</th>
+                    <th fxFlex="25">Descripción</th>
+                    <th fxFlex="15">+</th>
+                    <th fxFlex="15">-</th>
                     <th fxFlex></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr fxLayout="row" *ngFor="let incentive of incentives.controls; let i = index;">
                     <td fxFlex="25">{{incentive.get('concept').value}}</td>
-                    <td fxFlex="20">+{{incentive.get('ammount').value}}</td>
-                    <td fxFlex="20"></td>
-                    <td fxFlex>
+                    <td fxFlex="25">{{incentive.get('description').value}}</td>
+                    <td fxFlex="15">+{{incentive.get('ammount').value}}</td>
+                    <td fxFlex="15"></td>
+                    <!-- <td fxFlex>
                       <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
                           <button (click)="removeIncentive(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
                           <button (click)="editIncentive(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
                       </div>
-                    </td>
+                    </td> -->
                   </tr>
                   <tr fxLayout="row" *ngFor="let discount of discounts.controls; let i = index;">
                     <td fxFlex="25">{{discount.get('concept').value}}</td>
-                    <td fxFlex="20"></td>
-                    <td fxFlex="20">-{{discount.get('ammount').value}}</td>
-                    <td fxFlex>
+                    <td fxFlex="25">{{discount.get('description').value}}</td>
+                    <td fxFlex="15"></td>
+                    <td fxFlex="15">-{{discount.get('ammount').value}}</td>
+                    <!-- <td fxFlex>
                         <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
                             <button (click)="removeDiscount(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
                             <button (click)="editDiscount(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
                         </div>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
               </table>
