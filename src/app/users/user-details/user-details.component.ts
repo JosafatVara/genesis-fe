@@ -38,14 +38,14 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
     this.validateMode();
     this.disableFormControls();
     this.managedEntity = this.user || this.managedEntity;
-    if(this.managedEntity.photo){
-      this.userPhoto = this.managedEntity.photo;
-    }
-    if(this.managedEntity.photoPublicUrl){
-      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
-        this.userPhoto = blob
-      });    
-    }    
+    // if(this.managedEntity.photo){
+    //   this.userPhoto = this.managedEntity.photo;
+    // }
+    // if(this.managedEntity.photoPublicUrl){
+    //   this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
+    //     this.userPhoto = blob
+    //   });    
+    // }    
     this.fillFormModel();
     this.userPhoto = this.managedEntity.photo;
     this.roles.get().subscribe( results => {
@@ -100,6 +100,7 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
       role: this.userForm.value.role,
       photo: this.userPhoto,
       lastConnection: this.user.lastConnection,
+      photoPublicUrl: this.user.photoPublicUrl,
       password: this.mode == "create"? this.userForm.get('password').value: this.user.password
     });
   }

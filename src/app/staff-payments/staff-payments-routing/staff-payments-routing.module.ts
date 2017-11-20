@@ -17,7 +17,7 @@ const routes: Routes = [
           inDashboard: true
         },
         resolve: {
-          selectedMonth: SelectMonthResolver
+          // selectedMonth: SelectMonthResolver
         }
       }
     ]
