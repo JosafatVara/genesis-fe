@@ -32,12 +32,11 @@ export class ProvidersListComponent implements OnInit {
     }
 
     private refreshProviders() {
-        this.service.getList(0).subscribe(
-            res => this.providers = res.json()
-        )
-        console.log(this.providers, "holi bolio");
-
+        // this.service.getList(this.currentEnterprise).subscribe(res => this.providers = res);
     }
+
+    // this.enterprises.get().subscribe(es => this.enterpriseList = es);
+
 
     crud(action: string, provider: Provider = undefined) {
         if (action == 'delete') {
@@ -48,7 +47,7 @@ export class ProvidersListComponent implements OnInit {
             width: '800px',
             data: {
                 action: action,
-                group: Object.assign({}, provider)
+                provider: Object.assign({}, provider)
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {

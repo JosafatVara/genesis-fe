@@ -8,18 +8,19 @@ export class Provider extends BaseEntity<Provider>{
     public ruc: string;
     public phone: string;
     public bankAccounts: BankAccount[];
+    public photo: File;
 }
 
-export class LegalProvider extends Provider{
+export class LegalProvider extends Provider {
     public businessName: string;
     public group: Group;
     public details: string;
     public contacts: Contact[]
 }
 
-export class NaturalProvider extends Provider{
+export class NaturalProvider extends Provider {
     public cellphone: string;
-    public firstName: string; 
+    public firstName: string;
     public lastName: string;
     public email: string;
     public notes: string;

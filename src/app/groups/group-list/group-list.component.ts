@@ -39,12 +39,13 @@ export class GroupListComponent implements OnInit {
     }
 
     private refreshGroups() {
-        console.log(this.currentEnterprise.id, "id de empresa catual");
-
         this.service.getList(this.currentEnterprise.id).subscribe(
             res => this.groups = res
+            // console.log(res);
+
         )
-        console.log(this.groups);
+        console.log(this.groups, "gruipos");
+
     }
 
     crud(action: string, group: Group = undefined) {
@@ -71,7 +72,7 @@ export class GroupListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            // if (confirm) this.service.delete(group.id).subscribe(() => this.refreshGroups());
+            if (confirm) this.service.delete(group).subscribe(() => this.refreshGroups());
         });
     }
 }

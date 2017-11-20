@@ -31,3 +31,25 @@
 .padding-button {
     padding: 10px 0;
 }
+
+.cmp-table--modal {
+    border-radius: 10px;
+    border: 1px solid #dedede;
+    margin-bottom: 10px;
+}
+
+.photo-input__file {
+    display: block;
+}
+
+.freelancer-details {
+    &__photo {
+        height: 300px;
+        width: 300px;
+    }
+    &--create {
+        form {
+            padding: 8px;
+        }
+    }
+}

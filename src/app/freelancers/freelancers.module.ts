@@ -10,9 +10,9 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     FreelancersRoutingModule,
-    SharedModule
+    SharedModule, 
   ],
-  declarations: [FreelancersComponent, FreelancerListComponent, FreelancerDetailsComponent, DialogFreelancerDetailsComponent],
+  declarations: [FreelancersComponent, FreelancerListComponent, FreelancerDetailsComponent, DialogFreelancerDetailsComponent, ],
   entryComponents: [
     DialogFreelancerDetailsComponent
   ]

@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from "./dashboard-routing/dashboard-routing.module";
 import { ControlPanelModule } from "../control-panel/control-panel.module";
 import { PurchasesProductsModule } from "../purchases-products/purchases-products.module";
-// import { ProvidersModule } from "../providers/providers.module";
+import { ProvidersModule } from "../providers/providers.module";
 import { GroupsModule } from "../groups/groups.module";
 import { SharedModule } from '../shared/shared.module';
 import { QuotationsModule } from "../quotations/quotations.module";
@@ -26,7 +26,7 @@ import { ActionsComponent } from "./actions/actions.component";
 @NgModule({
   imports: [
     FlexLayoutModule, CommonModule,
-    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, GroupsModule, QuotationsModule, CustomersModule,
+    SharedModule, DashboardRoutingModule, ControlPanelModule, PurchasesProductsModule, GroupsModule, QuotationsModule, CustomersModule, ProvidersModule
   ],
   declarations: [
     ActionsComponent,
