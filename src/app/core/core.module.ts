@@ -15,21 +15,27 @@ import { AffiliationsService } from './services/affiliations.service';
 import { FreelancersService } from './services/freelancers.service';
 import { CurrentEnterpriseResolver } from './resolvers/current-enterprise-resolver';
 import { StaffPaymentsService } from './services/staff-payments.service';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule, MatDialogModule } from '@angular/material';
 import { ImagesService } from './utils/images/images.service';
 import { ToastService } from './utils/toast/toast.service';
 import { ToastComponent } from './utils/toast/toast.component';
 import { CommonModule } from '@angular/common';
 import { FreelancersPaymentsService } from "./services/freelancers-payments.service";
+import { MonthSelectorComponent } from './utils/month-selector/month-selector.component';
+import { MonthSelectorService } from './utils/month-selector/month-selector.service';
+import { SelectMonthResolver } from './resolvers/select-month-resolver';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
   imports: [
     HttpClientModule,
     MatSnackBarModule,
-    CommonModule
+    CommonModule,
+    MatDialogModule,
+    FlexLayoutModule
   ],
-  declarations: [ToastComponent],
+  declarations: [ToastComponent, MonthSelectorComponent],
   providers: [
     //SERVICES
     AuthenticationService,
@@ -48,16 +54,19 @@ import { FreelancersPaymentsService } from "./services/freelancers-payments.serv
     //RESOLVERS
     EnterpriseListResolver,
     CurrentEnterpriseResolver,
+    SelectMonthResolver,
 
     //UTILS
     ImagesService,
-    ToastService
+    ToastService,
+    MonthSelectorService
   ],
   exports: [
     BrowserAnimationsModule
   ],
   entryComponents: [
-    ToastComponent
+    ToastComponent,
+    MonthSelectorComponent
   ]
 })
 export class CoreModule { }

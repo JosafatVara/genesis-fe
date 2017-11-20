@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { PaymentsComponent } from '../staff-payments.component';
 import { StaffPaymentListComponent } from '../staff-payment-list/staff-payment-list.component';
+import { SelectMonthResolver } from '../../core/resolvers/select-month-resolver';
 
 const routes: Routes = [
   {
@@ -14,6 +15,9 @@ const routes: Routes = [
         component: StaffPaymentListComponent,
         data: {
           inDashboard: true
+        },
+        resolve: {
+          selectedMonth: SelectMonthResolver
         }
       }
     ]
