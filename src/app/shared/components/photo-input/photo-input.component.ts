@@ -8,6 +8,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PhotoInputComponent implements OnInit, OnChanges {  
 
+  //SE PRIORIZA CUALQUIER LECTURA DE IMAGEN DESDE PHOTOURL
+  @Input('photoPublicUrl') photoPublicUrl: string;
+
   @Input('asBase64') asBase64: boolean = true;
 
   @Input('required') required: boolean;
@@ -26,6 +29,7 @@ export class PhotoInputComponent implements OnInit, OnChanges {
   }
 
   public get showInvalid(): boolean{
+    if(this.required && this.existsPhotoPublicUrl) return false;
     return this.required && !this.photoSourceValueAsBase64;
   }
 
@@ -41,6 +45,7 @@ export class PhotoInputComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.reader.addEventListener('load', ()=>{
+      this.photoPublicUrl = undefined;
       this.photoSourceValueAsBase64 = this.reader.result;
       if(this.asBase64){
         this.photoSource = this.reader.result;
@@ -51,12 +56,18 @@ export class PhotoInputComponent implements OnInit, OnChanges {
         this.onChange.emit(this.photo);
       }        
     });
+    if(this.existsPhotoPublicUrl){
+      return;
+    }
     if(this.asBase64){
       this.photoSourceValueAsBase64 = this.photoSource;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if(this.existsPhotoPublicUrl){
+      return;
+    }
     if(!this.asBase64 && changes['photoSource'].currentValue && !this.photoSourceValueAsBase64){     
       this.photo = this.photoSource;
       this.reader.readAsDataURL(this.photoSource);
@@ -64,10 +75,16 @@ export class PhotoInputComponent implements OnInit, OnChanges {
   }
 
   public get photoLoaded(): boolean{
+    if(this.existsPhotoPublicUrl){
+      return true;
+    }
     return this.photoSourceValueAsBase64 && this.photoSourceValueAsBase64 != "";
   }
 
   public get urlPhotoSource(){
+    if(this.existsPhotoPublicUrl){
+      return `url(${this.photoPublicUrl})`;
+    }
     return this._sanitizer.bypassSecurityTrustStyle(`url(${this.photoSourceValueAsBase64})`);
   }
 
@@ -78,4 +95,7 @@ export class PhotoInputComponent implements OnInit, OnChanges {
     }
   }
 
+  private get existsPhotoPublicUrl(): boolean{
+    return this.photoPublicUrl && this.photoPublicUrl != "";    
+  }  
 }

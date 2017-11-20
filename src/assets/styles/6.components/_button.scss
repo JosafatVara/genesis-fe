@@ -64,32 +64,19 @@ border 0.2 ease-in-out; // .c-btn{
 // }
 .cmp-btn {
     padding: 10px 25px;
-    background-color: $white-0; // color: $black-0;
+    background-color: $white-0;
     color: $black-0;
     border: 1px solid $white-0;
     border-radius: 30px;
     box-shadow: 0 5px 10px $grey-3;
-    // .c-btn {
-    //     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
-    //     display: inline-block;
-    // >>>>>>> jean
     text-transform: uppercase;
     font-weight: 500;
-    font-size: 12px; // <<<<<<< HEAD
+    font-size: 12px;
     transition: $btn-transition;
-    &:hover {
+    &:hover, &--raised {
         color: $violet-1;
         border: 1px solid $violet-1;
-        transition: $btn-transition; // =======
-        //     color: $btn-color;
-        //     background-color: $btn-color-bg;
-        //     padding: $btn-padding;
-        //     margin: $btn-margin;
-        //     font-family: $btn-font-family;
-        //     &:hover {
-        //         background-color: $btn-color-bg-hover;
-        //         text-decoration: none;
-        // >>>>>>> jean
+        transition: $btn-transition; 
     }
     &:disabled,
     &--disabled {

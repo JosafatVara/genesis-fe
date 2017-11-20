@@ -9,6 +9,7 @@ import { Specification } from './specifications/base/specification';
 import { Observable } from 'rxjs/Observable';
 import { Affiliation } from '../../shared/models/affiliation';
 import { BankAccount } from '../../shared/models/bank-account';
+import { EmployeesByNameSpecification } from "./specifications/employee-specification";
 
 @Injectable()
 export class EmployeesService extends AuthenticatedService implements CrudService<Employee> {
@@ -47,6 +48,14 @@ export class EmployeesService extends AuthenticatedService implements CrudServic
   }
 
   get(specification?: QueryParamsSpecification | Specification<Employee>): Observable<Employee[]> {
+    if(specification instanceof EmployeesByNameSpecification){
+      let employeesWithName: Employee[] = [
+        new Employee({ id: 1, firstName: 'dinjo', lastName: 'joestar' }),
+        new Employee({ id: 2, firstName: 'billy', lastName: 'arredondo' }),
+        new Employee({ id: 3, firstName: 'said', lastName: 'rat' }),
+      ];
+      return Observable.of( employeesWithName.filter( f => specification.isSatisfiedBy(f) ) );
+    }
     return Observable.of(this.mockData);
   }
   update(entity: Employee): Observable<Employee> {

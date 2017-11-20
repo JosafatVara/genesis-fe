@@ -32,10 +32,10 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
     }
     if(specification instanceof UsersInEnterpriseSpecification){
       return this.http
-      .get<any>(`${this.actionUrl}enterprises/${specification.enterprise.id}/users`, {headers: this.authHttpHeaders})
-      .map( (results: { usuarios: any[] }) => {
+      .get<any[]>(`${this.actionUrl}enterprises/${specification.enterprise.id}/users`, {headers: this.authHttpHeaders})
+      .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
         let userList: User[] = [];
-        results.usuarios.forEach( r => {
+        results[0].page.forEach( r => {
           userList = userList.concat([ this.mapBeToUser(r) ]);
         });
         return userList; 

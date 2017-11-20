@@ -1,0 +1,30 @@
+.month-selector{
+    &__header{
+
+    }
+    &__body{
+        &__year{
+            &__inc{
+
+            }
+            &__dec{
+
+            }
+            &__ind{
+
+            }
+        }
+        &__months{
+            &__item{
+                padding: 8px;
+                width: 25%; 
+                &--current{
+                    &>*{
+                        background: rgba(0,0,0,0.4);
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}

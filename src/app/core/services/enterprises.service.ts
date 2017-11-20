@@ -155,7 +155,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
   private mapBeToEnterprise(beEntity: any): Enterprise{
     return new Enterprise({
       businessName: beEntity.business_name,
-      photoPublicUrl: beEntity.image,
+      photoPublicUrl: this.clearBaseUrl+beEntity.image,
       address: beEntity.address,
       ruc: beEntity.ruc,
       id: beEntity.id,

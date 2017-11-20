@@ -30,7 +30,8 @@ export class SidebarComponent {
             2: false,
             3: false,
             4: false,
-            5: false
+            5: false,
+            6: false
         }
         this.menuLayout = "row";
         this.menuLayoutAlign="space-between center";
@@ -52,6 +53,9 @@ export class SidebarComponent {
                 break;
             case 5:
                 this.flagArray[5] = !this.flagArray[5]
+                break;
+            case 6:
+                this.flagArray[6] = !this.flagArray[6]
                 break;
             default:
                 break;
