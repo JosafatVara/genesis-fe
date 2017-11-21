@@ -17,8 +17,8 @@
                 <ul class="cmp-table__body" *ngFor="let item of providers">
                     <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.ruc}}</li>
                     <li fxFlex class="body__text" fxLayoutAlign="start center">
-                        <span *ngIf="item.bussinesName">{{item.bussinesName}}</span>
-                        <span *ngIf="item.firstName">{{item.firstName+" "+item.lastName}}</span>
+                        <span *ngIf="item.businessName!='undefined'">{{item.businessName}}</span>
+                        <span *ngIf="item.firstName!='undefined'">{{item.firstName+" "+item.lastName}}</span>
                     </li>
                     <li fxFlex=20 class="body__text" fxLayoutAlign="start center">{{item.numOrders}}</li>
                     <li fxFlex=30 class="body__text">

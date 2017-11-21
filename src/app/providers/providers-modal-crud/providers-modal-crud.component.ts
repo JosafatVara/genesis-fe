@@ -5,18 +5,19 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 //modules
 import { Provider } from "../../shared/models/provider";
 import { BankAccount } from "../../shared/models/bank-account";
+import { Contact } from '../../shared/models/contact';
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
 import { ProviderService } from '../../core/services/providers.service'
 import { UsersService } from '../../core/services/users.service';
 import { BankAccountService } from './../../core/services/bank-account.service';
 import { GroupService } from './../../core/services/groups.service';
-
+import { ImagesService } from '../../core/utils/images/images.service';
+import { ContactsService } from '../../core/services/contacs.service';
 //components
-import { ContactsModalCrudComponent } from "../contacts-modal-crud/contacts-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
 import { AccountsBankModalCrudComponent } from "../accounts-bank-modal-crud/accounts-bank-modal-crud.component";
-import { ImagesService } from '../../core/utils/images/images.service';
+import { ContactsModalCrudComponent } from "../contacts-modal-crud/contacts-modal-crud.component";
 
 @Component({
     moduleId: module.id,
@@ -32,6 +33,8 @@ export class ProvidersModalCrudComponent {
     isLinear = true;
     providerPhoto: any;
     provider: any;
+    groupList: any[] = [];
+    group: number;
 
     frmNaturalPhoto: FormGroup;
     frmNaturalBasicData: FormGroup;
@@ -43,6 +46,7 @@ export class ProvidersModalCrudComponent {
     frmLegalBankAccounts: FormGroup;
 
     bankAccounts = [];
+    contacts = [];
 
     constructor(
         private matDialog: MatDialog,
@@ -51,8 +55,10 @@ export class ProvidersModalCrudComponent {
         private fb: FormBuilder,
         private providerService: ProviderService,
         private bankAccountService: BankAccountService,
+        private contactService: ContactsService,
         private enterprises: EnterprisesService,
-        private images: ImagesService
+        private images: ImagesService,
+        private groupService: GroupService
     ) {
         this.enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
     }
@@ -93,6 +99,7 @@ export class ProvidersModalCrudComponent {
         console.log(this.provider);
         this.createForm();
         this.fillForm();
+        this.getGroupList();
     }
 
 
@@ -129,8 +136,8 @@ export class ProvidersModalCrudComponent {
             this.frmLegalBasicData = this.fb.group({
                 businessName: ['', Validators.required],
                 address: ['', Validators.required],
-                ruc: ['', Validators.required],
-                phone: ['', Validators.required],
+                ruc: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+                phone: ['', [Validators.required, Validators.min(7)]],
                 group: ['', Validators.required],
                 notes: ['', Validators.required],
             });
@@ -160,7 +167,6 @@ export class ProvidersModalCrudComponent {
                 case 2: this.frmLegalPhoto.setValue({ photo: photo }); break;
                 default: break;
             }
-            // this.frmNaturalPhoto.setValue({ photo: photo });
         }
     }
 
@@ -168,8 +174,8 @@ export class ProvidersModalCrudComponent {
         this.thisDialogRef.close("Cancel")
     }
 
-    createListGroup() {
-
+    getGroupList() {
+        this.groupService.getList(this.currentEnterprise.id).subscribe(res => this.groupList = res);
     }
     // private refreshBankAccounts(bankAccount: BankAccount) {
     //     console.log(this.currentEnterprise.id, "id de empresa catual");
@@ -183,13 +189,7 @@ export class ProvidersModalCrudComponent {
 
     doAction() {
         if (this.providerType == 1) {
-            console.log(this.frmNaturalPhoto.valid, this.frmNaturalBasicData.valid, this.frmNaturalBankAccounts.valid);
-
             if (this.frmNaturalPhoto.valid && this.frmNaturalBasicData.valid && this.frmNaturalBankAccounts.valid) {
-                // this.loader = true;
-                console.log(this.frmNaturalPhoto.value);
-                console.log(this.frmNaturalBasicData.value);
-
                 const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
                 this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
                     res => {
@@ -202,38 +202,37 @@ export class ProvidersModalCrudComponent {
                         this.thisDialogRef.close({ cancelled: false })
                     }
                 )
-                // this.service.create(this.data.enterpriseId).subscribe(
-                // (res) => {
-                // this.thisDialogRef.close(1);            
-                // this.loader = false;     
-                // },
-                // (err) => {
-                // }
-                // )
             }
         } else {
             if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid && this.frmLegalBankAccounts.valid) {
-                // this.loader = true;
-                const value = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData, this.frmLegalContacts, this.frmLegalBankAccounts, { type: "LEGAL" });
-                // this.service.create(this.data.enterpriseId).subscribe(
-                // (res) => {
-                // this.thisDialogRef.close(1);            
-                // this.loader = false;     
-                // },
-                // (err) => {
-                // }
-                // )
+                const dataProvider = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData.value, { type: "EMPRESA" });
+                console.log(this.frmLegalBasicData.value, "basica data")
+                console.log(dataProvider, "proveiderºº")
+                this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
+                    res => {
+                        this.bankAccounts.forEach(element => {
+                            this.bankAccountService.create(element, res.id).subscribe(res => {
+                            })
+                        });
+                        this.contacts.forEach(element => {
+                            this.contactService.create(element, res.id).subscribe(res => {
+                            })
+                        });
+                        this.thisDialogRef.close({ cancelled: false })
+                    }
+                )
             }
         }
     }
+
     //Modal CRUD BANK ACCOUNT
-    refreshBankAccounts() {
+    // refreshBankAccounts() {
 
-    }
+    // }
 
-    crud(action: string, bankAccount: BankAccount = undefined) {
+    crudBankAccount(action: string, bankAccount: BankAccount = undefined) {
         if (action == 'delete') {
-            this.delete(Object.assign({}, bankAccount));
+            this.deleteBankAccount(Object.assign({}, bankAccount));
             return
         }
         let dialogRef = this.matDialog.open(AccountsBankModalCrudComponent, {
@@ -245,11 +244,11 @@ export class ProvidersModalCrudComponent {
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            if (!result.cancelled) this.refreshBankAccounts()
+            // if (!result.cancelled) this.refreshBankAccounts()
         })
     }
 
-    private delete(bankAccount: BankAccount) {
+    private deleteBankAccount(bankAccount: BankAccount) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
                 message: `¿Esta seguro de eliminar la cuenta bancaria ${bankAccount.bankName}?`
@@ -263,4 +262,40 @@ export class ProvidersModalCrudComponent {
             }
         });
     }
+
+    //MODAL CRUD CONTACTS
+    crudContact(action: string, contact: Contact = undefined) {
+        if (action == 'delete') {
+            this.deleteContact(Object.assign({}, contact));
+            return
+        }
+        let dialogRef = this.matDialog.open(ContactsModalCrudComponent, {
+            width: '380px',
+            data: {
+                action: action,
+                contact: Object.assign({}, contact),
+                contacts: Object.assign(this.contacts),
+            }
+        });
+        dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
+            // if (!result.cancelled) this.refreshBankAccounts()
+        })
+    }
+
+    private deleteContact(contact: Contact) {
+        let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+            data: {
+                message: `¿Esta seguro de eliminar la cuenta bancaria ${contact.firstName}?`
+            }
+        });
+        dialogRef.afterClosed().subscribe(confirm => {
+            if (confirm) {
+                for (var index = 0; index < this.bankAccounts.length; index++) {
+                    if (contact.firstName == this.bankAccounts[index].bankName) this.bankAccounts.splice(index, 1)
+                }
+            }
+        });
+    }
+
+
 }

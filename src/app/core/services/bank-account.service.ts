@@ -30,7 +30,7 @@ export class BankAccountService extends AuthenticatedService {
 
     create(data, id): Observable<BankAccount> {
         return this.http
-            .post(`${this.actionUrl}purchases/providers/${id}/banks`, data, { headers: this.authHttpHeaders })
+            .post(`${this.actionUrl}purchases/providers/${id}/banks`, this.mapBankAccountToBe(data), { headers: this.authHttpHeaders })
             .map(result => {
                 return this.mapBeToBankAccount(result);
             });
@@ -50,7 +50,8 @@ export class BankAccountService extends AuthenticatedService {
     //         .map(result => entity);
     // }
 
-    mapBeToBankAccount(be: any) {
+
+    private mapBeToBankAccount(be: any) {
         return new BankAccount({
             id: be.id,
             bankName: be.bank,
@@ -58,6 +59,14 @@ export class BankAccountService extends AuthenticatedService {
             // interbankNumber: be.interbank_account,
         });
     }
+
+    private mapBankAccountToBe(bankAccount: BankAccount): any {
+        return {
+            bank: bankAccount.bankName,
+            bank_account: bankAccount.number,
+        };
+    }
+
 
 }
 

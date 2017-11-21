@@ -67,7 +67,7 @@ export class ProvidersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            // if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
+            if (confirm) this.providerService.delete(provider.id).subscribe(() => this.refreshProviders());
         });
     }
 }

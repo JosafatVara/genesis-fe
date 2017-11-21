@@ -1,17 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+// import { Service } from '../../core/services/groups.service'
+// import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
+// import { Enterprise } from '../../shared/models/enterprise';
 //modules
-import { ProviderService } from '../../core/services/providers.service'
-import { Provider } from "../../shared/models/provider";
-import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
-import { Enterprise } from '../../shared/models/enterprise';
-import { UsersService } from '../../core/services/users.service';
-import { User } from '../../shared/models/user';
-import { Group } from "../../shared/models/group";
+import { ToastService } from "../../core/utils/toast/toast.service";
 //components
-import { ProvidersModalCrudComponent } from "../providers-modal-crud/providers-modal-crud.component";
-import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
+import { Contact } from "../../shared/models/contact";
 
 
 @Component({
@@ -20,27 +16,23 @@ import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/c
     templateUrl: 'contacts-modal-crud.component.html',
     styleUrls: ['contacts-modal-crud.component.scss']
 })
-export class ContactsModalCrudComponent implements OnInit {
-    public currentEnterprise: Enterprise;
+export class ContactsModalCrudComponent {
+    // public currentEnterprise: Enterprise;
     loader: boolean;
     btnLabel: string;
-    providers: any = [];
     groupForm: FormGroup;
+    positionUpdate: number;
     constructor(
         public thisDialogRef: MatDialogRef<ContactsModalCrudComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { action: string, group: Group },
+        @Inject(MAT_DIALOG_DATA) public data: { action: string, contact: Contact, contacts: Contact[] },
         private fb: FormBuilder,
-        private providerService: ProviderService,
-        private enterprises: EnterprisesService,
-        private matDialog: MatDialog,
-        private users: UsersService,
-    ) {
-        enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
-    }
+        private toast: ToastService
+    ) { }
+
     ngOnInit() {
-        this.setValidateForm();
+        this.validateForm(this.data.contact);
         this.setBtnLabel();
-        this.refreshProviders();
+        this.getPosition();
     }
 
     cancel() {
@@ -49,10 +41,13 @@ export class ContactsModalCrudComponent implements OnInit {
 
     validateForm(data) {
         this.groupForm = this.fb.group({
-            name: [data, Validators.required]
+            firstName: [data.firstName, Validators.required],
+            lastName: [data.lastName, Validators.required],
+            position: [data.position, Validators.required],
+            phone: [data.phone, [Validators.required, Validators.min(1)]],
+            email: [data.email, [Validators.required, Validators.email]],
         });
     }
-
     setBtnLabel() {
         switch (this.data.action) {
             case 'create': this.btnLabel = 'crear'; break;
@@ -60,81 +55,67 @@ export class ContactsModalCrudComponent implements OnInit {
             default: break;
         }
     }
+    getPosition() {
+        if (this.data.action == 'update') {
+            // array.forEach(element => {
 
-    setValidateForm() {
-        this.data.action == 'update' ? this.validateForm(this.data.group.name) : this.validateForm('');
+            // });
+            for (var index = 0; index < this.data.contacts.length; index++) {
+                if (
+                    this.data.contact.phone == this.data.contacts[index].phone &&
+                    this.data.contact.email == this.data.contacts[index].email
+                ) {
+                    this.positionUpdate = index;
+                }
+            }
+        }
     }
+
+    // setValidateForm() {
+    //     if (this.data.action == 'update') {
+    //         // this.validateForm(this.data.bankAccount.bankName)
+    //         // this.validateForm(this.data.bankAccount.number)
+    //         console.log(this.data.bankAccount,"update");
+
+    //     } else {
+    //         this.validateForm('')
+    //         console.log(this.data.bankAccount,"create");
+
+    //     }
+    // }
 
     doAction() {
         switch (this.data.action) {
             case 'create':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.providerService.create(value, this.currentEnterprise.id).subscribe(
-                        (res) => {
-                            this.thisDialogRef.close({ cancelled: false });
-                        },
-                        (err) => {
+                    for (var index = 0; index < this.data.contacts.length; index++) {
+                        if (value.phone == this.data.contacts[index].phone || value.email == this.data.contacts[index].email) {
+                            this.toast.error('El contacto ya existe');
+                            return
                         }
-                    )
+                    }
+                    this.data.contacts.push(value);
+                    this.thisDialogRef.close({ cancelled: false })
                 }
                 break;
             case 'update':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    // this.service.update(value, this.data.group.id).subscribe(
-                    //     (res) => {
-                    //         this.thisDialogRef.close({ cancelled: false });
-                    //     },
-                    //     (err) => {
-                    //     }
-                    // )
+                    console.log(this.positionUpdate);
+                    for (var index = 0; index < this.data.contacts.length; index++) {
+                        if ((value.phone == this.data.contacts[index].phone || value.email == this.data.contacts[index].email) && index != this.positionUpdate) {
+                            this.toast.error('El contacto ya existe');
+                            return
+                        }
+                        this.data.contacts.splice(this.positionUpdate, 1);
+                    }
+                    this.data.contacts.push(value);
+                    this.thisDialogRef.close({ cancelled: false })
                 }
                 break;
             default:
                 break;
         }
-        if (this.data.action == 'update') {
-
-        } else {
-
-        }
     }
-
-    private refreshProviders() {
-        this.providerService.getList(0).subscribe(
-            // res => this.providers = res.json()
-        )
-        console.log(this.providers, "holi bolio");
-
-    }
-
-    crud(action: string, provider: Provider = undefined) {
-        if (action == 'delete') {
-            this.delete(Object.assign({}, provider));
-            return
-        }
-        let dialogRef = this.matDialog.open(ProvidersModalCrudComponent, {
-            width: '800px',
-            data: {
-                action: action,
-                group: Object.assign({}, provider)
-            }
-        });
-        dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            if (!result.cancelled) this.refreshProviders()
-        })
-    }
-
-    private delete(provider: Provider) {
-        let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-            data: {
-                // message: `¿Esta seguro de eliminar el proveedor ${provider.firstName}?`
-            }
-        });
-        dialogRef.afterClosed().subscribe(confirm => {
-            // if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
-        });
-    }
-
 }

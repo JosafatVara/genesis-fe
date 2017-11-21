@@ -91,13 +91,13 @@
                         <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.bankName}}</li>
                         <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.number}}</li>
                         <li fxFlex class="body__text">
-                            <button class="cmp-btn cmp-btn--actions" (click)="crud('update',item)"><i class="fa fa-pencil" aria-hidden="true"></i>  </button>
-                            <button class="cmp-btn  cmp-btn--actions" (click)="crud('delete',item)"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+                            <button class="cmp-btn cmp-btn--actions" (click)="crudBankAccount('update',item)"><i class="fa fa-pencil" aria-hidden="true"></i>  </button>
+                            <button class="cmp-btn  cmp-btn--actions" (click)="crudBankAccount('delete',item)"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
                         </li>
                     </ul>
                 </div>
                 <div fxLayoutAlign="center center">
-                    <button class="cmp-btn cmp-btn--white-blue" (click)="crud('create')">Añadir cuenta bancaria  </button>
+                    <button class="cmp-btn cmp-btn--white-blue" (click)="crudBankAccount('create')">Añadir cuenta bancaria  </button>
                 </div>
                 <div class="padding-button" fxLayoutAlign="space-between center">
                     <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
@@ -137,21 +137,21 @@
                     </div>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=48>
-                            <input matInput placeholder="RUC" formControlName="ruc">
+                            <input matInput type="number" placeholder="RUC" formControlName="ruc">
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Teléfono" formControlName="phone">
+                            <input matInput type="number" placeholder="Teléfono" formControlName="phone">
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=100>
-                            <!-- <input matInput placeholder="Grupo" formControlName="group"> -->
-                            <!-- <mat-error>Requerido</mat-error> -->
-                            <select formControlName="group" multiple>
-                                    <option *ngFor="let item of groups" [value]="item.id">{{ item.categoryName }}</option>
-                            </select>
+                            <mat-select placeholder="Grupo" formControlName="group" name="item">
+                                <mat-option *ngFor="let item of groupList" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div fxLayoutAlign="space-between center">
@@ -167,43 +167,63 @@
             </mat-step>
             <mat-step [stepControl]="frmLegalContacts">
 
-                <!-- <form [formGroup]="frmLegalContacts">
-                    <ng-template matStepLabel>Cuentas Bancarias</ng-template>
-                    <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Cuenta Bancaria" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Banco" formControlName="thirdCtrl" required>
-                        </mat-form-field>
+                <form [formGroup]="frmLegalContacts">
+                    <ng-template matStepLabel>Contactos</ng-template>
+                    <div class="cmp-table ">
+                        <ul class="cmp-table__header" fxLayoutAlign="space-between center" *ngIf="contacts.length!=0">
+                            <li fxFlex class="header__title header__title--action">Nombre </li>
+                            <!-- <li fxFlex class="header__title header__title--action">Apellido </li> -->
+                            <li fxFlex class="header__title header__title--action">Cargo </li>
+                            <li fxFlex class="header__title header__title--action">Teléfono </li>
+                            <!-- <li fxFlex class="header__title header__title--action">Email </li> -->
+                            <li fxFlex class="header__title ">Acciones</li>
+                        </ul>
+                        <ul class="cmp-table__body" *ngFor="let item of contacts">
+                            <!-- <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.firstName}}</li> -->
+                            <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.firstName+' '+item.lastName}}</li>
+                            <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.position}}</li>
+                            <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.phone}}</li>
+                            <!-- <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.email}}</li> -->
+                            <li fxFlex class="body__text">
+                                <button class="cmp-btn cmp-btn--actions" (click)="crudContact('update',item)"><i class="fa fa-pencil" aria-hidden="true"></i>  </button>
+                                <button class="cmp-btn  cmp-btn--actions" (click)="crudContact('delete',item)"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+                            </li>
+                        </ul>
                     </div>
                     <div fxLayoutAlign="center center">
-                        <button class="cmp-btn cmp-btn--blue-white">Adicionar Cuenta Bancaria</button>
+                        <button class="cmp-btn cmp-btn--white-blue" (click)="crudContact('create')">Añadir contacto  </button>
                     </div>
-                    <div class="padding-button" fxLayoutAlign="end center">
-                        <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Crear</button>
+                    <div class="padding-button" fxLayoutAlign="space-between center">
+                        <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                        <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
                     </div>
-                </form> -->
+                </form>
             </mat-step>
             <mat-step [stepControl]="frmLegalBankAccounts">
-                <!-- <form [formGroup]="frmLegalBankAccounts">
+                <form [formGroup]="frmLegalBankAccounts">
                     <ng-template matStepLabel>Cuentas Bancarias</ng-template>
-                    <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Cuenta Bancaria" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Banco" formControlName="thirdCtrl" required>
-                        </mat-form-field>
+                    <div class="cmp-table ">
+                        <ul class="cmp-table__header" fxLayoutAlign="space-between center" *ngIf="bankAccounts.length!=0">
+                            <li fxFlex class="header__title header__title--action">Banco <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                            <li fxFlex class="header__title header__title--action">Cuenta Bancaria <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                            <li fxFlex class="header__title ">Acciones</li>
+                        </ul>
+                        <ul class="cmp-table__body" *ngFor="let item of bankAccounts">
+                            <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.bankName}}</li>
+                            <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.number}}</li>
+                            <li fxFlex class="body__text">
+                                <button class="cmp-btn cmp-btn--actions" (click)="crudBankAccount('update',item)"><i class="fa fa-pencil" aria-hidden="true"></i>  </button>
+                                <button class="cmp-btn  cmp-btn--actions" (click)="crudBankAccount('delete',item)"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+                            </li>
+                        </ul>
                     </div>
                     <div fxLayoutAlign="center center">
-                        <button class="cmp-btn cmp-btn--blue-white">Adicionar Cuenta Bancaria</button>
+                        <button class="cmp-btn cmp-btn--white-blue" (click)="crudBankAccount('create')">Añadir cuenta bancaria  </button>
                     </div>
                     <div class="padding-button" fxLayoutAlign="end center">
-                        <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Crear</button>
+                        <button mat-button matStepperNext class="cmp-btn cmp-btn--blue" (click)="doAction()">Crear</button>
                     </div>
-                </form> -->
+                </form>
             </mat-step>
-
         </mat-horizontal-stepper>
     </div>

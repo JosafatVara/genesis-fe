@@ -1,13 +1,24 @@
-<!-- <div class="cmp-modal">
+<div class="cmp-modal">
     <form [formGroup]="groupForm" novalidate (submit)="doAction()">
         <div class="cmp-modal__body" fxLayout="column" fxLayoutAlign="center center">
-            <h3 class="body__message">Recuerde que los Grupos son designados a sus Proveedores</h3>
             <mat-form-field class="c-input">
-                <input matInput placeholder="CUENTA BANCARIA" formControlName="bank">
+                <input matInput placeholder="Nombre" type="text" formControlName="firstName">
                 <mat-error>Requerido</mat-error>
             </mat-form-field>
             <mat-form-field class="c-input">
-                <input matInput placeholder="NUMERO DE CUENTA" formControlName="bankAccount">
+                <input matInput placeholder="Apellido" type="text" formControlName="lastName">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Cargo" type="text" formControlName="position">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Teléfono" type="number" formControlName="phone">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Email" type="text" formControlName="email">
                 <mat-error>Requerido</mat-error>
             </mat-form-field>
         </div>
@@ -18,4 +29,4 @@
             </button>
         </div>
     </form>
-</div> -->
+</div>
