@@ -9,7 +9,6 @@ import { PhotoInputComponent } from './components/photo-input/photo-input.compon
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { NumericPipe } from "./pipes/numeric.pipe";
 import { ToMonthPipe } from './pipes/to-month.pipe';
-import { DateSelectorComponent } from './components/date-selector/date-selector.component';
 
 @NgModule({
   imports: [
@@ -17,7 +16,7 @@ import { DateSelectorComponent } from './components/date-selector/date-selector.
     FlexLayoutModule,
     CommonModule
   ],
-  declarations: [PhotoInputComponent, ConfirmDialogComponent, NumericPipe, ToMonthPipe, SlimScroll, DateSelectorComponent],
+  declarations: [PhotoInputComponent, ConfirmDialogComponent, NumericPipe, ToMonthPipe, SlimScroll],
   exports: [
     CommonModule,
     FormsModule,
