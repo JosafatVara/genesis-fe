@@ -16,7 +16,10 @@
                 </ul>
                 <ul class="cmp-table__body" *ngFor="let item of providers">
                     <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.ruc}}</li>
-                    <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.bussinesName}}</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">
+                        <span *ngIf="item.bussinesName">{{item.bussinesName}}</span>
+                        <span *ngIf="item.firstName">{{item.firstName}}</span>
+                    </li>
                     <li fxFlex=20 class="body__text" fxLayoutAlign="start center">{{item.orders}}</li>
                     <li fxFlex=30 class="body__text">
                         <button class="cmp-btn cmp-btn--actions" (click)="crud('update',item)"><i class="fa fa-pencil" aria-hidden="true"></i> <span fxHide.lt-lg> Editar</span> </button>

@@ -32,7 +32,7 @@ export class ProvidersListComponent implements OnInit {
     }
 
     private refreshProviders() {
-        // this.service.getList(this.currentEnterprise).subscribe(res => this.providers = res);
+        this.service.getList(this.currentEnterprise.id).subscribe(res => this.providers = res);
     }
 
     // this.enterprises.get().subscribe(es => this.enterpriseList = es);
@@ -62,7 +62,7 @@ export class ProvidersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
+            // if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
         });
     }
 }

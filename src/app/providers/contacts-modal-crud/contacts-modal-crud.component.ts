@@ -82,13 +82,13 @@ export class ContactsModalCrudComponent implements OnInit {
             case 'update':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.update(value, this.data.group.id).subscribe(
-                        (res) => {
-                            this.thisDialogRef.close({ cancelled: false });
-                        },
-                        (err) => {
-                        }
-                    )
+                    // this.service.update(value, this.data.group.id).subscribe(
+                    //     (res) => {
+                    //         this.thisDialogRef.close({ cancelled: false });
+                    //     },
+                    //     (err) => {
+                    //     }
+                    // )
                 }
                 break;
             default:
@@ -103,7 +103,7 @@ export class ContactsModalCrudComponent implements OnInit {
 
     private refreshProviders() {
         this.service.getList(0).subscribe(
-            res => this.providers = res.json()
+            // res => this.providers = res.json()
         )
         console.log(this.providers, "holi bolio");
 
@@ -133,7 +133,7 @@ export class ContactsModalCrudComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
+            // if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
         });
     }
 

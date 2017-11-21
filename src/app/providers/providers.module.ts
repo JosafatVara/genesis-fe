@@ -1,3 +1,4 @@
+// import { BankAccount } from './../shared/models/bank-account';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -6,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms"
 import { HttpModule } from '@angular/http';
 
 import { Service } from '../core/services/providers.service'
+import { BankAccountService } from '../core/services/bank-account.service'
+
 import { ProvidersRoutingModule } from "./providers-routing/providers-routing.module";
 import { SharedModule } from '../shared/shared.module';
 
@@ -29,7 +32,7 @@ import { AccountsBankModalCrudComponent } from './accounts-bank-modal-crud/accou
     ProvidersModalCrudComponent, ProvidersListComponent, ContactsModalCrudComponent, AccountsBankModalCrudComponent
   ],
   providers: [
-    Service
+    Service, BankAccountService
   ]
 })
 export class ProvidersModule { }

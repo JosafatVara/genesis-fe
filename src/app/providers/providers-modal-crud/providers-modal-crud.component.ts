@@ -1,14 +1,15 @@
+import { element } from 'protractor';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 //modules
-import { Service } from '../../core/services/providers.service'
-import { Provider, NaturalProvider, LegalProvider } from "../../shared/models/provider";
+import { Provider } from "../../shared/models/provider";
 import { BankAccount } from "../../shared/models/bank-account";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
+import { Service } from '../../core/services/providers.service'
 import { UsersService } from '../../core/services/users.service';
-// import { User } from '../../shared/models/user';
+import { BankAccountService } from './../../core/services/bank-account.service';
 //components
 import { ContactsModalCrudComponent } from "../contacts-modal-crud/contacts-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
@@ -46,7 +47,8 @@ export class ProvidersModalCrudComponent {
         public thisDialogRef: MatDialogRef<ProvidersModalCrudComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { action: string, provider: Provider },
         private fb: FormBuilder,
-        private service: Service,
+        private providerService: Service,
+        private bankAccountService: BankAccountService,
         private enterprises: EnterprisesService,
         private images: ImagesService
     ) {
@@ -80,11 +82,11 @@ export class ProvidersModalCrudComponent {
 
     selectPerson(selected) {
         this.providerType = selected;
-        if (this.providerType == 1) {
-            this.provider = this.data.action == 'create' ? new NaturalProvider : this.data.provider;
-        } else {
-            this.provider = this.data.action == 'create' ? new LegalProvider : this.data.provider;
-        }
+        // if (this.providerType == 1) {
+        this.provider = this.data.action == 'create' ? new Provider : this.data.provider;
+        // } else {
+        // this.provider = this.data.action == 'create' ? new LegalProvider : this.data.provider;
+        // }
         // this.person == 1 ? this.provider = this.data.provider || new NaturalProvider : this.provider = this.data.provider || new LegalProvider;
         console.log(this.provider);
         this.createForm();
@@ -103,7 +105,7 @@ export class ProvidersModalCrudComponent {
     createForm() {
         if (this.providerType == 1) {
             this.frmNaturalPhoto = this.fb.group({
-                photoFlag: ['', Validators.required]
+                photo: ['', Validators.required]
             });
             this.frmNaturalBasicData = this.fb.group({
                 firstName: ['', Validators.required],
@@ -115,9 +117,9 @@ export class ProvidersModalCrudComponent {
                 email: ['', [Validators.required, Validators.email]],
                 notes: [''],
             });
-            // this.frmNaturalBankAccounts = this.fb.group({
-            //     bankAccounts: this.fb.array([])
-            // });
+            this.frmNaturalBankAccounts = this.fb.group({
+                bankAccounts: this.fb.array([])
+            });
         } else {
             this.frmLegalPhoto = this.fb.group({
                 firstCtrl: ['', Validators.required]
@@ -139,24 +141,25 @@ export class ProvidersModalCrudComponent {
             // this.frmNaturalBasicData.patchValue(this.provider)
             this.frmNaturalBasicData.patchValue(this.provider)
         } else {
+            this.frmLegalBasicData.patchValue(this.provider)
         }
-    }
-
-    setValidateForm() {
-        // this.data.action == 'update' ? this.createForm(this.data.provider) : this.createForm('');
-        // this.provider=
     }
 
     onChangePhoto(photo: Blob) {
         if (photo) {
-            this.frmNaturalPhoto.setValue({ photoFlag: 'OK' });
+            console.log(photo);
+            switch (this.providerType) {
+                case 1: this.frmNaturalPhoto.setValue({ photo: photo }); break;
+                case 2: this.frmLegalPhoto.setValue({ photo: photo }); break;
+                default: break;
+            }
+            // this.frmNaturalPhoto.setValue({ photo: photo });
         }
     }
+
     onCloseCancel() {
         this.thisDialogRef.close("Cancel")
     }
-
-
 
     // private refreshBankAccounts(bankAccount: BankAccount) {
     //     console.log(this.currentEnterprise.id, "id de empresa catual");
@@ -168,49 +171,27 @@ export class ProvidersModalCrudComponent {
     // }
 
 
-
-    // crud(action: string, bankAccount: BankAccount = undefined) {
-    //     if (action == 'delete') {
-    //         this.delete(Object.assign({}, bankAccount));
-    //         return
-    //     }
-    //     let dialogRef = this.matDialog.open(AccountsBankModalCrudComponent, {
-    //         width: '350px',
-    //         data: {
-    //             action: action,
-    //             bankAccount: Object.assign({}, bankAccount),
-    //             provider: Object.assign({}, provider)
-    //         }
-    //     });
-    //     dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-    //         if (!result.cancelled) this.refreshBanckAccounts()
-    //     })
-    // }
-
-    // private delete(bankAccount: BankAccount) {
-    //     let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
-    //         data: {
-    //             message: `¿Esta seguro de eliminar el grupo ${bankAccount.bankName}?`
-    //         }
-    //     });
-    //     dialogRef.afterClosed().subscribe(confirm => {
-    //         if (confirm) {
-    //             for (var index = 0; index < this.bankAccounts.length; index++) {
-    //                 if (bankAccount.bankName == this.bankAccounts[index].bankName) {
-    //                     this.bankAccounts.splice(index, 1);
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //         // this.service.delete(group.id).subscribe(() => this.refreshGroups());
-    //     });
-    // }
-
-    create() {
+    doAction() {
         if (this.providerType == 1) {
-            if (this.frmLegalPhoto.valid && this.frmNaturalBasicData.valid && this.frmNaturalBankAccounts.valid) {
-                this.loader = true;
-                const value = Object.assign({}, this.frmLegalPhoto.value, this.frmNaturalBasicData, this.frmNaturalBankAccounts);
+            console.log(this.frmNaturalPhoto.valid, this.frmNaturalBasicData.valid, this.frmNaturalBankAccounts.valid);
+
+            if (this.frmNaturalPhoto.valid && this.frmNaturalBasicData.valid && this.frmNaturalBankAccounts.valid) {
+                // this.loader = true;
+                console.log(this.frmNaturalPhoto.value);
+                console.log(this.frmNaturalBasicData.value);
+
+                const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
+                this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
+                    res => {
+                        this.bankAccounts.forEach(element => {
+                            console.log(element, "elemento");
+                            this.bankAccountService.create(element, res.id).subscribe(res => {
+                                console.log(res, "cuanta de banco cread");
+                            })
+                        });
+                        this.thisDialogRef.close({ cancelled: false })
+                    }
+                )
                 // this.service.create(this.data.enterpriseId).subscribe(
                 // (res) => {
                 // this.thisDialogRef.close(1);            
@@ -222,8 +203,8 @@ export class ProvidersModalCrudComponent {
             }
         } else {
             if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid && this.frmLegalBankAccounts.valid) {
-                this.loader = true;
-                const value = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData, this.frmLegalContacts, this.frmLegalBankAccounts);
+                // this.loader = true;
+                const value = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData, this.frmLegalContacts, this.frmLegalBankAccounts, { type: "LEGAL" });
                 // this.service.create(this.data.enterpriseId).subscribe(
                 // (res) => {
                 // this.thisDialogRef.close(1);            
