@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Service } from '../../core/services/groups.service'
+import { GroupService } from '../../core/services/groups.service'
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
 import { Group } from "../../shared/models/group";
@@ -22,7 +22,7 @@ export class GroupModalCrudComponent {
         public thisDialogRef: MatDialogRef<GroupModalCrudComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { action: string, group: Group },
         private fb: FormBuilder,
-        private service: Service,
+        private groupService: GroupService,
         private enterprises: EnterprisesService
     ) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
@@ -59,13 +59,13 @@ export class GroupModalCrudComponent {
             case 'create':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.create(value, this.currentEnterprise.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
+                    this.groupService.create(value, this.currentEnterprise.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
                 }
                 break;
             case 'update':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.update(value, this.data.group.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
+                    this.groupService.update(value, this.data.group.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }))
                 }
                 break;
             default:

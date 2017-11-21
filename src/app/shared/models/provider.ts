@@ -10,6 +10,7 @@ export class Provider extends BaseEntity<Provider>{
     public bankAccounts: BankAccount[];
     public photo: File;
     public type: string;
+    public numOrders?: number;
     //LegalProvider
     public businessName?: string;
     public group?: Group;

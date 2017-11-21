@@ -6,7 +6,7 @@ import { MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/ma
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http';
 //modules
-import { Service } from '../core/services/groups.service'
+import { GroupService } from '../core/services/groups.service'
 import { ReportsRoutingModule } from "./reports-routing/reports-routing.module";
 // This Module's Components
 import { ReportsComponent } from './reports.component';

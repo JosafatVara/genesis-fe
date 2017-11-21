@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Service } from '../../core/services/groups.service'
+import { GroupService } from '../../core/services/groups.service'
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
 import { Order } from "../../shared/models/order";
@@ -21,7 +21,7 @@ export class OrdersModalCrudComponent {
         public thisDialogRef: MatDialogRef<OrdersModalCrudComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { action: string, order: Order },
         private fb: FormBuilder,
-        private service: Service,
+        private groupService: GroupService,
         private enterprises: EnterprisesService
     ) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);

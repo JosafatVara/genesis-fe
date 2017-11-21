@@ -11,7 +11,7 @@ import { AuthenticatedService } from './base/authenticated-service';
 
 
 @Injectable()
-export class Service extends AuthenticatedService {
+export class ProviderService extends AuthenticatedService {
     // nameModule = 'api/v1/purchases/';
     // token: string;
 
@@ -109,6 +109,8 @@ export class Service extends AuthenticatedService {
             ruc: be.ruc,
             phone: be.phone,
             notes: be.details,
+            numOrders: be.orders,
+
         });
     }
 

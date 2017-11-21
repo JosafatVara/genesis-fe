@@ -81,27 +81,6 @@
             <mat-step [stepControl]="frmNaturalBankAccounts">
                 <!-- <form [formGroup]="nthirdFormGroup"> -->
                 <ng-template matStepLabel>Cuentas Bancarias</ng-template>
-                <!-- <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Nombre Contacto" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Apellidos Contacto" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                    </div>
-                    <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=100>
-                            <input matInput placeholder="Cargo" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                    </div>
-                    <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Teléfono" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Email" formControlName="thirdCtrl" required>
-                        </mat-form-field>
-                    </div> -->
                 <div class="cmp-table ">
                     <ul class="cmp-table__header" fxLayoutAlign="space-between center" *ngIf="bankAccounts.length!=0">
                         <li fxFlex class="header__title header__title--action">Banco <i class="fa fa-angle-down" aria-hidden="true"></i></li>
@@ -133,7 +112,8 @@
             <mat-step [stepControl]="frmLegalPhoto">
                 <form [formGroup]="frmLegalPhoto">
                     <ng-template matStepLabel>Foto</ng-template>
-                    <div fxLayoutAlign="space-between center">
+                    <div fxLayoutAlign="center center">
+                        <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="photo" (onChange)="onChangePhoto($event)"></gen-photo-input>
                     </div>
                     <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
                         <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
@@ -144,44 +124,39 @@
                 <form [formGroup]="frmLegalBasicData">
                     <ng-template matStepLabel>Datos</ng-template>
                     <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=48>
-                            <input matInput type="text" placeholder="Razón Social" formControlName="secondCtrl">
-                            <mat-error>Requerido</mat-error>
-                        </mat-form-field>
-                        <mat-form-field fxFlex=48>
-                            <input matInput type="text" placeholder="Dirección" formControlName="secondCtrl">
-                            <mat-error>Requerido</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="RUC" formControlName="secondCtrl" required>
-                            <mat-error>Requerido</mat-error>
-                        </mat-form-field>
-                        <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Teléfono" formControlName="secondCtrl" required>
+                        <mat-form-field fxFlex=100>
+                            <input matInput type="text" placeholder="Razón Social" formControlName="businessName">
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=100>
-                            <input matInput placeholder="Dirección" formControlName="secondCtrl" required>
+                            <input matInput type="text" placeholder="Dirección" formControlName="address">
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Teléfono" formControlName="secondCtrl" required>
+                            <input matInput placeholder="RUC" formControlName="ruc">
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex=48>
-                            <input matInput placeholder="Grupo" formControlName="secondCtrl" required>
+                            <input matInput placeholder="Teléfono" formControlName="phone">
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=100>
-                            <input matInput placeholder="Detalles" formControlName="secondCtrl">
+                            <!-- <input matInput placeholder="Grupo" formControlName="group"> -->
+                            <!-- <mat-error>Requerido</mat-error> -->
+                            <select formControlName="group" multiple>
+                                    <option *ngFor="let item of groups" [value]="item.id">{{ item.categoryName }}</option>
+                            </select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayoutAlign="space-between center">
+                        <mat-form-field fxFlex=100>
+                            <input matInput placeholder="Detalles" formControlName="notes">
                         </mat-form-field>
                     </div>
                     <div class="padding-button" fxLayoutAlign="space-between center">
@@ -191,7 +166,8 @@
                 </form>
             </mat-step>
             <mat-step [stepControl]="frmLegalContacts">
-                <form [formGroup]="frmLegalContacts">
+
+                <!-- <form [formGroup]="frmLegalContacts">
                     <ng-template matStepLabel>Cuentas Bancarias</ng-template>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=48>
@@ -207,10 +183,10 @@
                     <div class="padding-button" fxLayoutAlign="end center">
                         <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Crear</button>
                     </div>
-                </form>
+                </form> -->
             </mat-step>
             <mat-step [stepControl]="frmLegalBankAccounts">
-                <form [formGroup]="frmLegalBankAccounts">
+                <!-- <form [formGroup]="frmLegalBankAccounts">
                     <ng-template matStepLabel>Cuentas Bancarias</ng-template>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=48>
@@ -226,9 +202,8 @@
                     <div class="padding-button" fxLayoutAlign="end center">
                         <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Crear</button>
                     </div>
-                </form>
+                </form> -->
             </mat-step>
 
         </mat-horizontal-stepper>
     </div>
-</div>

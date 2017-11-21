@@ -6,8 +6,9 @@ import { MatFormFieldModule, MatInputModule, MatStepperModule } from '@angular/m
 import { FormsModule, ReactiveFormsModule } from "@angular/forms"
 import { HttpModule } from '@angular/http';
 
-import { Service } from '../core/services/providers.service'
+import { ProviderService } from '../core/services/providers.service'
 import { BankAccountService } from '../core/services/bank-account.service'
+import { GroupService } from './../core/services/groups.service';
 
 import { ProvidersRoutingModule } from "./providers-routing/providers-routing.module";
 import { SharedModule } from '../shared/shared.module';
@@ -32,7 +33,7 @@ import { AccountsBankModalCrudComponent } from './accounts-bank-modal-crud/accou
     ProvidersModalCrudComponent, ProvidersListComponent, ContactsModalCrudComponent, AccountsBankModalCrudComponent
   ],
   providers: [
-    Service, BankAccountService
+    ProviderService, BankAccountService, GroupService
   ]
 })
 export class ProvidersModule { }

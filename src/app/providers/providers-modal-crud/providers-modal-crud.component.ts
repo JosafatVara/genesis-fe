@@ -7,9 +7,11 @@ import { Provider } from "../../shared/models/provider";
 import { BankAccount } from "../../shared/models/bank-account";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
-import { Service } from '../../core/services/providers.service'
+import { ProviderService } from '../../core/services/providers.service'
 import { UsersService } from '../../core/services/users.service';
 import { BankAccountService } from './../../core/services/bank-account.service';
+import { GroupService } from './../../core/services/groups.service';
+
 //components
 import { ContactsModalCrudComponent } from "../contacts-modal-crud/contacts-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
@@ -47,7 +49,7 @@ export class ProvidersModalCrudComponent {
         public thisDialogRef: MatDialogRef<ProvidersModalCrudComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { action: string, provider: Provider },
         private fb: FormBuilder,
-        private providerService: Service,
+        private providerService: ProviderService,
         private bankAccountService: BankAccountService,
         private enterprises: EnterprisesService,
         private images: ImagesService
@@ -122,16 +124,21 @@ export class ProvidersModalCrudComponent {
             });
         } else {
             this.frmLegalPhoto = this.fb.group({
-                firstCtrl: ['', Validators.required]
+                photo: ['', Validators.required]
             });
             this.frmLegalBasicData = this.fb.group({
-                secondCtrl: ['', Validators.required]
+                businessName: ['', Validators.required],
+                address: ['', Validators.required],
+                ruc: ['', Validators.required],
+                phone: ['', Validators.required],
+                group: ['', Validators.required],
+                notes: ['', Validators.required],
             });
             this.frmLegalContacts = this.fb.group({
-                thirdCtrl: ['', Validators.required]
+                contacts: this.fb.array([])
             });
             this.frmLegalBankAccounts = this.fb.group({
-                fourthCtrl: ['', Validators.required]
+                bankAccounts: this.fb.array([])
             });
         }
     }
@@ -161,6 +168,9 @@ export class ProvidersModalCrudComponent {
         this.thisDialogRef.close("Cancel")
     }
 
+    createListGroup() {
+
+    }
     // private refreshBankAccounts(bankAccount: BankAccount) {
     //     console.log(this.currentEnterprise.id, "id de empresa catual");
     //     this.bankAccounts.push(bankAccount);

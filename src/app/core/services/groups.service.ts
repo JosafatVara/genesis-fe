@@ -9,13 +9,13 @@ import { environment } from '../../../environments/environment';
 import { AuthenticatedService } from './base/authenticated-service';
 
 @Injectable()
-export class Service extends AuthenticatedService {
+export class GroupService extends AuthenticatedService {
     nameModule = 'purchases/';
     token: string;
 
     constructor(http: HttpClient, auth: AuthenticationService) {
         super(auth, http, '');
-        this.token = JSON.parse(localStorage.getItem("token"));
+        // this.token = JSON.parse(localStorage.getItem("token"));
     }
 
     getList(id): Observable<Group[]> {

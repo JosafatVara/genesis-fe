@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 //modules
-import { Service } from '../../core/services/providers.service'
+import { ProviderService } from '../../core/services/providers.service'
 import { Provider } from "../../shared/models/provider";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
@@ -30,7 +30,7 @@ export class ContactsModalCrudComponent implements OnInit {
         public thisDialogRef: MatDialogRef<ContactsModalCrudComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { action: string, group: Group },
         private fb: FormBuilder,
-        private service: Service,
+        private providerService: ProviderService,
         private enterprises: EnterprisesService,
         private matDialog: MatDialog,
         private users: UsersService,
@@ -70,7 +70,7 @@ export class ContactsModalCrudComponent implements OnInit {
             case 'create':
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
-                    this.service.create(value, this.currentEnterprise.id).subscribe(
+                    this.providerService.create(value, this.currentEnterprise.id).subscribe(
                         (res) => {
                             this.thisDialogRef.close({ cancelled: false });
                         },
@@ -102,7 +102,7 @@ export class ContactsModalCrudComponent implements OnInit {
     }
 
     private refreshProviders() {
-        this.service.getList(0).subscribe(
+        this.providerService.getList(0).subscribe(
             // res => this.providers = res.json()
         )
         console.log(this.providers, "holi bolio");
