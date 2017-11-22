@@ -42,6 +42,7 @@ export class CustomerService extends AuthenticatedService {
         formData.append('ruc', data.ruc);
         formData.append('phone', data.phone);
         formData.append('email', data.email);
+        formData.append('position', data.position);
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
         return this.http.post(this.actionUrl + 'enterprises/' + id + '/clients', formData, { headers: headers }).map(result => {
@@ -61,9 +62,10 @@ export class CustomerService extends AuthenticatedService {
         formData.append('ruc', data.ruc);
         formData.append('phone', data.phone);
         formData.append('email', data.email);
+        formData.append('position', data.position);
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
-        return this.http.put(this.actionUrl + `enterprises/clients/` + id, formData, { headers: headers }).map(result => {
+        return this.http.patch(this.actionUrl + `enterprises/clients/` + id, formData, { headers: headers }).map(result => {
             return this.mapBeToCustomer(result);
         });
     }
@@ -89,7 +91,7 @@ export class CustomerService extends AuthenticatedService {
             numOrders: be.orders,
             pendingAmount: be.pending_amount,
             email: be.email,
-
+            position: be.position,
         });
     }
 

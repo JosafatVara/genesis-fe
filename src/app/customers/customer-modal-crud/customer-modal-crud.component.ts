@@ -29,6 +29,7 @@ export class CustomerModalCrudComponent {
     providerPhoto: any;
     customer: any;
     // photo: Blob;
+    public customerPhoto: any;
     frmNaturalPhoto: FormGroup;
     frmNaturalBasicData: FormGroup;
 
@@ -73,8 +74,12 @@ export class CustomerModalCrudComponent {
     selectPerson(selected) {
         this.customerType = selected;
         this.customer = this.data.action == 'create' ? new Customer : this.data.customer;
+
         this.createForm();
         this.fillForm();
+        this.customerPhoto = this.customer.photo;
+        console.log(this.customer.photo);
+
         // if (this.data.action == 'update') {
         //     this.photo = this.data.customer.photo
         //     console.log(this.photo, "photo");
@@ -115,6 +120,13 @@ export class CustomerModalCrudComponent {
                 phone: ['', [Validators.required, Validators.min(7)]],
 
             });
+            this.frmLegalContacts = this.fb.group({
+                firstName: ['', Validators.required],
+                lastName: ['', Validators.required],
+                position: ['', Validators.required],
+                email: ['', [Validators.required, Validators.email]],
+                cellphone: ['', [Validators.required, Validators.min(7)]],
+            });
             // this.frmLegalContacts = this.fb.group({
             //     contacts: this.fb.array([])
             // });
@@ -124,12 +136,18 @@ export class CustomerModalCrudComponent {
 
     fillForm() {
         if (this.customerType == 1) {
-            console.log(this.customer);
+            console.log(this.customer, "customer");
             this.frmNaturalBasicData.patchValue(this.customer)
-        } else {
-            console.log(this.customer);
+            if (this.data.action == 'update') {
+                this.frmNaturalPhoto.patchValue(this.customer)
+            }
 
+        } else {
             this.frmLegalBasicData.patchValue(this.customer)
+            this.frmLegalContacts.patchValue(this.customer)
+            if (this.data.action == 'update') {
+                this.frmLegalPhoto.patchValue(this.customer)
+            }
         }
     }
 
@@ -151,7 +169,7 @@ export class CustomerModalCrudComponent {
 
     doAction() {
         if (this.customerType == 1) {
-            if (this.frmNaturalPhoto.valid && this.frmNaturalBasicData.valid) {
+            if (this.frmNaturalBasicData.valid) {
                 const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
                 if (this.data.action == 'create') {
                     this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(
@@ -165,9 +183,9 @@ export class CustomerModalCrudComponent {
 
             }
         } else {
-            if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid) {
+            if (this.frmLegalBasicData.valid && this.frmLegalContacts.valid) {
                 // if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid) {
-                const dataProvider = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData.value, { type: "EMPRESA" });
+                const dataProvider = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData.value, this.frmLegalContacts.value, { type: "EMPRESA" });
                 if (this.data.action == 'create') {
                     this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(
                         res => {
@@ -184,6 +202,12 @@ export class CustomerModalCrudComponent {
         }
     }
 
+
+    protected validate(): boolean {
+        this.customer.photo = this.customerPhoto;
+        this.customer.photoFileName = this.customerPhoto.name;
+        return this.customer.photo != undefined && this.customer.photo != "";
+    }
     //MODAL CRUD CONTACTS
     refreshContacts() {
         this.contactService.getList(this.data.customer.id).subscribe(res => this.contacts = res)

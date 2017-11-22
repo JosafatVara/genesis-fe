@@ -16,7 +16,9 @@ export class Customer extends BaseEntity<Customer>{
     public businessName?: string;
     public group?: Group;
     public details?: string;
-    public contacts?: Contact[]
+    public contacts?: Contact[];
+    public position?: string;
+    
     //NaturalProvider
     public cellphone?: string;
     public firstName?: string;
