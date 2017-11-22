@@ -35,7 +35,7 @@ export class UserListComponent implements OnInit {
     });
     this.config = {
       id: 'pagination',
-      itemsPerPage: 1,
+      itemsPerPage: 5,
       currentPage: 1
     };
   }

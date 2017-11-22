@@ -21,6 +21,10 @@ export class RolesService extends AuthenticatedService implements CrudService<Ro
     return this.mockData;
   }
 
+  populate(): Observable<any>{
+    return this.get().do( rs => this.mockData = rs );
+  }
+
   get(specification?: Specification<Role>): Observable<Role[]> {
     //return Observable.of(this.mockData);
     return this.http.get(`${this.baseUrl}enterprises/roles/`,{ headers: this.authHttpHeaders })
