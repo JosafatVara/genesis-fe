@@ -1,3 +1,4 @@
+import { Provider } from './../../shared/models/provider';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -6,6 +7,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 // import { Enterprise } from '../../shared/models/enterprise';
 //modules
 import { ToastService } from "../../core/utils/toast/toast.service";
+import { ContactsService } from './../../core/services/contacs.service';
+
 //components
 import { Contact } from "../../shared/models/contact";
 
@@ -24,9 +27,11 @@ export class ContactsModalCrudComponent {
     positionUpdate: number;
     constructor(
         public thisDialogRef: MatDialogRef<ContactsModalCrudComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { action: string, contact: Contact, contacts: Contact[] },
+        @Inject(MAT_DIALOG_DATA) public data: { action: string, contact: Contact, contacts: Contact[], provider: Provider },
         private fb: FormBuilder,
-        private toast: ToastService
+        private toast: ToastService,
+        private contactsService: ContactsService,
+
     ) { }
 
     ngOnInit() {
@@ -55,11 +60,9 @@ export class ContactsModalCrudComponent {
             default: break;
         }
     }
+
     getPosition() {
         if (this.data.action == 'update') {
-            // array.forEach(element => {
-
-            // });
             for (var index = 0; index < this.data.contacts.length; index++) {
                 if (
                     this.data.contact.phone == this.data.contacts[index].phone &&
@@ -90,12 +93,13 @@ export class ContactsModalCrudComponent {
                 if (this.groupForm.valid) {
                     const value = this.groupForm.value;
                     for (var index = 0; index < this.data.contacts.length; index++) {
-                        if (value.phone == this.data.contacts[index].phone || value.email == this.data.contacts[index].email) {
-                            this.toast.error('El contacto ya existe');
-                            return
-                        }
+                        // if (value.phone == this.data.contacts[index].phone || value.email == this.data.contacts[index].email) {
+                        //     this.toast.error('El contacto ya existe');
+                        //     return
+                        // }
                     }
-                    this.data.contacts.push(value);
+                    console.log(this.data.provider.id);
+                    this.data.provider.id ? this.contactsService.create(value, this.data.provider.id).subscribe() : this.data.contacts.push(value)
                     this.thisDialogRef.close({ cancelled: false })
                 }
                 break;
@@ -104,18 +108,19 @@ export class ContactsModalCrudComponent {
                     const value = this.groupForm.value;
                     console.log(this.positionUpdate);
                     for (var index = 0; index < this.data.contacts.length; index++) {
-                        if ((value.phone == this.data.contacts[index].phone || value.email == this.data.contacts[index].email) && index != this.positionUpdate) {
-                            this.toast.error('El contacto ya existe');
-                            return
-                        }
+                        // if ((value.phone == this.data.contacts[index].phone || value.email == this.data.contacts[index].email) && index != this.positionUpdate) {
+                        //     this.toast.error('El contacto ya existe');
+                        //     return
+                        // }
                         this.data.contacts.splice(this.positionUpdate, 1);
                     }
-                    this.data.contacts.push(value);
+                    console.log(this.data.provider.id);
+                    this.data.provider.id ? this.contactsService.update(value, this.data.provider.id).subscribe() : this.data.contacts.push(value)
+                    // this.data.contacts.push(value);
                     this.thisDialogRef.close({ cancelled: false })
                 }
                 break;
-            default:
-                break;
+            default: break;
         }
     }
 }

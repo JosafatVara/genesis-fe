@@ -1,4 +1,4 @@
-import { element } from 'protractor';
+// import { element } from 'protractor';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -107,7 +107,7 @@ export class ProvidersModalCrudComponent {
             this.frmNaturalBasicData = this.fb.group({
                 firstName: ['', Validators.required],
                 lastName: ['', Validators.required],
-                ruc: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+                ruc: ['', [Validators.required, Validators.min(11)]],
                 cellphone: ['', [Validators.required, Validators.min(9)]],
                 address: ['', Validators.required],
                 phone: ['', [Validators.required, Validators.min(7)]],
@@ -124,7 +124,7 @@ export class ProvidersModalCrudComponent {
             this.frmLegalBasicData = this.fb.group({
                 businessName: ['', Validators.required],
                 address: ['', Validators.required],
-                ruc: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+                ruc: ['', [Validators.required, Validators.min(11)]],
                 phone: ['', [Validators.required, Validators.min(7)]],
                 group: ['', Validators.required],
                 notes: ['', Validators.required],
@@ -176,7 +176,6 @@ export class ProvidersModalCrudComponent {
 
 
     doAction() {
-
         if (this.providerType == 1) {
             if (this.frmNaturalPhoto.valid && this.frmNaturalBasicData.valid && this.frmNaturalBankAccounts.valid) {
                 const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
@@ -191,25 +190,28 @@ export class ProvidersModalCrudComponent {
                     )
                 } else {
                     // this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe();
+                    console.log("tamod aqui papi");
                 }
-
             }
         } else {
             if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid && this.frmLegalBankAccounts.valid) {
                 const dataProvider = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData.value, { type: "EMPRESA" });
-                console.log(this.frmLegalBasicData.value, "basica data")
-                console.log(dataProvider, "proveiderºº")
-                this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
-                    res => {
-                        this.bankAccounts.forEach(element => {
-                            this.bankAccountService.create(element, res.id).subscribe()
-                        });
-                        this.contacts.forEach(element => {
-                            this.contactService.create(element, res.id).subscribe()
-                        });
-                        this.thisDialogRef.close({ cancelled: false })
-                    }
-                )
+                if (this.data.action == 'create') {
+                    this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
+                        res => {
+                            this.bankAccounts.forEach(element => {
+                                this.bankAccountService.create(element, res.id).subscribe()
+                            });
+                            this.contacts.forEach(element => {
+                                this.contactService.create(element, res.id).subscribe()
+                            });
+                            this.thisDialogRef.close({ cancelled: false })
+                        }
+                    )
+                } else {
+
+                }
+
             }
         }
     }
@@ -240,14 +242,21 @@ export class ProvidersModalCrudComponent {
     private deleteBankAccount(bankAccount: BankAccount) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
-                message: `¿Esta seguro de eliminar la cuenta bancaria ${bankAccount.bankName}?`
+                message: `¿Esta seguro de eliminar la cuenta bancaria ${bankAccount.number}?`
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
             if (confirm) {
-                for (var index = 0; index < this.bankAccounts.length; index++) {
-                    if (bankAccount.bankName == this.bankAccounts[index].bankName) this.bankAccounts.splice(index, 1)
+                if (this.provider.id) {
+                    this.contactService.delete(bankAccount.id).subscribe(res => {
+                        this.refreshBankAccounts()
+                    })
+                } else {
+                    for (var index = 0; index < this.bankAccounts.length; index++) {
+                        if (bankAccount.bankName == this.bankAccounts[index].bankName) this.bankAccounts.splice(index, 1)
+                    }
                 }
+
             }
         });
     }
@@ -272,20 +281,27 @@ export class ProvidersModalCrudComponent {
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            if (!result.cancelled && action == 'update') this.refreshBankAccounts()
+            if (!result.cancelled && this.provider.id) this.refreshContacts()
         })
     }
 
     private deleteContact(contact: Contact) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
-                message: `¿Esta seguro de eliminar la cuenta bancaria ${contact.firstName}?`
+                message: `¿Esta seguro de eliminar el contacto ${contact.firstName} ${contact.lastName}?`
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
             if (confirm) {
-                for (var index = 0; index < this.bankAccounts.length; index++) {
-                    if (contact.firstName == this.bankAccounts[index].bankName) this.bankAccounts.splice(index, 1)
+                if (this.provider.id) {
+                    console.log(this.provider.id, "id provider");
+                    this.contactService.delete(contact.id).subscribe(res => {
+                        this.refreshContacts()
+                    })
+                } else {
+                    for (var index = 0; index < this.bankAccounts.length; index++) {
+                        if (contact.firstName == this.bankAccounts[index].bankName) this.bankAccounts.splice(index, 1)
+                    }
                 }
             }
         });

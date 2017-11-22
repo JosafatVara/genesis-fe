@@ -33,20 +33,18 @@ export class ContactsService extends AuthenticatedService {
             });
     }
 
-    // update(body, id): Observable<Group> {
-    //     return this.http
-    //         .put(`${this.actionUrl}purchases/groups/${id}`, body, { headers: this.authHttpHeaders })
-    //         .map(result => {
-    //             return this.mapBeToGroup(result)
-    //         })
-    // }
+    update(data, id): Observable<Contact> {
+        return this.http
+            .put(`${this.actionUrl}purchases/providers/contacts/${id}`, this.mapContactToBe(data), { headers: this.authHttpHeaders })
+            .map(result => {
+                return this.mapBeToContact(result);
+            });
+    }
 
-    // public delete(entity: Group): Observable<Group> {
-    //     return this.http
-    //         .delete(`${this.actionUrl}purchases/groups/${entity.id}`, { headers: this.authHttpHeaders })
-    //         .map(result => entity);
-    // }
-
+    delete(id): Observable<any> {
+        return this.http
+            .delete(this.actionUrl + 'purchases/providers/contacts/' + id, { headers: this.authHttpHeaders });
+    }
 
     private mapBeToContact(be: any) {
         return new Contact({
@@ -68,6 +66,5 @@ export class ContactsService extends AuthenticatedService {
             email: contact.email,
         };
     }
-
 }
 
