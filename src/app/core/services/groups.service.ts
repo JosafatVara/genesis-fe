@@ -1,64 +1,60 @@
+import { Group } from './../../shared/models/group';
+import { group } from '@angular/animations';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Response, RequestOptions, Headers, ResponseContentType, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
-import { Group } from '../../shared/models/group';
 import { AuthenticatedService } from './base/authenticated-service';
 
 @Injectable()
-export class Service extends AuthenticatedService {
+export class GroupService extends AuthenticatedService {
     nameModule = 'purchases/';
     token: string;
 
     constructor(http: HttpClient, auth: AuthenticationService) {
-        super(auth, http, '/api/v1/');
-        this.token = JSON.parse(localStorage.getItem("token"));
+        super(auth, http, '');
+        // this.token = JSON.parse(localStorage.getItem("token"));
     }
 
     getList(id): Observable<Group[]> {
-        // let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-        return this.http.get(`${this.actionUrl}/purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
+        return this.http.get(`${this.actionUrl}purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
             .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
                 let groups: Group[] = [];
+                console.log(result);
                 groups = result.results.map(r => this.mapBeToGroup(r));
                 return groups;
             });
-        // return this.http.get('${environment.beUrl} ${this.nameModule} ${id} /groups/', { headers: headers });
     }
 
-    // create(data, id): Observable<Group> {
-    //     return this.http.post(`${this.actionUrl}/purchases/enterprises/${id}/groups`, { headers: this.authHttpHeaders })
-    //     .map((result))
+    create(data, id): Observable<Group> {
+        return this.http
+            .post(`${this.actionUrl}purchases/enterprises/${id}/groups/`, data, { headers: this.authHttpHeaders })
+            .map(result => {
+                return this.mapBeToGroup(result);
+            });
+    }
 
-    //
-    // let body = JSON.stringify(data);
-    // let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-    // return this.http.post(environment.beUrl + this.nameModule + 'enterprises/' + id + '/groups/', body, { headers: headers });
-    // }
+    update(body, id): Observable<Group> {
+        return this.http
+            .put(`${this.actionUrl}purchases/groups/${id}`, body, { headers: this.authHttpHeaders })
+            .map(result => {
+                return this.mapBeToGroup(result)
+            })
+    }
 
-    // get(id) {
-    //     let headers = new Headers({ 'Authorization': 'Token ' + this.token });
-    //     let myParams = new URLSearchParams();
-    //     return this.http.get(environment.beUrl + this.nameModule + "/" + id, { search: myParams, headers: headers });
-    // }
-
-    // update(data, id): Observable<Response> {
-    //     let body = JSON.stringify(data);
-    //     let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-    //     return this.http.put(environment.beUrl + this.nameModule + 'groups/' + id, body, { headers: headers });
-    // }
-
-    // delete(id): Observable<Response> {
-    //     let headers = new Headers({ 'Authorization': 'Token ' + this.token, 'Content-Type': 'application/json' });
-    //     return this.http.delete(environment.beUrl + this.nameModule + 'groups/' + id, { headers: headers });
-    // }
+    public delete(entity: Group): Observable<Group> {
+        return this.http
+            .delete(`${this.actionUrl}purchases/groups/${entity.id}`, { headers: this.authHttpHeaders })
+            .map(result => entity);
+    }
 
     mapBeToGroup(be: any) {
         return new Group({
             id: be.id,
-            name: be.name
+            name: be.name,
+            numProviders: be.num_providers,
         });
     }
 }

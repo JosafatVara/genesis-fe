@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 
 //modules
-import { Service } from '../../core/services/groups.service'
+import { GroupService } from '../../core/services/groups.service'
 import { Group } from "../../shared/models/group";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
@@ -29,7 +29,11 @@ export class GroupListComponent implements OnInit {
     groups: any = [];
     public currentUser: User;
     public currentEnterprise: Enterprise;
-    constructor(private matDialog: MatDialog, private service: Service, private users: UsersService, private enterprises: EnterprisesService) {
+    constructor(
+        private matDialog: MatDialog,
+        private groupService: GroupService,
+        private users: UsersService,
+        private enterprises: EnterprisesService) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
         users.getCurrentUser().subscribe(u => this.currentUser = u);
     }
@@ -39,12 +43,13 @@ export class GroupListComponent implements OnInit {
     }
 
     private refreshGroups() {
-        console.log(this.currentEnterprise.id, "id de empresa catual");
-
-        this.service.getList(this.currentEnterprise.id).subscribe(
+        this.groupService.getList(this.currentEnterprise.id).subscribe(
             res => this.groups = res
+            // console.log(res);
+
         )
-        console.log(this.groups);
+        console.log(this.groups, "gruipos");
+
     }
 
     crud(action: string, group: Group = undefined) {
@@ -71,7 +76,7 @@ export class GroupListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            // if (confirm) this.service.delete(group.id).subscribe(() => this.refreshGroups());
+            if (confirm) this.groupService.delete(group).subscribe(() => this.refreshGroups());
         });
     }
 }

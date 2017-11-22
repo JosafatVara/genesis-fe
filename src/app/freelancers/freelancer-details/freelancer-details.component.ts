@@ -25,120 +25,125 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
   frmAffiliationInformation: FormGroup;
   frmBankAccounts: FormGroup;
 
-  constructor(freelancers: FreelancersService, private affiliations: AffiliationsService, 
-    private images: ImagesService, private fb: FormBuilder) { 
+  constructor(freelancers: FreelancersService, private affiliations: AffiliationsService,
+    private images: ImagesService, private fb: FormBuilder) {
+      
     super(freelancers);
     this.createForms();
-    this.affiliations.get().subscribe( as => {
+    this.affiliations.get().subscribe(as => {
       this.affiliationList = as;
     });
+    console.log("fdsfdf");
+    
   }
 
   ngOnInit() {
+    console.log(this.freelancer,"hola gola");
+    console.log(this.freelancer);
+    
     this.managedEntity = this.freelancer || new Freelancer();
-    if(this.mode!='create' && this.managedEntity.photoPublicUrl){
-      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( image => {
+    if (this.mode != 'create' && this.managedEntity.photoPublicUrl) {
+      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe(image => {
         this.freelancerPhoto = image;
-      });      
+      });
     }
     this.fillFormsModels();
   }
 
   //#region FormManagement
-  private createForms(){
+  private createForms() {
     this.frmFreelancerPhoto = this.fb.group({
       photoFlag: ['', Validators.required]
     });
     this.frmPersonalInformation = this.fb.group({
       firstName: ['', [Validators.required]],
-      lastName: ['',[Validators.required]],
-      address: ['',[Validators.required]],
-      dni: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-      email: ['',[Validators.required, Validators.email]]
+      lastName: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      dni: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      email: ['', [Validators.required, Validators.email]]
     });
     this.frmWorkInformation = this.fb.group({
-      workPosition: ['',[Validators.required]],
-      workFunctions: ['',[Validators.required]]
+      workPosition: ['', [Validators.required]],
+      workFunctions: ['', [Validators.required]]
     });
     this.frmAffiliationInformation = this.fb.group({
       affiliation: [undefined, [Validators.required]],
       affiliationName: ['', [Validators.required]],
-      pay: [0, [Validators.required,Validators.min(1)]],
+      pay: [0, [Validators.required, Validators.min(1)]],
       admissionDate: [new Date(), [Validators.required]]
-    });  
+    });
     this.frmBankAccounts = this.fb.group({
       bankAccounts: this.fb.array([])
     });
   }
 
-  private fillFormsModels(){
+  private fillFormsModels() {
     this.frmPersonalInformation.patchValue(this.managedEntity);
     this.frmWorkInformation.patchValue(this.managedEntity);
     this.frmAffiliationInformation.patchValue(this.managedEntity);
-    let affiliationInList = this.managedEntity.affiliation ? 
-      this.affiliationList.find( a => a.id == this.managedEntity.affiliation.id):undefined;
+    let affiliationInList = this.managedEntity.affiliation ? this.affiliationList.find(a => a.id == this.managedEntity.affiliation.id) : undefined;
     this.frmAffiliationInformation.patchValue({ affiliation: affiliationInList });
-    let bankAccountsFGs = this.managedEntity.bankAccounts?this.managedEntity.bankAccounts.map( ba => {
+    let bankAccountsFGs = this.managedEntity.bankAccounts ? this.managedEntity.bankAccounts.map(ba => {
       return this.fb.group({
-        bankName: [ba.bankName,[Validators.required]],
-        number: [ba.number,[Validators.required]],
+        bankName: [ba.bankName, [Validators.required]],
+        number: [ba.number, [Validators.required]],
         interbankNumber: [ba.interbankNumber, [Validators.required]]
       });
-    }):[];
+    }) : [];
     this.frmBankAccounts.setControl('bankAccounts', this.fb.array(bankAccountsFGs));
   }
 
-  protected fillDataModels(){
-    Object.assign(this.managedEntity,this.frmPersonalInformation.value, this.frmWorkInformation.value,
-      this.frmAffiliationInformation.value,this.frmBankAccounts.value);
+  protected fillDataModels() {
+    Object.assign(this.managedEntity, this.frmPersonalInformation.value, this.frmWorkInformation.value,
+      this.frmAffiliationInformation.value, this.frmBankAccounts.value);
   }
 
-  get bankAccounts(): FormArray{
+  get bankAccounts(): FormArray {
     return this.frmBankAccounts.get('bankAccounts') as FormArray;
   }
 
-  removeBankAccount(index: number){
+  removeBankAccount(index: number) {
     this.bankAccounts.removeAt(index);
   }
 
-  toogleEditBankAccount(index: number){
+  toogleEditBankAccount(index: number) {
     let FGBankAcount = this.bankAccounts.controls[index] as FormGroup;
-    if(FGBankAcount.valid || FGBankAcount.disabled){
-      if(FGBankAcount.disabled){
+    if (FGBankAcount.valid || FGBankAcount.disabled) {
+      if (FGBankAcount.disabled) {
         FGBankAcount.enable();
-      }else{
+      } else {
         FGBankAcount.disable();
       }
-    }else{
-      for(let formControl in FGBankAcount.controls){
+    } else {
+      for (let formControl in FGBankAcount.controls) {
         FGBankAcount.controls[formControl].markAsTouched();
         FGBankAcount.updateValueAndValidity();
-      }
-    }  
-  }
-
-  addBankAccount(){
-    if(this.frmBankAccounts.valid || this.allBankAccountsAreDisabled()){
-      this.bankAccounts.push(this.fb.group({
-        bankName: ['',[Validators.required]],
-        number: ['',[Validators.required]],
-        interbankNumber: ['',[Validators.required]]
-      }));
-    }else{
-      let FGBankAccount: FormGroup;
-      for(let control in this.bankAccounts.controls){
-        FGBankAccount = this.bankAccounts.controls[control] as FormGroup;
-        for( let bankAccountControl in FGBankAccount.controls){
-          FGBankAccount.controls[bankAccountControl].markAsTouched();
-          FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
-        }        
       }
     }
   }
 
-  allBankAccountsAreDisabled(){
-    for( let bankAccount in this.bankAccounts.controls ){
-      if( (this.bankAccounts.controls[bankAccount] as FormGroup).enabled ){
+  addBankAccount() {
+    if (this.frmBankAccounts.valid || this.allBankAccountsAreDisabled()) {
+      this.bankAccounts.push(this.fb.group({
+        bankName: ['', [Validators.required]],
+        number: ['', [Validators.required]],
+        interbankNumber: ['', [Validators.required]]
+      }));
+    } else {
+      let FGBankAccount: FormGroup;
+      for (let control in this.bankAccounts.controls) {
+        FGBankAccount = this.bankAccounts.controls[control] as FormGroup;
+        for (let bankAccountControl in FGBankAccount.controls) {
+          FGBankAccount.controls[bankAccountControl].markAsTouched();
+          FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
+        }
+      }
+    }
+  }
+
+  allBankAccountsAreDisabled() {
+    for (let bankAccount in this.bankAccounts.controls) {
+      if ((this.bankAccounts.controls[bankAccount] as FormGroup).enabled) {
         return false;
       }
     }
@@ -146,9 +151,9 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
   }
   //#endregion
 
-  onChangePhoto(photo: Blob){
-    if(photo){
-      this.frmFreelancerPhoto.setValue({photoFlag: 'OK'});
+  onChangePhoto(photo: Blob) {
+    if (photo) {
+      this.frmFreelancerPhoto.setValue({ photoFlag: 'OK' });
     }
   }
 

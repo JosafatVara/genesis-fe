@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 //modules
-import { Service } from '../../core/services/groups.service'
+import { GroupService } from '../../core/services/groups.service'
 import { Order } from "../../shared/models/order";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
@@ -30,7 +30,12 @@ export class ReportListComponent {
 
     public currentUser: User;
     public currentEnterprise: Enterprise;
-    constructor(private matDialog: MatDialog, private service: Service, private users: UsersService, private enterprises: EnterprisesService) {
+    constructor(
+        private matDialog: MatDialog,
+        private groupService: GroupService,
+        private users: UsersService,
+        private enterprises: EnterprisesService
+    ) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
         users.getCurrentUser().subscribe(u => this.currentUser = u);
     }
@@ -76,7 +81,7 @@ export class ReportListComponent {
     private refreshGroups() {
         console.log(this.currentEnterprise.id, "id de empresa catual");
 
-        this.service.getList(this.currentEnterprise.id).subscribe(
+        this.groupService.getList(this.currentEnterprise.id).subscribe(
             res => this.groups = res
         )
         console.log(this.groups);

@@ -1,24 +1,18 @@
-<!--component html goes here -->
-<!--component html goes here -->
 <div class="cmp-modal">
     <form [formGroup]="groupForm" novalidate (submit)="doAction()">
         <div class="cmp-modal__body" fxLayout="column" fxLayoutAlign="center center">
-            <h3 class="body__message">Recuerde que los Grupos son designados a sus Proveedores</h3>
-            <mat-form-field class="c-input">
-                <input matInput placeholder="CUENTA BANCARIA" formControlName="accountName">
+            <mat-form-field class="c-input ">
+                <input matInput placeholder="Banco" type="text" formControlName="bankName">
                 <mat-error>Requerido</mat-error>
             </mat-form-field>
-            <mat-form-field class="c-input">
-                <input matInput placeholder="BANCO" formControlName="name">
+            <mat-form-field class="c-input ">
+                <input matInput placeholder="Cuenta bancaria" type="number" formControlName="number">
                 <mat-error>Requerido</mat-error>
             </mat-form-field>
         </div>
         <div class="cmp-modal__footer" fxLayoutAlign="end center">
             <button class="cmp-btn cmp-btn--white-blue" (click)="cancel()">Cancelar</button>
-            <button class="cmp-btn cmp-btn--blue" fxFlexOffset=10px type="submit"> 
-                <!-- <span class="cmp-loader"  *ngIf="loader"><span class="cmp-loader-inner"></span></span>                                 -->
-                <span >{{btnLabel}}</span> 
-            </button>
+            <button class="cmp-btn cmp-btn--blue" fxFlexOffset=10px type="submit">{{btnLabel}}</button>
         </div>
     </form>
 </div>

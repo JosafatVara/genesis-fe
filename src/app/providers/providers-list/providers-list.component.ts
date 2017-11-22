@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 //modules
-import { Service } from '../../core/services/providers.service'
+import { ProviderService } from '../../core/services/providers.service'
 import { Provider } from "../../shared/models/provider";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
@@ -22,7 +22,12 @@ export class ProvidersListComponent implements OnInit {
     // groups: any;
     public currentUser: User;
     public currentEnterprise: Enterprise;
-    constructor(private matDialog: MatDialog, private service: Service, private users: UsersService, private enterprises: EnterprisesService) {
+    constructor(
+        private matDialog: MatDialog,
+        private providerService: ProviderService,
+        private users: UsersService,
+        private enterprises: EnterprisesService
+    ) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
         users.getCurrentUser().subscribe(u => this.currentUser = u);
     }
@@ -32,23 +37,21 @@ export class ProvidersListComponent implements OnInit {
     }
 
     private refreshProviders() {
-        this.service.getList(0).subscribe(
-            res => this.providers = res.json()
-        )
-        console.log(this.providers, "holi bolio");
-
+        this.providerService.getList(this.currentEnterprise.id).subscribe(res => this.providers = res);
     }
 
+    // this.enterprises.get().subscribe(es => this.enterpriseList = es);
     crud(action: string, provider: Provider = undefined) {
         if (action == 'delete') {
             this.delete(Object.assign({}, provider));
             return
         }
+        // if action=='update'
         let dialogRef = this.matDialog.open(ProvidersModalCrudComponent, {
             width: '800px',
             data: {
                 action: action,
-                group: Object.assign({}, provider)
+                provider: Object.assign({}, provider)
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
@@ -63,7 +66,7 @@ export class ProvidersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.service.delete(provider.id).subscribe(() => this.refreshProviders());
+            if (confirm) this.providerService.delete(provider.id).subscribe(() => this.refreshProviders());
         });
     }
 }

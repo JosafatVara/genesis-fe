@@ -5,7 +5,7 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http';
 
-import { Service } from '../core/services/groups.service'
+import { GroupService } from '../core/services/groups.service'
 import { GroupsRoutingModule } from "./groups-routing/groups-routing.module";
 
 import { GroupsComponent } from './groups.component';
@@ -26,7 +26,7 @@ import { GroupModalCrudComponent } from "./group-modal-crud/group-modal-crud.com
     GroupListComponent, GroupModalCrudComponent
   ],
   providers: [
-    Service,
+    GroupService,
   ]
 })
 export class GroupsModule { }
