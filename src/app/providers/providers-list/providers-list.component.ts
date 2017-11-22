@@ -52,7 +52,8 @@ export class ProvidersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            if (!result.cancelled) this.refreshProviders()
+            // if (!result.cancelled) 
+            this.refreshProviders()
         })
     }
 

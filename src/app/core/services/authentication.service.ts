@@ -37,6 +37,7 @@ export class AuthenticationService extends BaseService{
   public logout(): Observable<boolean>{
     this.storage.remove('token');
     this.storage.remove('current-enterprise');
+    this.storage.remove('current-user');
     this.clearLogout = true;
     return Observable.of(true);
   }

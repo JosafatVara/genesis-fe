@@ -19,7 +19,9 @@
                 <form [formGroup]="frmNaturalPhoto">
                     <ng-template matStepLabel>Foto</ng-template>
                     <div fxLayoutAlign="center center">
-                        <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="photo" (onChange)="onChangePhoto($event)"></gen-photo-input>
+                        <!-- <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="photo" (onChange)="onChangePhoto($event)"></gen-photo-input> -->
+                        <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="providerPhoto" [photoPublicUrl]="provider.photo"></gen-photo-input>
+
                     </div>
                     <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
                         <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
@@ -111,7 +113,9 @@
                 <form [formGroup]="frmLegalPhoto">
                     <ng-template matStepLabel>Foto</ng-template>
                     <div fxLayoutAlign="center center">
-                        <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="photo" (onChange)="onChangePhoto($event)"></gen-photo-input>
+                        <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="providerPhoto" [photoPublicUrl]="provider.photo"></gen-photo-input>
+
+                        <!-- <gen-photo-input class="freelancer-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="photo" (onChange)="onChangePhoto($event)"></gen-photo-input> -->
                     </div>
                     <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
                         <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>

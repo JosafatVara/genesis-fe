@@ -21,13 +21,13 @@
         <mat-select name="department" required placeholder="Rubro" [(ngModel)]="managedEntity.department">
           <mat-option *ngFor="let department of departmentList" [value]="department">
             {{ department.name }}
-          </mat-option>
+          </mat-option> 
         </mat-select>
       </mat-form-field>
       <mat-form-field class="c-input o-full-width">
         <mat-select name="employeesQuantity" required placeholder="Número de empleados" [(ngModel)]="managedEntity.employeesQuantity">
           <mat-option *ngFor="let employeesQuantity of employeesQuantityList" [value]="employeesQuantity">
-            {{ employeesQuantity.quantityDescription }}
+            {{ employeesQuantity.description }}
           </mat-option>
         </mat-select>
       </mat-form-field>
