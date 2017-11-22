@@ -101,7 +101,7 @@
                 </div>
                 <div class="padding-button" fxLayoutAlign="space-between center">
                     <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
-                    <button mat-button matStepperNext class="cmp-btn cmp-btn--white-blue" (click)="doAction()">Crear</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--white-blue" (click)="doAction()">{{btnLabel}}</button>
                 </div>
                 <!-- </form> -->
             </mat-step>
@@ -221,7 +221,7 @@
                         <button class="cmp-btn cmp-btn--white-blue" (click)="crudBankAccount('create')">Añadir cuenta bancaria  </button>
                     </div>
                     <div class="padding-button" fxLayoutAlign="end center">
-                        <button mat-button matStepperNext class="cmp-btn cmp-btn--blue" (click)="doAction()">Crear</button>
+                        <button mat-button matStepperNext class="cmp-btn cmp-btn--blue" (click)="doAction()">{{btnLabel}}</button>
                     </div>
                 </form>
             </mat-step>

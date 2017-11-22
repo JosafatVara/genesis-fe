@@ -41,13 +41,12 @@ export class ProvidersListComponent implements OnInit {
     }
 
     // this.enterprises.get().subscribe(es => this.enterpriseList = es);
-
-
     crud(action: string, provider: Provider = undefined) {
         if (action == 'delete') {
             this.delete(Object.assign({}, provider));
             return
         }
+        // if action=='update'
         let dialogRef = this.matDialog.open(ProvidersModalCrudComponent, {
             width: '800px',
             data: {

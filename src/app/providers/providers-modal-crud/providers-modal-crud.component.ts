@@ -45,7 +45,7 @@ export class ProvidersModalCrudComponent {
     frmLegalContacts: FormGroup;
     frmLegalBankAccounts: FormGroup;
 
-    bankAccounts = [];
+    bankAccounts: BankAccount[] = [];
     contacts = [];
 
     constructor(
@@ -64,14 +64,8 @@ export class ProvidersModalCrudComponent {
     }
 
     ngOnInit() {
-        // this.provider=this.data.provider || new 
         this.initializePerson();
         this.setBtnLabel();
-        // if (this.data.action != 'create' ) {
-        //     this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe(image => {
-        //         this.freelancerPhoto = image;
-        //     });
-        // }
     }
 
     onCloseConfirm() {
@@ -79,29 +73,23 @@ export class ProvidersModalCrudComponent {
     }
 
     initializePerson() {
-        if (this.data.action == 'create') {
-            this.providerType = 0;
-        } else {
-            this.provider = this.data.provider
-            //if data provide es natural, person=1
-            //if data provide es legal, person=2
+        if (this.data.action == 'create') { this.providerType = 0; }
+        else {
+            if (this.data.provider.type == 'PERSONA') { this.providerType = 1; }
+            else { this.providerType = 2; }
+            this.selectPerson(this.providerType);
+            this.refreshBankAccounts();
+            this.refreshContacts();
         }
     }
 
     selectPerson(selected) {
         this.providerType = selected;
-        // if (this.providerType == 1) {
         this.provider = this.data.action == 'create' ? new Provider : this.data.provider;
-        // } else {
-        // this.provider = this.data.action == 'create' ? new LegalProvider : this.data.provider;
-        // }
-        // this.person == 1 ? this.provider = this.data.provider || new NaturalProvider : this.provider = this.data.provider || new LegalProvider;
-        console.log(this.provider);
         this.createForm();
         this.fillForm();
         this.getGroupList();
     }
-
 
     setBtnLabel() {
         switch (this.data.action) {
@@ -188,20 +176,23 @@ export class ProvidersModalCrudComponent {
 
 
     doAction() {
+
         if (this.providerType == 1) {
             if (this.frmNaturalPhoto.valid && this.frmNaturalBasicData.valid && this.frmNaturalBankAccounts.valid) {
                 const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
-                this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
-                    res => {
-                        this.bankAccounts.forEach(element => {
-                            console.log(element, "elemento");
-                            this.bankAccountService.create(element, res.id).subscribe(res => {
-                                console.log(res, "cuanta de banco cread");
-                            })
-                        });
-                        this.thisDialogRef.close({ cancelled: false })
-                    }
-                )
+                if (this.data.action == 'create') {
+                    this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
+                        res => {
+                            this.bankAccounts.forEach(element => {
+                                this.bankAccountService.create(element, res.id)
+                            });
+                            this.thisDialogRef.close({ cancelled: false })
+                        }
+                    )
+                } else {
+                    // this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe();
+                }
+
             }
         } else {
             if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid && this.frmLegalBankAccounts.valid) {
@@ -211,12 +202,10 @@ export class ProvidersModalCrudComponent {
                 this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
                     res => {
                         this.bankAccounts.forEach(element => {
-                            this.bankAccountService.create(element, res.id).subscribe(res => {
-                            })
+                            this.bankAccountService.create(element, res.id).subscribe()
                         });
                         this.contacts.forEach(element => {
-                            this.contactService.create(element, res.id).subscribe(res => {
-                            })
+                            this.contactService.create(element, res.id).subscribe()
                         });
                         this.thisDialogRef.close({ cancelled: false })
                     }
@@ -226,9 +215,9 @@ export class ProvidersModalCrudComponent {
     }
 
     //Modal CRUD BANK ACCOUNT
-    // refreshBankAccounts() {
-
-    // }
+    refreshBankAccounts() {
+        this.bankAccountService.getList(this.data.provider.id).subscribe(res => this.bankAccounts = res)
+    }
 
     crudBankAccount(action: string, bankAccount: BankAccount = undefined) {
         if (action == 'delete') {
@@ -244,7 +233,7 @@ export class ProvidersModalCrudComponent {
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            // if (!result.cancelled) this.refreshBankAccounts()
+            if (!result.cancelled && action == 'update') this.refreshBankAccounts()
         })
     }
 
@@ -264,6 +253,10 @@ export class ProvidersModalCrudComponent {
     }
 
     //MODAL CRUD CONTACTS
+    refreshContacts() {
+        this.contactService.getList(this.data.provider.id).subscribe(res => this.contacts = res)
+    }
+
     crudContact(action: string, contact: Contact = undefined) {
         if (action == 'delete') {
             this.deleteContact(Object.assign({}, contact));
@@ -275,10 +268,11 @@ export class ProvidersModalCrudComponent {
                 action: action,
                 contact: Object.assign({}, contact),
                 contacts: Object.assign(this.contacts),
+                provider: this.provider
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            // if (!result.cancelled) this.refreshBankAccounts()
+            if (!result.cancelled && action == 'update') this.refreshBankAccounts()
         })
     }
 
@@ -296,6 +290,4 @@ export class ProvidersModalCrudComponent {
             }
         });
     }
-
-
 }

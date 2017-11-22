@@ -18,15 +18,15 @@ export class BankAccountService extends AuthenticatedService {
         // this.token = JSON.parse(localStorage.getItem("token"));
     }
 
-    // getList(id): Observable<Group[]> {
-    //     return this.http.get(`${this.actionUrl}purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
-    //         .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
-    //             let groups: Group[] = [];
-    //             console.log(result);
-    //             groups = result.results.map(r => this.mapBeToGroup(r));
-    //             return groups;
-    //         });
-    // }
+    getList(id): Observable<BankAccount[]> {
+        return this.http.get(`${this.actionUrl}purchases/providers/${id}/banks`, { headers: this.authHttpHeaders })
+            .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
+                let bankAccounts: BankAccount[] = [];
+                console.log(result);
+                bankAccounts = result.results.map(r => this.mapBeToBankAccount(r));
+                return bankAccounts;
+            });
+    }
 
     create(data, id): Observable<BankAccount> {
         return this.http

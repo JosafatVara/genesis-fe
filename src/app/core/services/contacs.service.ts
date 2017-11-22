@@ -15,15 +15,15 @@ export class ContactsService extends AuthenticatedService {
         super(auth, http, '');
     }
 
-    // getList(id): Observable<Group[]> {
-    //     return this.http.get(`${this.actionUrl}purchases/enterprises/${id}/groups/`, { headers: this.authHttpHeaders })
-    //         .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
-    //             let groups: Group[] = [];
-    //             console.log(result);
-    //             groups = result.results.map(r => this.mapBeToGroup(r));
-    //             return groups;
-    //         });
-    // }
+    getList(id): Observable<Contact[]> {
+        return this.http
+            .get(`${this.actionUrl}purchases/providers/${id}/contacts`, { headers: this.authHttpHeaders })
+            .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
+                let contacts: Contact[] = [];
+                contacts = result.results.map(r => this.mapBeToContact(r));
+                return contacts;
+            });
+    }
 
     create(data, id): Observable<Contact> {
         return this.http

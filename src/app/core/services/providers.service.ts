@@ -46,7 +46,6 @@ export class ProviderService extends AuthenticatedService {
     }
 
     public create(data, id): Observable<Provider> {
-        console.log(data, "la datita")
         let formData: FormData = new FormData();
         formData.append('business_name', data.businessName);
         formData.append('image', data.photo);
@@ -61,6 +60,25 @@ export class ProviderService extends AuthenticatedService {
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
         return this.http.post(this.actionUrl + 'purchases/enterprises/' + id + '/providers', formData, { headers: headers }).map(result => {
+            return this.mapBeToProvider(result);
+        });
+    }
+
+    public update(data, id): Observable<Provider> {
+        let formData: FormData = new FormData();
+        formData.append('business_name', data.businessName);
+        formData.append('image', data.photo);
+        formData.append('first_name', data.firstName);
+        formData.append('last_name', data.lastName);
+        formData.append('type', data.type);
+        formData.append('cellphone', data.cellphone);
+        formData.append('address', data.address);
+        formData.append('ruc', data.ruc);
+        formData.append('phone', data.phone);
+        formData.append('details', data.notes);
+        let headers: HttpHeaders = this.authHttpHeaders;
+        headers = headers.append('Accept', 'application/json');
+        return this.http.put(this.actionUrl + `purchases/enterprises/providers/` + id, formData, { headers: headers }).map(result => {
             return this.mapBeToProvider(result);
         });
     }
