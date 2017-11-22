@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UsersService } from '../../core/services/users.service';
+import { User } from '../../shared/models/user';
 
 @Component({
     moduleId: module.id,
@@ -8,7 +10,11 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-    constructor(){
+    currentUser: User;
+
+    constructor(private users: UsersService)
+    {
+        users.getCurrentUser().subscribe( u => this.currentUser = u);
         document.body.addEventListener('click', (ev) => {
             this.accountOptionsAreOpen = this.accountOptionsAreOpen ? false: false;
         });

@@ -47,7 +47,7 @@ export class UsersSearchPagedSpecification extends UserSpecification implements 
 
     public size: number;
 
-    constructor(private searchQuery: string, private page: number, private pageSize: number){
+    constructor(public searchQuery: string, public page: number, public pageSize: number){
         super();
     }
 

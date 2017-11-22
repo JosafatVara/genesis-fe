@@ -50,9 +50,15 @@ export class UserListComponent implements OnInit {
     page = page || this.config.currentPage;
     this.config.currentPage = page;
     let specification = new UsersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
-    this.userList = this.users.get(specification)
-                      .do( ()=>{ this.config.totalItems = specification.size })
-                      .catch( err => Observable.of([]) );
+    /*this.userList = */this.users.get(specification)
+                      // .do( ()=>{ {
+                      //   this.config.totalItems = specification.size;
+                      // }})
+                      .map( us => {
+                        this.config.totalItems = specification.size;
+                        this.userList = Observable.of(us);
+                      })
+                      .catch( err => Observable.of([]) ).subscribe();
   }
 
 
