@@ -15,7 +15,6 @@ export class GroupService extends AuthenticatedService {
 
     constructor(http: HttpClient, auth: AuthenticationService) {
         super(auth, http, '');
-        // this.token = JSON.parse(localStorage.getItem("token"));
     }
 
     getList(id): Observable<Group[]> {
