@@ -128,7 +128,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
       this.auth.clearLogout = false;
     }
     if(!this.currentEnterprise.value){
-      this.currentEnterprise.next(this.storage.load<Enterprise>('current-enterprise'));
+      this.currentEnterprise.next(this.storage.load<Enterprise>('current-enterprise') as Enterprise);
     }
     return this.currentEnterprise.asObservable();
   }

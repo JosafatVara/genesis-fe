@@ -9,8 +9,12 @@ export class LocalStorageService {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  public load<T>(key: string): T{
-    return JSON.parse(localStorage.getItem(key));
+  public load<T>(key: string): T | string{
+    try{
+      return JSON.parse(localStorage.getItem(key));
+    }catch(ex){
+      return localStorage.getItem(key);
+    }
   }
 
   public remove<T>(key: string): void{
