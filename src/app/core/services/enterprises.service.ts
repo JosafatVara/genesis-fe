@@ -125,10 +125,10 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
   }
 
   public getCurrentEnterprise(): Observable<Enterprise>{
-    if(this.auth.clearLogout){
-      this.currentEnterprise.next(undefined);
-      this.auth.clearLogout = false;
-    }
+    // if(this.auth.clearLogout){
+    //   this.currentEnterprise.next(undefined);
+    //   this.auth.clearLogout = false;
+    // }
     if(!this.currentEnterprise.value){
       this.currentEnterprise.next(this.storage.load<Enterprise>('current-enterprise') as Enterprise);
     }

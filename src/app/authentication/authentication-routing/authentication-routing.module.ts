@@ -7,6 +7,7 @@ import { PasswordRecoveryComponent } from '../password-recovery/password-recover
 import { SelectEnterpriseToManageComponent } from "../select-enterprise-to-manage/select-enterprise-to-manage.component";
 import { EnterpriseListResolver } from "../../core/resolvers/enterprise-list-resolver";
 import { MustHaveEnterprisesGuard } from "./guards/must-have-enterprises-guard";
+import { MustRecoverMeGuard } from '../../app-routing/guards/must-recover-me-guard';
 
 const routes: Routes = [
   {
@@ -30,7 +31,8 @@ const routes: Routes = [
         path: 'seleccionarEmpresa',
         component: SelectEnterpriseToManageComponent,
         canActivate: [
-          MustHaveEnterprisesGuard
+          MustHaveEnterprisesGuard,
+          MustRecoverMeGuard
         ],
         data: {
           animation: 'select-enterprise-to-manage'

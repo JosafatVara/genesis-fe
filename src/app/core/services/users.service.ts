@@ -13,6 +13,7 @@ import { RolesByNameSpecification } from './specifications/role-specification';
 import { EnterprisesService } from './enterprises.service';
 import { QueryParamsSpecification } from './specifications/contracts/query-params-specification';
 import { count } from 'rxjs/operator/count';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class UsersService extends AuthenticatedService implements CrudService<User> {  
@@ -22,7 +23,7 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
   protected currentUser: BehaviorSubject<User>; 
 
   constructor(auth: AuthenticationService, http: HttpClient, private roles: RolesService, 
-      private enterprises: EnterprisesService) {
+      private enterprises: EnterprisesService, private storage: LocalStorageService) {
     super(auth,http,'')
     // this.mockData = this.genMock();
     this.currentUser = new BehaviorSubject<User>(undefined);
@@ -104,12 +105,15 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
   }
 
   public getCurrentUser(): Observable<User>{
-    if(!this.currentUser.value){
+    // if(!this.currentUser.value){
+    if(this.storage.load('current-user') == "" || this.storage.load('current-user') == undefined){
       return this.http.get(`${this.actionUrl}accounts/user/retrieve/`,{headers: this.authHttpHeaders}).map( r => {
+        this.storage.save('current-user',this.mapBeToUser(r));
         this.currentUser.next(this.mapBeToUser(r));
         return  this.currentUser.value
       });
     }else{
+      this.currentUser.next(this.storage.load('current-user') as User);
       return this.currentUser.asObservable();
     }    
   }
