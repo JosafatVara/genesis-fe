@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from '../dashboard.component';
 import { EnterpriseListResolver } from '../../core/resolvers/enterprise-list-resolver';
+import { RoleGuard } from '../../core/guards/role-guard';
 
 const routes: Routes = [
   {
@@ -10,15 +11,33 @@ const routes: Routes = [
     children: [
       {
         path: 'usuarios',
-        loadChildren: 'app/users/users.module#UsersModule'
+        loadChildren: 'app/users/users.module#UsersModule',
+        canActivate: [ 
+          RoleGuard
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       {
         path: 'empresas',
-        loadChildren: 'app/enterprises/enterprises.module#EnterprisesModule'
+        loadChildren: 'app/enterprises/enterprises.module#EnterprisesModule',
+        canActivate: [ 
+          RoleGuard
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       {
         path: 'panel-de-control',
-        loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule'
+        loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule',
+        canActivate: [ 
+          RoleGuard
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       // {
       //   path: 'compras',
@@ -26,14 +45,29 @@ const routes: Routes = [
       // },
       {
         path: 'grupos',
-        loadChildren: 'app/groups/groups.module#GroupsModule'
+        loadChildren: 'app/groups/groups.module#GroupsModule',
+        canActivate: [ 
+          RoleGuard
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       {
         path: 'proveedores',
-        loadChildren: 'app/providers/providers.module#ProvidersModule'
+        loadChildren: 'app/providers/providers.module#ProvidersModule',
+        canActivate: [ 
+          RoleGuard
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       {
         path: 'personal',
+        canActivate: [ 
+          RoleGuard
+        ],
         children: [
           {
             path: 'planillas',
@@ -43,10 +77,16 @@ const routes: Routes = [
             path: 'RxH',
             loadChildren: 'app/freelancers/freelancers.module#FreelancersModule'
           }
-        ]
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       {
         path: 'pagos',
+        canActivate: [ 
+          RoleGuard
+        ],
         children: [
           {
             path: 'planillas',
@@ -56,15 +96,31 @@ const routes: Routes = [
             path: 'rxh',
             loadChildren: 'app/freelancers-payments/freelancers-payments.module#FreelancersPaymentsModule'
           }
-        ]
+        ],
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
       },
       {
         path: 'cotizaciones',
-        loadChildren: 'app/quotations/quotations.module#QuotationsModule'
+        canActivate: [ 
+          RoleGuard
+        ],
+        loadChildren: 'app/quotations/quotations.module#QuotationsModule',
+        data: {
+          disabledFor: ['contabilidad']
+        }
       },
       {
         path: 'clientes',
-        loadChildren: 'app/customers/customers.module#CustomersModule'}
+        canActivate: [ 
+          RoleGuard
+        ],
+        loadChildren: 'app/customers/customers.module#CustomersModule',
+        data: {
+          disabledFor: ['ventas','contabilidad']
+        }
+      }
     ]
   }
 ]

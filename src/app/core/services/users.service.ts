@@ -29,20 +29,23 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
   }
 
   public get(specification?: Specification<User>): Observable<User[]> {
-    if(!specification){
-      return Observable.of(this.mockData);
-    }
-    // if(specification instanceof UsersInEnterpriseSpecification){
-    //   return this.http
-    //   .get<any[]>(`${this.actionUrl}enterprises/${specification.enterprise.id}/users`, {headers: this.authHttpHeaders})
-    //   .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
-    //     let userList: User[] = [];
-    //     results[0].page.forEach( r => {
-    //       userList = userList.concat([ this.mapBeToUser(r) ]);
-    //     });
-    //     return userList; 
-    //   });
+    // if(!specification){
+    //   return Observable.of(this.mockData);
     // }
+    if(!specification){
+      return this.enterprises.getCurrentEnterprise()
+      .flatMap( e =>
+        this.http
+        .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders})
+        .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
+          let userList: User[] = [];
+          results[0].page.forEach( r => {
+            userList = userList.concat([ this.mapBeToUser(r) ]);
+          });
+          return userList; 
+        })
+      );
+    }
     if(specification instanceof UsersSearchPagedSpecification){
       return this.enterprises.getCurrentEnterprise()
       .flatMap( e => { 

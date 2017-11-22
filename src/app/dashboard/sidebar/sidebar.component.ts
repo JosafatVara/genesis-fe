@@ -6,6 +6,8 @@ import {
     animate,
     transition
 } from '@angular/animations';
+import { UsersService } from '../../core/services/users.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -24,7 +26,9 @@ export class SidebarComponent {
     menuState: boolean = false;
     menuLayout: string;
     menuLayoutAlign:string;
-    constructor() {
+    myRole: string;    
+
+    constructor(private users: UsersService) {
         this.flagArray = {
             1: false,
             2: false,
@@ -35,6 +39,9 @@ export class SidebarComponent {
         }
         this.menuLayout = "row";
         this.menuLayoutAlign="space-between center";
+        Observable.zip( users.getCurrentUser(), users.get() ).subscribe( rs => {
+            this.myRole = rs[1].find( u => u.id == rs[0].id).role.name;
+        });
     }
 
     breakdownSubmenu(value: number) {
@@ -68,5 +75,14 @@ export class SidebarComponent {
         this.menuLayoutAlign = this.menuState ? "center center" : "space-between center";
         
         // this.menuLayout = "space-between center";
+    }
+
+    hideFor(rolesNames: string[]): boolean{
+        if(!this.myRole) return true;
+        for(let i = 0; i < rolesNames.length; i++){
+            if(this.myRole.toLocaleLowerCase() == rolesNames[i].toLocaleLowerCase()){
+                return true;
+            }
+        }
     }
 }

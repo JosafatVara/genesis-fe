@@ -25,6 +25,7 @@ import { MonthSelectorComponent } from './utils/month-selector/month-selector.co
 import { MonthSelectorService } from './utils/month-selector/month-selector.service';
 import { SelectMonthResolver } from './resolvers/select-month-resolver';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RoleGuard } from './guards/role-guard';
 
 
 @NgModule({
@@ -59,7 +60,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     //UTILS
     ImagesService,
     ToastService,
-    MonthSelectorService
+    MonthSelectorService,
+
+    //GUARDS
+    RoleGuard
   ],
   exports: [
     BrowserAnimationsModule
