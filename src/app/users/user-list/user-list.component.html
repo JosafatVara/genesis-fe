@@ -5,6 +5,10 @@
       <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Nuevo Usuario</button> 
     </div>  
     <div class="user-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
+      <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="start center">
+          <input class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar..." [formControl]="searchFC">
+          <!-- <button class="cmp-btn cmp-btn--violet">Buscar</button> -->
+      </div>
       <div [ngClass]="{'cmp-card__body':inDashboard}">
         <div class="cmp-table">
           <ul class="cmp-table__header" fxLayoutAlign="space-between center">
@@ -14,7 +18,7 @@
             <li fxFlex="15" class="header__title header__title--action u-h-center">Última conexión</li>
             <li fxFlex="30" class="header__title u-h-center">Acciones</li>
           </ul>
-          <ul class="cmp-table__body user-list__dataset__item" *ngFor="let user of userList"
+          <ul class="cmp-table__body user-list__dataset__item" *ngFor="let user of userList | async | paginate: config"
           fxLayout="row" fxLayout="start center">
             <li fxFlex="20" class="body__text u-h-center" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
               {{user.firstName + ' '+ user.lastName + (youAreTheUser(user)?' (tú)':'')}}
@@ -34,6 +38,11 @@
                 </button>
             </li>
           </ul>
+            <pagination-template #p="paginationApi"
+            [id]="config.id"
+            (pageChange)="config.currentPage = $event">
+              <gen-paginator [pagination]="p"></gen-paginator>
+            </pagination-template>
         </div>
       </div>    
     </div>

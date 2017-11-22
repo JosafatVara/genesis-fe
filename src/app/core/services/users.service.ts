@@ -7,10 +7,12 @@ import { AuthenticationService } from './authentication.service';
 import { User } from '../../shared/models/user';
 import { CrudService } from './contracts/crud-service';
 import { Specification } from './specifications/base/specification';
-import { UsersInEnterpriseSpecification } from './specifications/user-specification';
+import { UsersInEnterpriseSpecification, UsersSearchPagedSpecification } from './specifications/user-specification';
 import { RolesService } from './roles.service';
 import { RolesByNameSpecification } from './specifications/role-specification';
 import { EnterprisesService } from './enterprises.service';
+import { QueryParamsSpecification } from './specifications/contracts/query-params-specification';
+import { count } from 'rxjs/operator/count';
 
 @Injectable()
 export class UsersService extends AuthenticatedService implements CrudService<User> {  
@@ -30,16 +32,31 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
     if(!specification){
       return Observable.of(this.mockData);
     }
-    if(specification instanceof UsersInEnterpriseSpecification){
-      return this.http
-      .get<any[]>(`${this.actionUrl}enterprises/${specification.enterprise.id}/users`, {headers: this.authHttpHeaders})
-      .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
-        let userList: User[] = [];
-        results[0].page.forEach( r => {
-          userList = userList.concat([ this.mapBeToUser(r) ]);
-        });
-        return userList; 
-      });
+    // if(specification instanceof UsersInEnterpriseSpecification){
+    //   return this.http
+    //   .get<any[]>(`${this.actionUrl}enterprises/${specification.enterprise.id}/users`, {headers: this.authHttpHeaders})
+    //   .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
+    //     let userList: User[] = [];
+    //     results[0].page.forEach( r => {
+    //       userList = userList.concat([ this.mapBeToUser(r) ]);
+    //     });
+    //     return userList; 
+    //   });
+    // }
+    if(specification instanceof UsersSearchPagedSpecification){
+      return this.enterprises.getCurrentEnterprise()
+      .flatMap( e => { 
+        return this.http
+        .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders})
+        .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
+          specification.size = results[0].count;
+          let userList: User[] = [];
+          results[0].page.forEach( r => {
+            userList = userList.concat([ this.mapBeToUser(r) ]);
+          });
+          return userList; 
+        }); 
+      });      
     }
     if(specification instanceof Specification){      
       return Observable.of(this.mockData.filter( e => specification.isSatisfiedBy(e))).delay(500);

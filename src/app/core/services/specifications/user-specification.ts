@@ -43,6 +43,24 @@ export class UserPagedAndSortedSpecification extends UserSpecification implement
 
 }
 
+export class UsersSearchPagedSpecification extends UserSpecification implements QueryParamsSpecification{
+
+    public size: number;
+
+    constructor(private searchQuery: string, private page: number, private pageSize: number){
+        super();
+    }
+
+    protected evaluate(entity: User): boolean {
+        throw new Error("Method not implemented.");
+    }
+
+    toQueryParams(toAppend?: HttpParams): HttpParams {
+        return (new PaginationSpecification(this.page,this.pageSize)).toQueryParams().append('query',this.searchQuery);
+    }
+    
+}
+
 export class UsersInEnterpriseSpecification extends UserSpecification{
 
     constructor(public enterprise: Enterprise){

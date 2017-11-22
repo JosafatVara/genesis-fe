@@ -9,14 +9,16 @@ import { PhotoInputComponent } from './components/photo-input/photo-input.compon
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { NumericPipe } from "./pipes/numeric.pipe";
 import { ToMonthPipe } from './pipes/to-month.pipe';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
     MatDialogModule,
     FlexLayoutModule,
-    CommonModule
+    CommonModule,
   ],
-  declarations: [PhotoInputComponent, ConfirmDialogComponent, NumericPipe, ToMonthPipe, SlimScroll],
+  declarations: [PhotoInputComponent, ConfirmDialogComponent, NumericPipe, ToMonthPipe, SlimScroll, PaginatorComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -35,6 +37,8 @@ import { ToMonthPipe } from './pipes/to-month.pipe';
     NumericPipe,
     ToMonthPipe,
     SlimScroll,
+    NgxPaginationModule,
+    PaginatorComponent
   ],
   entryComponents: [
     ConfirmDialogComponent

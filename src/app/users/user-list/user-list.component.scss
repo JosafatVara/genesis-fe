@@ -8,6 +8,10 @@
         margin-bottom: 15px;
     }
     &__dataset{
+        .cmp-input{
+            margin-top: 0px;
+            margin-right: 8px;
+        }
         overflow-x: auto;
         &__item{
             &__you__name{
