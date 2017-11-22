@@ -82,7 +82,9 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
   public update(entity: Enterprise): Observable<Enterprise> {
     let formData: FormData = new FormData();
     formData.append('name', entity.name);
-    formData.append('image', entity.photo, entity.photoFileName);
+    if(entity.photo){
+      formData.append('image', entity.photo, entity.photoFileName);
+    }    
     formData.append('business_name', entity.businessName);
     formData.append('ruc', entity.ruc);
     formData.append('address', entity.address);
@@ -92,7 +94,7 @@ export class EnterprisesService extends AuthenticatedService implements CrudServ
     formData.append('is_enabled', 'true');
     let headers: HttpHeaders = this.authHttpHeaders;
     headers = headers.append('Accept', 'application/json');
-    return this.http.put(this.actionUrl+`enterprises/${entity.id.toString()}`,formData,{headers: headers}).map( result => {
+    return this.http.patch(this.actionUrl+`enterprises/${entity.id.toString()}`,formData,{headers: headers}).map( result => {
       return entity;
     });
   }

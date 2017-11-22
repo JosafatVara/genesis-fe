@@ -74,9 +74,11 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
     let formData = new FormData();
     formData.append('first_name',entity.firstName);
     formData.append('last_name',entity.lastName);
-    formData.append('picture',entity.photo, entity.photoFileName);
+    if(entity.photo){
+      formData.append('picture',entity.photo, entity.photoFileName);
+    }
     return this.http
-      .put(`${this.actionUrl}accounts/user/${entity.id}/update`,formData, {headers: this.authHttpHeaders})
+      .patch(`${this.actionUrl}accounts/user/${entity.id}/update`,formData, {headers: this.authHttpHeaders})
       .map( u => {return entity});
   }
 

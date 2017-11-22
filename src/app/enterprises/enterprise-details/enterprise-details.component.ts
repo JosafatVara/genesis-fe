@@ -81,8 +81,8 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
 
   protected validate(): boolean{
     this.managedEntity.photo = this.enterprisePhoto;
-    this.managedEntity.photoFileName = this.enterprisePhoto.name;
-    return this.managedEntity.photo != undefined;
+    this.managedEntity.photoFileName = this.enterprisePhoto ? this.enterprisePhoto.name : undefined;
+    return  this.managedEntity.photoPublicUrl != undefined || this.managedEntity.photo != undefined;
   }
 
 }

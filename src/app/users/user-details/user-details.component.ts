@@ -131,8 +131,8 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
 
   protected validate(): boolean{
     this.managedEntity.photo = this.userPhoto;
-    this.managedEntity.photoFileName = this.userPhoto.name;
-    return this.managedEntity.photo != undefined && this.managedEntity.photo != "";
+    this.managedEntity.photoFileName = this.userPhoto? this.userPhoto.name : undefined;
+    return (this.managedEntity.photoPublicUrl != undefined) || (this.managedEntity.photo != undefined && this.managedEntity.photo != "");
   }
 
 }
