@@ -1,0 +1,38 @@
+<!--component html goes here -->
+<div class="cmp-card ">
+    <h3 class="cmp-card__title">Grupos</h3>
+    <div class="cmp-card__body">
+        <div class="body__cont-actions" fxLayoutAlign="space-between center">
+            <input class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar...">
+            <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">
+                <i class="fa fa-plus" aria-hidden="true"></i> Agregar Grupo </button>
+        </div>
+        <div class="body__cont-body">
+            <div class="cmp-table">
+                <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                    <li fxFlex class="header__title header__title--action">Nombre
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </li>
+                    <li fxFlex class="header__title header__title--action">Proveedores
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </li>
+                    <li fxFlex class="header__title ">Acciones</li>
+                </ul>
+                <ul class="cmp-table__body" *ngFor="let item of groups">
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.name}}</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.numProviders}}</li>
+                    <li fxFlex class="body__text">
+                        <button class="cmp-btn cmp-btn--actions" (click)="crud('update',item)">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span fxHide.lt-lg> Editar</span>
+                        </button>
+                        <button class="cmp-btn cmp-btn--violet cmp-btn--actions" (click)="crud('delete',item)">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <span fxHide.lt-lg> Eliminar</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,31 +12,31 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: 'app/users/users.module#UsersModule',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       {
         path: 'empresas',
         loadChildren: 'app/enterprises/enterprises.module#EnterprisesModule',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       {
         path: 'panel-de-control',
         loadChildren: 'app/control-panel/control-panel.module#ControlPanelModule',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       // {
@@ -46,26 +46,26 @@ const routes: Routes = [
       {
         path: 'grupos',
         loadChildren: 'app/groups/groups.module#GroupsModule',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       {
         path: 'proveedores',
         loadChildren: 'app/providers/providers.module#ProvidersModule',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       {
         path: 'personal',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         children: [
@@ -79,12 +79,12 @@ const routes: Routes = [
           }
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       {
         path: 'pagos',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         children: [
@@ -98,12 +98,12 @@ const routes: Routes = [
           }
         ],
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       },
       {
         path: 'cotizaciones',
-        canActivate: [ 
+        canActivate: [
           RoleGuard
         ],
         loadChildren: 'app/quotations/quotations.module#QuotationsModule',
@@ -113,12 +113,23 @@ const routes: Routes = [
       },
       {
         path: 'clientes',
-        canActivate: [ 
+        //   loadChildren: 'app/customers/customers.module#CustomersModule'
+        // }
+        // ,
+        // {
+        //   path: 'ordenes',
+        //   loadChildren: 'app/orders/orders.module#OrdersModule'
+        // }
+        // ,
+        // {
+        //   path: 'informes',
+        //   loadChildren: 'app/reports/reports.module#ReportsModule'
+        canActivate: [
           RoleGuard
         ],
         loadChildren: 'app/customers/customers.module#CustomersModule',
         data: {
-          disabledFor: ['ventas','contabilidad']
+          disabledFor: ['ventas', 'contabilidad']
         }
       }
     ]

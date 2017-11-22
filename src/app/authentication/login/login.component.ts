@@ -35,6 +35,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
     this.loadingOn();
     this.auth.login(this.user, this.password).subscribe( logged => {
+      console.log(logged,"xd");                      
       if(logged){
         this.route.queryParams.subscribe( params => {
           if(params['returnUrl']){

@@ -23,3 +23,8 @@ export class Employee extends BaseEntity<Employee>{
         return this.firstName + ' ' + this.lastName;
     }
 }
+
+
+// let e = new Employee({
+
+// })

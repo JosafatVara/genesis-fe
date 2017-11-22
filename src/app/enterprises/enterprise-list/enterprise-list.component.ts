@@ -17,20 +17,20 @@ import { Subscription } from "rxjs/Subscription";
   styleUrls: ['./enterprise-list.component.scss']
 })
 export class EnterpriseListComponent implements OnInit, OnDestroy {
-  
+
   public inDashboard: boolean;
   public enterpriseList: Array<Enterprise>;
   public currentUser: User;
   public currentEnterprise: Enterprise;
-  public displayedColumns: Array<string> =  ['Nombre','RUC','Administrar', 'Equipo'];
+  public displayedColumns: Array<string> = ['Nombre', 'RUC', 'Administrar', 'Equipo'];
   goToUsersSubscription: Subscription;
-  
+
 
   constructor(private enterprises: EnterprisesService, private users: UsersService, route: ActivatedRoute
-    ,private matDialog: MatDialog, private router: Router) {
-    enterprises.getCurrentEnterprise().subscribe( e => this.currentEnterprise = e );
-    users.getCurrentUser().subscribe( u => this.currentUser = u);
-    route.data.subscribe( (data: {inDashboard:boolean}) => this.inDashboard = data.inDashboard);
+    , private matDialog: MatDialog, private router: Router) {
+    enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
+    users.getCurrentUser().subscribe(u => this.currentUser = u);
+    route.data.subscribe((data: { inDashboard: boolean }) => this.inDashboard = data.inDashboard);
   }
 
   ngOnInit() {
@@ -38,80 +38,88 @@ export class EnterpriseListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.goToUsersSubscription){
+    if (this.goToUsersSubscription) {
       this.goToUsersSubscription.unsubscribe();
-    }    
+    }
   }
 
-  private refreshEnterprises(){
-    this.enterprises.get().subscribe( es => this.enterpriseList = es );
+  private refreshEnterprises() {
+    this.enterprises.get().subscribe(es => this.enterpriseList = es);
   }
 
-  public isManaging(enterprise: Enterprise) : boolean{
+  public isManaging(enterprise: Enterprise): boolean {
     return enterprise.id == this.currentEnterprise.id;
   }
 
-  public crud(mode: string, enterprise: Enterprise = undefined ){
-    if(mode=='delete'){
-      this.delete(Object.assign({},enterprise));
+  // public manageThis(enterprise: Enterprise): void {
+  //   localStorage.setItem("enterprise", JSON.stringify(enterprise));
+  //   // console.log(enterprise.id);    
+  //   this.enterprises.setCurrentEnterprise(enterprise).subscribe(e => {
+  //     this.currentEnterprise = e;
+  //   });
+  // }
+
+  public crud(mode: string, enterprise: Enterprise = undefined) {
+    if (mode == 'delete') {
+      this.delete(Object.assign({}, enterprise));
       return;
     }
-    let dialogRef = this.matDialog.open(DialogEnterpriseDetailsComponent,{
+    let dialogRef = this.matDialog.open(DialogEnterpriseDetailsComponent, {
       disableClose: true,
       width: '750px',
       data: {
         mode: mode,
-        enterprise: Object.assign({},enterprise)
+        enterprise: Object.assign({}, enterprise)
       }
     });
-    dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
-      if( result && !result.cancelled){
+    dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
+      if (result && !result.cancelled) {
         this.refreshEnterprises();
       }
     });
   }
 
-  private delete(enterprise: Enterprise){
+  private delete(enterprise: Enterprise) {
     let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       data: {
         message: `Eliminar la empresa ${enterprise.name}?`
       }
     });
-    dialogRef.afterClosed().subscribe( confirm => {
-      if(confirm){
-        this.enterprises.delete(enterprise).subscribe( () => this.refreshEnterprises());
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.enterprises.delete(enterprise).subscribe(() => this.refreshEnterprises());
       }
     });
   }
-  
-  manageThis(enterprise: Enterprise): void{
-    let dialogRef = this.matDialog.open(ConfirmDialogComponent,{
+
+  manageThis(enterprise: Enterprise): void {
+    let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       data: {
         message: `Administrar ${enterprise.name}?`
       }
     });
-    dialogRef.afterClosed().subscribe( confirm => {
-      if(confirm){
-        this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.enterprises.setCurrentEnterprise(enterprise).subscribe(e => {
           this.currentEnterprise = e;
         });
       }
-    })    
+    })
   }
 
-  goToEnterpriseUsers(enterprise: Enterprise){
-  let dialogRef = this.matDialog.open(ConfirmDialogComponent,{
-    data: {
-      message: `Administrar ${enterprise.name}?`
-    }
-  });
-  dialogRef.afterClosed().subscribe( confirm => {
-    if(confirm){
-      this.goToUsersSubscription = this.enterprises.setCurrentEnterprise(enterprise).subscribe( e => {
-        this.router.navigateByUrl('dashboard/usuarios');
-      });
-    }
-  })   
-    
+  goToEnterpriseUsers(enterprise: Enterprise) {
+    let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      data: {
+        message: `Administrar ${enterprise.name}?`
+      }
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.goToUsersSubscription = this.enterprises.setCurrentEnterprise(enterprise).subscribe(e => {
+          this.router.navigateByUrl('dashboard/usuarios');
+        });
+      }
+    })
+
   }
 }

@@ -16,19 +16,19 @@ export class DialogEnterpriseDetailsComponent extends BaseComponent implements O
   public enterprise: Enterprise;
 
   constructor(private enterprises: EnterprisesService, private dialogRef: MatDialogRef<DialogEnterpriseDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {mode: string, enterprise: Enterprise}) {
+    @Inject(MAT_DIALOG_DATA) public data: { mode: string, enterprise: Enterprise }) {
     super();
     this.mode = data.mode || 'read';
-    this.enterprise = data.mode == 'create'? new Enterprise() : data.enterprise;
+    this.enterprise = data.mode == 'create' ? new Enterprise() : data.enterprise;
   }
 
   ngOnInit() {
   }
 
-  onCrudComponentFinish(enterprise: Enterprise){
+  onCrudComponentFinish(enterprise: Enterprise) {
     this.loadingOn();
     let observable: Observable<Enterprise>;
-    switch(this.mode){
+    switch (this.mode) {
       case 'create':
         observable = this.enterprises.create(enterprise);
         break;
@@ -38,13 +38,12 @@ export class DialogEnterpriseDetailsComponent extends BaseComponent implements O
       default:
         observable = Observable.of(undefined);
     }
-    observable.subscribe( e => {
-      if(e!=undefined){
-        this.dialogRef.close({cancelled:false});
-      }else{
-
+    observable.subscribe(e => {
+      if (e != undefined) {
+        this.dialogRef.close({ cancelled: false });
+      } else {
       }
-    },err=>{this.loadingOff();},()=>{this.loadingOff()});
+    }, err => { this.loadingOff(); }, () => { this.loadingOff() });
   }
 
 }

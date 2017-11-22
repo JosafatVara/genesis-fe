@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
-import { ModalCrudComponent } from "./modal-crud/modal-crud.component";
 
 @Component({
   selector: 'gen-customers',
@@ -10,19 +7,8 @@ import { ModalCrudComponent } from "./modal-crud/modal-crud.component";
 })
 export class CustomersComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
-  openDialog(): void {
-    let dialogRef = this.dialog.open(ModalCrudComponent, {
-      width: '700px',
-      // data: { name: this.name, animal: this.animal }
-    });
+  ngOnInit() { }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed ${result}');
-      // this.animal = result;
-    });
-  }
 }

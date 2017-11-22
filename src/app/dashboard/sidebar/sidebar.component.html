@@ -1,9 +1,10 @@
 <ul class="sidebar" [ngClass]="{'sidebar--closed': menuState}">
     <li class="sidebar__menu-item sidebar__menu-item--breakdown " fxLayoutAlign="center center">
-        <button class="cmp-btn cmp-btn--blue cmp-btn--sidebar" (click)="changeStateMenu()"> 
-                <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
-                <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
-            </button>
+        <button class="cmp-btn cmp-btn--blue cmp-btn--sidebar" (click)="changeStateMenu()">
+            <i class=" fa fa-angle-left " aria-hidden="true " *ngIf="!menuState "></i>
+            <i class="fa fa-angle-right " aria-hidden="true " *ngIf="menuState "></i>
+        </button>
+
     </li>
     <li class="sidebar__menu-item sidebar__menu-item--first " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center">
@@ -19,6 +20,7 @@
             <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[2] " [@menuState]="flagArray[2] "></i>
             <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[2] " [@menuState]="flagArray[2] "></i>
         </a>
+
         <ul class="menu-item__submenu " *ngIf="flagArray[2]" [@menuState]="flagArray[2]">
             <li *ngIf="!hideFor(['ventas','contabilidad'])">
                 <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="center center ">Ventas</a>
@@ -29,6 +31,7 @@
             <li *ngIf="!hideFor(['contabilidad'])">
                 <a class="menu-item__item menu-item__item--submenu" routerLink="./cotizaciones" fxLayoutAlign="center center ">Cotizaciones</a>
             </li>
+
             <li *ngIf="!hideFor(['ventas','contabilidad'])">
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center "> Ordenes</a>
             </li>
@@ -47,25 +50,25 @@
         <ul class="menu-item__submenu " *ngIf="flagArray[3] ">
             <li>
                 <a class="menu-item__item menu-item__item--submenu" routerLink="./grupos" fxLayoutAlign="center center ">
-                   Grupos                    
+                    Grupos
                 </a>
             </li>
             <li>
                 <a class="menu-item__item menu-item__item--submenu " routerLink="./proveedores" fxLayoutAlign="center center ">
-                   Proveedores
-                    
+                    Proveedores
+
                 </a>
             </li>
             <li>
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Productos
-                    
+                    Productos
+
                 </a>
             </li>
             <li>
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Facturas de Compra
-                    
+                    Facturas de Compra
+
                 </a>
             </li>
         </ul>
@@ -80,8 +83,8 @@
         <ul class="menu-item__submenu " *ngIf="flagArray[4] ">
             <li>
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">
-                   Productos
-                    
+                    Productos
+
                 </a>
             </li>
         </ul>
@@ -95,6 +98,7 @@
         </a>
         <ul class="menu-item__submenu " *ngIf="flagArray[5] ">
             <li>
+
                 <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/planillas">
                    Planillas                    
                 </a>
