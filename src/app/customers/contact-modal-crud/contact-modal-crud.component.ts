@@ -1,4 +1,4 @@
-import { Provider } from './../../shared/models/provider';
+import { Customer } from './../../shared/models/customer';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -11,19 +11,18 @@ import { Contact } from "../../shared/models/contact";
 
 @Component({
     moduleId: module.id,
-    selector: 'contacts-modal-crud',
-    templateUrl: 'contacts-modal-crud.component.html',
-    styleUrls: ['contacts-modal-crud.component.scss']
+    selector: 'contact-modal-crud',
+    templateUrl: 'contact-modal-crud.component.html',
+    styleUrls: ['contact-modal-crud.component.scss']
 })
-export class ContactsModalCrudComponent {
-    // public currentEnterprise: Enterprise;
+export class ContactModalCrudComponent {
     loader: boolean;
     btnLabel: string;
     groupForm: FormGroup;
     positionUpdate: number;
     constructor(
-        public thisDialogRef: MatDialogRef<ContactsModalCrudComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { action: string, contact: Contact, contacts: Contact[], provider: Provider },
+        public thisDialogRef: MatDialogRef<ContactModalCrudComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: { action: string, contact: Contact, contacts: Contact[], customer: Customer },
         private fb: FormBuilder,
         private toast: ToastService,
         private contactsService: ContactsService,
@@ -81,8 +80,8 @@ export class ContactsModalCrudComponent {
                         //     return
                         // }
                     }
-                    console.log(this.data.provider.id);
-                    this.data.provider.id ? this.contactsService.create(value, this.data.provider.id).subscribe() : this.data.contacts.push(value)
+                    console.log(this.data.customer.id);
+                    this.data.customer.id ? this.contactsService.create(value, this.data.customer.id).subscribe() : this.data.contacts.push(value)
                     this.thisDialogRef.close({ cancelled: false })
                 }
                 break;
@@ -97,8 +96,8 @@ export class ContactsModalCrudComponent {
                         // }
                         this.data.contacts.splice(this.positionUpdate, 1);
                     }
-                    console.log(this.data.provider.id);
-                    this.data.provider.id ? this.contactsService.update(value, this.data.provider.id).subscribe() : this.data.contacts.push(value)
+                    console.log(this.data.customer.id);
+                    this.data.customer.id ? this.contactsService.update(value, this.data.customer.id).subscribe() : this.data.contacts.push(value)
                     // this.data.contacts.push(value);
                     this.thisDialogRef.close({ cancelled: false })
                 }

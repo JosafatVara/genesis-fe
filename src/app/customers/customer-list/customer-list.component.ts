@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 //modules
-import { ProviderService } from '../../core/services/providers.service'
-import { Provider } from "../../shared/models/provider";
+import { CustomerService } from '../../core/services/customers.service'
+import { Customer } from "../../shared/models/customer";
 import { EnterprisesService, EnterpriseListDataSource } from '../../core/services/enterprises.service';
 import { Enterprise } from '../../shared/models/enterprise';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
 //components
-import { ProvidersModalCrudComponent } from "../providers-modal-crud/providers-modal-crud.component";
+import { CustomerModalCrudComponent } from "../customer-modal-crud/customer-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
     moduleId: module.id,
-    selector: 'providers-list',
-    templateUrl: 'providers-list.component.html',
-    styleUrls: ['providers-list.component.scss']
+    selector: 'customer-list',
+    templateUrl: 'customer-list.component.html',
+    styleUrls: ['customer-list.component.scss']
 })
-export class ProvidersListComponent implements OnInit {
-    providers: any = [];
+export class CustomerListComponent implements OnInit {
+    customers: any = [];
     public currentUser: User;
     public currentEnterprise: Enterprise;
     constructor(
         private matDialog: MatDialog,
-        private providerService: ProviderService,
+        private customerService: CustomerService,
         private users: UsersService,
         private enterprises: EnterprisesService
     ) {
@@ -32,38 +32,38 @@ export class ProvidersListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.refreshProviders();
+        this.refreshCustomers();
     }
 
-    private refreshProviders() {
-        this.providerService.getList(this.currentEnterprise.id).subscribe(res => this.providers = res);
+    private refreshCustomers() {
+        this.customerService.getList(this.currentEnterprise.id).subscribe(res => this.customers = res);
     }
 
-    crud(action: string, provider: Provider = undefined) {
+    crud(action: string, customer: Customer = undefined) {
         if (action == 'delete') {
-            this.delete(Object.assign({}, provider));
+            this.delete(Object.assign({}, customer));
             return
         }
-        let dialogRef = this.matDialog.open(ProvidersModalCrudComponent, {
+        let dialogRef = this.matDialog.open(CustomerModalCrudComponent, {
             width: '800px',
             data: {
                 action: action,
-                provider: Object.assign({}, provider)
+                customer: Object.assign({}, customer)
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            if (!result.cancelled) this.refreshProviders()
+            if (!result.cancelled) this.refreshCustomers()
         })
     }
 
-    private delete(provider: Provider) {
+    private delete(provider: Customer) {
         let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
             data: {
-                message: `¿Esta seguro de eliminar el proveedor ${provider.firstName}?`
+                message: `¿Esta seguro de eliminar el cliente ${provider.firstName}?`
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.providerService.delete(provider.id).subscribe(() => this.refreshProviders());
+            if (confirm) this.customerService.delete(provider.id).subscribe(() => this.refreshCustomers());
         });
     }
 }

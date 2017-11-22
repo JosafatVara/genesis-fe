@@ -1,0 +1,33 @@
+<!--component html goes here -->
+<div class="cmp-modal">
+    <form [formGroup]="groupForm" novalidate (submit)="doAction()">
+        <div class="cmp-modal__body" fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Nombre" type="text" formControlName="firstName">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Apellido" type="text" formControlName="lastName">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Cargo" type="text" formControlName="position">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Teléfono" type="number" formControlName="phone">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="c-input">
+                <input matInput placeholder="Email" type="text" formControlName="email">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="cmp-modal__footer" fxLayoutAlign="end center">
+            <button class="cmp-btn cmp-btn--white-blue" (click)="cancel()">Cancelar</button>
+            <button class="cmp-btn cmp-btn--blue" fxFlexOffset=10px type="submit"> 
+                    <span >{{btnLabel}}</span> 
+                </button>
+        </div>
+    </form>
+</div>
