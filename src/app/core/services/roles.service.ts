@@ -22,7 +22,13 @@ export class RolesService extends AuthenticatedService implements CrudService<Ro
   }
 
   get(specification?: Specification<Role>): Observable<Role[]> {
-    return Observable.of(this.mockData);
+    //return Observable.of(this.mockData);
+    return this.http.get(`${this.baseUrl}enterprises/roles/`,{ headers: this.authHttpHeaders })
+    .map( (results: any[]) => {
+      let roles: Role[];
+      roles = results.map( be => this.mapBeToRole(be));
+      return roles;
+    });
   }
   update(entity: Role): Observable<Role> {
     throw new Error("Method not implemented.");
@@ -37,5 +43,11 @@ export class RolesService extends AuthenticatedService implements CrudService<Ro
   constructor(auth: AuthenticationService, http: HttpClient) {
     super(auth,http,'*****');
   }
-    
+
+  mapBeToRole(be: any){
+    return new Role({
+      id: be.id,
+      name: be.name
+    });
+  }
 }

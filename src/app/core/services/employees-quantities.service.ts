@@ -16,7 +16,9 @@ export class EmployeesQuantitiesService extends AuthenticatedService implements 
     return this.employeesQuantityList;
   }
   private employeesQuantityList: EmployeesQuantity[] = [
-    new EmployeesQuantity({quantityDescription: 'TENTOTWENTY', id: 1}),
+    new EmployeesQuantity({quantityDescription: 'UNO', id: 1, description: 'Uno a diez'}),
+    new EmployeesQuantity({quantityDescription: 'DIEZ', id: 2, description: 'Diez a veinte'}),
+    new EmployeesQuantity({quantityDescription: 'VEINTE', id: 3, description: 'Veinte a más'}),
   ];
 
   get(specification?: Specification<EmployeesQuantity>): Observable<EmployeesQuantity[]> {
