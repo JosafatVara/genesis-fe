@@ -48,6 +48,7 @@ export class UserListComponent implements OnInit {
 
   loadUsers(page?: number){
     page = page || this.config.currentPage;
+    this.config.currentPage = page;
     let specification = new UsersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
     this.userList = this.users.get(specification)
                       .do( ()=>{ this.config.totalItems = specification.size })
