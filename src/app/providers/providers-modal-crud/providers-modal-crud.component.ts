@@ -18,6 +18,7 @@ import { ContactsService } from '../../core/services/contacs.service';
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
 import { AccountsBankModalCrudComponent } from "../accounts-bank-modal-crud/accounts-bank-modal-crud.component";
 import { ContactsModalCrudComponent } from "../contacts-modal-crud/contacts-modal-crud.component";
+import { log } from 'util';
 
 @Component({
     moduleId: module.id,
@@ -89,6 +90,7 @@ export class ProvidersModalCrudComponent {
         this.createForm();
         this.fillForm();
         this.getGroupList();
+        this.providerPhoto = 'http://genesis.indagostudio.pe'+this.provider.photo;
     }
 
     setBtnLabel() {
@@ -102,7 +104,7 @@ export class ProvidersModalCrudComponent {
     createForm() {
         if (this.providerType == 1) {
             this.frmNaturalPhoto = this.fb.group({
-                photo: ['', Validators.required]
+                photo: ['',]
             });
             this.frmNaturalBasicData = this.fb.group({
                 firstName: ['', Validators.required],
@@ -119,7 +121,7 @@ export class ProvidersModalCrudComponent {
             });
         } else {
             this.frmLegalPhoto = this.fb.group({
-                photo: ['', Validators.required]
+                photo: ['',]
             });
             this.frmLegalBasicData = this.fb.group({
                 businessName: ['', Validators.required],
@@ -142,8 +144,16 @@ export class ProvidersModalCrudComponent {
         if (this.providerType == 1) {
             // this.frmNaturalBasicData.patchValue(this.provider)
             this.frmNaturalBasicData.patchValue(this.provider)
+            this.frmNaturalPhoto.patchValue({ photo: this.providerPhoto })
+            if (this.data.action == 'update') {
+                this.frmNaturalPhoto.patchValue(this.provider)
+            }
         } else {
             this.frmLegalBasicData.patchValue(this.provider)
+            this.frmLegalPhoto.patchValue({ photo: this.providerPhoto })
+            if (this.data.action == 'update') {
+                this.frmLegalPhoto.patchValue(this.provider)
+            }
         }
     }
 
@@ -178,7 +188,7 @@ export class ProvidersModalCrudComponent {
     doAction() {
         if (this.providerType == 1) {
             if (this.frmNaturalPhoto.valid && this.frmNaturalBasicData.valid && this.frmNaturalBankAccounts.valid) {
-                const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
+                const dataProvider = Object.assign({}, { photo: this.providerPhoto }, this.frmNaturalBasicData.value, { type: "PERSONA" });
                 if (this.data.action == 'create') {
                     this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
                         res => {
@@ -189,13 +199,18 @@ export class ProvidersModalCrudComponent {
                         }
                     )
                 } else {
-                    // this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe();
-                    console.log("tamod aqui papi");
+                    this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe(res => {
+                        this.thisDialogRef.close({ cancelled: false })
+                    });
+
                 }
+
             }
         } else {
             if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid && this.frmLegalBankAccounts.valid) {
-                const dataProvider = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData.value, { type: "EMPRESA" });
+                const dataProvider = Object.assign({}, { photo: this.providerPhoto }, this.frmLegalBasicData.value, { type: "EMPRESA" });
+                console.log(this.providerPhoto, "photo");
+
                 if (this.data.action == 'create') {
                     this.providerService.create(dataProvider, this.currentEnterprise.id).subscribe(
                         res => {
@@ -209,7 +224,9 @@ export class ProvidersModalCrudComponent {
                         }
                     )
                 } else {
-
+                    this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe(res => {
+                        this.thisDialogRef.close({ cancelled: false })
+                    });
                 }
 
             }

@@ -63,7 +63,7 @@ export class ProviderService extends AuthenticatedService {
         formData.append('details', data.notes);
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
-        return this.http.put(this.actionUrl + `purchases/enterprises/providers/` + id, formData, { headers: headers }).map(result => {
+        return this.http.patch(this.actionUrl + `purchases/enterprises/providers/` + id, formData, { headers: headers }).map(result => {
             return this.mapBeToProvider(result);
         });
     }

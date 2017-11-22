@@ -1,55 +1,54 @@
 <form #form="ngForm" fxLayout="column" class="user-details" novalidate (submit)="finish(userForm)" [formGroup]="userForm">
     <h1 class="user-details__header u-h-center">{{title}}</h1>
     <div layout="row">
-      <div fxFlex="30" fxLayout="column" class="user-details__photo">
-        <gen-photo-input [required]="true" [asBase64]="false" [(photoSrc)]="userPhoto" [photoPublicUrl]="managedEntity.photoPublicUrl"></gen-photo-input>
-      </div>
-      <div fxFlex fxLayout="column" fxLayoutGap="15px">
-        <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field fxFlex="50" class="c-input">
-            <input matInput placeholder="Nombres" formControlName="firstName">
-            <mat-error>Requerido</mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex="50" class="c-input">
-            <input matInput placeholder="Apellidos" formControlName="lastName">
-            <mat-error>Requerido</mat-error>
-          </mat-form-field>
-        </div>        
-        <mat-form-field class="c-input o-full-width">
-          <input matInput placeholder="Email" type="email" email="true" formControlName="email">
-          <mat-error>Requerido</mat-error>
-        </mat-form-field>
-        <div fxLayout="row" fxLayoutGap="10px" *ngIf="mode == 'create'">
-          <mat-form-field fxFlex="50" class="c-input">
-            <input matInput type="password" placeholder="Contraseña" formControlName="password">
-            <mat-error *ngIf="userForm.get('password').hasError('required')">Requerido</mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex="50" class="c-input">
-            <input matInput type="password" placeholder="Confirmar contraseña" formControlName="confirmPassword">
-            <mat-error *ngIf="userForm.get('confirmPassword').hasError('required')">Requerido</mat-error>
-          </mat-form-field>
+        <div fxFlex="30" fxLayout="column" class="user-details__photo">
+            <gen-photo-input [required]="true" [asBase64]="false" [(photoSrc)]="userPhoto" [photoPublicUrl]="managedEntity.photoPublicUrl"></gen-photo-input>
         </div>
-        <mat-form-field class="c-input o-full-width">
-          <mat-select placeholder="Rol" formControlName="role">
-            <mat-option *ngFor="let role of roleList" [value]="role">
-              {{ role.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="cmp-message--error" *ngIf="userForm.get('confirmPassword').hasError('missmatched')">
-            *Las contraseñas no coinciden
-        </div>
-        <div class="cmp-message--error" *ngIf="userForm.get('password').hasError('minlength')">
-            *Debe tener como mínimo 6 carácteres
-        </div>
-        <div class="cmp-message--error" *ngIf="!userForm.get('password').hasError('minlength') && 
+        <div fxFlex fxLayout="column" fxLayoutGap="15px">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="50" class="c-input">
+                    <input matInput placeholder="Nombres" formControlName="firstName">
+                    <mat-error>Requerido</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="50" class="c-input">
+                    <input matInput placeholder="Apellidos" formControlName="lastName">
+                    <mat-error>Requerido</mat-error>
+                </mat-form-field>
+            </div>
+            <mat-form-field class="c-input o-full-width">
+                <input matInput placeholder="Email" type="email" email="true" formControlName="email">
+                <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutGap="10px" *ngIf="mode == 'create'">
+                <mat-form-field fxFlex="50" class="c-input">
+                    <input matInput type="password" placeholder="Contraseña" formControlName="password">
+                    <mat-error *ngIf="userForm.get('password').hasError('required')">Requerido</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="50" class="c-input">
+                    <input matInput type="password" placeholder="Confirmar contraseña" formControlName="confirmPassword">
+                    <mat-error *ngIf="userForm.get('confirmPassword').hasError('required')">Requerido</mat-error>
+                </mat-form-field>
+            </div>
+            <mat-form-field class="c-input o-full-width">
+                <mat-select placeholder="Rol" formControlName="role">
+                    <mat-option *ngFor="let role of roleList" [value]="role">
+                        {{ role.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="cmp-message--error" *ngIf="userForm.get('confirmPassword').hasError('missmatched')">
+                *Las contraseñas no coinciden
+            </div>
+            <div class="cmp-message--error" *ngIf="userForm.get('password').hasError('minlength')">
+                *Debe tener como mínimo 6 carácteres
+            </div>
+            <div class="cmp-message--error" *ngIf="!userForm.get('password').hasError('minlength') && 
         userForm.get('password').hasError('alphanumeric')">
-            *Debe contener números y letras
+                *Debe contener números y letras
+            </div>
         </div>
-      </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
-      <button type="submit" class="cmp-btn cmp-btn--violet">{{buttonLabel}}</button>
+        <button type="submit" class="cmp-btn cmp-btn--violet">{{buttonLabel}}</button>
     </div>
-  </form>
-  
+</form>
