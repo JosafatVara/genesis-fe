@@ -15,7 +15,6 @@ export class Service {
     getList(id) {
         let headers = new Headers({ 'Authorization': 'Token ' + this.token });
         return this.http.get(environment.beUrl + this.nameModule + 'groups/' + id + '/providers', { headers: headers });
-        // return this.http.get(`${environment.beUrl} ${this.nameModule} groups/providers/ ${id}`, { headers: headers });
     }
 
     create(data, id): Observable<Response> {
