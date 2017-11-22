@@ -1,0 +1,23 @@
+<div class="custom-pagination" *ngIf="p" fxLayout="row" fxLayoutAlign="center start">
+  <div class="pagination-wrapper"fxLayout="row" fxLayoutAlign="center stretch">
+      <div [class.pagination-action--disabled]="p.isFirstPage()" class="pagination-action pagination-previous"
+      (click)="p.previous()">
+          <a> < </a>
+      </div>
+    
+      <div class="pagination-page" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value"
+      [class.in-first]="p.isFirstPage()" [class.in-last]="p.isLastPage()" fxLayout="column" fxLayoutAlign="center stretch">
+          <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+              <span>{{ page.label }}</span>
+          </a>
+          <div *ngIf="p.getCurrent() === page.value">
+              <span>{{ page.label }}</span>
+          </div>
+      </div>
+    
+      <div [class.pagination-action--disabled]="p.isLastPage()" class="pagination-action pagination-next"
+      (click)="p.next()">
+          <a> > </a>
+      </div>
+  </div>  
+</div>

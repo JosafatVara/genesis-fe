@@ -1,0 +1,26 @@
+<form fxLayout="column" fxLayoutGap="10px" [formGroup]="modifierForm">
+  <h3>{{title}}</h3>
+  <div fxLayout="row" fxLayoutGap="15px">
+    <mat-form-field>
+      <input matInput type="text" required formControlName="concept" placeholder="Concepto">
+      <mat-error>Requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" required formControlName="description" placeholder="Descripción">
+      <mat-error>Requerido</mat-error>
+    </mat-form-field>
+  </div>  
+  <mat-form-field>
+    <input matInput type="number" required formControlName="ammount" placeholder="Monto">
+    <mat-error>Solo positivos</mat-error>
+  </mat-form-field>
+  <div fxLayout="row">
+    <button type="button" class="cmp-btn" mat-dialog-close>
+      Cancelar
+    </button>
+    <span fxFlex></span>
+    <button class="cmp-btn cmp-btn--violet" (click)="confirm()">
+      {{buttonLabel}}
+    </button>
+  </div>
+</form>

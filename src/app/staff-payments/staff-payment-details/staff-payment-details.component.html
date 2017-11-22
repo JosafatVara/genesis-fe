@@ -1,0 +1,98 @@
+<div fxLayout="column" class="payment-details o-full-height" novalidate>
+    <!-- <h1 class="payment-details__header u-h-center">{{title}}</h1> -->
+    <form fxLayout="row" fxLayoutAlign="start center" [formGroup]="staffPaymentForm">
+      <mat-form-field fxFlex="50" class="payment-details__employee-search">
+        <span matPrefix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
+        <input type="text" matInput formControlName="employee" [matAutocomplete]="auto" placeholder="Asignar este pago a...">
+      </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEmployeeFn">
+        <mat-option *ngFor="let employee of employeeList" [value]="employee">
+            {{ employee.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+      <div fxFlex class="u-h-center">
+        <span>
+          <b>Mes:&nbsp;</b>{{staffPaymentForm.get('month').value | toMonth }}
+        </span>        
+      </div>
+      <div fxFlex class="u-h-center">
+        <span>
+          <b>Año:&nbsp;</b>{{staffPaymentForm.get('year').value}}
+        </span>        
+      </div>
+    </form>        
+    <mat-horizontal-stepper fxFlex [linear]="true" class="o-full-size">
+      <mat-step [stepControl]="plameForm" [completed]="false">
+        <ng-template matStepLabel>Datos PLAME</ng-template>
+      </mat-step>
+      <mat-step [stepControl]="paymentForm" [completed]="false">
+        <ng-template matStepLabel>Datos pago</ng-template>
+        <form fxLayout="column" fxLayoutGap="15px" [formGroup]="paymentForm" 
+        class="o-full-height payment-details__payment">
+          <div fxLayout="row" fxFlex fxLayoutGap="15px">
+            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+              <div fxLayout="row" fxLayoutAlign="center start">
+                <span><b>Monto Base:&nbsp;&nbsp;&nbsp;</b></span>
+                <span>{{paymentForm.get('basePay').value}}</span>
+              </div>
+              <button class="cmp-btn cmp-btn--violet" (click)="addIncentive()">
+                <i class="fa fa-plus"></i>&nbsp;&nbsp;Incentivo
+              </button>
+              <button class="cmp-btn cmp-btn--violet" (click)="addDiscount()">
+                <i class="fa fa-plus"></i>&nbsp;&nbsp;Descuento
+              </button>
+            </div>
+            <div fxFlex class="u-scrollable">
+              <table class="o-full-width">
+                <thead>
+                  <tr fxLayout="row">
+                    <th fxFlex="25">Concepto</th>
+                    <th fxFlex="25">Descripción</th>
+                    <th fxFlex="15">+</th>
+                    <th fxFlex="15">-</th>
+                    <th fxFlex></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr fxLayout="row" *ngFor="let incentive of incentives.controls; let i = index;">
+                    <td fxFlex="25">{{incentive.get('concept').value}}</td>
+                    <td fxFlex="25">{{incentive.get('description').value}}</td>
+                    <td fxFlex="15">+{{incentive.get('ammount').value}}</td>
+                    <td fxFlex="15"></td>
+                    <!-- <td fxFlex>
+                      <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+                          <button (click)="removeIncentive(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
+                          <button (click)="editIncentive(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
+                      </div>
+                    </td> -->
+                  </tr>
+                  <tr fxLayout="row" *ngFor="let discount of discounts.controls; let i = index;">
+                    <td fxFlex="25">{{discount.get('concept').value}}</td>
+                    <td fxFlex="25">{{discount.get('description').value}}</td>
+                    <td fxFlex="15"></td>
+                    <td fxFlex="15">-{{discount.get('ammount').value}}</td>
+                    <!-- <td fxFlex>
+                        <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+                            <button (click)="removeDiscount(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
+                            <button (click)="editDiscount(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
+                        </div>
+                    </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div fxLayout="row">
+            <span fxFlex></span>
+            <mat-form-field>
+              <input matInput type="number" readonly formControlName="netTotalAmmount" placeholder="Total">
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>    
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button type="submit" class="cmp-btn cmp-btn--violet" [disabled]="!employeeSelected">{{buttonLabel}}</button>
+    </div>
+  </div>
+  

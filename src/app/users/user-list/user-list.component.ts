@@ -7,7 +7,10 @@ import { DialogUserDetailsComponent } from '../dialog-user-details/dialog-user-d
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { Enterprise } from '../../shared/models/enterprise';
 import { EnterprisesService } from '../../core/services/enterprises.service';
-import { UsersInEnterpriseSpecification } from '../../core/services/specifications/user-specification';
+import { UsersInEnterpriseSpecification, UsersSearchPagedSpecification } from '../../core/services/specifications/user-specification';
+import { Observable } from 'rxjs/Observable';
+import { PaginationInstance } from 'ngx-pagination/dist/pagination-instance';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'gen-user-list',
@@ -17,9 +20,11 @@ import { UsersInEnterpriseSpecification } from '../../core/services/specificatio
 export class UserListComponent implements OnInit {
 
   public inDashboard: boolean;
-  public userList: Array<User>;
+  public userList: Observable<User[]>;
   public currentUser: User;
   public currentEnteprirse: Enterprise;
+  public config: PaginationInstance;
+  public searchFC: FormControl;
 
   constructor(private users: UsersService, route: ActivatedRoute ,private matDialog: MatDialog
     , private enteprises: EnterprisesService) {
@@ -28,15 +33,28 @@ export class UserListComponent implements OnInit {
     route.data.subscribe( (data: {inDashboard:boolean}) => {
       this.inDashboard = data.inDashboard
     });
+    this.config = {
+      id: 'pagination',
+      itemsPerPage: 1,
+      currentPage: 1
+    };
   }
 
   ngOnInit() {
-    this.refreshUsers();
+    this.searchFC = new FormControl();
+    this.searchFC.valueChanges.debounceTime(500).subscribe( () => this.loadUsers() );
+    this.loadUsers();
   }
 
-  private refreshUsers(){
-    this.users.get( new UsersInEnterpriseSpecification(this.currentEnteprirse) ).subscribe( es => this.userList = es );
+  loadUsers(page?: number){
+    page = page || this.config.currentPage;
+    this.config.currentPage = page;
+    let specification = new UsersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
+    this.userList = this.users.get(specification)
+                      .do( ()=>{ this.config.totalItems = specification.size })
+                      .catch( err => Observable.of([]) );
   }
+
 
   public youAreTheUser(user: User) : boolean{
     return user.id == this.currentUser.id;
@@ -57,7 +75,8 @@ export class UserListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
       if(result&&!result.cancelled){
-        this.refreshUsers();
+        //this.refreshUsers();
+        this.loadUsers();
       }
     });
   }
@@ -70,7 +89,8 @@ export class UserListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( confirm => {
       if(confirm){
-        this.users.delete(user).subscribe( () => this.refreshUsers());
+        //this.users.delete(user).subscribe( () => this.refreshUsers());
+        this.loadUsers();
       }
     });
   }

@@ -6,40 +6,41 @@
         </button>
 
     </li>
-    <li class="sidebar__menu-item sidebar__menu-item--first ">
+    <li class="sidebar__menu-item sidebar__menu-item--first " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center">
             <img class="item__icon " src="assets/images/icons/menu-grid.png " alt=" ">
             <span class="item__title">Panel de control</span>
             <i class="fa " aria-hidden="true "></i>
         </a>
     </li>
-    <li class="sidebar__menu-item ">
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['contabilidad'])">
         <a class="menu-item__item" fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(2) ">
             <img class="item__icon " src="assets/images/icons/delivery-truck.png " alt=" ">
             <span class="item__title">Ventas</span>
             <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[2] " [@menuState]="flagArray[2] "></i>
             <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[2] " [@menuState]="flagArray[2] "></i>
         </a>
-        <ul class="menu-item__submenu " *ngIf="flagArray[2] " [@menuState]="flagArray[2] ">
-            <li>
 
+        <ul class="menu-item__submenu " *ngIf="flagArray[2]" [@menuState]="flagArray[2]">
+            <li *ngIf="!hideFor(['ventas','contabilidad'])">
                 <a class="menu-item__item menu-item__item--submenu" fxLayoutAlign="center center ">Ventas</a>
             </li>
-            <li>
+            <li *ngIf="!hideFor(['ventas','contabilidad'])">
                 <a class="menu-item__item menu-item__item--submenu" routerLink="./clientes" fxLayoutAlign="center center ">Clientes</a>
             </li>
-            <li>
+            <li *ngIf="!hideFor(['contabilidad'])">
                 <a class="menu-item__item menu-item__item--submenu" routerLink="./cotizaciones" fxLayoutAlign="center center ">Cotizaciones</a>
             </li>
-            <li>
-                <a class="menu-item__item menu-item__item--submenu " routerLink="./ordenes" fxLayoutAlign="center center "> Ordenes</a>
+
+            <li *ngIf="!hideFor(['ventas','contabilidad'])">
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center "> Ordenes</a>
             </li>
-            <li>
-                <a class="menu-item__item menu-item__item--submenu " routerLink="./informes" fxLayoutAlign="center center ">Informes </a>
+            <li *ngIf="!hideFor(['ventas','contabilidad'])">
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center ">Informes </a>
             </li>
         </ul>
     </li>
-    <li class="sidebar__menu-item ">
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(3) ">
             <img class="item__icon " src="assets/images/icons/online-shopping-cart.png " alt=" ">
             <span class="item__title">Compras</span>
@@ -72,7 +73,7 @@
             </li>
         </ul>
     </li>
-    <li class="sidebar__menu-item ">
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(4) ">
             <img class="item__icon " src="assets/images/icons/text-line-form.png " alt=" ">
             <span class="item__title">Inventario</span>
@@ -88,7 +89,7 @@
             </li>
         </ul>
     </li>
-    <li class="sidebar__menu-item ">
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(5) ">
             <img class="item__icon " src="assets/images/icons/messenger-user-avatar.png " alt=" ">
             <span class="item__title">Personal</span>
@@ -98,31 +99,53 @@
         <ul class="menu-item__submenu " *ngIf="flagArray[5] ">
             <li>
 
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/personal">
-                   Personal
-                    
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/planillas">
+                   Planillas                    
                 </a>
             </li>
             <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/independientes">
-                   Independientes                    
-                </a>
-            </li>
-            <li>
-                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/pagos">
-                   Pagos a Personal                    
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/personal/RxH">
+                   RxH
                 </a>
             </li>
         </ul>
     </li>
-    <li class="sidebar__menu-item ">
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas','contabilidad'])">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" (click)="breakdownSubmenu(6) ">
+            <i class="fa fa-money"></i>
+            <span class="item__title">Pagos</span>
+            <i class="fa fa-angle-down " aria-hidden="true " *ngIf="!flagArray[6] "></i>
+            <i class="fa fa-angle-up " aria-hidden="true " *ngIf="flagArray[6] "></i>
+        </a>
+        <ul class="menu-item__submenu " *ngIf="flagArray[6] ">
+            <li>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/pagos/planillas">
+                   Planillas
+                    
+                </a>
+            </li>
+            <li>
+                <a class="menu-item__item menu-item__item--submenu " fxLayoutAlign="center center" routerLink="/dashboard/pagos/rxh">
+                   RxH
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas'])">
+        <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" routerLink="/dashboard/empresas">
+            <i class="fa fa-money"></i>
+            <span class="item__title">Contabilidad</span>
+            <i class="fa " aria-hidden="true "></i>
+        </a>
+    </li>
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" routerLink="/dashboard/usuarios">
             <i class="fa fa-users"></i>
             <span class="item__title">Usuarios</span>
             <i class="fa " aria-hidden="true "></i>
         </a>
     </li>
-    <li class="sidebar__menu-item ">
+    <li class="sidebar__menu-item " *ngIf="!hideFor(['ventas','contabilidad'])">
         <a class="menu-item__item " fxLayout="{{menuLayout}}" fxLayoutAlign="space-between center" routerLink="/dashboard/empresas">
             <i class="fa fa-building"></i>
             <span class="item__title">Empresas</span>

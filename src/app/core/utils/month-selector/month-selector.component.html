@@ -1,0 +1,25 @@
+<div class="month-selector o-full-size" fxLayout="column" fxLayoutGap="10px">
+  <h2 class="month-selector__header">{{title}}</h2>
+  <div fxFlex class="month-selector__body" fxLayout="column" fxLayoutGap="10px">
+    <div class="month-selector__body__year" fxLayout="row" fxLayoutAlign="center center"
+    fxLayoutGap="15px">
+      <button class="cmp-btn month-selector__body__year__inc" (click)="year=year-1">
+        <i class="fa fa-angle-left"></i>
+      </button>
+      <span class="month-selector__body__year__ind">{{year}}</span>
+      <button class="cmp-btn month-selector__body__year__dec" (click)="year=year+1">
+        <i class="fa fa-angle-right"></i>
+      </button>
+    </div>
+    <div fxFlex class="month-selector__body__months" fxLayout="column" fxLayoutWrap>
+      <div class="month-selector__body__months__item" fxFlex="33" fxLayout="column"
+      [ngClass]="{ 'month-selector__body__months__item--current': isCurrent(i,year) }" 
+      *ngFor="let month of months; let i = index;">
+        <button class="cmp-btn" fxFlex>
+          {{month}}
+        </button>        
+      </div>
+    </div>  
+  </div>
+  
+</div>

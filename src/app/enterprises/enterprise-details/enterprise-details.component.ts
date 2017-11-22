@@ -36,14 +36,14 @@ export class EnterpriseDetailsComponent extends CrudComponent<Enterprise> implem
   ngOnInit() {
     this.validateMode();
     this.managedEntity = this.enterprise || this.managedEntity;
-    if(this.managedEntity.photo){
-      this.enterprisePhoto = this.managedEntity.photo;
-    }
-    if(this.managedEntity.photoPublicUrl){
-      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
-        this.enterprisePhoto = blob
-      });    
-    }    
+    // if(this.managedEntity.photo){
+    //   this.enterprisePhoto = this.managedEntity.photo;
+    // }
+    // if(this.managedEntity.photoPublicUrl){
+    //   this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( blob =>{
+    //     this.enterprisePhoto = blob
+    //   });    
+    // }    
     Observable.forkJoin(
       this.departments.get(),this.employeesQuantities.get()).subscribe( results => {
         this.departmentList = results[0];
