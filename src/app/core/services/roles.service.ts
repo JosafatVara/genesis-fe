@@ -37,5 +37,5 @@ export class RolesService extends AuthenticatedService implements CrudService<Ro
   constructor(auth: AuthenticationService, http: HttpClient) {
     super(auth,http,'*****');
   }
-  
+    
 }

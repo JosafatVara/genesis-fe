@@ -40,7 +40,7 @@
           </ul>
             <pagination-template #p="paginationApi"
             [id]="config.id"
-            (pageChange)="config.currentPage = $event">
+            (pageChange)="loadUsers($event)">
               <gen-paginator [pagination]="p"></gen-paginator>
             </pagination-template>
         </div>

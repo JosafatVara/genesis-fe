@@ -47,7 +47,7 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
       return this.enterprises.getCurrentEnterprise()
       .flatMap( e => { 
         return this.http
-        .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders})
+        .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders, params: specification.toQueryParams()})
         .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
           specification.size = results[0].count;
           let userList: User[] = [];
