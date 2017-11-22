@@ -88,6 +88,7 @@ export class CustomerService extends AuthenticatedService {
             notes: be.details,
             numOrders: be.orders,
             pendingAmount: be.pending_amount,
+            email: be.email,
 
         });
     }

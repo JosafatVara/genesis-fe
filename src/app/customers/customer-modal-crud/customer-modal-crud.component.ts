@@ -113,7 +113,7 @@ export class CustomerModalCrudComponent {
                 address: ['', Validators.required],
                 ruc: ['', [Validators.required, Validators.min(11)]],
                 phone: ['', [Validators.required, Validators.min(7)]],
-                email: ['', Validators.required],
+
             });
             // this.frmLegalContacts = this.fb.group({
             //     contacts: this.fb.array([])
@@ -124,8 +124,11 @@ export class CustomerModalCrudComponent {
 
     fillForm() {
         if (this.customerType == 1) {
+            console.log(this.customer);
             this.frmNaturalBasicData.patchValue(this.customer)
         } else {
+            console.log(this.customer);
+
             this.frmLegalBasicData.patchValue(this.customer)
         }
     }
