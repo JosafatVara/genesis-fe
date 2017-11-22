@@ -53,7 +53,6 @@ export class CustomerService extends AuthenticatedService {
     public update(data, id): Observable<Customer> {
         let formData: FormData = new FormData();
         formData.append('business_name', data.businessName);
-        formData.append('image', data.photo);
         formData.append('first_name', data.firstName);
         formData.append('last_name', data.lastName);
         formData.append('type', data.type);
@@ -63,6 +62,9 @@ export class CustomerService extends AuthenticatedService {
         formData.append('phone', data.phone);
         formData.append('email', data.email);
         formData.append('position', data.position);
+        // if (data.photo[0] != 'h') {
+        formData.append('image', data.photo);
+        // }
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
         return this.http.patch(this.actionUrl + `enterprises/clients/` + id, formData, { headers: headers }).map(result => {

@@ -8,7 +8,6 @@ import { EnterprisesService, EnterpriseListDataSource } from '../../core/service
 import { Enterprise } from '../../shared/models/enterprise';
 import { CustomerService } from '../../core/services/customers.service'
 import { UsersService } from '../../core/services/users.service';
-import { ImagesService } from '../../core/utils/images/images.service';
 import { ContactsService } from '../../core/services/contacs.service';
 //components
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
@@ -26,10 +25,11 @@ export class CustomerModalCrudComponent {
     btnLabel: string;
     loader: boolean;
     isLinear = true;
-    providerPhoto: any;
+    // customerPhoto: any;
     customer: any;
     // photo: Blob;
-    public customerPhoto: any;
+    customerPhoto: any;
+
     frmNaturalPhoto: FormGroup;
     frmNaturalBasicData: FormGroup;
 
@@ -47,7 +47,6 @@ export class CustomerModalCrudComponent {
         private customerService: CustomerService,
         private contactService: ContactsService,
         private enterprises: EnterprisesService,
-        private images: ImagesService,
     ) {
         this.enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
     }
@@ -73,18 +72,12 @@ export class CustomerModalCrudComponent {
 
     selectPerson(selected) {
         this.customerType = selected;
-        this.customer = this.data.action == 'create' ? new Customer : this.data.customer;
+        this.customer = this.data.action == 'create' ? new Customer() : this.data.customer;
+        console.log(this.customer, "ssss");
 
         this.createForm();
         this.fillForm();
         this.customerPhoto = this.customer.photo;
-        console.log(this.customer.photo);
-
-        // if (this.data.action == 'update') {
-        //     this.photo = this.data.customer.photo
-        //     console.log(this.photo, "photo");
-
-        // }
     }
 
     setBtnLabel() {
@@ -98,7 +91,7 @@ export class CustomerModalCrudComponent {
     createForm() {
         if (this.customerType == 1) {
             this.frmNaturalPhoto = this.fb.group({
-                photo: ['', Validators.required]
+                photo: ['']
             });
             this.frmNaturalBasicData = this.fb.group({
                 firstName: ['', Validators.required],
@@ -111,7 +104,7 @@ export class CustomerModalCrudComponent {
             });
         } else {
             this.frmLegalPhoto = this.fb.group({
-                photo: ['', Validators.required]
+                photo: ['',]
             });
             this.frmLegalBasicData = this.fb.group({
                 businessName: ['', Validators.required],
@@ -136,8 +129,8 @@ export class CustomerModalCrudComponent {
 
     fillForm() {
         if (this.customerType == 1) {
-            console.log(this.customer, "customer");
             this.frmNaturalBasicData.patchValue(this.customer)
+            this.frmNaturalPhoto.patchValue({ photo: this.customerPhoto })
             if (this.data.action == 'update') {
                 this.frmNaturalPhoto.patchValue(this.customer)
             }
@@ -145,6 +138,7 @@ export class CustomerModalCrudComponent {
         } else {
             this.frmLegalBasicData.patchValue(this.customer)
             this.frmLegalContacts.patchValue(this.customer)
+            this.frmLegalPhoto.patchValue({ photo: this.customerPhoto })
             if (this.data.action == 'update') {
                 this.frmLegalPhoto.patchValue(this.customer)
             }
@@ -170,12 +164,9 @@ export class CustomerModalCrudComponent {
     doAction() {
         if (this.customerType == 1) {
             if (this.frmNaturalBasicData.valid) {
-                const dataProvider = Object.assign({}, this.frmNaturalPhoto.value, this.frmNaturalBasicData.value, { type: "PERSONA" });
+                const dataProvider = Object.assign({}, { photo: this.customerPhoto }, this.frmNaturalBasicData.value, { type: "PERSONA" });
                 if (this.data.action == 'create') {
-                    this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(
-                        res => {
-                        }
-                    )
+                    this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(res => { })
                 } else {
                     this.customerService.update(dataProvider, this.data.customer.id).subscribe();
                 }
@@ -185,7 +176,7 @@ export class CustomerModalCrudComponent {
         } else {
             if (this.frmLegalBasicData.valid && this.frmLegalContacts.valid) {
                 // if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid) {
-                const dataProvider = Object.assign({}, this.frmLegalPhoto.value, this.frmLegalBasicData.value, this.frmLegalContacts.value, { type: "EMPRESA" });
+                const dataProvider = Object.assign({}, { photo: this.customerPhoto }, this.frmLegalBasicData.value, this.frmLegalContacts.value, { type: "EMPRESA" });
                 if (this.data.action == 'create') {
                     this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(
                         res => {
@@ -196,7 +187,8 @@ export class CustomerModalCrudComponent {
                         }
                     )
                 } else {
-                    this.customerService.update(dataProvider, this.data.customer.id).subscribe(res => this.thisDialogRef.close({ cancelled: false }));
+                    this.customerService.update(dataProvider, this.data.customer.id).subscribe(res =>
+                        this.thisDialogRef.close({ cancelled: false }));
                 }
             }
         }
