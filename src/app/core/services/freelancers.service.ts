@@ -24,13 +24,6 @@ export class FreelancersService extends AuthenticatedService implements CrudServ
       dni: '12345678',
       workPosition: 'Desarrollador front-end',
       workFunctions: 'Elaboración de aplicaciones en entornos web',
-      affiliation: new Affiliation({
-        id: 1,
-        description: 'AFP'
-      }),
-      affiliationName: 'Prima',
-      admissionDate: new Date(),
-      pay: 2000.0,
       bankAccounts: [
         new BankAccount({
           id: 1,

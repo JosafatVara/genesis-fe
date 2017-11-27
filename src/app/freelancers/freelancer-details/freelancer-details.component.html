@@ -1,7 +1,7 @@
 <div [ngSwitch]="true">
   <div *ngSwitchCase="mode=='update' || mode=='create'" class="freelancer-details freelancer-details--create">
     <h1 class="u-h-center">Datos del independiente</h1>
-    <mat-horizontal-stepper [linear]="true">
+    <mat-horizontal-stepper [linear]="false">
       <mat-step [stepControl]="frmFreelancerPhoto" [completed]="false">
         <ng-template matStepLabel>
           <span>Foto del empleado</span>
@@ -71,43 +71,6 @@
           </div>
         </form>
       </mat-step>
-      <mat-step [stepControl]="frmAffiliationInformation" [completed]="false">
-        <ng-template matStepLabel>
-          <span>Afiliación</span>
-        </ng-template>
-        <form [formGroup]="frmAffiliationInformation" fxLayout="column" fxLayoutGap="10px">
-          <div fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field fxFlex="45">
-              <mat-select placeholder="Afiliación" formControlName="affiliation">
-                <mat-option *ngFor="let affiliation of affiliationList" [value]="affiliation">
-                  {{ affiliation.description }}
-                </mat-option>
-              </mat-select>
-              <mat-error>Requerido</mat-error>
-            </mat-form-field>
-            <mat-form-field fxFlex>
-              <input matInput type="text" placeholder="Nombre de la AFP" formControlName="affiliationName">
-              <mat-error>Requerido</mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field fxFlex="45">
-              <input matInput type="number" placeholder="Sueldo (Nuevos Soles)" formControlName="pay">
-              <mat-error>Requerido</mat-error>
-            </mat-form-field>
-            <mat-form-field fxFlex>
-              <input matInput [matDatepicker]="picker" placeholder="Fecha de ingreso a la empresa" formControlName="admissionDate">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>           
-          <div fxLayout="row">
-            <button type="button" class="cmp-btn" matStepperPrevious>Anterior</button>
-            <span fxFlex></span>
-            <button class="cmp-btn" matStepperNext>Siguiente</button>
-          </div>
-        </form>
-      </mat-step>
       <mat-step [stepControl]="frmBankAccounts" [completed]="false">
         <ng-template matStepLabel>
           <span>Información bancaria</span>
@@ -115,38 +78,30 @@
         <form [formGroup]="frmBankAccounts" fxLayout="column" fxLayoutGap="10px">
           <div formArrayName="bankAccounts" fxLayout="column" fxLayoutGap="10px">
             <div class="cmp-table">
-                <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                <ul class="cmp-table__header" fxLayout="row">
                     <li fxFlex="25" class="header__title header__title--action u-h-center">Banco</li>
                     <li fxFlex="30" class="header__title header__title--action u-h-center">Cuenta Bancaria</li>
                     <li fxFlex="30" class="header__title header__title--action u-h-center">Cuenta Interbancaria</li>
                     <li fxFlex="15" class="header__title u-h-center"></li>
                 </ul>
-                <ul class="cmp-table__body" *ngFor="let bankAccount of bankAccounts.controls; let i=index" [formGroupName]="i">
+                <ul class="cmp-table__body" *ngFor="let bankAccount of bankAccounts.controls; let i=index" [formGroupName]="i" 
+                fxLayout="row" fxLayoutAling="start center">
                   <li fxFlex="25" class="body__text u-h-center o-full-width">
-                    <mat-form-field fxFlex>
-                      <input matInput type="text" formControlName="bankName">
-                      <mat-error>Requerido</mat-error>
-                    </mat-form-field>
+                    <span>{{bankAccount.get('bankName').value}}</span>
                   </li>              
                   <li fxFlex="30" class="body__text u-h-center o-full-width">
-                    <mat-form-field fxFlex>
-                      <input matInput type="text" formControlName="number">
-                      <mat-error>Requerido</mat-error>
-                    </mat-form-field>
+                    <span>{{bankAccount.get('number').value}}</span>
                   </li>
                   <li fxFlex="30" class="body__text u-h-center o-full-width">
-                    <mat-form-field fxFlex>
-                      <input matInput type="text" formControlName="interbankNumber">
-                      <mat-error>Requerido</mat-error>
-                    </mat-form-field>
+                    <span>{{bankAccount.get('interbankNumber').value}}</span>
                   </li>
                   <li fxFlex="15" class="body__text u-h-center o-full-width">
                     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
                       <button type="button" class="cmp-btn" (click)="removeBankAccount(i)">
                         <i class="fa fa-trash"></i>
                       </button>
-                      <button type="button" class="cmp-btn" (click)="toogleEditBankAccount(i)">
-                        <i class="fa" [ngClass]="{'fa-check': bankAccount.enabled, 'fa-pencil': bankAccount.disabled}"></i>
+                      <button type="button" class="cmp-btn" (click)="editBankAccount(i)">
+                        <i class="fa fa-pencil"></i>
                       </button>
                     </div>              
                   </li>              

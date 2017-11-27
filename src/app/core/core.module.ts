@@ -26,17 +26,18 @@ import { MonthSelectorService } from './utils/month-selector/month-selector.serv
 import { SelectMonthResolver } from './resolvers/select-month-resolver';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RoleGuard } from './guards/role-guard';
+import { SimpleCrudComponent } from './utils/simple-crud/simple-crud.component';
+import { SimpleCrudService } from "./utils/simple-crud/simple-crud.service";
+import { SharedModule } from "../shared/shared.module";
 
 
 @NgModule({
   imports: [
     HttpClientModule,
     MatSnackBarModule,
-    CommonModule,
-    MatDialogModule,
-    FlexLayoutModule
+    SharedModule
   ],
-  declarations: [ToastComponent, MonthSelectorComponent],
+  declarations: [ToastComponent, MonthSelectorComponent, SimpleCrudComponent],
   providers: [
     //SERVICES
     AuthenticationService,
@@ -61,6 +62,7 @@ import { RoleGuard } from './guards/role-guard';
     ImagesService,
     ToastService,
     MonthSelectorService,
+    SimpleCrudService,
 
     //GUARDS
     RoleGuard
@@ -70,7 +72,8 @@ import { RoleGuard } from './guards/role-guard';
   ],
   entryComponents: [
     ToastComponent,
-    MonthSelectorComponent
+    MonthSelectorComponent,
+    SimpleCrudComponent
   ]
 })
 export class CoreModule { }

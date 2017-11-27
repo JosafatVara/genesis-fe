@@ -1,0 +1,15 @@
+<form class="simple-crud" [formGroup]="formGroup" (submit)="confirm()">
+  <p class="simple-crud__title">{{title}}</p>
+  <div class="simple-crud__controls" fxLayout="row" fxLayoutWrap>
+    <mat-form-field fxFlex="50" class="simple-crud__controls__item" *ngFor="let control of formControlList" 
+      [ngSwitch]="control.type">
+      <input type="text" matInput *ngSwitchCase="'text'" [formControlName]="control.name" [placeholder]="control.label">
+      <input type="number" matInput *ngSwitchCase="'number'" [formControlName]="control.name" [placeholder]="control.label">
+      <mat-error>Requerido</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="simple-crud__actions" fxLayout="row" fxLayoutAlign="space-between center">
+    <button type="button" mat-dialog-close class="cmp-btn">Cancelar</button>
+    <button type="submit" class="cmp-btn cmp-btn--violet">OK</button>
+  </div>
+</form>

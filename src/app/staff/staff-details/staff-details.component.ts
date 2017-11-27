@@ -6,6 +6,8 @@ import { FormGroup, FormArray, FormBuilder, Validators } from "@angular/forms";
 import { AffiliationsService } from '../../core/services/affiliations.service';
 import { Affiliation } from '../../shared/models/affiliation';
 import { ImagesService } from '../../core/utils/images/images.service';
+import { SimpleCrudService } from "../../core/utils/simple-crud/simple-crud.service";
+import { BankAccount } from "../../shared/models/bank-account";
 
 @Component({
   selector: 'gen-staff-details',
@@ -25,8 +27,8 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
   frmAffiliationInformation: FormGroup;
   frmBankAccounts: FormGroup;
 
-  constructor(employees: EmployeesService, private affiliations: AffiliationsService, 
-    private images: ImagesService, private fb: FormBuilder) { 
+  constructor(employees: EmployeesService, private affiliations: AffiliationsService, private simpleCrud: SimpleCrudService
+    ,private images: ImagesService, private fb: FormBuilder) { 
     super(employees);
     this.createForms();
     this.affiliations.get().subscribe( as => {
@@ -58,11 +60,13 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
     });
     this.frmWorkInformation = this.fb.group({
       workPosition: ['',[Validators.required]],
-      workFunctions: ['',[Validators.required]]
+      workFunctions: ['',[]],
+      situation: ['',[Validators.required]]
     });
     this.frmAffiliationInformation = this.fb.group({
       affiliation: [undefined, [Validators.required]],
-      affiliationName: ['', [Validators.required]],
+      pensionRegime: ['', [Validators.required]],
+      cuspp: ['', [Validators.required]],
       pay: [0, [Validators.required,Validators.min(1)]],
       admissionDate: [new Date(), [Validators.required]]
     });  
@@ -101,38 +105,66 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
     this.bankAccounts.removeAt(index);
   }
 
-  toogleEditBankAccount(index: number){
-    let FGBankAcount = this.bankAccounts.controls[index] as FormGroup;
-    if(FGBankAcount.valid || FGBankAcount.disabled){
-      if(FGBankAcount.disabled){
-        FGBankAcount.enable();
-      }else{
-        FGBankAcount.disable();
-      }
-    }else{
-      for(let formControl in FGBankAcount.controls){
-        FGBankAcount.controls[formControl].markAsTouched();
-        FGBankAcount.updateValueAndValidity();
-      }
-    }  
+  editBankAccount(index: number) {
+    if (this.frmBankAccounts.valid) {
+      let bankAccountFC = this.bankAccounts.controls[index];
+      let dialogRef = this.simpleCrud.open<BankAccount>("Editar cuenta bancaria", [
+        {
+          label: 'Banco',
+          name: 'bankName',
+          type: 'text',
+          control: this.fb.control(bankAccountFC.value.bankName, [Validators.required])
+        },
+        {
+          label: 'Cuenta bancaria',
+          name: 'number',
+          type: 'text',
+          control: this.fb.control(bankAccountFC.value.number, [Validators.required])
+        },{
+          label: 'Cuenta interbancaria',
+          name: 'interbankNumber',
+          type: 'text',
+          control: this.fb.control(bankAccountFC.value.interbankNumber, [Validators.required])
+        }
+      ]);
+      dialogRef.subscribe( result => {
+        if(result){
+          bankAccountFC.patchValue(result);
+        }
+      });      
+    }
   }
 
-  addBankAccount(){
-    if(this.frmBankAccounts.valid || this.allBankAccountsAreDisabled()){
-      this.bankAccounts.push(this.fb.group({
-        bankName: ['',[Validators.required]],
-        number: ['',[Validators.required]],
-        interbankNumber: ['',[Validators.required]]
-      }));
-    }else{
-      let FGBankAccount: FormGroup;
-      for(let control in this.bankAccounts.controls){
-        FGBankAccount = this.bankAccounts.controls[control] as FormGroup;
-        for( let bankAccountControl in FGBankAccount.controls){
-          FGBankAccount.controls[bankAccountControl].markAsTouched();
-          FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
-        }        
-      }
+  addBankAccount() {    
+    if (this.frmBankAccounts.valid) {
+      let dialogRef = this.simpleCrud.open<BankAccount>("Añadir cuenta bancaria", [
+        {
+          label: 'Banco',
+          name: 'bankName',
+          type: 'text',
+          control: this.fb.control('', [Validators.required])
+        },
+        {
+          label: 'Cuenta bancaria',
+          name: 'number',
+          type: 'text',
+          control: this.fb.control('', [Validators.required])
+        },{
+          label: 'Cuenta interbancaria',
+          name: 'interbankNumber',
+          type: 'text',
+          control: this.fb.control('', [Validators.required])
+        }
+      ]);
+      dialogRef.subscribe( result => {
+        if(result){
+          this.bankAccounts.push(this.fb.group({
+            bankName: [result.bankName, [Validators.required]],
+            number: [result.number, [Validators.required]],
+            interbankNumber: [result.interbankNumber, [Validators.required]]
+          }));
+        }
+      });      
     }
   }
 

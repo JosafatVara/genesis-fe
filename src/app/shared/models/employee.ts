@@ -10,10 +10,12 @@ export class Employee extends BaseEntity<Employee>{
     public email: string;
     public workPosition: string;
     public workFunctions: string;
+    public situation: string;
     public affiliation: Affiliation;
-    public affiliationName: string;
-    public pay: number;
+    public pensionRegime: string;
     public admissionDate: Date;
+    public cuspp: string;
+    public pay: number;
     public bankAccounts: BankAccount[];
     public lastDayPaid: Date;
     public photo: any;

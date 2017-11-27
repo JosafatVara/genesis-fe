@@ -28,7 +28,7 @@ export class EmployeesService extends AuthenticatedService implements CrudServic
         id: 1,
         description: 'AFP'
       }),
-      affiliationName: 'Prima',
+      pensionRegime: 'Prima',
       admissionDate: new Date(),
       pay: 2000.0,
       bankAccounts: [

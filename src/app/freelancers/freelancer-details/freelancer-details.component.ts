@@ -6,6 +6,8 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { FreelancersService } from '../../core/services/freelancers.service';
 import { AffiliationsService } from '../../core/services/affiliations.service';
 import { ImagesService } from '../../core/utils/images/images.service';
+import { SimpleCrudService } from "../../core/utils/simple-crud/simple-crud.service";
+import { BankAccount } from "../../shared/models/bank-account";
 
 @Component({
   selector: 'gen-freelancer-details',
@@ -17,23 +19,17 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
   @Input('freelancer') freelancer: Freelancer;
   public title: string;
   public buttonLabel: string;
-  affiliationList: Affiliation[];
   freelancerPhoto: any;
   frmFreelancerPhoto: FormGroup;
   frmPersonalInformation: FormGroup;
   frmWorkInformation: FormGroup;
-  frmAffiliationInformation: FormGroup;
   frmBankAccounts: FormGroup;
 
-  constructor(freelancers: FreelancersService, private affiliations: AffiliationsService,
-    private images: ImagesService, private fb: FormBuilder) {
+  constructor(freelancers: FreelancersService, private images: ImagesService, private fb: FormBuilder,
+    private simpleCrud: SimpleCrudService) {
       
     super(freelancers);
     this.createForms();
-    this.affiliations.get().subscribe(as => {
-      this.affiliationList = as;
-    });
-    console.log("fdsfdf");
     
   }
 
@@ -64,13 +60,7 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
     });
     this.frmWorkInformation = this.fb.group({
       workPosition: ['', [Validators.required]],
-      workFunctions: ['', [Validators.required]]
-    });
-    this.frmAffiliationInformation = this.fb.group({
-      affiliation: [undefined, [Validators.required]],
-      affiliationName: ['', [Validators.required]],
-      pay: [0, [Validators.required, Validators.min(1)]],
-      admissionDate: [new Date(), [Validators.required]]
+      workFunctions: ['', []]
     });
     this.frmBankAccounts = this.fb.group({
       bankAccounts: this.fb.array([])
@@ -80,9 +70,6 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
   private fillFormsModels() {
     this.frmPersonalInformation.patchValue(this.managedEntity);
     this.frmWorkInformation.patchValue(this.managedEntity);
-    this.frmAffiliationInformation.patchValue(this.managedEntity);
-    let affiliationInList = this.managedEntity.affiliation ? this.affiliationList.find(a => a.id == this.managedEntity.affiliation.id) : undefined;
-    this.frmAffiliationInformation.patchValue({ affiliation: affiliationInList });
     let bankAccountsFGs = this.managedEntity.bankAccounts ? this.managedEntity.bankAccounts.map(ba => {
       return this.fb.group({
         bankName: [ba.bankName, [Validators.required]],
@@ -95,7 +82,7 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
 
   protected fillDataModels() {
     Object.assign(this.managedEntity, this.frmPersonalInformation.value, this.frmWorkInformation.value,
-      this.frmAffiliationInformation.value, this.frmBankAccounts.value);
+       this.frmBankAccounts.value);
   }
 
   get bankAccounts(): FormArray {
@@ -106,48 +93,67 @@ export class FreelancerDetailsComponent extends CrudComponent<Freelancer> implem
     this.bankAccounts.removeAt(index);
   }
 
-  toogleEditBankAccount(index: number) {
-    let FGBankAcount = this.bankAccounts.controls[index] as FormGroup;
-    if (FGBankAcount.valid || FGBankAcount.disabled) {
-      if (FGBankAcount.disabled) {
-        FGBankAcount.enable();
-      } else {
-        FGBankAcount.disable();
-      }
-    } else {
-      for (let formControl in FGBankAcount.controls) {
-        FGBankAcount.controls[formControl].markAsTouched();
-        FGBankAcount.updateValueAndValidity();
-      }
-    }
-  }
-
-  addBankAccount() {
-    if (this.frmBankAccounts.valid || this.allBankAccountsAreDisabled()) {
-      this.bankAccounts.push(this.fb.group({
-        bankName: ['', [Validators.required]],
-        number: ['', [Validators.required]],
-        interbankNumber: ['', [Validators.required]]
-      }));
-    } else {
-      let FGBankAccount: FormGroup;
-      for (let control in this.bankAccounts.controls) {
-        FGBankAccount = this.bankAccounts.controls[control] as FormGroup;
-        for (let bankAccountControl in FGBankAccount.controls) {
-          FGBankAccount.controls[bankAccountControl].markAsTouched();
-          FGBankAccount.controls[bankAccountControl].updateValueAndValidity();
+  editBankAccount(index: number) {
+    if (this.frmBankAccounts.valid) {
+      let bankAccountFC = this.bankAccounts.controls[index];
+      let dialogRef = this.simpleCrud.open<BankAccount>("Editar cuenta bancaria", [
+        {
+          label: 'Banco',
+          name: 'bankName',
+          type: 'text',
+          control: this.fb.control(bankAccountFC.value.bankName, [Validators.required])
+        },
+        {
+          label: 'Cuenta bancaria',
+          name: 'number',
+          type: 'text',
+          control: this.fb.control(bankAccountFC.value.number, [Validators.required])
+        },{
+          label: 'Cuenta interbancaria',
+          name: 'interbankNumber',
+          type: 'text',
+          control: this.fb.control(bankAccountFC.value.interbankNumber, [Validators.required])
         }
-      }
+      ]);
+      dialogRef.subscribe( result => {
+        if(result){
+          bankAccountFC.patchValue(result);
+        }
+      });      
     }
   }
 
-  allBankAccountsAreDisabled() {
-    for (let bankAccount in this.bankAccounts.controls) {
-      if ((this.bankAccounts.controls[bankAccount] as FormGroup).enabled) {
-        return false;
-      }
+  addBankAccount() {    
+    if (this.frmBankAccounts.valid) {
+      let dialogRef = this.simpleCrud.open<BankAccount>("Añadir cuenta bancaria", [
+        {
+          label: 'Banco',
+          name: 'bankName',
+          type: 'text',
+          control: this.fb.control('', [Validators.required])
+        },
+        {
+          label: 'Cuenta bancaria',
+          name: 'number',
+          type: 'text',
+          control: this.fb.control('', [Validators.required])
+        },{
+          label: 'Cuenta interbancaria',
+          name: 'interbankNumber',
+          type: 'text',
+          control: this.fb.control('', [Validators.required])
+        }
+      ]);
+      dialogRef.subscribe( result => {
+        if(result){
+          this.bankAccounts.push(this.fb.group({
+            bankName: [result.bankName, [Validators.required]],
+            number: [result.number, [Validators.required]],
+            interbankNumber: [result.interbankNumber, [Validators.required]]
+          }));
+        }
+      });      
     }
-    return true;
   }
   //#endregion
 
