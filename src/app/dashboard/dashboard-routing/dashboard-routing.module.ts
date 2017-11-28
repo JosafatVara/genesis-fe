@@ -3,11 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from '../dashboard.component';
 import { EnterpriseListResolver } from '../../core/resolvers/enterprise-list-resolver';
 import { RoleGuard } from '../../core/guards/role-guard';
+import { CurrentUserResolver } from "../../core/resolvers/current-user-resolver";
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+    resolve: { 
+      // currentUser: CurrentUserResolver
+    },    
     children: [
       {
         path: 'usuarios',

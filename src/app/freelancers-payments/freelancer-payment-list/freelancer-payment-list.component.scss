@@ -11,8 +11,18 @@
         overflow-x: auto;
         &__item{
         }
+        .body__cont-actions{
+            input{
+                margin-right: 15px;
+            }
+        }
     }
     .cmp-card__body, .cmp-table{
         margin-top: 0px;
     }    
+    .select-period-label{
+        text-align: center;
+        margin: 25px 0px;
+        font-style: italic;        
+    }
 }

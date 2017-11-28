@@ -1,8 +1,11 @@
-import { BaseEntity } from "./base/base-entity";
 import { Affiliation } from "./affiliation";
 import { BankAccount } from "./bank-account";
+import { Worker } from "./worker";
 
-export class Employee extends BaseEntity<Employee>{
+export class Employee extends Worker{
+
+    public type: string = "planilla";
+
     public firstName: string;
     public lastName: string;
     public address: string;
@@ -24,9 +27,9 @@ export class Employee extends BaseEntity<Employee>{
     public get fullName(): string{
         return this.firstName + ' ' + this.lastName;
     }
+
+    constructor(partial?: Partial<Employee>){
+        super();
+        Object.assign(this,partial);
+    }
 }
-
-
-// let e = new Employee({
-
-// })

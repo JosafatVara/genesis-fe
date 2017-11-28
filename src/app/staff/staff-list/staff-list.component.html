@@ -7,14 +7,14 @@
     <div class="employee-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
       <div [ngClass]="{'cmp-card__body':inDashboard}">
         <div class="cmp-table">
-          <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+          <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
             <li fxFlex="20" class="header__title header__title--action u-h-center">DNI</li>
             <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
             <li fxFlex="15" class="header__title header__title--action u-h-center">Último mes que se pagó</li>
             <li fxFlex="15" class="header__title header__title--action u-h-center">Sueldo</li>
             <li fxFlex class="header__title u-h-center">Acciones</li>
           </ul>
-          <ul class="cmp-table__body employee-list__dataset__item" *ngFor="let employee of employeeList"
+          <ul class="cmp-table__body employee-list__dataset__items" *ngFor="let employee of employeeList"
           fxLayout="row" fxLayout="start center">
             <li fxFlex="20" class="body__text u-h-center">{{employee.dni}}</li>
             <li fxFlex="20" class="body__text u-h-center">{{employee.firstName + ' ' + employee.lastName}}</li>

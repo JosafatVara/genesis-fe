@@ -26,7 +26,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // setTimeout(() => {
       this.route.data
       .subscribe((data: { enterprises: Enterprise[], currentUser: User }) => {
-        if(data.enterprises && data.enterprises.length == 0){
+        // if(data.enterprises && data.enterprises.length == 0){
+        //   this.router.navigateByUrl('dashboard/empresas/sin-empresa');
+        // }
+        if(data.currentUser.enterprisesQuantity == 0){
           this.router.navigateByUrl('dashboard/empresas/sin-empresa');
         }
       });  

@@ -15,7 +15,7 @@
       <div class="month-selector__body__months__item" fxFlex="33" fxLayout="column"
       [ngClass]="{ 'month-selector__body__months__item--current': isCurrent(i,year) }" 
       *ngFor="let month of months; let i = index;">
-        <button class="cmp-btn" fxFlex>
+        <button class="cmp-btn" fxFlex (click)="onMonthClick(i,year)">
           {{month}}
         </button>        
       </div>

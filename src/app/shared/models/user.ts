@@ -12,5 +12,5 @@ export class User extends BaseEntity<User> {
     public photo: any;
     public photoPublicUrl: string;
     public photoFileName: string;
-
+    public enterprisesQuantity: number;
 }

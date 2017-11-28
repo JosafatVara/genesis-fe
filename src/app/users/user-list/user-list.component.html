@@ -12,15 +12,15 @@
         </div>
         <div [ngClass]="{'cmp-card__body':inDashboard}">
             <div class="cmp-table">
-                <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
                     <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
                     <li fxFlex="20" class="header__title header__title--action u-h-center">Correo Eletrónico</li>
                     <li fxFlex="15" class="header__title header__title--action u-h-center">Rol</li>
                     <li fxFlex="15" class="header__title header__title--action u-h-center">Última conexión</li>
                     <li fxFlex="30" class="header__title u-h-center">Acciones</li>
                 </ul>
-                <ul class="cmp-table__body user-list__dataset__item" *ngFor="let user of userList | async | paginate: config" fxLayout="row" fxLayout="start center">
-                    <li fxFlex="20" class="body__text u-h-center" [ngClass]="{'user-list__dataset__item__you__name':youAreTheUser(user)}">
+                <ul class="cmp-table__body user-list__dataset__items" *ngFor="let user of userList | async | paginate: config" fxLayout="row" fxLayout="space-between center">
+                    <li fxFlex="20" class="body__text u-h-center" [ngClass]="{'user-list__dataset__items__you__name':youAreTheUser(user)}">
                         {{user.firstName + ' '+ user.lastName + (youAreTheUser(user)?' (tú)':'')}}
                     </li>
                     <li fxFlex="20" class="body__text u-h-center">{{user.email}}</li>

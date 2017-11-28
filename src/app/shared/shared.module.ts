@@ -38,10 +38,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ToMonthPipe,
     SlimScroll,
     NgxPaginationModule,
-    PaginatorComponent
+    PaginatorComponent,
   ],
   entryComponents: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
   ]
 })
 export class SharedModule { }

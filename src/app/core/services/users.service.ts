@@ -121,7 +121,6 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
   }
 
   public getCurrentUser(): Observable<User>{
-    // if(!this.currentUser.value){
     if(this.storage.load('current-user') == "" || this.storage.load('current-user') == undefined){
       return this.http.get(`${this.actionUrl}accounts/user/retrieve/`,{headers: this.authHttpHeaders}).map( r => {
         this.storage.save('current-user',this.mapBeToUser(r));
@@ -155,7 +154,8 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
       lastName: entity.last_name,
       email: entity.email,
       photoPublicUrl: entity.picture,
-      role: this.roles.getSync(new RolesByNameSpecification(entity.role))[0]
+      role: this.roles.getSync(new RolesByNameSpecification(entity.role))[0],
+      enterprisesQuantity: entity.num_enterprises
     });
   }
 }

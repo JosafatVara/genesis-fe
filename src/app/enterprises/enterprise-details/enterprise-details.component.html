@@ -1,6 +1,6 @@
 <form #form="ngForm" fxLayout="column" class="enterprise-details" (submit)="finish(form)">
   <h1 class="enterprise-details__header u-h-center">{{title}}</h1>
-  <div layout="row">
+  <div fxLayout="row">
     <div fxFlex="30" fxLayout="column" class="enterprise-details__photo">
       <gen-photo-input [required]="true" [asBase64]="false" [(photoSrc)]="enterprisePhoto" [photoPublicUrl]="managedEntity.photoPublicUrl"></gen-photo-input>
     </div>

@@ -1,7 +1,10 @@
 import { BankAccount } from "./bank-account";
-import { BaseEntity } from "./base/base-entity";
+import { Worker } from "./worker";
 
-export class Freelancer extends BaseEntity<Freelancer>{
+export class Freelancer extends Worker{
+
+    public type: string = "rxh";
+
     public firstName: string;
     public lastName: string;
     public address: string;
@@ -17,4 +20,10 @@ export class Freelancer extends BaseEntity<Freelancer>{
     public get fullName(): string{
         return this.firstName + ' ' + this.lastName;
     }
+
+    constructor(partial?: Partial<Freelancer>){
+        super();
+        Object.assign(this,partial);
+    }
+    
 }

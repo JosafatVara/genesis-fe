@@ -8,7 +8,12 @@
         margin-bottom: 15px;
     }
     &__dataset{
-        &__item{
+        &__items{
+            li{
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
     }
     .cmp-card__body, .cmp-table{

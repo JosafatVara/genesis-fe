@@ -33,6 +33,10 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
     this.users = users;
   } 
 
+  get title(): string{
+    return 'Datos del usuario'
+  }
+
   ngOnInit() {
     this.createForm();
     this.validateMode();
@@ -112,10 +116,6 @@ export class UserDetailsComponent extends CrudComponent<User> implements OnInit 
       this.userForm.get('role').setValue(
         this.managedEntity.role? this.roleList.find( r => r.id == this.managedEntity.role.id):undefined );
     }
-  }
-
-  public get title(): string{
-    return '';
   }
 
   public get buttonLabel(): string{

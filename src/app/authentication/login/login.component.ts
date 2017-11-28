@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '../../shared/components/base/base-component';
 import { FormControl } from "@angular/forms";
 import { ToastService } from '../../core/utils/toast/toast.service';
+import { EnterprisesService } from "../../core/services/enterprises.service";
+import { UsersService } from "../../core/services/users.service";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'gen-login',
@@ -19,7 +22,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
   private route: ActivatedRoute;
   private router: Router;
 
-  constructor(auth: AuthenticationService, route: ActivatedRoute, router: Router, private toast: ToastService) { 
+  constructor(auth: AuthenticationService, route: ActivatedRoute, router: Router, private toast: ToastService,
+    private users: UsersService, private enterprises: EnterprisesService) { 
     super();
     this.auth = auth;
     this.route = route;
@@ -35,11 +39,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
     this.loadingOn();
     this.auth.login(this.user, this.password).subscribe( logged => {
-      console.log(logged,"xd");                      
       if(logged){
         this.route.queryParams.subscribe( params => {
           if(params['returnUrl']){
-            //this.router.navigateByUrl(params['returnUrl']);
             this.router.navigate(['/auth/seleccionarEmpresa'], { queryParams: { returnUrl: params['returnUrl'] }});
             return;
           }else{

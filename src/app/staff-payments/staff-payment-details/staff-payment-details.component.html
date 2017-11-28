@@ -1,29 +1,31 @@
 <div fxLayout="column" class="payment-details o-full-height" novalidate>
-    <!-- <h1 class="payment-details__header u-h-center">{{title}}</h1> -->
-    <form fxLayout="row" fxLayoutAlign="start center" [formGroup]="staffPaymentForm">
-      <mat-form-field fxFlex="50" class="payment-details__employee-search">
-        <span matPrefix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
-        <input type="text" matInput formControlName="employee" [matAutocomplete]="auto" placeholder="Asignar este pago a...">
-      </mat-form-field>
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEmployeeFn">
-        <mat-option *ngFor="let employee of employeeList" [value]="employee">
-            {{ employee.fullName }}
-        </mat-option>
-      </mat-autocomplete>
-      <div fxFlex class="u-h-center">
-        <span>
-          <b>Mes:&nbsp;</b>{{staffPaymentForm.get('month').value | toMonth }}
-        </span>        
-      </div>
-      <div fxFlex class="u-h-center">
-        <span>
-          <b>Año:&nbsp;</b>{{staffPaymentForm.get('year').value}}
-        </span>        
-      </div>
-    </form>        
+    <h1 class="payment-details__header u-h-center">{{title}}</h1>     
     <mat-horizontal-stepper fxFlex [linear]="true" class="o-full-size">
       <mat-step [stepControl]="plameForm" [completed]="false">
         <ng-template matStepLabel>Datos PLAME</ng-template>
+        <form fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" [formGroup]="plameForm">
+          <mat-form-field fxFlex="50" class="payment-details__employee-search">
+            <span matPrefix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" matInput formControlName="employee" [matAutocomplete]="auto" placeholder="Asignar este pago a...">
+          </mat-form-field>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEmployeeFn">
+            <mat-option *ngFor="let employee of employeeList" [value]="employee">
+                {{ employee.fullName }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-form-field>
+            <span matPrefix><b>Mes:</b>&nbsp;</span>
+            <mat-select formControlName="month">
+              <mat-option *ngFor="let month of monthSelector.availableMonths; let i = index;" [value]="i+1">
+                {{ month }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <span matPrefix><b>Año:</b>&nbsp;</span>
+            <input matInput type="number" formControlName="year">
+          </mat-form-field>
+        </form>        
       </mat-step>
       <mat-step [stepControl]="paymentForm" [completed]="false">
         <ng-template matStepLabel>Datos pago</ng-template>
@@ -46,37 +48,37 @@
               <table class="o-full-width">
                 <thead>
                   <tr fxLayout="row">
-                    <th fxFlex="25">Concepto</th>
-                    <th fxFlex="25">Descripción</th>
-                    <th fxFlex="15">+</th>
-                    <th fxFlex="15">-</th>
+                    <th fxFlex="20" class="u-h-center">Código</th>
+                    <th fxFlex="35" class="u-h-center">Concepto</th>
+                    <th fxFlex="10" class="u-h-center">+</th>
+                    <th fxFlex="10" class="u-h-center">-</th>
                     <th fxFlex></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr fxLayout="row" *ngFor="let incentive of incentives.controls; let i = index;">
-                    <td fxFlex="25">{{incentive.get('concept').value}}</td>
-                    <td fxFlex="25">{{incentive.get('description').value}}</td>
-                    <td fxFlex="15">+{{incentive.get('ammount').value}}</td>
-                    <td fxFlex="15"></td>
-                    <!-- <td fxFlex>
+                    <td fxFlex="20" class="u-h-center">{{incentive.get('concept').value}}</td>
+                    <td fxFlex="35">{{incentive.get('description').value}}</td>
+                    <td fxFlex="10" class="u-h-center">+{{incentive.get('ammount').value}}</td>
+                    <td fxFlex="10" class="u-h-center"></td>
+                    <td fxFlex>
                       <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
                           <button (click)="removeIncentive(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
                           <button (click)="editIncentive(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
                       </div>
-                    </td> -->
+                    </td> 
                   </tr>
                   <tr fxLayout="row" *ngFor="let discount of discounts.controls; let i = index;">
-                    <td fxFlex="25">{{discount.get('concept').value}}</td>
-                    <td fxFlex="25">{{discount.get('description').value}}</td>
-                    <td fxFlex="15"></td>
-                    <td fxFlex="15">-{{discount.get('ammount').value}}</td>
-                    <!-- <td fxFlex>
+                    <td fxFlex="20" class="u-h-center">{{discount.get('concept').value}}</td>
+                    <td fxFlex="35">{{discount.get('description').value}}</td>
+                    <td fxFlex="10" class="u-h-center"></td>
+                    <td fxFlex="10" class="u-h-center">-{{discount.get('ammount').value}}</td>
+                     <td fxFlex>
                         <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
                             <button (click)="removeDiscount(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
                             <button (click)="editDiscount(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
                         </div>
-                    </td> -->
+                    </td> 
                   </tr>
                 </tbody>
               </table>

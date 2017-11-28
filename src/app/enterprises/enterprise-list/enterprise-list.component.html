@@ -5,36 +5,6 @@
     <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Empresa</button> 
   </div>  
   <div class="enterprise-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
-    <!-- <mat-table #table [dataSource]="enterpriseDS">
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row ? row.name: ''}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="ruc">
-        <mat-header-cell *matHeaderCellDef> RUC </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row ? row.ruc: ''}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="manage">
-        <mat-header-cell *matHeaderCellDef> Administrar </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row ? (row.id == currentEnterprise.id?'Administrando':'Administrar') : '' }} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="team">
-          <mat-header-cell *matHeaderCellDef> Equipo </mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <span>{{row ? row.adminsQuantity: ''}}</span>
-            <i class="fa fa-users"></i>
-          </mat-cell>
-        </ng-container>
-      <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-        <mat-cell *matCellDef="let row">          
-          <i class="fa fa-pencil"></i>          
-          <i class="fa fa-trash"></i>
-        </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table> -->
     <div [ngClass]="{'cmp-card__title':inDashboard}">
       <div class="enterprise-list__message">
         Hola {{currentUser?currentUser.firstName:''}}, en esta sección tu administras tus empresas, recuerda que cada empresa es,
@@ -44,7 +14,7 @@
     </div>
     <div [ngClass]="{'cmp-card__body':inDashboard}">
       <div class="cmp-table">
-        <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+        <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
           <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
           <li fxFlex="20" class="header__title header__title--action u-h-center">RUC</li>
           <li fxFlex="20" class="header__title header__title--action u-h-center">Administrar</li>
@@ -52,7 +22,7 @@
           <li fxFlex="30" class="header__title u-h-center">Acciones</li>
         </ul>
         <ul class="cmp-table__body enterprise-list__dataset__item" *ngFor="let enterprise of enterpriseList"
-          fxLayout="row" fxLayoutAlign="start center">
+          fxLayout="row" fxLayoutAlign="space-between center">
           <li fxFlex="20" class="body__text u-h-center">{{enterprise.name}}</li>
           <li fxFlex="20" class="body__text u-h-center">{{enterprise.ruc}}</li>
           <li fxFlex="20" class="body__text u-h-center">

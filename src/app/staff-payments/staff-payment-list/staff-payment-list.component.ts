@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { DialogStaffPaymentDetailsComponent } from '../dialog-staff-payment-details/dialog-staff-payment-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { BaseComponent } from "../../shared/components/base/base-component";
+import { MonthSelectorService } from "../../core/utils/month-selector/month-selector.service";
 
 @Component({
   selector: 'gen-staff-payment-list',
@@ -16,8 +17,10 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
 
   public inDashboard: boolean;
   public paymentList: Array<StaffPayment>;
+  public period: {year: number, month: number, monthName: string};
 
-  constructor(private payments: StaffPaymentsService, route: ActivatedRoute ,private matDialog: MatDialog) {
+  constructor(private payments: StaffPaymentsService, route: ActivatedRoute ,private matDialog: MatDialog,
+    private monthSelector: MonthSelectorService) {
     super();
     route.data.subscribe( (data: {inDashboard:boolean}) => {
       this.inDashboard = data.inDashboard
@@ -25,7 +28,13 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.refreshPayments();
+  }
+
+  selectPeriod(){
+    this.monthSelector.selectMonth().subscribe( result => {
+      this.period = result;
+      this.refreshPayments();
+    });
   }
 
   private refreshPayments(){
@@ -39,7 +48,7 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
     }
     let dialogRef = this.matDialog.open(DialogStaffPaymentDetailsComponent,{
       disableClose: true,
-      width: '900px',
+      width: '85%',
       height: '85%',
       data: {
         mode: mode,

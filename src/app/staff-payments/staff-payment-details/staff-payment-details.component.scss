@@ -1,7 +1,7 @@
 @import "../../../assets/styles/1.settings/_colors.scss";
 
 .payment-details{
-    padding: 25px;
+    padding: 0px 15px;
     &__header{
         margin-bottom: 20px; 
     }
@@ -12,20 +12,9 @@
         }
     }
     &__payment{
-        // &__detail{
-        //     padding: 8px;
-        //     &__item{
-        //         padding: 10px;
-        //         &__deleter{
-        //             background: $red-1;
-        //             color: $white-0;
-        //             border-radius: 3px;
-        //             cursor: pointer;
-        //         }
-        //     }
-        // }
         table{
             border-collapse: collapse;
+            font-size: 0.8em;
             thead{
                 tr{
                     background-color: $violet-1;
@@ -37,7 +26,6 @@
                     background-color: $white-6;
                 }
                 th,td{
-                    text-align: center;
                     padding: 5px;
                     display: flex;
                     flex-direction: column;
@@ -48,6 +36,34 @@
                 }
                 td:nth-child(4){
                     color: $red-1;
+                }
+            }
+            .cmp-btn{
+                padding: 5px 20px;
+            }
+            .actions-cell{
+                padding: 0px !important;
+                .action{
+                    position: relative;
+                    color: $white-0;
+                    &--del{
+                        background-color: $red-1;
+                        &:hover{
+                            background-color: rgba($red-1,0.6);
+                        }
+                    }
+                    &--edit{
+                        background-color: $blue-1;
+                        &:hover{
+                            background-color: rgba($blue-1,0.6);
+                        }
+                    }
+                    i{
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                    }
                 }
             }
         }

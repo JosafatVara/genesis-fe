@@ -7,7 +7,7 @@
       </mat-form-field>
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFreelancerFn">
         <mat-option *ngFor="let freelancer of freelancerList" [value]="freelancer">
-            {{ freelancer.fullName }}
+            {{ freelancer.fullName }} - {{freelancer.type}}
         </mat-option>
       </mat-autocomplete>
       <div fxFlex class="u-h-center">

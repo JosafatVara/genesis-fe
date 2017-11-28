@@ -9,10 +9,20 @@
     }
     &__dataset{
         overflow-x: auto;
+        .body__cont-actions{
+            input{
+                margin-right: 15px;
+            }
+        }
         &__item{
         }
     }
     .cmp-card__body, .cmp-table{
         margin-top: 0px;
     }    
+    .select-period-label{
+        text-align: center;
+        margin: 25px 0px;
+        font-style: italic;        
+    }
 }

@@ -1,7 +1,7 @@
 <div [ngSwitch]="true">
   <div *ngSwitchCase="mode=='update' || mode=='create'" class="staff-details staff-details--create">
       <h1 class="u-h-center">Datos del trabajador</h1>
-    <mat-horizontal-stepper [linear]="false">
+    <mat-horizontal-stepper [linear]="true">
       <mat-step [stepControl]="frmEmployeePhoto" [completed]="false">
         <ng-template matStepLabel>
           <span>Foto del empleado</span>
@@ -128,7 +128,7 @@
                     <li fxFlex="15" class="header__title u-h-center"></li>
                 </ul>
                 <ul class="cmp-table__body" *ngFor="let bankAccount of bankAccounts.controls; let i=index" [formGroupName]="i" 
-                fxLayout="row" fxLayoutAling="start center">
+                fxLayout="row" fxLayoutAlign="start center">
                   <li fxFlex="25" class="body__text u-h-center o-full-width">
                     <span>{{bankAccount.get('bankName').value}}</span>
                   </li>              

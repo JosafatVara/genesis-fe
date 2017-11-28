@@ -11,6 +11,7 @@ import { DialogStaffPaymentModifierComponent } from '../dialog-staff-payment-mod
 import { Incentive } from '../../shared/models/incentive';
 import { Discount } from '../../shared/models/discount';
 import { Observable } from 'rxjs/Observable';
+import { MonthSelectorService } from "../../core/utils/month-selector/month-selector.service";
 
 @Component({
   selector: 'gen-staff-payment-details',
@@ -28,7 +29,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   private payments: StaffPaymentsService;
 
   constructor(payments: StaffPaymentsService, private employees: EmployeesService, private fb: FormBuilder,
-  private matDialog: MatDialog){ 
+  private matDialog: MatDialog, private monthSelector: MonthSelectorService){ 
     super(payments);
     this.managedEntity = new StaffPayment();
     this.payments = payments;
@@ -46,14 +47,15 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
 
   //#region FormManagement
   createForms(){
-    this.staffPaymentForm = this.fb.group({
-      employee: [undefined, [Validators.required]],
-      year: [0,[Validators.required]],
-      month: [0, [Validators.required]],
+    this.staffPaymentForm = this.fb.group({      
       plame: this.plameForm,
       payment: this.paymentForm
     })
-    this.plameForm = this.fb.group({});
+    this.plameForm = this.fb.group({
+      employee: [undefined, [Validators.required]],
+      year: [0,[Validators.required]],
+      month: [0, [Validators.required]]
+    });
     this.paymentForm = this.fb.group({
       basePay: [0,[Validators.required]],      
       netTotalAmmount: [0,[Validators.required]],
@@ -66,9 +68,9 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   }
 
   createFormsListeners(){
-    this.staffPaymentForm.get('employee')
+    this.plameForm.get('employee')
       .valueChanges.debounceTime(500).subscribe( name => {
-        if( !(name instanceof Employee) ){
+        if( name != "" && !(name instanceof Employee)){
           this.employees.get(new EmployeesByNameSpecification(name))
           .subscribe( es => {
             this.employeeList = es;
@@ -185,11 +187,11 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   }
 
   get employeeSelected() : boolean{
-    return this.staffPaymentForm.get('employee').value instanceof Employee;
+    return this.plameForm.get('employee').value instanceof Employee;
   }
 
   private fillFormsModels(){
-    this.staffPaymentForm.patchValue({ year: this.managedEntity.year, month: this.managedEntity.month });
+    this.plameForm.patchValue({ year: this.managedEntity.year, month: this.managedEntity.month });
   }
   //#endregion  
 

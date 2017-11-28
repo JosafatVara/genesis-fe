@@ -7,6 +7,7 @@ import { FreelancersPaymentsService } from "../../core/services/freelancers-paym
 import { DialogFreelancerPaymentDetailsComponent } from "../dialog-freelancer-payment-details/dialog-freelancer-payment-details.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
 import { BaseComponent } from "../../shared/components/base/base-component";
+import { MonthSelectorService } from "../../core/utils/month-selector/month-selector.service";
 
 @Component({
   selector: 'gen-freelancer-payment-list',
@@ -17,16 +18,24 @@ export class FreelancerPaymentListComponent extends BaseComponent implements OnI
 
   public inDashboard: boolean;
   public freelancerPaymentList: Array<FreelancerPayment>;
+  public period: {year: number, month: number, monthName: string};
 
-  constructor(private payments: FreelancersPaymentsService, route: ActivatedRoute ,private matDialog: MatDialog) {
+  constructor(private payments: FreelancersPaymentsService, route: ActivatedRoute ,private matDialog: MatDialog
+  , private monthSelector: MonthSelectorService) {
     super();
     route.data.subscribe( (data: {inDashboard:boolean}) => {
       this.inDashboard = data.inDashboard
     });
   }
 
-  ngOnInit() {
-    this.refreshPayments();
+  ngOnInit() {    
+  }
+
+  selectPeriod(){
+    this.monthSelector.selectMonth().subscribe( result => {
+      this.period = result;
+      this.refreshPayments();
+    });
   }
 
   private refreshPayments(){

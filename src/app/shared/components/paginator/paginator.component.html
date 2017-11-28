@@ -2,7 +2,7 @@
   <div class="pagination-wrapper"fxLayout="row" fxLayoutAlign="center stretch">
       <div [class.pagination-action--disabled]="p.isFirstPage()" class="pagination-action pagination-previous"
       (click)="p.previous()">
-          <a> < </a>
+          <a> &lt; </a>
       </div>
     
       <div class="pagination-page" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value"
@@ -17,7 +17,7 @@
     
       <div [class.pagination-action--disabled]="p.isLastPage()" class="pagination-action pagination-next"
       (click)="p.next()">
-          <a> > </a>
+          <a> &gt; </a>
       </div>
   </div>  
 </div>

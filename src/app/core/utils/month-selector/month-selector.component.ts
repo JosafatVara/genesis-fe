@@ -10,12 +10,12 @@ export class MonthSelectorComponent implements OnInit {
 
   title: string;
   year: number;
-  months: string[] = [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre' ];
+  months: string[];
 
   constructor(private dialogRef: MatDialogRef<MonthSelectorComponent>,
-  @Inject(MAT_DIALOG_DATA) data: { title: string }) { 
-    this.title = data? data.title : 'Seleccionar mes';
+  @Inject(MAT_DIALOG_DATA) data: { title: string, months: string[] }) { 
+    this.months = data.months;
+    this.title = data && data.title? data.title : 'Seleccionar periodo';
     this.year =  (new Date()).getFullYear();
   }
 

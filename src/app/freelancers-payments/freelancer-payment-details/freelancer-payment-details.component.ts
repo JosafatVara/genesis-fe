@@ -9,6 +9,10 @@ import { FreelancersService } from "../../core/services/freelancers.service";
 import { Freelancer } from "../../shared/models/freelancer";
 import { FreelancersByNameSpecification } from "../../core/services/specifications/freelancer-specification";
 import { ToastService } from "../../core/utils/toast/toast.service";
+import { Observable } from "rxjs/Observable";
+import { EmployeesService } from "../../core/services/employees.service";
+import { EmployeesByNameSpecification } from "../../core/services/specifications/employee-specification";
+import { Worker } from "../../shared/models/worker";
 
 @Component({
   selector: 'gen-freelancer-payment-details',
@@ -33,10 +37,10 @@ export class FreelancerPaymentDetailsComponent extends CrudComponent<FreelancerP
     }
   }
   public frmFreelancerPayment: FormGroup;
-  public freelancerList: Freelancer[] = [];
+  public freelancerList: Worker[] = [];
 
   constructor(freelancersPayments: FreelancersPaymentsService, private freelancers: FreelancersService, 
-    private fb: FormBuilder, private toast: ToastService) { 
+    private fb: FormBuilder, private toast: ToastService, private employees: EmployeesService) { 
     super(freelancersPayments);    
   }
 
@@ -64,9 +68,12 @@ export class FreelancerPaymentDetailsComponent extends CrudComponent<FreelancerP
     this.frmFreelancerPayment.get('freelancer')
       .valueChanges.debounceTime(500).subscribe( name => {
         if( !(name instanceof Freelancer) ){
-          this.freelancers.get(new FreelancersByNameSpecification(name))
-          .subscribe( fs => {
-            this.freelancerList = fs;
+          Observable.zip(
+            this.freelancers.get(new FreelancersByNameSpecification(name)),
+            this.employees.get( new EmployeesByNameSpecification(name))
+            )
+          .subscribe( lists => {
+            this.freelancerList = lists[0].concat(lists[1]);
           });
         }else{
           this.freelancerList = [];
@@ -155,7 +162,8 @@ export class FreelancerPaymentDetailsComponent extends CrudComponent<FreelancerP
   }
 
   get freelancerSelected() : boolean{
-    return this.frmFreelancerPayment.get('freelancer').value instanceof Freelancer;
+    return this.frmFreelancerPayment.get('freelancer').value instanceof Freelancer || 
+    this.frmFreelancerPayment.get('freelancer').value instanceof Worker;
   }
 
   validate(): boolean{

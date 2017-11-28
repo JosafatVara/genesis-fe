@@ -3,15 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { MustBeAuthenticatedGuard } from './guards/must-be-authenticated-guard';
 import { MustBeUnauthenticatedOrSelectEnterpriseRequiredGuard } from './guards/must-be-unauthenticated-or-select-enterprise-required-guard';
 import { EnterpriseListResolver } from '../core/resolvers/enterprise-list-resolver';
-import { MustRecoverMeGuard } from './guards/must-recover-me-guard';
 import { MustHaveEnterprisesAndMustBeManagingAnEnterprise } from "./guards/must-have-enterprises-and-must-be-managing-an-enterprise-guard";
+import { CurrentUserResolver } from "../core/resolvers/current-user-resolver";
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: '/dashboard',
-    pathMatch: 'full',    
-    resolve: { enterprises: EnterpriseListResolver }
+    pathMatch: 'full',
   },
   {
     path: 'auth',
@@ -25,11 +24,10 @@ export const routes: Routes = [
     path: 'dashboard',
     loadChildren: 'app/dashboard/dashboard.module#DashboardModule',
     canActivate: [ 
-      MustBeAuthenticatedGuard,      
-      MustRecoverMeGuard,
-      /*, MustHaveEnterprisesAndMustBeManagingAnEnterprise*/ ],
+      MustBeAuthenticatedGuard,
+    ],
     resolve: { 
-      // enterprises: EnterpriseListResolver 
+      currentUser: CurrentUserResolver
     },
     data: { animation : 'dashboard' }
   },
@@ -47,7 +45,6 @@ export const routes: Routes = [
   providers: [
     MustBeAuthenticatedGuard,
     MustBeUnauthenticatedOrSelectEnterpriseRequiredGuard,
-    MustRecoverMeGuard,
     MustHaveEnterprisesAndMustBeManagingAnEnterprise
   ],
   exports: [

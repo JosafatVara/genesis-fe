@@ -21,7 +21,6 @@ import { ToastService } from './utils/toast/toast.service';
 import { ToastComponent } from './utils/toast/toast.component';
 import { CommonModule } from '@angular/common';
 import { FreelancersPaymentsService } from "./services/freelancers-payments.service";
-import { MonthSelectorComponent } from './utils/month-selector/month-selector.component';
 import { MonthSelectorService } from './utils/month-selector/month-selector.service';
 import { SelectMonthResolver } from './resolvers/select-month-resolver';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -29,6 +28,8 @@ import { RoleGuard } from './guards/role-guard';
 import { SimpleCrudComponent } from './utils/simple-crud/simple-crud.component';
 import { SimpleCrudService } from "./utils/simple-crud/simple-crud.service";
 import { SharedModule } from "../shared/shared.module";
+import { CurrentUserResolver } from "./resolvers/current-user-resolver";
+import { MonthSelectorComponent } from "./utils/month-selector/month-selector.component";
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { SharedModule } from "../shared/shared.module";
     MatSnackBarModule,
     SharedModule
   ],
-  declarations: [ToastComponent, MonthSelectorComponent, SimpleCrudComponent],
+  declarations: [ToastComponent, SimpleCrudComponent, MonthSelectorComponent],
   providers: [
     //SERVICES
     AuthenticationService,
@@ -57,6 +58,7 @@ import { SharedModule } from "../shared/shared.module";
     EnterpriseListResolver,
     CurrentEnterpriseResolver,
     SelectMonthResolver,
+    CurrentUserResolver,
 
     //UTILS
     ImagesService,
@@ -68,12 +70,12 @@ import { SharedModule } from "../shared/shared.module";
     RoleGuard
   ],
   exports: [
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   entryComponents: [
     ToastComponent,
-    MonthSelectorComponent,
-    SimpleCrudComponent
+    SimpleCrudComponent,
+    MonthSelectorComponent
   ]
 })
 export class CoreModule { }
