@@ -1,9 +1,23 @@
 <div fxLayout="column" class="payment-details o-full-height" novalidate>
-    <h1 class="payment-details__header u-h-center">{{title}}</h1>     
+    <form [formGroup]="staffPaymentForm" fxLayout="row" fxLayoutAlign="space-around center">
+        <h1 class="payment-details__header">{{title}}</h1>
+        <mat-form-field>
+          <span matPrefix><b>Mes:</b>&nbsp;</span>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of monthSelector.availableMonths; let i = index;" [value]="i+1">
+              {{ month }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <span matPrefix><b>Año:</b>&nbsp;</span>
+          <input matInput type="number" formControlName="year">
+        </mat-form-field>          
+    </form>
     <mat-horizontal-stepper fxFlex [linear]="true" class="o-full-size">
       <mat-step [stepControl]="plameForm" [completed]="false">
         <ng-template matStepLabel>Datos PLAME</ng-template>
-        <form fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" [formGroup]="plameForm">
+        <!-- <form fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" [formGroup]="plameForm">
           <mat-form-field fxFlex="50" class="payment-details__employee-search">
             <span matPrefix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
             <input type="text" matInput formControlName="employee" [matAutocomplete]="auto" placeholder="Asignar este pago a...">
@@ -24,7 +38,120 @@
           <mat-form-field>
             <span matPrefix><b>Año:</b>&nbsp;</span>
             <input matInput type="number" formControlName="year">
-          </mat-form-field>
+          </mat-form-field>          
+        </form> -->
+        <form class="plame o-full-size" [formGroup]="plameForm" fxLayout="column" fxLayoutGap="4px">
+          <div fxFlex>
+            <table class="plame-info o-full-size">
+              <tbody>
+                <tr>
+                  <td colspan="2" class="plame-info__header">Documento de identidad</td>
+                  <td rowspan="2" colspan="4" class="plame-info__header">Nombres y apellidos</td>
+                  <td rowspan="2" colspan="2" class="plame-info__header">Situación</td>
+                </tr>
+                <tr>
+                  <td class="plame-info__header">Tipo</td>
+                  <td class="plame-info__header">Número</td>
+                </tr>
+                <tr>
+                  <td>DNI</td>
+                  <td>09897973</td>
+                  <td colspan="4">
+                    <div class="employee-search" fxLayout="row" fxLayoutAlign="start center">
+                      <i class="fa fa-search"></i>
+                      <input fxFlex type="text" formControlName="employee" [matAutocomplete]="auto" placeholder="Asignar este pago a..."
+                      [class.invalid]="plameForm.get('employee').touched && !plameForm.get('employee').valid">                      
+                    </div>                    
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEmployeeFn">
+                      <mat-option *ngFor="let employee of employeeList" [value]="employee">
+                          {{ employee.fullName }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </td>
+                  <td colspan="2">ACTIVO O SUBSIDIADO</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="plame-info__header">Fecha de ingreso</td>
+                  <td colspan="2" class="plame-info__header">Tipo de trabajador</td>
+                  <td colspan="2" class="plame-info__header">Regimen pensionario</td>
+                  <td colspan="2" class="plame-info__header">CUSPP</td>
+                </tr>
+                <tr>
+                  <td colspan="2">01/08/2016</td>
+                  <td colspan="2">EMPLEADO</td>
+                  <td colspan="2">SPP PROFUTURO</td>
+                  <td colspan="2">270931NMSTC1</td>
+                </tr>
+                <tr>
+                  <td rowspan="2" class="plame-info__header">Días laborados</td>
+                  <td rowspan="2" class="plame-info__header">Días no laborados</td>
+                  <td rowspan="2" class="plame-info__header">Días subsidiados</td>
+                  <td rowspan="2" class="plame-info__header">Condición</td>
+                  <td colspan="2" class="plame-info__header">Jornada Ordinaria</td>
+                  <td colspan="2" class="plame-info__header">Sobretiempo</td>
+                </tr>
+                <tr>
+                  <td class="plame-info__header">Total Horas</td>
+                  <td class="plame-info__header">Minutos</td>
+                  <td class="plame-info__header">Total Horas</td>
+                  <td class="plame-info__header">Minutos</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="number" placeholder="laborados...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="no laborados...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="subsidiados...">
+                  </td>
+                  <td>
+                    <input type="text" placeholder="condición...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="horas...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="minutos...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="horas...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="minutos...">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6" class="plame-info__header">Motivo de suspensión de labores</td>
+                  <td colspan="2" rowspan="2" class="plame-info__header">Otros empleadores por rentas de 5° categoría</td>
+                </tr>
+                <tr>
+                  <td class="plame-info__header">Tipo</td>
+                  <td colspan="4" class="plame-info__header">Motivo</td>
+                  <td class="plame-info__header">N° días</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" placeholder="tipo...">
+                  </td>
+                  <td colspan="4">
+                    <input type="text" placeholder="motivo...">
+                  </td>
+                  <td>
+                    <input type="number" placeholder="días...">
+                  </td>
+                  <td colspan="2">
+                    <input type="text" placeholder="otros empleados...">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="4px">
+            <span class="legend-label"></span> 
+            <span>Campos a llenar.</span>
+          </div>
         </form>        
       </mat-step>
       <mat-step [stepControl]="paymentForm" [completed]="false">
@@ -43,6 +170,9 @@
               <button class="cmp-btn cmp-btn--violet" (click)="addDiscount()">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;Descuento
               </button>
+              <button class="cmp-btn cmp-btn--violet" (click)="addContribution()">
+                  <i class="fa fa-plus"></i>&nbsp;&nbsp;Aporte
+                </button>
             </div>
             <div fxFlex class="u-scrollable">
               <table class="o-full-width">
@@ -77,6 +207,27 @@
                         <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
                             <button (click)="removeDiscount(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
                             <button (click)="editDiscount(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
+                        </div>
+                    </td> 
+                  </tr>
+                </tbody>
+              </table>
+              <table class="o-full-width">
+                <thead>
+                  <tr fxLayout="row">
+                    <th fxFlex style="text-align: left;">Aportes del empleador</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr fxLayout="row" *ngFor="let contribution of contributions.controls; let i = index;">
+                    <td fxFlex="20" class="u-h-center">{{contribution.get('concept').value}}</td>
+                    <td fxFlex="35">{{contribution.get('description').value}}</td>
+                    <td fxFlex="10" class="u-h-center"></td>
+                    <td fxFlex="10" class="u-h-center">-{{contribution.get('ammount').value}}</td>
+                      <td fxFlex>
+                        <div fxFlex="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+                            <button (click)="removeContribution(i)" class="cmp-btn"><i class="fa fa-trash"></i></button>
+                            <button (click)="editContribution(i)" class="cmp-btn"><i class="fa fa-pencil"></i></button>
                         </div>
                     </td> 
                   </tr>

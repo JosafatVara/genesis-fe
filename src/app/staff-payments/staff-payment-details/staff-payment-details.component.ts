@@ -1,17 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
 import { StaffPayment } from '../../shared/models/staff-payment';
 import { CrudComponent } from '../../shared/components/base/crud-component';
 import { Employee } from '../../shared/models/employee';
 import { StaffPaymentsService } from '../../core/services/staff-payments.service';
 import { EmployeesService } from '../../core/services/employees.service';
 import { EmployeesByNameSpecification } from "../../core/services/specifications/employee-specification";
-import { MatDialog } from '@angular/material';
 import { DialogStaffPaymentModifierComponent } from '../dialog-staff-payment-modifier/dialog-staff-payment-modifier.component';
 import { Incentive } from '../../shared/models/incentive';
 import { Discount } from '../../shared/models/discount';
-import { Observable } from 'rxjs/Observable';
 import { MonthSelectorService } from "../../core/utils/month-selector/month-selector.service";
+import { Contribution } from '../../shared/models/contribution';
 
 @Component({
   selector: 'gen-staff-payment-details',
@@ -49,18 +51,19 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   createForms(){
     this.staffPaymentForm = this.fb.group({      
       plame: this.plameForm,
-      payment: this.paymentForm
-    })
-    this.plameForm = this.fb.group({
-      employee: [undefined, [Validators.required]],
+      payment: this.paymentForm,
       year: [0,[Validators.required]],
       month: [0, [Validators.required]]
+    })
+    this.plameForm = this.fb.group({
+      employee: [undefined, [Validators.required]]
     });
     this.paymentForm = this.fb.group({
       basePay: [0,[Validators.required]],      
       netTotalAmmount: [0,[Validators.required]],
       incentives: this.fb.array([]),
-      discounts: this.fb.array([])
+      discounts: this.fb.array([]),
+      contributions: this.fb.array([])
     });
   }
 
@@ -102,6 +105,10 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
 
   get discounts(): FormArray{
     return this.paymentForm.get('discounts') as FormArray;
+  }
+
+  get contributions(): FormArray{
+    return this.paymentForm.get('contributions') as FormArray;
   }
 
   addIncentive(){
@@ -182,6 +189,45 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
     this.discounts.removeAt(index);
   }
 
+  addContribution(){
+    if(this.contributions.valid){
+      let dialogRef = this.matDialog.open(DialogStaffPaymentModifierComponent,{
+        data: {
+          modifier: new Contribution()
+        }
+      });
+      dialogRef.afterClosed().subscribe( (modifier: Contribution) => {
+        if(modifier){          
+          this.contributions.push(this.fb.group({
+            concept: [modifier.concept, Validators.required],
+            description: [modifier.description, Validators.required],
+            ammount: [modifier.ammount, Validators.required]
+          }));
+        }
+      });
+    }else{
+      this.contributions.markAsTouched();
+      this.contributions.updateValueAndValidity();
+    }
+  }
+
+  editContribution(contributionIndex: number){
+    let dialogRef = this.matDialog.open(DialogStaffPaymentModifierComponent,{
+      data: {
+        modifier: new Contribution(this.contributions.controls[contributionIndex].value)
+      }
+    });
+    dialogRef.afterClosed().subscribe( (modifier: Contribution) => {
+      if(modifier){          
+        this.contributions.controls[contributionIndex].setValue(modifier);
+      }
+    });
+  }
+
+  removeContribution(index: number){
+    this.contributions.removeAt(index);
+  }
+
   displayEmployeeFn(employee: Employee){
     return employee ? employee.fullName : '';
   }
@@ -191,7 +237,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   }
 
   private fillFormsModels(){
-    this.plameForm.patchValue({ year: this.managedEntity.year, month: this.managedEntity.month });
+    this.staffPaymentForm.patchValue({ year: this.managedEntity.year, month: this.managedEntity.month });
   }
   //#endregion  
 

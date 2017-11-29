@@ -65,7 +65,7 @@ export class StaffPaymentListComponent extends BaseComponent implements OnInit {
   private delete(payment: StaffPayment){
     let dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       data: {
-        message: `Eliminar el pago de S/. ${payment.totalContributions} de ${payment.employee.fullName}?`
+        message: `Eliminar el pago de S/. ${payment.netTotalAmmount} de ${payment.employee.fullName}?`
       }
     });
     dialogRef.afterClosed().subscribe( confirm => {

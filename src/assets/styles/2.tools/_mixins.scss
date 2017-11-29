@@ -6,3 +6,18 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+@mixin placeholderStyle($input){
+    #{$input}::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        @content;
+    }
+    #{$input}::-moz-placeholder { /* Firefox 19+ */
+        @content;
+    }
+    #{$input}:-ms-input-placeholder { /* IE 10+ */
+        @content;
+    }
+    #{$input}:-moz-placeholder { /* Firefox 18- */
+        @content;
+    }
+}

@@ -1,15 +1,10 @@
 @import "../../../assets/styles/1.settings/_colors.scss";
+@import "../../../assets/styles/2.tools/_mixins.scss";
 
 .payment-details{
     padding: 0px 15px;
     &__header{
         margin-bottom: 20px; 
-    }
-    &__employee-search{
-        margin-bottom: 0px !important;
-        & ~ mat-autocomplete{
-            margin-bottom: 0px !important;
-        }
     }
     &__payment{
         table{
@@ -41,31 +36,9 @@
             .cmp-btn{
                 padding: 5px 20px;
             }
-            .actions-cell{
-                padding: 0px !important;
-                .action{
-                    position: relative;
-                    color: $white-0;
-                    &--del{
-                        background-color: $red-1;
-                        &:hover{
-                            background-color: rgba($red-1,0.6);
-                        }
-                    }
-                    &--edit{
-                        background-color: $blue-1;
-                        &:hover{
-                            background-color: rgba($blue-1,0.6);
-                        }
-                    }
-                    i{
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%,-50%);
-                    }
-                }
-            }
+        }
+        table:first-child{
+            margin-bottom: 15px;
         }
     }
     /deep/ mat-horizontal-stepper{
@@ -79,6 +52,53 @@
                 //     bottom: 1.40em;
                 // }
             }
+        }
+    } 
+    .plame{
+        .plame-info{
+            border-collapse: collapse;
+            overflow-x: auto;
+            font-size: 0.8em;
+            text-align: center;
+            &, td {
+                border: 1px solid black;
+            }
+            &__header{
+                background-color: $violet-1;//#cee7fb;
+                color: $white-0;
+                font-weight: 600;
+            }
+            td{
+                input{
+                    background-color: rgba($violet-1,0.35);
+                    height: 100%;
+                    width: 100%;
+                    padding: 0px 6px;
+                    border: none;
+                    transition: all 0.3s linear;
+                    &.invalid{
+                        // background-color: rgba($red-3,.5);
+                    }
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            }
+            .employee-search{
+                height: 100%;
+                background-color: rgba($violet-1,0.35);
+                input{
+                    background-color: transparent;
+                }
+                i{
+                    padding: 0px 8px;
+                }
+            }
+        }        
+        .legend-label{
+            height: 16px;
+            width: 16px;
+            background-color: rgba($violet-1,0.35);
         }
     }    
 }

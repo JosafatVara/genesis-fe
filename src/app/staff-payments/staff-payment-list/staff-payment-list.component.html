@@ -31,7 +31,7 @@
             <li fxFlex="20" class="body__text u-h-center">{{payment.paymentDate | date:'dd/MM/yyyy'  }}</li>
             <li fxFlex="25" class="body__text u-h-center">{{payment.employee ? payment.employee.fullName : ''}}</li>
             <li fxFlex="25" class="body__text u-h-center">
-              S/. {{(payment.totalContributions? payment.totalContributions: 0) | numeric}}
+              S/. {{(payment.netTotalAmmount? payment.netTotalAmmount: 0) | numeric}}
             </li>
             <li fxFlex="30" class="body__text u-h-center">
                 <button class="cmp-btn cmp-btn--actions cmp-btn--responsive" (click)="crud('update',payment)">

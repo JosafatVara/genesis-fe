@@ -20,7 +20,7 @@ export class StaffPaymentsService extends AuthenticatedService implements CrudSe
         firstName: 'Dinjo',
         lastName: 'Joestar'
       }),
-      totalContributions: 152151.00,      
+      netTotalAmmount: 152151.00,      
     })
   ];
 

@@ -5,6 +5,7 @@ import { Discount } from '../../shared/models/discount';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { debounce } from 'rxjs/operators/debounce';
 import { debug } from 'util';
+import { Contribution } from '../../shared/models/contribution';
 
 @Component({
   selector: 'gen-dialog-staff-payment-modifier',
@@ -18,13 +19,16 @@ export class DialogStaffPaymentModifierComponent implements OnInit {
   modifierName: string;
 
   constructor(private dialogRef: MatDialogRef<DialogStaffPaymentModifierComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { modifier: Incentive | Discount }, private fb: FormBuilder) {
+    @Inject(MAT_DIALOG_DATA) public data: { modifier: Incentive | Discount | Contribution }, private fb: FormBuilder) {
     if(this.data.modifier instanceof Incentive){
       this.modifierName = 'Incentivo';
       this.modifier = new Incentive(Object.assign({},data.modifier));
     }else if(this.data.modifier instanceof Discount){
       this.modifierName = 'Descuento';
       this.modifier = new Discount(Object.assign({},data.modifier));
+    }else if(this.data.modifier instanceof Contribution){
+      this.modifierName = 'Aporte';
+      this.modifier = new Contribution(Object.assign({},data.modifier));
     }else{
       throw Error('modifier not supported');
     }
