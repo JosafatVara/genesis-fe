@@ -99,6 +99,10 @@ const routes: Routes = [
           {
             path: 'rxh',
             loadChildren: 'app/freelancers-payments/freelancers-payments.module#FreelancersPaymentsModule'
+          },
+          {
+            path: 'proveedores',
+            loadChildren: 'app/providers-payments/providers-payments.module#ProvidersPaymentsModule'
           }
         ],
         data: {

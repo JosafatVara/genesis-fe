@@ -1,0 +1,20 @@
+.provider-payment-details{
+    &--create{
+        form{
+            padding: 8px;
+        }
+    }
+    &__provider-search{
+        margin-bottom: 0px !important;
+        & ~ mat-autocomplete{
+            margin-bottom: 0px !important;
+        }
+    }
+    &__rxh-list{
+        padding: 4px;
+        &__item{
+            padding: 4px;
+        }
+        margin-bottom: 15px
+    }
+}

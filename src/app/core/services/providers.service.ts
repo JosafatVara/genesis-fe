@@ -7,6 +7,9 @@ import { Http, Response, RequestOptions, Headers, ResponseContentType, URLSearch
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { AuthenticatedService } from './base/authenticated-service';
+import { EnterprisesService } from './enterprises.service';
+import { Specification } from './specifications/base/specification';
+import { ProvidersByNameSpecification } from './specifications/provider-specification';
 
 @Injectable()
 export class ProviderService extends AuthenticatedService {
@@ -14,9 +17,20 @@ export class ProviderService extends AuthenticatedService {
     nameModule = 'purchases/';
     token: string;
 
-    constructor(http: HttpClient, auth: AuthenticationService) {
+    constructor(http: HttpClient, auth: AuthenticationService, private enterprises: EnterprisesService) {
         super(auth, http, '');
         this.token = JSON.parse(localStorage.getItem("token"));
+    }
+
+    public get(specification?: Specification<Provider>): Observable<Provider[]>{
+        if(specification instanceof ProvidersByNameSpecification){
+            let result: Provider[] = [
+                new Provider({ id: 1, firstName: 'aaa', lastName: 'joestar' }),
+                new Provider({ id: 2, firstName: 'ccc', lastName: 'arredondo' }),
+                new Provider({ id: 3, firstName: '5555', lastName: 'rat' }),
+            ];
+            return Observable.of( result.filter( f => specification.isSatisfiedBy(f) ) );
+        }
     }
 
     public getList(id): Observable<Provider[]> {

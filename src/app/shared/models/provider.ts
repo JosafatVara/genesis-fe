@@ -22,6 +22,10 @@ export class Provider extends BaseEntity<Provider>{
     public lastName?: string;
     public email?: string;
     public notes?: string;
+
+    public get fullName(): string{
+        return this.firstName + ' ' + this.lastName;
+    }
 }
 
 // export class LegalProvider extends Provider {

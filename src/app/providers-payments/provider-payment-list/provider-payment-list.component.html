@@ -1,0 +1,53 @@
+<div fxLayout="column" class="provider-payment-list" [ngClass]="{'cont wrapper':inDashboard}">
+  <div fxLayout="row" class="provider-payment-list__header" [ngClass]="{'cont__title':inDashboard}">
+    <h2>Pagos a proveedores</h2>
+    <span fxFlex></span>
+    <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Ingresa Pago</button> 
+  </div>  
+  <div class="provider-payment-list__dataset" [ngClass]="{'cmp-card':inDashboard}">      
+    <div [ngClass]="{'cmp-card__body':inDashboard}">
+      <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="row" fxlayoutAlign="start center">
+            <input class="cmp-input cmp-input--search" fxFlex="350px" type="text" placeholder="Buscar por nombre...">
+          </div>            
+          <button class="cmp-btn cmp-btn--violet" (click)="selectPeriod()" fxLayout="row" fxLayoutAlign="start center"
+          fxLayoutGap="8px">
+            <i class="fa fa-calendar-o"></i>
+            <span *ngIf="!period">Seleccionar periodo</span>
+            <span class="period-label" *ngIf="period">
+              {{period.monthName}} del {{period.year}}
+            </span>
+          </button>     
+      </div>
+      <div class="cmp-table"  *ngIf="providerPaymentList">
+        <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
+          <li fxFlex="20" class="header__title header__title--action u-h-center">Fecha</li>
+          <li fxFlex="25" class="header__title header__title--action u-h-center">Nombre</li>
+          <li fxFlex="25" class="header__title header__title--action u-h-center">Pago (S/.)</li>
+          <li fxFlex="30" class="header__title u-h-center"></li>
+        </ul>
+        <ul class="cmp-table__body provider-payment-list__dataset__item" *ngFor="let payment of providerPaymentList"
+        fxLayout="row" fxLayoutAlign="start center">
+          <li fxFlex="20" class="body__text u-h-center">{{payment.creationDate | date:'dd/MM/yyyy'  }}</li>
+          <li fxFlex="25" class="body__text u-h-center">{{payment.provider ? payment.provider.fullName : ''}}</li>
+          <li fxFlex="25" class="body__text u-h-center">
+            S/. {{(payment.rxhs? payment.total: 0) | numeric}}
+          </li>
+          <li fxFlex="30" class="body__text u-h-center">
+              <button class="cmp-btn cmp-btn--actions cmp-btn--responsive" (click)="crud('update',payment)">
+                <i class="fa fa-pencil cmp-btn--responsive__icon" aria-hidden="true"></i>
+                <span class="cmp-btn--responsive__label">Editar</span>
+              </button>
+              <button class="cmp-btn cmp-btn--violet cmp-btn--actions cmp-btn--responsive"(click)="crud('delete',payment)">
+                <i class="fa fa-trash-o cmp-btn--responsive__icon" aria-hidden="true"></i>
+                <span class="cmp-btn--responsive__label">Eliminar</span>
+              </button>
+          </li>
+        </ul>
+      </div>
+    </div> 
+    <div *ngIf="!providerPaymentList" class="select-period-label">
+      <p>Indique un periodo a buscar...</p>
+    </div>     
+  </div>
+</div>

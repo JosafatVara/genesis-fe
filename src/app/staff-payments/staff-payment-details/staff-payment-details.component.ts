@@ -31,7 +31,7 @@ export class StaffPaymentDetailsComponent extends CrudComponent<StaffPayment> im
   private payments: StaffPaymentsService;
 
   constructor(payments: StaffPaymentsService, private employees: EmployeesService, private fb: FormBuilder,
-  private matDialog: MatDialog, private monthSelector: MonthSelectorService){ 
+  private matDialog: MatDialog, public monthSelector: MonthSelectorService){ 
     super(payments);
     this.managedEntity = new StaffPayment();
     this.payments = payments;

@@ -1,0 +1,28 @@
+@import "../../../assets/styles/1.settings/_colors.scss";
+
+.provider-payment-list{
+    &__header{
+    }
+    &__message{
+        margin-top: 15px; 
+        margin-bottom: 15px;
+    }
+    &__dataset{
+        overflow-x: auto;
+        &__item{
+        }
+        .body__cont-actions{
+            input{
+                margin-right: 15px;
+            }
+        }
+    }
+    .cmp-card__body, .cmp-table{
+        margin-top: 0px;
+    }    
+    .select-period-label{
+        text-align: center;
+        margin: 25px 0px;
+        font-style: italic;        
+    }
+}

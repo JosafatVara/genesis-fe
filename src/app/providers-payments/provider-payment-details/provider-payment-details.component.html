@@ -1,0 +1,105 @@
+<form fxLayout="column" class="provider-payment-details" class="o-full-size" fxLayoutGap="15px" (submit)="finish(frmProviderPayment)" [formGroup]="frmProviderPayment">
+  <h1 class="provider-payment-details__header u-h-center">{{title}}</h1>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field fxFlex="50" class="provider-payment-details__provider-search">
+      <span matPrefix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
+      <input type="text" matInput formControlName="provider" [matAutocomplete]="auto" placeholder="Asignar este pago a...">
+    </mat-form-field>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProviderFn">
+      <mat-option *ngFor="let provider of providerList" [value]="provider">
+          {{ provider.fullName }}
+      </mat-option>
+    </mat-autocomplete>
+    <div fxFlex class="u-h-center">
+      <span>
+        <b>Mes:&nbsp;</b>{{frmProviderPayment.get('month').value | toMonth }}
+      </span>        
+    </div>
+    <div fxFlex class="u-h-center">
+      <span>
+        <b>Año:&nbsp;</b>{{frmProviderPayment.get('year').value}}
+      </span>        
+    </div>
+  </div>        
+  <div layout="row" fxFlex>
+    <div fxFlex class="u-scrollable provider-payment-details__rxh-list" fxLayout="column" fxLayoutGap="15px" formArrayName="rxhs">
+      <mat-expansion-panel *ngFor="let rxh of rxhs.controls; let i=index" [formGroupName]="i" 
+        #panel="matExpansionPanel" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span [ngSwitch]="rxh.get('confirmed').value">
+              <span *ngSwitchCase="1">
+                <i class="fa fa-ticket"></i>&nbsp;&nbsp;
+                Recibo N° <b>{{rxh.get('number').value}}</b>
+              </span>
+              <span *ngSwitchCase="0">
+                <b>Nuevo Recibo por honorarios</b>                    
+              </span>
+            </span>                 
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout="column" class="provider-payment-details__rxh-list__item" fxLayoutGap="15px">
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex>
+              <input matInput type="text" formControlName="number" placeholder="Número de recibo">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput type="text" formControlName="ruc" placeholder="RUC">
+              <mat-error>Debe contener 11 dígitos</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex>
+              <input matInput type="text" formControlName="concept" placeholder="Concepto">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput [matDatepicker]="picker" placeholder="Fecha de emisión" formControlName="emissionDate" (focus)="openDatePicker(picker)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex>
+                <input matInput type="text" formControlName="totalAmmount" placeholder="Subtotal">
+                <mat-error>Requerido</mat-error>
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input matInput type="text" formControlName="retentionAmmount" placeholder="Retención">
+                <mat-error>Requerido</mat-error>
+              </mat-form-field>                
+          </div>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <span fxFlex></span>                  
+            <mat-form-field fxFlex>
+              <input matInput type="text" formControlName="netTotalAmmount" placeholder="Total">
+              <mat-error>Requerido</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="15px">
+            <span fxFlex></span>
+              <button class="cmp-btn" type="button" (click)="removeRxh(i)" [ngSwitch]="rxh.get('confirmed').value">
+              <span *ngSwitchCase="1">Remover</span>
+              <span *ngSwitchCase="0">Cancelar</span>
+            </button> 
+            <button class="cmp-btn cmp-btn--violet" type="button" (click)="confirmRxh(i, panel)" [ngSwitch]="rxh.get('confirmed').value">
+              <span *ngSwitchCase="1">OK</span>
+              <span *ngSwitchCase="0">Confirmar</span>
+            </button>
+          </div>
+        </div>            
+      </mat-expansion-panel>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <button type="button" class="cmp-btn" (click)="addRxh()" [disabled]="!providerSelected">
+      <i class="fa fa-plus"></i>
+      Agregar RxH
+    </button>
+  </div>    
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button [disabled]="!providerSelected" type="submit" class="cmp-btn cmp-btn--violet">{{buttonLabel}}</button>
+  </div>
+</form>

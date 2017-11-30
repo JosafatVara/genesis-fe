@@ -30,6 +30,7 @@ import { SimpleCrudService } from "./utils/simple-crud/simple-crud.service";
 import { SharedModule } from "../shared/shared.module";
 import { CurrentUserResolver } from "./resolvers/current-user-resolver";
 import { MonthSelectorComponent } from "./utils/month-selector/month-selector.component";
+import { ProvidersPaymentsService } from './services/providers-payments.service';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { MonthSelectorComponent } from "./utils/month-selector/month-selector.co
     AffiliationsService,
     StaffPaymentsService,
     FreelancersPaymentsService,
+    ProvidersPaymentsService,
 
     //RESOLVERS
     EnterpriseListResolver,
