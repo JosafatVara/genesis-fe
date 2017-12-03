@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { MatFormFieldModule, MatInputModule, MatHorizontalStepper, MatStep } from '@angular/material';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Quotation } from '../../shared/models/quotation';
+import { FormArray } from '@angular/forms/src/model';
 
 @Component({
     moduleId: module.id,
@@ -11,46 +13,65 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     styleUrls: ['modal-crud.component.scss']
 })
 export class ModalCrudComponent {
-    isLinear = false;
-    firstFormGroup: FormGroup;
-    secondFormGroup: FormGroup;
-    thirdFormGroup: FormGroup;
-    fourthFormGroup: FormGroup;
+    quotation: Quotation;
+    quotationInformationFG: FormGroup;
+    quotationDetailtsFG: FormGroup;
 
-    display: any;
-    person1: boolean = false;
-    person2: boolean = false;
-    constructor(private _formBuilder: FormBuilder, public thisDialogRef: MatDialogRef<ModalCrudComponent>, @Inject(MAT_DIALOG_DATA) public data: string) {
-        this.display = {
-            index: true,
-            natural: false,
-            legal: false
-        }
+    constructor(private fb: FormBuilder, public thisDialogRef: MatDialogRef<ModalCrudComponent>, 
+        @Inject(MAT_DIALOG_DATA) public data: { quotation: Quotation}) {
+        this.quotation = data.quotation;
     }
 
     ngOnInit() {
-        this.firstFormGroup = this._formBuilder.group({
-            firstCtrl: ['', Validators.required]
-        });
-        this.secondFormGroup = this._formBuilder.group({
-            secondCtrl: ['', Validators.required]
-        });
-        this.thirdFormGroup = this._formBuilder.group({
-            thirdCtrl: ['', Validators.required]
-        });
-        this.fourthFormGroup = this._formBuilder.group({
-            fourthCtrl: ['', Validators.required]
-        });
-    }
-    confirm() {
-        this.thisDialogRef.close('confirm');
+        this.createForms();
+        this.fillFormsModels();
     }
 
-    cancel() {
-        this.thisDialogRef.close("Cancel")
+    createForms(){
+        this.quotationInformationFG = this.fb.group({
+            customer: [undefined, [Validators.required]],
+            created: [new Date(), [Validators.required]],
+            
+        });
+        this.quotationDetailtsFG = this.fb.group({
+            details: this.fb.array([]),
+            subtotal: 0,
+            igv: 0,
+            totalAmmount: 0
+        });
+        this.quotationDetailtsFG.get('details').valueChanges.subscribe( () => {
+            let helperQuotation: Quotation = new Quotation({ details: this.details.value })
+            this.quotationDetailtsFG.patchValue({
+                subtotal: helperQuotation.subtotal,
+                igv: helperQuotation.igv,
+                totalAmmount: helperQuotation.totalAmmount
+            });
+        });
     }
-    selectPerson(selected) {
-        this.display.index = false;
-        selected == 1 ? this.display.natural = true : this.display.legal = true;
+
+    fillFormsModels(){
+        if(this.quotation){
+            this.quotationInformationFG.patchValue(this.quotation);
+            let quotationDetailsFGs: FormGroup[] = this.quotation.details.map( d => {
+                return this.fb.group({
+                    productQuantity: d.productQuantity,
+                    productName: d.productName,
+                    ammount: d.ammount
+                });
+            });
+            this.quotationDetailtsFG.setControl('details', this.fb.array(quotationDetailsFGs));
+        }
+    }
+
+    fillDataModels(){
+
+    }
+
+    get details(): FormArray{
+        return this.quotationDetailtsFG.get('details') as FormArray;
+    }
+
+    confirm() {
+        this.thisDialogRef.close('confirm');
     }
 }

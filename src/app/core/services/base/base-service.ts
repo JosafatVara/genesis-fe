@@ -30,12 +30,18 @@ export abstract class BaseService {
     }
     
     protected makeRandomNumber(length: number){
-    var text = "";
-    var possible = "1234567890";
+        var text = "";
+        var possible = "1234567890";
+        
+        for (var i = 0; i < length; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        
+        return text;
+    }
+
     
-    for (var i = 0; i < length; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    
-    return text;
+
+    protected makeRandomNumberInInterval(start: number, end: number){
+        return Math.round(Math.random()*end + start);
     }
 }

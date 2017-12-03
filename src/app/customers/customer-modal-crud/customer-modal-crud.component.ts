@@ -154,11 +154,14 @@ export class CustomerModalCrudComponent {
             if (this.frmNaturalBasicData.valid) {
                 const dataProvider = Object.assign({}, { photo: this.customerPhoto }, this.frmNaturalBasicData.value, { type: "PERSONA" });
                 if (this.data.action == 'create') {
-                    this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(res => { })
+                    this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(res => { 
+                        this.thisDialogRef.close({ cancelled: false });
+                    })
                 } else {
-                    this.customerService.update(dataProvider, this.data.customer.id).subscribe();
+                    this.customerService.update(dataProvider, this.data.customer.id).subscribe( res => {
+                        this.thisDialogRef.close({ cancelled: false });
+                    });
                 }
-                this.thisDialogRef.close({ cancelled: false })
 
             }
         } else {

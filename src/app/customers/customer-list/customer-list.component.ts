@@ -7,9 +7,12 @@ import { EnterprisesService, EnterpriseListDataSource } from '../../core/service
 import { Enterprise } from '../../shared/models/enterprise';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
-//components
 import { CustomerModalCrudComponent } from "../customer-modal-crud/customer-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
+import { PaginationInstance } from 'ngx-pagination';
+import { CustomersSearchPagedSpecification } from '../../core/services/specifications/customer-specification';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     moduleId: module.id,
@@ -18,25 +21,43 @@ import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/c
     styleUrls: ['customer-list.component.scss']
 })
 export class CustomerListComponent implements OnInit {
-    customers: any = [];
-    public currentUser: User;
+    customers: Observable<any[]>;
     public currentEnterprise: Enterprise;
+    public config: PaginationInstance;
+    public searchFC: FormControl
+
     constructor(
         private matDialog: MatDialog,
         private customerService: CustomerService,
-        private users: UsersService,
-        private enterprises: EnterprisesService
     ) {
-        enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
-        users.getCurrentUser().subscribe(u => this.currentUser = u);
+        // users.getCurrentUser().subscribe(u => this.currentUser = u);
+        this.config = {
+          id: 'pagination',
+          itemsPerPage: 2,
+          currentPage: 1
+        };
     }
 
     ngOnInit() {
-        this.refreshCustomers();
+        this.searchFC = new FormControl();
+        this.searchFC.valueChanges.debounceTime(500).subscribe( () => this.load() );
+        this.load();
+    }
+
+    load(page?: number){
+        page = page || this.config.currentPage;
+        this.config.currentPage = page;
+        let specification = new CustomersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
+        this.customerService.getList(specification)
+            .do( list => {
+                this.config.totalItems = specification.size;
+                this.customers = Observable.of(list);
+            })
+            .catch( err => Observable.of([]) ).subscribe();
     }
 
     private refreshCustomers() {
-        this.customerService.getList(this.currentEnterprise.id).subscribe(res => this.customers = res);
+        // this.customerService.getList(this.currentEnterprise.id).subscribe(res => this.customers = res);
     }
 
     crud(action: string, customer: Customer = undefined) {
@@ -51,9 +72,10 @@ export class CustomerListComponent implements OnInit {
                 customer: Object.assign({}, customer)
             }
         });
-        dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            // if (!result.cancelled) 
-            this.refreshCustomers()
+        dialogRef.afterClosed().subscribe((result: { cancelled: boolean } | string) => {
+            if(result != "" || result){
+                this.load()
+            }
         })
     }
 
@@ -64,7 +86,7 @@ export class CustomerListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.customerService.delete(provider.id).subscribe(() => this.refreshCustomers());
+            if (confirm) this.customerService.delete(provider.id).subscribe(() => this.load());
         });
     }
 }

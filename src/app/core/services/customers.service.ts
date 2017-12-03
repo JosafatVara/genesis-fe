@@ -7,6 +7,10 @@ import { Http, Response, RequestOptions, Headers, ResponseContentType, URLSearch
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { AuthenticatedService } from './base/authenticated-service';
+import { EnterprisesService } from './enterprises.service';
+import { Specification } from './specifications/base/specification';
+import { CustomersSearchPagedSpecification } from './specifications/customer-specification';
+import { count } from 'rxjs/operator/count';
 
 @Injectable()
 export class CustomerService extends AuthenticatedService {
@@ -14,20 +18,28 @@ export class CustomerService extends AuthenticatedService {
     nameModule = 'purchases/';
     token: string;
 
-    constructor(http: HttpClient, auth: AuthenticationService) {
+    constructor(http: HttpClient, auth: AuthenticationService, private enterpries: EnterprisesService) {
         super(auth, http, '');
         this.token = JSON.parse(localStorage.getItem("token"));
     }
 
-    public getList(id): Observable<Customer[]> {
-        return this.http.get(`${this.actionUrl}enterprises/${id}/clients`, { headers: this.authHttpHeaders })
-            .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
-                let customers: Customer[] = [];
-                result.results.forEach(r => {
-                    customers = customers.concat([this.mapBeToCustomer(r)]);
+    public getList(specification: Specification<Customer>): Observable<Customer[]> {
+        if(specification instanceof CustomersSearchPagedSpecification){
+            return this.enterpries.getCurrentEnterprise().flatMap( curr => {
+                return this.http.get(`${this.actionUrl}enterprises/${curr.id}/clients`, 
+                    { headers: this.authHttpHeaders, params: specification.toQueryParams() })
+                .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
+                    specification.size = result.count;
+                    let customers: Customer[] = [];
+                    result.results.forEach(r => {
+                        customers = customers.concat([this.mapBeToCustomer(r)]);
+                    });
+                    return customers;
                 });
-                return customers;
             });
+        }
+        return Observable.of([]);
+        
     }
 
     public create(data, id): Observable<Customer> {

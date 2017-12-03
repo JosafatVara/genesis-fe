@@ -1,38 +1,33 @@
 <div>
-    <mat-horizontal-stepper [linear]="isLinear">
-        <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Foto</ng-template>
-                <div fxLayoutAlign="space-between center">
-                </div>
-                <div class="padding-button" fxLayoutAlign="end center" fxLayoutGap>
-                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button class="cmp-btn cmp-btn--violet" mat-dialog-close>
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <mat-horizontal-stepper [linear]="true">
+        <mat-step [stepControl]="quotationInformationFG" [completed]="false">
+            <form [formGroup]="quotationInformationFG">
                 <ng-template matStepLabel>Datos</ng-template>
                 <div fxLayoutAlign="space-between center">
                     <mat-form-field fxFlex=100>
-                        <input matInput placeholder="Cliente" formControlName="secondCtrl" required>
+                        <input matInput placeholder="Cliente" formControlName="customer" required>
                     </mat-form-field>
                 </div>
                 <div fxLayoutAlign="space-between center">
-                    <mat-form-field fxFlex=100>
-                        <input matInput placeholder="Fecha" formControlName="secondCtrl" required>
+                    <mat-form-field class="o-full-width">
+                        <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="created">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
-
                 <div class="padding-button" fxLayoutAlign="space-between center">
                     <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
-                    <button mat-button matStepperNext class="cmp-btn cmp-btn--blue">Siguiente</button>
+                    <button mat-button matStepperNext class="cmp-btn cmp-btn--violet">Siguiente</button>
                 </div>
             </form>
         </mat-step>
-
-        <mat-step [stepControl]="fourthFormGroup">
-            <form [formGroup]="fourthFormGroup">
+        <mat-step [stepControl]="quotationDetailtsFG" [completed]="false">
+            <form [formGroup]="quotationDetailtsFG">
                 <ng-template matStepLabel>Productos</ng-template>
 
                 <div class="cmp-table">

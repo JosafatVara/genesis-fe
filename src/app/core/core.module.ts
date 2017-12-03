@@ -32,6 +32,7 @@ import { SharedModule } from "../shared/shared.module";
 import { CurrentUserResolver } from "./resolvers/current-user-resolver";
 import { MonthSelectorComponent } from "./utils/month-selector/month-selector.component";
 import { ProvidersPaymentsService } from './services/providers-payments.service';
+import { QuotationsService } from './services/quotations.service';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { ProvidersPaymentsService } from './services/providers-payments.service'
     StaffPaymentsService,
     FreelancersPaymentsService,
     ProvidersPaymentsService,
+    QuotationsService,
 
     //RESOLVERS
     EnterpriseListResolver,

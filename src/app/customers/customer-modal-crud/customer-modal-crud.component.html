@@ -1,4 +1,9 @@
 <div [ngSwitch]="customerType">
+    <div fxLayout="row" fxLayoutAlign="end start">
+        <button class="cmp-btn cmp-btn--violet" mat-dialog-close>
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
     <div class="choose-person" *ngSwitchCase="0">
         <h3 class="choose-person__question">Elija su tipo de persona:</h3>
         <div class="choose-person__options" fxLayoutAlign="space-around center">

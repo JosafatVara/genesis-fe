@@ -18,6 +18,9 @@
         .body__text {
             font-size: 15px;
             padding: 10px 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             .cmp-btn--actions {
                 padding: 8px 20px;
             }
