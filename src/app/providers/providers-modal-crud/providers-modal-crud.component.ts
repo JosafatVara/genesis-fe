@@ -62,6 +62,8 @@ export class ProvidersModalCrudComponent {
         private groupService: GroupService
     ) {
         this.enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
+        console.log("sssssscccc");
+
     }
 
     ngOnInit() {
@@ -86,11 +88,12 @@ export class ProvidersModalCrudComponent {
 
     selectPerson(selected) {
         this.providerType = selected;
-        this.provider = this.data.action == 'create' ? new Provider : this.data.provider;
+        this.provider = this.data.action == 'create' ? new Provider() : this.data.provider;
         this.createForm();
         this.fillForm();
         this.getGroupList();
-        this.providerPhoto = 'http://genesis.indagostudio.pe'+this.provider.photo;
+        if (this.data.action == 'update') this.provider.photo = 'http://genesis.indagostudio.pe' + this.provider.photo
+        this.providerPhoto = this.provider.photo
     }
 
     setBtnLabel() {
@@ -199,12 +202,10 @@ export class ProvidersModalCrudComponent {
                         }
                     )
                 } else {
-                    this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe(res => {
+                    this.providerService.update(dataProvider, this.provider.id).subscribe(res => {
                         this.thisDialogRef.close({ cancelled: false })
                     });
-
                 }
-
             }
         } else {
             if (this.frmLegalPhoto.valid && this.frmLegalBasicData.valid && this.frmLegalContacts.valid && this.frmLegalBankAccounts.valid) {
@@ -224,7 +225,7 @@ export class ProvidersModalCrudComponent {
                         }
                     )
                 } else {
-                    this.providerService.update(dataProvider, this.currentEnterprise.id).subscribe(res => {
+                    this.providerService.update(dataProvider, this.provider.id).subscribe(res => {
                         this.thisDialogRef.close({ cancelled: false })
                     });
                 }
@@ -273,7 +274,6 @@ export class ProvidersModalCrudComponent {
                         if (bankAccount.bankName == this.bankAccounts[index].bankName) this.bankAccounts.splice(index, 1)
                     }
                 }
-
             }
         });
     }

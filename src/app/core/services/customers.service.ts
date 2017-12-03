@@ -63,6 +63,8 @@ export class CustomerService extends AuthenticatedService {
         formData.append('email', data.email);
         formData.append('position', data.position);
         // if (data.photo[0] != 'h') {
+        if (data.photo.toString()[0] != 'h') formData.append('image', data.photo);
+
         formData.append('image', data.photo);
         // }
         let headers: HttpHeaders = this.authHttpHeaders;

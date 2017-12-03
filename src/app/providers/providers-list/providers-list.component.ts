@@ -7,6 +7,9 @@ import { EnterprisesService, EnterpriseListDataSource } from '../../core/service
 import { Enterprise } from '../../shared/models/enterprise';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
+import { PaginationInstance } from 'ngx-pagination/dist/pagination-instance';
+import { ProviderPagedSpecification } from '../../core/services/specifications/provider-specification';
+
 //components
 import { ProvidersModalCrudComponent } from "../providers-modal-crud/providers-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
@@ -21,6 +24,8 @@ export class ProvidersListComponent implements OnInit {
     providers: any = [];
     public currentUser: User;
     public currentEnterprise: Enterprise;
+    public config: PaginationInstance;
+
     constructor(
         private matDialog: MatDialog,
         private providerService: ProviderService,
@@ -29,15 +34,32 @@ export class ProvidersListComponent implements OnInit {
     ) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
         users.getCurrentUser().subscribe(u => this.currentUser = u);
+        this.config = {
+            id: 'pagination',
+            itemsPerPage: 5,
+            currentPage: 1
+        };
     }
 
     ngOnInit() {
         this.refreshProviders();
     }
 
+    // loadProviders(page?: number) {
+    //     page = page || this.config.currentPage;
+    //     this.config.currentPage = page;
+    //     let specification = new UsersSearchPagedSpecification(this.searchFC.value || '', page, this.config.itemsPerPage);
+    //     this.userList = this.users.get(specification)
+    //         .do(() => { this.config.totalItems = specification.size })
+    //         .catch(err => Observable.of([]));
+    // }
+
+
     private refreshProviders() {
         this.providerService.getList(this.currentEnterprise.id).subscribe(res => this.providers = res);
     }
+
+
 
     crud(action: string, provider: Provider = undefined) {
         if (action == 'delete') {

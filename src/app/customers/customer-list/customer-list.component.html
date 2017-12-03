@@ -1,8 +1,8 @@
-<div class="cmp-card ">
+<div class="cmp-card animated  zoomIn" *ngIf="customers.length!=0">
     <h3 class="cmp-card__title">Clientes</h3>
     <div class="cmp-card__body">
         <div class="body__cont-actions" fxLayoutAlign="space-between center">
-            <input class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar(Nombre/Ruc/Contacto)...">
+            <input class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar (Nombre/Ruc/Contacto)...">
             <button class="cmp-btn cmp-btn--violet" (click)="crud('create')"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar </button>
         </div>
         <div class="body__cont-body">
@@ -23,7 +23,7 @@
                     <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.ruc}}</li>
                     <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.address}}</li>
                     <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.phone}}</li>
-                    <li fxFlex class="body__text" fxLayoutAlign="start center"> 0</li>
+                    <li fxFlex class="body__text" fxLayoutAlign="start center">s./ {{item.pendingAmount}}</li>
                     <li fxFlex=30 class="body__text">
                         <button class="cmp-btn cmp-btn--actions" (click)="crud('update',item)"><i class="fa fa-pencil" aria-hidden="true"></i> <span fxHide.lt-lg> Editar</span> </button>
                         <button class="cmp-btn cmp-btn--violet cmp-btn--actions" (click)="crud('delete',item)"><i class="fa fa-trash-o" aria-hidden="true"></i><span fxHide.lt-lg> Eliminar</span> </button>

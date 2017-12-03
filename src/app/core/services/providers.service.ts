@@ -66,7 +66,6 @@ export class ProviderService extends AuthenticatedService {
     public update(data, id): Observable<Provider> {
         let formData: FormData = new FormData();
         formData.append('business_name', data.businessName);
-        formData.append('image', data.photo);
         formData.append('first_name', data.firstName);
         formData.append('last_name', data.lastName);
         formData.append('type', data.type);
@@ -75,6 +74,7 @@ export class ProviderService extends AuthenticatedService {
         formData.append('ruc', data.ruc);
         formData.append('phone', data.phone);
         formData.append('details', data.notes);
+        if (data.photo.toString()[0] != 'h') formData.append('image', data.photo);
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
         return this.http.patch(this.actionUrl + `purchases/enterprises/providers/` + id, formData, { headers: headers }).map(result => {
