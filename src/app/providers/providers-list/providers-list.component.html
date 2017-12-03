@@ -1,5 +1,5 @@
 <!--component html goes here -->
-<div class="cmp-card ">
+<div class="cmp-card animated  zoomIn" *ngIf="providers!=0">
     <h3 class="cmp-card__title">Proveedores</h3>
     <div class="cmp-card__body">
         <div class="body__cont-actions" fxLayoutAlign="space-between center">
@@ -26,6 +26,9 @@
                         <button class="cmp-btn cmp-btn--violet cmp-btn--actions" (click)="crud('delete',item)"><i class="fa fa-trash-o" aria-hidden="true"></i><span fxHide.lt-lg> Eliminar</span> </button>
                     </li>
                 </ul>
+                <!-- <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="loadUsers($event)">
+                    <gen-paginator [pagination]="p"></gen-paginator>
+                </pagination-template> -->
             </div>
         </div>
     </div>

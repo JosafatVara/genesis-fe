@@ -27,7 +27,8 @@ const routes: Routes = [
         data: {
           animation: 'recovery-password'
         }
-      },{
+      },
+      {
         path: 'seleccionarEmpresa',
         component: SelectEnterpriseToManageComponent,
         canActivate: [
@@ -47,7 +48,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild(routes)    
+    RouterModule.forChild(routes)
   ],
   declarations: [],
   providers: [

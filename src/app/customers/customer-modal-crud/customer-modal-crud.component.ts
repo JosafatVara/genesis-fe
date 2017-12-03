@@ -66,15 +66,13 @@ export class CustomerModalCrudComponent {
             if (this.data.customer.type == 'PERSONA') { this.customerType = 1; }
             else { this.customerType = 2; }
             this.selectPerson(this.customerType);
-            this.refreshContacts();
+            // this.refreshContacts();
         }
     }
 
     selectPerson(selected) {
         this.customerType = selected;
         this.customer = this.data.action == 'create' ? new Customer() : this.data.customer;
-        console.log(this.customer, "ssss");
-
         this.createForm();
         this.fillForm();
         this.customerPhoto = this.customer.photo;
@@ -120,10 +118,6 @@ export class CustomerModalCrudComponent {
                 email: ['', [Validators.required, Validators.email]],
                 cellphone: ['', [Validators.required, Validators.min(7)]],
             });
-            // this.frmLegalContacts = this.fb.group({
-            //     contacts: this.fb.array([])
-            // });
-
         }
     }
 
@@ -131,17 +125,12 @@ export class CustomerModalCrudComponent {
         if (this.customerType == 1) {
             this.frmNaturalBasicData.patchValue(this.customer)
             this.frmNaturalPhoto.patchValue({ photo: this.customerPhoto })
-            if (this.data.action == 'update') {
-                this.frmNaturalPhoto.patchValue(this.customer)
-            }
-
+            if (this.data.action == 'update') this.frmNaturalPhoto.patchValue(this.customer)
         } else {
             this.frmLegalBasicData.patchValue(this.customer)
             this.frmLegalContacts.patchValue(this.customer)
             this.frmLegalPhoto.patchValue({ photo: this.customerPhoto })
-            if (this.data.action == 'update') {
-                this.frmLegalPhoto.patchValue(this.customer)
-            }
+            if (this.data.action == 'update') this.frmLegalPhoto.patchValue(this.customer)
         }
     }
 
@@ -159,7 +148,6 @@ export class CustomerModalCrudComponent {
     onCloseCancel() {
         this.thisDialogRef.close("Cancel")
     }
-
 
     doAction() {
         if (this.customerType == 1) {
@@ -200,6 +188,7 @@ export class CustomerModalCrudComponent {
         this.customer.photoFileName = this.customerPhoto.name;
         return this.customer.photo != undefined && this.customer.photo != "";
     }
+    
     //MODAL CRUD CONTACTS
     refreshContacts() {
         this.contactService.getList(this.data.customer.id).subscribe(res => this.contacts = res)
