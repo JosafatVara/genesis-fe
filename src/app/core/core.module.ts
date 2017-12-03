@@ -1,6 +1,7 @@
 import { NgModule, SystemJsNgModuleLoader } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { NgProgressModule, NgProgressInterceptor  } from 'ngx-progressbar';
 
 import { AuthenticationService } from './services/authentication.service';
 import { UsersService } from './services/users.service';
@@ -37,7 +38,7 @@ import { ProvidersPaymentsService } from './services/providers-payments.service'
   imports: [
     HttpClientModule,
     MatSnackBarModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [ToastComponent, SimpleCrudComponent, MonthSelectorComponent],
   providers: [
@@ -66,13 +67,15 @@ import { ProvidersPaymentsService } from './services/providers-payments.service'
     ImagesService,
     ToastService,
     MonthSelectorService,
-    SimpleCrudService,
+    SimpleCrudService,    
+    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
 
     //GUARDS
     RoleGuard
   ],
   exports: [
     BrowserAnimationsModule,
+    NgProgressModule
   ],
   entryComponents: [
     ToastComponent,
