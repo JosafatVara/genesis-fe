@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { MatFormFieldModule, MatInputModule, MatHorizontalStepper, MatStep } from '@angular/material';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Quotation } from '../../shared/models/quotation';
+import { Quotation, QuotationDetail } from '../../shared/models/quotation';
 import { FormArray, FormControl } from '@angular/forms/src/model';
 import { Customer } from '../../shared/models/customer';
 import { CustomerService } from '../../core/services/customers.service';
@@ -21,7 +21,7 @@ export class ModalCrudComponent {
     customerList: Customer[] = [];
     quotation: Quotation;
     quotationInformationFG: FormGroup;
-    quotationDetailtsFG: FormGroup;
+    quotationDetailsFG: FormGroup;
 
     constructor(private customers: CustomerService, private quotations: QuotationsService
         , private simpleCrud: SimpleCrudService,
@@ -42,7 +42,7 @@ export class ModalCrudComponent {
             created: [undefined, [Validators.required]],
             
         });
-        this.quotationDetailtsFG = this.fb.group({
+        this.quotationDetailsFG = this.fb.group({
             details: this.fb.array([]),
             subtotal: 0,
             igv: 0,
@@ -51,13 +51,13 @@ export class ModalCrudComponent {
     }
 
     initializeFormsListeners(){
-        this.quotationDetailtsFG.get('details').valueChanges.subscribe( () => {
-            let helperQuotation: Quotation = new Quotation({ details: this.details.value })
-            this.quotationDetailtsFG.patchValue({
-                subtotal: helperQuotation.subtotal,
-                igv: helperQuotation.igv,
-                totalAmmount: helperQuotation.totalAmmount
-            });
+        this.quotationDetailsFG.get('details').valueChanges.subscribe( () => {
+            // let helperQuotation: Quotation = new Quotation({ details: this.details.value })
+            // this.quotationDetailtsFG.patchValue({
+            //     subtotal: helperQuotation.subtotal,
+            //     igv: helperQuotation.igv,
+            //     totalAmmount: helperQuotation.totalAmmount
+            // });
         });
         this.quotationInformationFG.get('customer').valueChanges.debounceTime(500).subscribe( cust => {
             if(cust instanceof Customer || cust == "") {
@@ -78,15 +78,14 @@ export class ModalCrudComponent {
     fillFormsModels(){
         if(this.quotation){
             this.quotationInformationFG.patchValue(this.quotation);
-            let quotationDetailsFGs: FormGroup[] = this.quotation.details.map( d => {
-                return this.fb.group({
-                    productQuantity: d.productQuantity,
-                    productName: d.productName,
-                    ammount: d.ammount
-                });
-            });
-            this.quotationDetailtsFG.setControl('details', this.fb.array(quotationDetailsFGs));
+            let quotationDetailsFAs: FormArray[] = this.quotation.details.map( d => this.quotationDetailAsFormArray(d) );
+            this.quotationDetailsFG.setControl('details', this.fb.array(quotationDetailsFAs));
         }
+    }
+
+    quotationDetailAsFormArray(detail: QuotationDetail){
+        let fg = detail.map( field => this.fb.group({ label: field.label, value: field.value }));
+        return this.fb.array(fg);
     }
 
     fillDataModels(){
@@ -94,7 +93,7 @@ export class ModalCrudComponent {
     }
 
     get details(): FormArray{
-        return this.quotationDetailtsFG.get('details') as FormArray;
+        return this.quotationDetailsFG.get('details') as FormArray;
     }
 
     displayCustomerFn(customer: Customer): string{
@@ -104,7 +103,7 @@ export class ModalCrudComponent {
     addDetail(){
         this.simpleCrud.openManual('Agregar detalle a cotización')
         .subscribe( result => {
-            console.log(result);
+            this.details.push( this.quotationDetailAsFormArray( result as QuotationDetail ) );
         });
     }
 

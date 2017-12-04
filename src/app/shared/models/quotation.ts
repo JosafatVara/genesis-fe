@@ -7,26 +7,29 @@ export class Quotation extends BaseEntity<Quotation>{
     public created: Date;
     public details:  QuotationDetail[];
     public state: QuotationState;
+    public subtotal: number;
+    public igv : number;
+    public total: number;
 
-    public get subtotal(): number{
-        return this.details.map( d => d.ammount ).reduce( (prev,curr) => prev + curr );
-    }
+    // public get subtotal(): number{
+    //     return this.details.map( d => d.ammount ).reduce( (prev,curr) => prev + curr );
+    // }
 
-    public get igv(): number{
-        return this.subtotal * 0.19;
-    }
+    // public get igv(): number{
+    //     return this.subtotal * 0.19;
+    // }
 
-    public get totalAmmount(): number{
-        return this.subtotal + this.igv;
-    }
+    // public get totalAmmount(): number{
+    //     return this.subtotal + this.igv;
+    // }
 
 }
 
-export class QuotationDetail extends BaseEntity<QuotationDetail>{
+export class QuotationDetail extends Array<{label: string, value: string}>{
 
-    public productQuantity: number;
-    public productName: string;
-    public ammount: number;
+    // public productQuantity: number;
+    // public productName: string;
+    // public ammount: number;
 
 }
 

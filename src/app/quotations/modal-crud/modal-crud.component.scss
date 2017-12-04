@@ -1,35 +1,27 @@
-// component css goes here
 @import '../../../assets/styles/1.settings/_colors.scss';
-.choose-person {
-    .choose-person__question {
-        font-weight: 500;
-    }
-    .choose-person__options {
-        padding: 50px;
-        .options__option {
-            text-transform: uppercase;
-            color: $white-0;
-            border-radius: 5px;
-            padding: 30px 40px;
-            // background-color: $skyblue-1;
-            background-color: #3998D7;
-            transition: 0.5s;
-            cursor: pointer;
-            .option__img {
-                width: 70px;
-                margin-left: 10px;
-            }
-            &:hover {
-                box-shadow: 0 5px 10px $grey-1;
-            }
-        }
-        .options__option--natural {
-            // background-color: $violet-1;
-            background-color: #B749A9;
-        }
-    }
-}
 
-.padding-button {
-    padding: 10px 0;
+.quotation{
+    &__details{
+        &__detail{
+            max-height: 500px;
+            .header{
+                font-size: 13px;                
+                &-label{
+                    font-weight: bold;
+                }
+                &-value{
+
+                }
+            }
+            .field{
+                font-size: 13px;
+                &-label{
+
+                }
+                &-value{
+
+                }
+            }
+        }
+    }
 }

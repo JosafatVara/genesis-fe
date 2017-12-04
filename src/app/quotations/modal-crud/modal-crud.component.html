@@ -33,33 +33,29 @@
                 </div>
             </form>
         </mat-step>
-        <mat-step [stepControl]="quotationDetailtsFG" [completed]="false">
-            <form [formGroup]="quotationDetailtsFG">
-                <ng-template matStepLabel>Productos</ng-template>
-
-                <!-- <div class="cmp-table">
-                    <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="start center">
-                        <li fxFlex="30" class="header__title header__title--action">Cantidad <i class="fa fa-angle-down" aria-hidden="true"></i></li>
-                        <li fxFlex="50" class="header__title header__title--action">Descripción <i class="fa fa-angle-down" aria-hidden="true"></i></li>
-                        <li fxFlex="20" class="header__title header__title--action">Monto <i class="fa fa-angle-down" aria-hidden="true"></i></li>
-                    </ul>
-                    <ul class="cmp-table__body" fxLayout="row" *ngFor="let detail of details.controls">
-                        <li fxFlex="30" class="body__text" fxLayoutAlign="start center">
-                            <span>{{detail.get('productQuantity').value}}</span>
-                        </li>
-                        <li fxFlex="50" class="body__text" fxLayoutAlign="start center">
-                            <span><span>{{detail.get('productName').value}}</span></span>
-                        </li>
-                        <li fxFlex="20" class="body__text" fxLayoutAlign="start center">
-                            <span>{{detail.get('ammout').value}}</span>
-                        </li>
-                    </ul>                    
-                </div> -->
-                <div fxLayoutAlign="center center">
+        <mat-step [stepControl]="quotationDetailsFG" [completed]="false">
+            <ng-template matStepLabel>Productos</ng-template>
+            <form class="quotation__details" [formGroup]="quotationDetailsFG" fxLayout="column" fxLayoutGap="10px">
+                <ul class="quotation__details__detail scrollbar">
+                    <li *ngFor="let detail of details.controls">
+                        <mat-expansion-panel [expanded]="true" *ngIf="detail.controls.length > 0">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="header header-label">{{detail.controls[0].get('label').value}}:&nbsp;</span>
+                                    <span class="header header-value">{{detail.controls[0].get('value').value}}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row" fxLayoutAlign="end start" *ngFor="let field of detail.controls">
+                                <span class="field field-label">{{field.get('label').value}}:&nbsp;</span>
+                                <span class="field field-value">{{field.get('value').value}}</span>
+                            </div>
+                        </mat-expansion-panel>
+                    </li>
+                </ul>
+                <div fxLayout="center" fxLayoutAlign="center center">
                     <button class="cmp-btn cmp-btn--white-blue" (click)="addDetail()">Agregar Detalle</button>
                 </div>
-
-                <div class="cmp-table">
+                <!-- <div class="cmp-table">
                     <ul class="cmp-table__header" fxLayoutAlign="end center">
                         <li fxFlex=20 class="header__title header__title--action">Resultados</li>
                     </ul>
@@ -72,7 +68,7 @@
                     <ul class="cmp-table__body">
                         <li fxFlex class="body__text" fxLayoutAlign="end center">8820(Total en Nuevos Soles)</li>
                     </ul>
-                </div>
+                </div> -->
                 <div class="padding-button" fxLayoutAlign="space-between center">
                     <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
                     <button mat-button matStepperNext class="cmp-btn cmp-btn--violet" (click)="confirm()">Crear</button>

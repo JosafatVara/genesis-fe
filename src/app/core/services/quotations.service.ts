@@ -22,17 +22,14 @@ export class QuotationsService extends AuthenticatedService implements CrudServi
                 id: i + 1,
                 created: new Date(),
                 state: new QuotationState({ name: this.makeRandomString(6) }),
-                details: [ 
-                    new QuotationDetail({
-                        productQuantity: this.makeRandomNumberInInterval(50,200),
-                        productName: this.makeRandomString(10),
-                        ammount: this.makeRandomNumberInInterval(500,5000)
-                    }),
-                    new QuotationDetail({
-                        productQuantity: this.makeRandomNumberInInterval(50,200),
-                        productName: this.makeRandomString(10),
-                        ammount: this.makeRandomNumberInInterval(500,5000)
-                }) ]
+                details: [
+                    [
+                        {
+                            label: this.makeRandomString(8),
+                            value: this.makeRandomString(15)
+                        }
+                    ]
+                ]
             })]);
         }
     }
