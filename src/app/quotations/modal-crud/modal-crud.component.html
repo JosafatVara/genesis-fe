@@ -8,20 +8,27 @@
         <mat-step [stepControl]="quotationInformationFG" [completed]="false">
             <form [formGroup]="quotationInformationFG">
                 <ng-template matStepLabel>Datos</ng-template>
-                <div fxLayoutAlign="space-between center">
-                    <mat-form-field fxFlex=100>
-                        <input matInput placeholder="Cliente" formControlName="customer" required>
+                <div fxLayout="column" fxLayoutGap="20px">
+                    <mat-form-field class="o-full-width">
+                        <span matSuffix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
+                        <input matInput formControlName="customer" [matAutocomplete]="auto" placeholder="Cliente" required>
+                        <mat-error>Debe seleccionar un cliente</mat-error>
                     </mat-form-field>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCustomerFn">
+                        <mat-option *ngFor="let customer of customerList" [value]="customer">
+                            {{ customer.businessName }}
+                        </mat-option>
+                    </mat-autocomplete>
                 </div>
                 <div fxLayoutAlign="space-between center">
                     <mat-form-field class="o-full-width">
-                        <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="created">
+                        <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="created" (focus)="picker.open()">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                        <mat-error>Requerido</mat-error>
                     </mat-form-field>
                 </div>
-                <div class="padding-button" fxLayoutAlign="space-between center">
-                    <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
+                <div class="padding-button" fxLayoutAlign="end start">
                     <button mat-button matStepperNext class="cmp-btn cmp-btn--violet">Siguiente</button>
                 </div>
             </form>
@@ -30,27 +37,26 @@
             <form [formGroup]="quotationDetailtsFG">
                 <ng-template matStepLabel>Productos</ng-template>
 
-                <div class="cmp-table">
-                    <ul class="cmp-table__header" fxLayoutAlign="space-between center">
-                        <li fxFlex class="header__title header__title--action">Cantidad <i class="fa fa-angle-down" aria-hidden="true"></i></li>
-                        <li fxFlex class="header__title header__title--action">Descripción <i class="fa fa-angle-down" aria-hidden="true"></i></li>
-                        <li fxFlex=20 class="header__title header__title--action">Monto <i class="fa fa-angle-down" aria-hidden="true"></i></li>
-                        <!-- <li fxFlex=30 class="header__title ">Acciones</li> -->
+                <!-- <div class="cmp-table">
+                    <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="start center">
+                        <li fxFlex="30" class="header__title header__title--action">Cantidad <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                        <li fxFlex="50" class="header__title header__title--action">Descripción <i class="fa fa-angle-down" aria-hidden="true"></i></li>
+                        <li fxFlex="20" class="header__title header__title--action">Monto <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                     </ul>
-                    <ul class="cmp-table__body">
-                        <li fxFlex class="body__text" fxLayoutAlign="start center">3000</li>
-                        <li fxFlex class="body__text" fxLayoutAlign="start center">Periodicos Halcon</li>
-                        <li fxFlex=20 class="body__text" fxLayoutAlign="start center">580</li>
-
-                    </ul>
-                    <ul class="cmp-table__body">
-                        <li fxFlex class="body__text" fxLayoutAlign="start center">7000</li>
-                        <li fxFlex class="body__text" fxLayoutAlign="start center">Kodevian SAC</li>
-                        <li fxFlex=20 class="body__text" fxLayoutAlign="start center">1000</li>
-                    </ul>
-                </div>
+                    <ul class="cmp-table__body" fxLayout="row" *ngFor="let detail of details.controls">
+                        <li fxFlex="30" class="body__text" fxLayoutAlign="start center">
+                            <span>{{detail.get('productQuantity').value}}</span>
+                        </li>
+                        <li fxFlex="50" class="body__text" fxLayoutAlign="start center">
+                            <span><span>{{detail.get('productName').value}}</span></span>
+                        </li>
+                        <li fxFlex="20" class="body__text" fxLayoutAlign="start center">
+                            <span>{{detail.get('ammout').value}}</span>
+                        </li>
+                    </ul>                    
+                </div> -->
                 <div fxLayoutAlign="center center">
-                    <button class="cmp-btn cmp-btn--white-blue">Adicionar Producto</button>
+                    <button class="cmp-btn cmp-btn--white-blue" (click)="addDetail()">Agregar Detalle</button>
                 </div>
 
                 <div class="cmp-table">

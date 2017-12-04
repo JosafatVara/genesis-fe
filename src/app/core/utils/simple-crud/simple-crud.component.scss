@@ -4,7 +4,22 @@
         font-weight: bolder;
         margin-bottom: 16px;
     }
+    &__manual-label{
+        font-size: 13px;
+        padding-left: 20px;
+        ul{
+            list-style: disc;
+            li{
+                padding-bottom: 10px;
+            }
+        }
+    }
     &__controls{
+        &--limited{
+            max-height: 400px;
+            overflow: auto;
+            font-size: 14px;
+        }
         &__item{
             padding: 6px;
         }

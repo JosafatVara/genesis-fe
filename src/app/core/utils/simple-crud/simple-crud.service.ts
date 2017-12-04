@@ -10,16 +10,28 @@ export class SimpleCrudService {
   constructor(private matDialog: MatDialog) { }
 
   open<T>(title: string, 
-    formControlList: {type:string, label: string, name: string, control: FormControl}[], config?: MatDialogConfig): Observable<T>{
+    formControlList?: {type:string, label: string, name: string, control: FormControl}[], config?: MatDialogConfig): Observable<T>{
     config = config || {
       height: 'auto',
-      width: 'auto',
+      width: formControlList? 'auto': '550px',
       disableClose: true
     };
     config.data = config.data || {};
     Object.assign(config.data,{formControlList: formControlList, title: title});
     let dialogRef = this.matDialog.open(SimpleCrudComponent,config);
     return dialogRef.afterClosed().map( r => r as T );
+  }
+
+  openManual(title: string, config?: MatDialogConfig): Observable<{label: string, value: string}[]>{
+    config = config || {
+      height: 'auto',
+      width: '550px',
+      disableClose: true
+    };
+    config.data = config.data || {};
+    Object.assign(config.data,{title: title});
+    let dialogRef = this.matDialog.open(SimpleCrudComponent,config);
+    return dialogRef.afterClosed();
   }
 
 }

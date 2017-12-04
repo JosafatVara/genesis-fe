@@ -53,7 +53,9 @@ export class CustomerListComponent implements OnInit {
                 this.config.totalItems = specification.size;
                 this.customers = Observable.of(list);
             })
-            .catch( err => Observable.of([]) ).subscribe();
+            .catch( err => {
+                return Observable.of([])
+            } ).subscribe();
     }
 
     private refreshCustomers() {

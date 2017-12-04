@@ -35,7 +35,7 @@ export class CustomerService extends AuthenticatedService {
                         customers = customers.concat([this.mapBeToCustomer(r)]);
                     });
                     return customers;
-                });
+                }).catch( err => Observable.of([]) );
             });
         }
         return Observable.of([]);

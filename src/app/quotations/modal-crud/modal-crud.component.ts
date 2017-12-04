@@ -4,7 +4,12 @@ import { MatFormFieldModule, MatInputModule, MatHorizontalStepper, MatStep } fro
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Quotation } from '../../shared/models/quotation';
-import { FormArray } from '@angular/forms/src/model';
+import { FormArray, FormControl } from '@angular/forms/src/model';
+import { Customer } from '../../shared/models/customer';
+import { CustomerService } from '../../core/services/customers.service';
+import { QuotationsService } from '../../core/services/quotations.service';
+import { CustomersSearchPagedSpecification } from '../../core/services/specifications/customer-specification';
+import { SimpleCrudService } from '../../core/utils/simple-crud/simple-crud.service';
 
 @Component({
     moduleId: module.id,
@@ -13,24 +18,28 @@ import { FormArray } from '@angular/forms/src/model';
     styleUrls: ['modal-crud.component.scss']
 })
 export class ModalCrudComponent {
+    customerList: Customer[] = [];
     quotation: Quotation;
     quotationInformationFG: FormGroup;
     quotationDetailtsFG: FormGroup;
 
-    constructor(private fb: FormBuilder, public thisDialogRef: MatDialogRef<ModalCrudComponent>, 
+    constructor(private customers: CustomerService, private quotations: QuotationsService
+        , private simpleCrud: SimpleCrudService,
+         private fb: FormBuilder, public thisDialogRef: MatDialogRef<ModalCrudComponent>, 
         @Inject(MAT_DIALOG_DATA) public data: { quotation: Quotation}) {
         this.quotation = data.quotation;
     }
 
     ngOnInit() {
         this.createForms();
+        this.initializeFormsListeners();
         this.fillFormsModels();
     }
 
     createForms(){
         this.quotationInformationFG = this.fb.group({
-            customer: [undefined, [Validators.required]],
-            created: [new Date(), [Validators.required]],
+            customer: [undefined, [Validators.required, this.customerMustBeCustomerValidation]],
+            created: [undefined, [Validators.required]],
             
         });
         this.quotationDetailtsFG = this.fb.group({
@@ -39,6 +48,9 @@ export class ModalCrudComponent {
             igv: 0,
             totalAmmount: 0
         });
+    }
+
+    initializeFormsListeners(){
         this.quotationDetailtsFG.get('details').valueChanges.subscribe( () => {
             let helperQuotation: Quotation = new Quotation({ details: this.details.value })
             this.quotationDetailtsFG.patchValue({
@@ -47,6 +59,20 @@ export class ModalCrudComponent {
                 totalAmmount: helperQuotation.totalAmmount
             });
         });
+        this.quotationInformationFG.get('customer').valueChanges.debounceTime(500).subscribe( cust => {
+            if(cust instanceof Customer || cust == "") {
+                this.customerList = [];
+            }else{
+                this.customers.getList(new CustomersSearchPagedSpecification(cust, 1, 10)).subscribe( custs => {
+                    this.customerList = custs;
+                })
+            }
+        });
+    }
+
+    customerMustBeCustomerValidation(customerControl: FormControl){
+        if(customerControl.value instanceof Customer) return null;
+        else return { required: true };
     }
 
     fillFormsModels(){
@@ -69,6 +95,17 @@ export class ModalCrudComponent {
 
     get details(): FormArray{
         return this.quotationDetailtsFG.get('details') as FormArray;
+    }
+
+    displayCustomerFn(customer: Customer): string{
+        return customer? customer.businessName : '';
+    }
+
+    addDetail(){
+        this.simpleCrud.openManual('Agregar detalle a cotización')
+        .subscribe( result => {
+            console.log(result);
+        });
     }
 
     confirm() {

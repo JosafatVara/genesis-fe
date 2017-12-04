@@ -1,12 +1,35 @@
-<form class="simple-crud" [formGroup]="formGroup" (submit)="confirm()">
+<form class="simple-crud" [formGroup]="formGroup" (submit)="confirm()" fxLayout="column" [fxLayoutGap]="isManual? '10px':'0px'">
   <p class="simple-crud__title">{{title}}</p>
-  <div class="simple-crud__controls" fxLayout="row" fxLayoutWrap>
-    <mat-form-field fxFlex="50" class="simple-crud__controls__item" *ngFor="let control of formControlList" 
-      [ngSwitch]="control.type">
-      <input type="text" matInput *ngSwitchCase="'text'" [formControlName]="control.name" [placeholder]="control.label">
-      <input type="number" matInput *ngSwitchCase="'number'" [formControlName]="control.name" [placeholder]="control.label">
-      <mat-error>Requerido</mat-error>
-    </mat-form-field>
+  <div class="simple-crud__manual-label" *ngIf="isManual">
+    <ul>
+      <li>Agrege los campos que desee haciendo click sobre "Agregar campo"</li>
+      <li>Puede cambiar el nombre del campo dando click sobre su nombre</li>
+    </ul>    
+  </div>
+  <div class="simple-crud__controls" fxLayout="row" fxLayoutWrap *ngIf="!isManual">
+    <div fxFlex="50" class="simple-crud__controls__item" fxLayout="row" fxLayoutAlign="start center" 
+      *ngFor="let control of formControlList" fxLayoutGap="0px">
+        <mat-form-field fxFlex [ngSwitch]="control.type">
+          <input type="text" matInput *ngSwitchCase="'text'" [formControlName]="control.name" [placeholder]="control.label">
+          <input type="number" matInput *ngSwitchCase="'number'" [formControlName]="control.name" [placeholder]="control.label">
+          <mat-error>Requerido</mat-error>
+        </mat-form-field>
+    </div>    
+  </div>
+  <div class="simple-crud__controls simple-crud__controls--limited scrollbar" *ngIf="isManual">
+    <div class="simple-crud__controls__item" fxLayout="row" fxLayoutAlign="start center" 
+      *ngFor="let control of formControlList; let i = index;" fxLayoutGap="10px">
+        <input fxFlex="25" *ngIf="control.editingLabel" type="text" [(ngModel)]="control.label" [ngModelOptions]="{standalone: true}"
+          (keypress)="closeEditLabel($event, control)" (blur)="closeEditLabel('blur', control)">
+        <span fxFlex="25" *ngIf="!control.editingLabel" (click)="control.editingLabel = true">{{control.label}}:&nbsp;</span>
+        <mat-form-field fxFlex [ngSwitch]="control.type">
+          <input type="text" matInput *ngSwitchCase="'text'" [formControlName]="control.name">
+        </mat-form-field>
+        <button type="button" (click)="removeControl(i);" class="cmp-btn"><i class="fa fa-times"></i></button>
+    </div>    
+  </div>
+  <div class="simple-crud__manual-actions" fxLayout="row" fxLayoutAlign="center start">
+    <button type="button" class="cmp-btn" (click)="addControl()"><i class="fa fa-plus"></i>&nbsp;Agregar campo</button>
   </div>
   <div class="simple-crud__actions" fxLayout="row" fxLayoutAlign="space-between center">
     <button type="button" mat-dialog-close class="cmp-btn">Cancelar</button>
