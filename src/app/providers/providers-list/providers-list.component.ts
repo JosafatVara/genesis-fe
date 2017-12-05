@@ -8,11 +8,13 @@ import { Enterprise } from '../../shared/models/enterprise';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../shared/models/user';
 import { PaginationInstance } from 'ngx-pagination/dist/pagination-instance';
-import { ProviderPagedSpecification } from '../../core/services/specifications/provider-specification';
 
 //components
 import { ProvidersModalCrudComponent } from "../providers-modal-crud/providers-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
+import { ProvidersSearchPagedSpecification } from '../../core/services/specifications/provider-specification';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     moduleId: module.id,
@@ -21,10 +23,11 @@ import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/c
     styleUrls: ['providers-list.component.scss']
 })
 export class ProvidersListComponent implements OnInit {
-    providers: any = [];
+    providers: Observable<Provider[]>;
     public currentUser: User;
     public currentEnterprise: Enterprise;
     public config: PaginationInstance;
+    public searchFC: FormControl;
 
     constructor(
         private matDialog: MatDialog,
@@ -42,21 +45,23 @@ export class ProvidersListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.refreshProviders();
+        this.searchFC = new FormControl();
+        this.searchFC.valueChanges.debounceTime(500).subscribe( () => this.load() );
+        this.load();
     }
 
-    // loadProviders(page?: number) {
-    //     page = page || this.config.currentPage;
-    //     this.config.currentPage = page;
-    //     let specification = new UsersSearchPagedSpecification(this.searchFC.value || '', page, this.config.itemsPerPage);
-    //     this.userList = this.users.get(specification)
-    //         .do(() => { this.config.totalItems = specification.size })
-    //         .catch(err => Observable.of([]));
-    // }
-
-
-    private refreshProviders() {
-        this.providerService.getList(this.currentEnterprise.id).subscribe(res => this.providers = res);
+    private load(page?: number){
+        page = page || this.config.currentPage;
+        this.config.currentPage = page;
+        let specification = new ProvidersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
+        this.providerService.get(specification)
+            .do( list => {
+                this.config.totalItems = specification.size;
+                this.providers = Observable.of(list);
+            })
+            .catch( err => {
+                return Observable.of([])
+            } ).subscribe();
     }
 
 
@@ -74,8 +79,8 @@ export class ProvidersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            // if (!result.cancelled) 
-            this.refreshProviders()
+            if(!result) return;
+            this.load()
         })
     }
 
@@ -86,7 +91,7 @@ export class ProvidersListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.providerService.delete(provider.id).subscribe(() => this.refreshProviders());
+            if (confirm) this.providerService.delete(provider.id).subscribe(() => this.load());
         });
     }
 }

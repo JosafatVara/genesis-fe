@@ -44,17 +44,39 @@ export class ProviderPagedAndSortedSpecification extends ProviderSpecification i
 }
 
 
-export class ProvidersByNameSpecification extends ProviderSpecification{
+export class ProvidersByNameSpecification extends ProviderSpecification implements QueryParamsSpecification{
     
-    constructor(private freelancerName: string){
+    constructor(public providerName: string){
         super();
-        if(!freelancerName){
-            this.freelancerName = "";
+        if(!providerName){
+            this.providerName = "";
         }
     }
 
     protected evaluate(entity: Provider): boolean {
-        return entity.fullName.toLocaleLowerCase().includes(this.freelancerName.toLocaleLowerCase());
+        return entity.fullName.toLocaleLowerCase().includes(this.providerName.toLocaleLowerCase());
+    }
+    
+    toQueryParams(toAppend?: HttpParams): HttpParams {
+        throw new Error("Method not implemented.");
+    }
+}
+
+
+export class ProvidersSearchPagedSpecification extends ProviderSpecification implements QueryParamsSpecification{
+    
+    public size: number;
+
+    constructor(public searchQuery: string, public page: number, public pageSize: number){
+        super();
+    }
+
+    protected evaluate(entity: Provider): boolean {
+        throw new Error("Method not implemented.");
+    }
+
+    toQueryParams(toAppend?: HttpParams): HttpParams {
+        return (new PaginationSpecification(this.page,this.pageSize)).toQueryParams().append('search',this.searchQuery);
     }
     
 }

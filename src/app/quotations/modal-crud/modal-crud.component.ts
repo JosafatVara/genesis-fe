@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from "@angular/material";
 import { MatFormFieldModule, MatInputModule, MatHorizontalStepper, MatStep } from '@angular/material';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import { CustomerService } from '../../core/services/customers.service';
 import { QuotationsService } from '../../core/services/quotations.service';
 import { CustomersSearchPagedSpecification } from '../../core/services/specifications/customer-specification';
 import { SimpleCrudService } from '../../core/utils/simple-crud/simple-crud.service';
+import { CustomerModalCrudComponent } from '../../customers/customer-modal-crud/customer-modal-crud.component';
 
 @Component({
     moduleId: module.id,
@@ -24,7 +25,7 @@ export class ModalCrudComponent {
     quotationDetailsFG: FormGroup;
 
     constructor(private customers: CustomerService, private quotations: QuotationsService
-        , private simpleCrud: SimpleCrudService,
+        , private simpleCrud: SimpleCrudService, private matDialog: MatDialog,
          private fb: FormBuilder, public thisDialogRef: MatDialogRef<ModalCrudComponent>, 
         @Inject(MAT_DIALOG_DATA) public data: { quotation: Quotation}) {
         this.quotation = data.quotation;
@@ -44,8 +45,6 @@ export class ModalCrudComponent {
         });
         this.quotationDetailsFG = this.fb.group({
             details: this.fb.array([]),
-            subtotal: 0,
-            igv: 0,
             totalAmmount: 0
         });
     }
@@ -103,8 +102,39 @@ export class ModalCrudComponent {
     addDetail(){
         this.simpleCrud.openManual('Agregar detalle a cotización')
         .subscribe( result => {
+            if(!result) return;
             this.details.push( this.quotationDetailAsFormArray( result as QuotationDetail ) );
+            
         });
+    }
+
+    editDetail(index: number){
+        let detail = this.details.controls[index].value as QuotationDetail;
+        this.simpleCrud.openManual('Editar detalle de cotización', detail)
+        .subscribe( result => {
+            if(!result) return;
+            this.details.setControl(index, this.quotationDetailAsFormArray(result as QuotationDetail));
+        });
+    }
+
+    removeDetail(index: number){
+        this.details.removeAt(index);
+    }
+
+    createCustomer(){
+        let dialogRef = this.matDialog.open(CustomerModalCrudComponent, {
+            width: '800px',
+            data: {
+                action: 'create',
+                customer: {}
+            }
+        });
+        dialogRef.afterClosed().subscribe((result: Customer) => {
+            if(result){
+                debugger;
+                this.quotationInformationFG.get('customer').setValue(result);
+            }
+        })
     }
 
     confirm() {

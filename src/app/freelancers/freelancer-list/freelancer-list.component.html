@@ -6,6 +6,9 @@
   </div>  
   <div class="freelancer-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
     <div [ngClass]="{'cmp-card__body':inDashboard}">
+      <div class="body__cont-actions" fxLayoutAlign="space-between center">
+          <input [formControl] ="searchFC" class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar...">
+      </div>
       <div class="cmp-table">
         <ul class="cmp-table__header" fxLayoutAlign="space-between center">
           <li fxFlex="20" class="header__title header__title--action u-h-center">DNI</li>
@@ -14,7 +17,7 @@
           <li fxFlex="15" class="header__title header__title--action u-h-center">Sueldo</li>
           <li fxFlex class="header__title u-h-center">Acciones</li>
         </ul>
-        <ul class="cmp-table__body freelancer-list__dataset__item" *ngFor="let freelancer of freelancerList"
+        <ul class="cmp-table__body freelancer-list__dataset__item" *ngFor="let freelancer of freelancerList  | async | paginate: config"
         fxLayout="row" fxLayout="start center">
           <li fxFlex="20" class="body__text u-h-center">{{freelancer.dni}}</li>
           <li fxFlex="20" class="body__text u-h-center">{{freelancer.firstName + ' ' + freelancer.lastName}}</li>
@@ -31,6 +34,9 @@
               </button>
           </li>
         </ul>
+        <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="load($event)">
+            <gen-paginator [pagination]="p"></gen-paginator>
+        </pagination-template>
       </div>
     </div>    
   </div>

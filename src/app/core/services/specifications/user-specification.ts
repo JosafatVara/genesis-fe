@@ -56,7 +56,7 @@ export class UsersSearchPagedSpecification extends UserSpecification implements 
     }
 
     toQueryParams(toAppend?: HttpParams): HttpParams {
-        return (new PaginationSpecification(this.page,this.pageSize)).toQueryParams().append('query',this.searchQuery);
+        return (new PaginationSpecification(this.page,this.pageSize)).toQueryParams().append('search',this.searchQuery);
     }
     
 }

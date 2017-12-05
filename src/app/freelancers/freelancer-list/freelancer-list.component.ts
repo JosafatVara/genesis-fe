@@ -5,6 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { DialogFreelancerDetailsComponent } from '../dialog-freelancer-details/dialog-freelancer-details.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { Observable } from 'rxjs/Observable';
+import { PaginationInstance } from 'ngx-pagination';
+import { FormControl } from '@angular/forms';
+import { FreelancersSearchPagedSpecification } from '../../core/services/specifications/freelancer-specification';
 
 @Component({
   selector: 'gen-freelancer-list',
@@ -14,21 +18,39 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
 export class FreelancerListComponent implements OnInit {
 
   public inDashboard: boolean;
-  public freelancerList: Array<Freelancer>;
+  public freelancerList: Observable<Array<Freelancer>>;
+  public config: PaginationInstance;
+  public searchFC: FormControl;
 
   constructor(private freelancers: FreelancersService, route: ActivatedRoute,private matDialog: MatDialog) {
     route.data.subscribe( (data: {inDashboard:boolean}) => this.inDashboard = data.inDashboard);
+    this.config = {
+      id: 'pagination',
+      itemsPerPage: 5,
+      currentPage: 1
+    };
   }
 
   //#region lyfecycle
   ngOnInit() {
-    this.refreshFreelancerList();
+    this.searchFC = new FormControl();
+    this.searchFC.valueChanges.debounceTime(500).subscribe( () => this.load() );
+    this.load();
   }
   //#endregion
   
-
-  private refreshFreelancerList(){
-    this.freelancers.get().subscribe( es => this.freelancerList = es );
+  load(page?: number){
+    page = page || this.config.currentPage;
+    this.config.currentPage = page;
+    let specification = new FreelancersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
+    this.freelancers.get(specification)
+        .do( list => {
+            this.config.totalItems = specification.size;
+            this.freelancerList = Observable.of(list);
+        })
+        .catch( err => {
+            return Observable.of([])
+        } ).subscribe();
   }
 
   public crud(mode: string, freelancer: Freelancer = undefined ){
@@ -46,7 +68,7 @@ export class FreelancerListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( (result: { cancelled: boolean }) => {
       if(result&&!result.cancelled){
-        this.refreshFreelancerList();
+        this.load();
       }
     });
   }
@@ -59,7 +81,7 @@ export class FreelancerListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( confirm => {
       if(confirm){
-        this.freelancers.delete(freelancer).subscribe( () => this.refreshFreelancerList());
+        this.freelancers.delete(freelancer).subscribe( () => this.load());
       }
     });
   }

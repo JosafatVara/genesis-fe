@@ -50,22 +50,22 @@ export class UsersService extends AuthenticatedService implements CrudService<Us
     if(specification instanceof UsersSearchPagedSpecification){
       return this.enterprises.getCurrentEnterprise()
       .flatMap( e => { 
-        if(specification.searchQuery != "" && specification.searchQuery !=undefined){
-          return this.http
-          .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders})
-          .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
-            specification.size = results[0].count;
-            let userList: User[] = [];
-            results[0].page.forEach( r => {
-              userList = userList.concat([ this.mapBeToUser(r) ]);
-            });
-            userList = userList.filter( u => u.firstName.toLocaleLowerCase().includes(specification.searchQuery.toLocaleLowerCase())
-              || u.lastName.toLocaleLowerCase().includes(specification.searchQuery.toLocaleLowerCase()) )
-            specification.size = userList.length;
-            userList = userList.slice(specification.page-1*specification.pageSize, specification.pageSize);  
-            return userList; 
-          });
-        }
+        // if(specification.searchQuery != "" && specification.searchQuery !=undefined){
+        //   return this.http
+        //   .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders})
+        //   .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {
+        //     specification.size = results[0].count;
+        //     let userList: User[] = [];
+        //     results[0].page.forEach( r => {
+        //       userList = userList.concat([ this.mapBeToUser(r) ]);
+        //     });
+        //     userList = userList.filter( u => u.firstName.toLocaleLowerCase().includes(specification.searchQuery.toLocaleLowerCase())
+        //       || u.lastName.toLocaleLowerCase().includes(specification.searchQuery.toLocaleLowerCase()) )
+        //     specification.size = userList.length;
+        //     userList = userList.slice(specification.page-1*specification.pageSize, specification.pageSize);  
+        //     return userList; 
+        //   });
+        // }
         return this.http
         .get<any[]>(`${this.actionUrl}enterprises/${e.id}/users`, {headers: this.authHttpHeaders, params: specification.toQueryParams()})
         .map( (results: { count: number, num_pages: 1, page: any[] }[]) => {

@@ -33,7 +33,7 @@ export class CustomerListComponent implements OnInit {
         // users.getCurrentUser().subscribe(u => this.currentUser = u);
         this.config = {
           id: 'pagination',
-          itemsPerPage: 2,
+          itemsPerPage: 5,
           currentPage: 1
         };
     }

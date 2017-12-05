@@ -15,7 +15,7 @@
     </div>
     <div *ngSwitchCase="1">
         <mat-horizontal-stepper [linear]="isLinear">
-            <mat-step [stepControl]="frmNaturalPhoto">
+            <mat-step [completed]="false" [stepControl]="frmNaturalPhoto">
                 <form [formGroup]="frmNaturalPhoto">
                     <ng-template matStepLabel>Foto</ng-template>
                     <div fxLayoutAlign="center center">
@@ -28,7 +28,7 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="frmNaturalBasicData">
+            <mat-step [completed]="false" [stepControl]="frmNaturalBasicData">
                 <form [formGroup]="frmNaturalBasicData">
                     <ng-template matStepLabel>Datos</ng-template>
                     <div fxLayoutAlign="space-between center">
@@ -78,7 +78,7 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="frmNaturalBankAccounts">
+            <mat-step [completed]="false" [stepControl]="frmNaturalBankAccounts">
                 <!-- <form [formGroup]="nthirdFormGroup"> -->
                 <ng-template matStepLabel>Cuentas Bancarias</ng-template>
                 <div class="cmp-table ">
@@ -109,7 +109,7 @@
     </div>
     <div *ngSwitchCase="2">
         <mat-horizontal-stepper [linear]="isLinear">
-            <mat-step [stepControl]="frmLegalPhoto">
+            <mat-step [completed]="false" [stepControl]="frmLegalPhoto">
                 <form [formGroup]="frmLegalPhoto">
                     <ng-template matStepLabel>Foto</ng-template>
                     <div fxLayoutAlign="center center">
@@ -122,7 +122,7 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="frmLegalBasicData">
+            <mat-step [completed]="false" [stepControl]="frmLegalBasicData">
                 <form [formGroup]="frmLegalBasicData">
                     <ng-template matStepLabel>Datos</ng-template>
                     <div fxLayoutAlign="space-between center">
@@ -147,14 +147,18 @@
                             <mat-error>Requerido</mat-error>
                         </mat-form-field>
                     </div>
-                    <div fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex=100>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <mat-form-field fxFlex>
                             <mat-select placeholder="Grupo" formControlName="group" name="item">
                                 <mat-option *ngFor="let item of groupList" [value]="item.id">
                                     {{ item.name }}
                                 </mat-option>
                             </mat-select>
+                            <mat-error>Seleccione un grupo</mat-error>
                         </mat-form-field>
+                        <mat-checkbox #hasNotGroupCheck="matCheckbox" (change)="toggleHasGroup()">
+                            Sin grupo
+                        </mat-checkbox>
                     </div>
                     <div fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex=100>
@@ -167,7 +171,7 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="frmLegalContacts">
+            <mat-step [completed]="false" [stepControl]="frmLegalContacts">
 
                 <form [formGroup]="frmLegalContacts">
                     <ng-template matStepLabel>Contactos</ng-template>
@@ -201,7 +205,7 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="frmLegalBankAccounts">
+            <mat-step [completed]="false" [stepControl]="frmLegalBankAccounts">
                 <form [formGroup]="frmLegalBankAccounts">
                     <ng-template matStepLabel>Cuentas Bancarias</ng-template>
                     <div class="cmp-table ">

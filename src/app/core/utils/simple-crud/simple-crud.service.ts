@@ -22,14 +22,14 @@ export class SimpleCrudService {
     return dialogRef.afterClosed().map( r => r as T );
   }
 
-  openManual(title: string, config?: MatDialogConfig): Observable<{label: string, value: string}[]>{
+  openManual(title: string, manualEntity?: {label: string, value: string}[], config?: MatDialogConfig): Observable<{label: string, value: string}[]>{
     config = config || {
       height: 'auto',
       width: '550px',
       disableClose: true
     };
     config.data = config.data || {};
-    Object.assign(config.data,{title: title});
+    Object.assign(config.data,{title: title, manualEntity: manualEntity});
     let dialogRef = this.matDialog.open(SimpleCrudComponent,config);
     return dialogRef.afterClosed();
   }

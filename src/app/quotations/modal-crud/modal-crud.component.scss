@@ -1,26 +1,42 @@
 @import '../../../assets/styles/1.settings/_colors.scss';
 
-.quotation{
-    &__details{
-        &__detail{
-            max-height: 500px;
-            .header{
-                font-size: 13px;                
-                &-label{
-                    font-weight: bold;
+:host{
+    .quotation{
+        &__actions{
+            margin-bottom: 8px;
+        }
+        &__details{
+            &__detail{
+                max-height: 400px;
+                li{
+                    margin-bottom: 5px;
+                    /deep/ mat-expansion-panel{
+                        border: 1px dashed black;
+                        border-radius: 5px;
+                    }
                 }
-                &-value{
+                .header{
+                    font-size: 13px;                
+                    &-label{
+                        font-weight: bold;
+                    }
+                    &-value{
 
+                    }
                 }
-            }
-            .field{
-                font-size: 13px;
-                &-label{
+                .field{
+                    font-size: 13px;
+                    &-label{
+                        font-weight: 600;
+                        text-align: right;
+                    }
+                    &-value{
 
+                    }
                 }
-                &-value{
-
-                }
+                .detail-actions{
+                    margin-bottom: 8px;
+                }                
             }
         }
     }

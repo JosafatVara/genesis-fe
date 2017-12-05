@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule, MatFormFieldModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatStepperModule, MatExpansionModule, MatAutocompleteModule } from '@angular/material';
+import { MatInputModule, MatFormFieldModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatStepperModule, MatExpansionModule, MatAutocompleteModule, MatCheckboxModule } from '@angular/material';
 import { SlimScroll } from 'angular-io-slimscroll';
 
 import { PhotoInputComponent } from './components/photo-input/photo-input.component';
@@ -34,6 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatStepperModule,
     MatExpansionModule,
     MatAutocompleteModule,
+    MatCheckboxModule,
     NumericPipe,
     ToMonthPipe,
     SlimScroll,

@@ -24,7 +24,8 @@
                         <ul class="cmp-table__body" fxLayout="row" *ngFor="let item of quotationList | async | paginate: config">
                             <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.created | date:'dd/MM/yyyy'}}</li>
                             <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.customer? item.customer.name : ''}}</li>
-                            <li fxFlex="20" class="body__text" fxLayoutAlign="start center">{{item.totalAmmount}}({{item.state? item.state.name: ''}})</li>
+                            <li fxFlex="20" class="body__text" fxLayoutAlign="start center">{{item.totalAmmount}}
+                                <span (click)="changeState(item)">({{item.state? item.state.name: ''}})</span></li>
                             <li fxFlex="30" class="body__text">
                                 <button class="cmp-btn cmp-btn--actions" (click)="crud('u',item)"><i class="fa fa-pencil" aria-hidden="true"></i> <span fxHide.lt-lg> Editar</span> </button>
                                 <button class="cmp-btn cmp-btn--violet cmp-btn--actions" (click)="crud('d',item)"><i class="fa fa-trash-o" aria-hidden="true"></i><span fxHide.lt-lg> Eliminar</span> </button>

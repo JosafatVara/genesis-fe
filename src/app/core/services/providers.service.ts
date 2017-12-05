@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 import { AuthenticatedService } from './base/authenticated-service';
 import { EnterprisesService } from './enterprises.service';
 import { Specification } from './specifications/base/specification';
-import { ProvidersByNameSpecification } from './specifications/provider-specification';
+import { ProvidersByNameSpecification, ProvidersSearchPagedSpecification } from './specifications/provider-specification';
 
 @Injectable()
 export class ProviderService extends AuthenticatedService {
@@ -23,13 +23,26 @@ export class ProviderService extends AuthenticatedService {
     }
 
     public get(specification?: Specification<Provider>): Observable<Provider[]>{
-        if(specification instanceof ProvidersByNameSpecification){
-            let result: Provider[] = [
-                new Provider({ id: 1, firstName: 'aaa', lastName: 'joestar' }),
-                new Provider({ id: 2, firstName: 'ccc', lastName: 'arredondo' }),
-                new Provider({ id: 3, firstName: '5555', lastName: 'rat' }),
-            ];
-            return Observable.of( result.filter( f => specification.isSatisfiedBy(f) ) );
+        if( specification instanceof ProvidersByNameSpecification 
+             || specification instanceof ProvidersSearchPagedSpecification){
+            let auxSpecification: ProvidersSearchPagedSpecification;            
+            if(specification instanceof ProvidersByNameSpecification){
+                auxSpecification = new ProvidersSearchPagedSpecification(specification.providerName, 1, 1000);
+            }
+            auxSpecification = auxSpecification || specification as ProvidersSearchPagedSpecification;
+            return this.enterprises.getCurrentEnterprise().flatMap( curr => {
+                return this.http.get(`${this.actionUrl}purchases/enterprises/${curr.id}/providers`, 
+                { headers: this.authHttpHeaders, params: auxSpecification.toQueryParams() })
+                .map((result: { count: number, page_number: number, page: number, results: any[] }) => {
+                    let providers: Provider[] = [];
+                    auxSpecification.size = result.count;
+                    specification = auxSpecification;
+                    result.results.forEach(r => {
+                        providers = providers.concat([this.mapBeToProvider(r)]);
+                    });
+                    return providers;
+                });
+            });
         }
     }
 
@@ -56,6 +69,7 @@ export class ProviderService extends AuthenticatedService {
         formData.append('ruc', data.ruc);
         formData.append('phone', data.phone);
         formData.append('details', data.notes);
+        formData.append('group', data.group);
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
         return this.http.post(this.actionUrl + 'purchases/enterprises/' + id + '/providers', formData, { headers: headers }).map(result => {
@@ -74,6 +88,7 @@ export class ProviderService extends AuthenticatedService {
         formData.append('ruc', data.ruc);
         formData.append('phone', data.phone);
         formData.append('details', data.notes);
+        formData.append('group', data.group? data.group: '');
         if (data.photo.toString()[0] != 'h') formData.append('image', data.photo);
         let headers: HttpHeaders = this.authHttpHeaders;
         headers = headers.append('Accept', 'application/json');
@@ -101,7 +116,10 @@ export class ProviderService extends AuthenticatedService {
             phone: be.phone,
             notes: be.details,
             numOrders: be.orders,
-
+            group: be.group_id? {
+                id: be.group_id,
+                name: be.group_name
+            } : undefined
         });
     }
 

@@ -9,7 +9,8 @@ import { Specification } from './specifications/base/specification';
 import { Observable } from 'rxjs/Observable';
 import { Affiliation } from '../../shared/models/affiliation';
 import { BankAccount } from '../../shared/models/bank-account';
-import { EmployeesByNameSpecification } from "./specifications/employee-specification";
+import { EmployeesByNameSpecification, EmployeesSearchPagedSpecification } from "./specifications/employee-specification";
+import { EnterprisesService } from './enterprises.service';
 
 @Injectable()
 export class EmployeesService extends AuthenticatedService implements CrudService<Employee> {
@@ -43,20 +44,30 @@ export class EmployeesService extends AuthenticatedService implements CrudServic
     })
   ];
 
-  constructor(auth: AuthenticationService, http: HttpClient) { 
-    super(auth,http,'******');
+  constructor(auth: AuthenticationService, http: HttpClient, private enterprises: EnterprisesService) { 
+    super(auth,http,'');
   }
 
   get(specification?: QueryParamsSpecification | Specification<Employee>): Observable<Employee[]> {
-    if(specification instanceof EmployeesByNameSpecification){
-      let employeesWithName: Employee[] = [
-        new Employee({ id: 1, firstName: 'dinjo', lastName: 'joestar' }),
-        new Employee({ id: 2, firstName: 'billy', lastName: 'arredondo' }),
-        new Employee({ id: 3, firstName: 'said', lastName: 'rat' }),
-      ];
-      return Observable.of( employeesWithName.filter( f => specification.isSatisfiedBy(f) ) );
-    }
-    return Observable.of(this.mockData);
+    return this.enterprises.getCurrentEnterprise().flatMap( curr =>{
+      if(specification instanceof EmployeesByNameSpecification){
+        let employeesWithName: Employee[] = [
+          new Employee({ id: 1, firstName: 'dinjo', lastName: 'joestar' }),
+          new Employee({ id: 2, firstName: 'billy', lastName: 'arredondo' }),
+          new Employee({ id: 3, firstName: 'said', lastName: 'rat' }),
+        ];
+        return Observable.of( employeesWithName.filter( f => specification.isSatisfiedBy(f) ) );
+      }
+      if(specification instanceof EmployeesSearchPagedSpecification){
+        return this.http.get(`${this.actionUrl}enterprises/${curr.id}/employees/planilla/`,
+        { headers: this.authHttpHeaders, params: specification.toQueryParams() })
+        .map( (result: {count: number, results: any[]}) => {
+          specification.size = result.count;
+          return result.results.map( be => this.mapBeToEmployee(be) );
+        });
+      }
+      return Observable.of(this.mockData);
+    });    
   }
   update(entity: Employee): Observable<Employee> {
     throw new Error("Method not implemented.");
@@ -71,5 +82,9 @@ export class EmployeesService extends AuthenticatedService implements CrudServic
     throw new Error("Method not implemented.");
   }
 
+  mapBeToEmployee(be: any): Employee{
+    return new Employee({
 
+    });
+  }
 }

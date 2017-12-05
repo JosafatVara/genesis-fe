@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from "@angular/material";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
 
 
 //modules
@@ -15,6 +15,9 @@ import { User } from '../../shared/models/user';
 //components
 import { GroupModalCrudComponent } from "../group-modal-crud/group-modal-crud.component";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/confirm-dialog.component";
+import { Observable } from 'rxjs/Observable';
+import { PaginationInstance } from 'ngx-pagination';
+import { GroupsSearchPagedSpecification } from '../../core/services/specifications/group-specification';
 
 
 
@@ -26,9 +29,12 @@ import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/c
 })
 export class GroupListComponent implements OnInit {
 
-    groups: any = [];
+    groups: Observable<Group[]>;
     public currentUser: User;
     public currentEnterprise: Enterprise;
+    public config: PaginationInstance;
+    public searchFC: FormControl;
+
     constructor(
         private matDialog: MatDialog,
         private groupService: GroupService,
@@ -36,21 +42,42 @@ export class GroupListComponent implements OnInit {
         private enterprises: EnterprisesService) {
         enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
         users.getCurrentUser().subscribe(u => this.currentUser = u);
+        this.config = {
+          id: 'pagination',
+          itemsPerPage: 5,
+          currentPage: 1
+        };
     }
 
     ngOnInit() {
-        this.refreshGroups();
+        this.searchFC = new FormControl();
+        this.searchFC.valueChanges.debounceTime(500).subscribe( () => this.load() );
+        this.load();
     }
 
-    private refreshGroups() {
-        this.groupService.getList(this.currentEnterprise.id).subscribe(
-            res => this.groups = res
-            // console.log(res);
-
-        )
-        console.log(this.groups, "gruipos");
-
+    private load(page?: number){
+        page = page || this.config.currentPage;
+        this.config.currentPage = page;
+        let specification = new GroupsSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);
+        this.groupService.getList(specification)
+            .do( list => {
+                this.config.totalItems = specification.size;
+                this.groups = Observable.of(list);
+            })
+            .catch( err => {
+                return Observable.of([])
+            } ).subscribe();
     }
+
+    // private refreshGroups() {
+    //     this.groupService.getList(this.currentEnterprise.id).subscribe(
+    //         res => this.groups = res
+    //         // console.log(res);
+
+    //     )
+    //     console.log(this.groups, "gruipos");
+
+    // }
 
     crud(action: string, group: Group = undefined) {
         if (action == 'delete') {
@@ -65,7 +92,7 @@ export class GroupListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe((result: { cancelled: boolean }) => {
-            if (!result.cancelled) this.refreshGroups()
+            if (!result.cancelled) this.load()
         })
     }
 
@@ -76,7 +103,7 @@ export class GroupListComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(confirm => {
-            if (confirm) this.groupService.delete(group).subscribe(() => this.refreshGroups());
+            if (confirm) this.groupService.delete(group).subscribe(() => this.load());
         });
     }
 }

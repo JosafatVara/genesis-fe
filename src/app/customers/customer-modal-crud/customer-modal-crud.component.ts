@@ -155,7 +155,7 @@ export class CustomerModalCrudComponent {
                 const dataProvider = Object.assign({}, { photo: this.customerPhoto }, this.frmNaturalBasicData.value, { type: "PERSONA" });
                 if (this.data.action == 'create') {
                     this.customerService.create(dataProvider, this.currentEnterprise.id).subscribe(res => { 
-                        this.thisDialogRef.close({ cancelled: false });
+                        this.thisDialogRef.close(res);
                     })
                 } else {
                     this.customerService.update(dataProvider, this.data.customer.id).subscribe( res => {

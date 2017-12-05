@@ -9,11 +9,16 @@
             <form [formGroup]="quotationInformationFG">
                 <ng-template matStepLabel>Datos</ng-template>
                 <div fxLayout="column" fxLayoutGap="20px">
-                    <mat-form-field class="o-full-width">
-                        <span matSuffix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
-                        <input matInput formControlName="customer" [matAutocomplete]="auto" placeholder="Cliente" required>
-                        <mat-error>Debe seleccionar un cliente</mat-error>
-                    </mat-form-field>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <mat-form-field fxFlex>
+                            <span matSuffix><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;</span>
+                            <input matInput formControlName="customer" [matAutocomplete]="auto" placeholder="Cliente" required>
+                            <mat-error>Debe seleccionar un cliente</mat-error>
+                        </mat-form-field>
+                        <button type="button" class="cmp-btn cmp-btn--violet" (click)="createCustomer()">
+                            <span>Nuevo Cliente</span>
+                        </button>
+                    </div>                    
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCustomerFn">
                         <mat-option *ngFor="let customer of customerList" [value]="customer">
                             {{ customer.businessName }}
@@ -37,7 +42,7 @@
             <ng-template matStepLabel>Productos</ng-template>
             <form class="quotation__details" [formGroup]="quotationDetailsFG" fxLayout="column" fxLayoutGap="10px">
                 <ul class="quotation__details__detail scrollbar">
-                    <li *ngFor="let detail of details.controls">
+                    <li *ngFor="let detail of details.controls; let i = index;">
                         <mat-expansion-panel [expanded]="true" *ngIf="detail.controls.length > 0">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
@@ -45,15 +50,38 @@
                                     <span class="header header-value">{{detail.controls[0].get('value').value}}</span>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
-                            <div fxLayout="row" fxLayoutAlign="end start" *ngFor="let field of detail.controls">
-                                <span class="field field-label">{{field.get('label').value}}:&nbsp;</span>
-                                <span class="field field-value">{{field.get('value').value}}</span>
+                            <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="5px">
+                                <table>
+                                    <tbody>
+                                        <tr *ngFor="let field of detail.controls">
+                                            <td class="field field-label">{{field.get('label').value}}:&nbsp;</td>
+                                            <td class="field field-value">{{field.get('value').value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px" class="detail-actions">
+                                    <button type="button" class="cmp-btn" (click)="removeDetail(i)">
+                                        <i class="fa fa-trash"></i>&nbsp;
+                                        <span>Eliminar</span>
+                                    </button>
+                                    <button type="button" class="cmp-btn cmp-btn--violet" (click)="editDetail(i)">
+                                        <i class="fa fa-pencil"></i>&nbsp;
+                                        <span>Editar</span>
+                                    </button>
+                                </div>                                
                             </div>
                         </mat-expansion-panel>
                     </li>
                 </ul>
                 <div fxLayout="center" fxLayoutAlign="center center">
                     <button class="cmp-btn cmp-btn--white-blue" (click)="addDetail()">Agregar Detalle</button>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <!-- <span>Total de inversión</span> -->
+                    <mat-form-field fxFlex>
+                        <span matPrefix>S/.&nbsp;</span>
+                        <input matInput type="text" formControlName="totalAmmount" placeholder="Total de inversión">
+                    </mat-form-field>
                 </div>
                 <!-- <div class="cmp-table">
                     <ul class="cmp-table__header" fxLayoutAlign="end center">
@@ -69,7 +97,7 @@
                         <li fxFlex class="body__text" fxLayoutAlign="end center">8820(Total en Nuevos Soles)</li>
                     </ul>
                 </div> -->
-                <div class="padding-button" fxLayoutAlign="space-between center">
+                <div class="quotation__actions" fxLayout="row" fxLayoutAlign="space-between center">
                     <button mat-button matStepperPrevious class="cmp-btn cmp-btn--white-blue">Anterior</button>
                     <button mat-button matStepperNext class="cmp-btn cmp-btn--violet" (click)="confirm()">Crear</button>
                 </div>

@@ -1,6 +1,6 @@
 // import { element } from 'protractor';
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatCheckbox } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 //modules
 import { Provider } from "../../shared/models/provider";
@@ -19,6 +19,7 @@ import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog/c
 import { AccountsBankModalCrudComponent } from "../accounts-bank-modal-crud/accounts-bank-modal-crud.component";
 import { ContactsModalCrudComponent } from "../contacts-modal-crud/contacts-modal-crud.component";
 import { log } from 'util';
+import { GroupsSearchPagedSpecification } from '../../core/services/specifications/group-specification';
 
 @Component({
     moduleId: module.id,
@@ -27,6 +28,9 @@ import { log } from 'util';
     styleUrls: ['providers-modal-crud.component.scss']
 })
 export class ProvidersModalCrudComponent {
+
+    @ViewChild('hasNotGroupCheck') hasNotGroupCheck: MatCheckbox;
+
     public currentEnterprise: Enterprise;
     providerType: number;
     btnLabel: string;
@@ -61,8 +65,7 @@ export class ProvidersModalCrudComponent {
         private images: ImagesService,
         private groupService: GroupService
     ) {
-        this.enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);
-        console.log("sssssscccc");
+        this.enterprises.getCurrentEnterprise().subscribe(e => this.currentEnterprise = e);        
 
     }
 
@@ -176,7 +179,24 @@ export class ProvidersModalCrudComponent {
     }
 
     getGroupList() {
-        this.groupService.getList(this.currentEnterprise.id).subscribe(res => this.groupList = res);
+        this.groupService.getList(new GroupsSearchPagedSpecification('',1,100)).subscribe(res => {
+            this.groupList = res;
+            if(!this.data.provider.group){
+                this.hasNotGroupCheck.checked = true;
+                this.toggleHasGroup();
+            }else{
+                let selectedGroup = res.find( g => g.id == this.data.provider.group.id );
+                this.frmLegalBasicData.get('group').setValue(selectedGroup.id);
+            }
+        });
+    }
+
+    toggleHasGroup(){
+        if(this.hasNotGroupCheck.checked){
+            this.frmLegalBasicData.get('group').disable();
+        }else{
+            this.frmLegalBasicData.get('group').enable();
+        }
     }
     // private refreshBankAccounts(bankAccount: BankAccount) {
     //     console.log(this.currentEnterprise.id, "id de empresa catual");

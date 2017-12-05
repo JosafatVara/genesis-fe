@@ -23,7 +23,8 @@
           (keypress)="closeEditLabel($event, control)" (blur)="closeEditLabel('blur', control)">
         <span fxFlex="25" *ngIf="!control.editingLabel" (click)="control.editingLabel = true">{{control.label}}:&nbsp;</span>
         <mat-form-field fxFlex [ngSwitch]="control.type">
-          <input type="text" matInput *ngSwitchCase="'text'" [formControlName]="control.name">
+          <input type="text" matInput *ngSwitchCase="'text'" [formControlName]="control.name" >
+          <mat-error>Requerido</mat-error>
         </mat-form-field>
         <button type="button" (click)="removeControl(i);" class="cmp-btn"><i class="fa fa-times"></i></button>
     </div>    

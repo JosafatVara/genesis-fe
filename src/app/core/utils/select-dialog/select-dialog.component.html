@@ -1,0 +1,15 @@
+<div class="select-dialog">
+  <button class="select-dialog__closer cmp-btn cmp-btn--violet" mat-dialog-close>
+      <i class="fa fa-times"></i>
+  </button>
+  <h2 class="select-dialog__title u-h-center">{{title}}</h2>
+  <div class="select-dialog__divider"></div>
+  <div class="select-dialog__options">
+    <div class="select-dialog__options__option" *ngFor="let option of options"
+      [style.backgroundColor]="option.bkColor" [style.color]="option.color"
+      (click)="select(option)">
+      <span class="u-h-center">{{option.label}}</span>
+    </div>
+  </div>
+  <div></div>
+</div>

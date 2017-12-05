@@ -4,6 +4,7 @@ import { DashboardComponent } from '../dashboard.component';
 import { EnterpriseListResolver } from '../../core/resolvers/enterprise-list-resolver';
 import { RoleGuard } from '../../core/guards/role-guard';
 import { CurrentUserResolver } from "../../core/resolvers/current-user-resolver";
+import { CustomersModule } from '../../customers/customers.module';
 
 const routes: Routes = [
   {
@@ -121,17 +122,6 @@ const routes: Routes = [
       },
       {
         path: 'clientes',
-        //   loadChildren: 'app/customers/customers.module#CustomersModule'
-        // }
-        // ,
-        // {
-        //   path: 'ordenes',
-        //   loadChildren: 'app/orders/orders.module#OrdersModule'
-        // }
-        // ,
-        // {
-        //   path: 'informes',
-        //   loadChildren: 'app/reports/reports.module#ReportsModule'
         canActivate: [
           RoleGuard
         ],

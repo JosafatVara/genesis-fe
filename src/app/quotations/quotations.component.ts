@@ -8,6 +8,8 @@ import { QuotationsService } from '../core/services/quotations.service';
 import { Observable } from 'rxjs/Observable';
 import { Quotation } from '../shared/models/quotation';
 import { QuotationsSearchPagedSpecification } from '../core/services/specifications/quotation-specification';
+import { SelectDialogService } from '../core/utils/select-dialog/select-dialog.service';
+import { QuotationStatesService } from '../core/services/quotation-states.service';
 
 @Component({
   selector: 'gen-quotations',
@@ -15,15 +17,16 @@ import { QuotationsSearchPagedSpecification } from '../core/services/specificati
   styleUrls: ['./quotations.component.scss']
 })
 export class QuotationsComponent implements OnInit {
-
+  
   public quotationList: Observable<Quotation[]>;
   public config: PaginationInstance;
   public searchFC: FormControl;
   
-  constructor(public dialog: MatDialog, private quotations: QuotationsService) { 
+  constructor(public dialog: MatDialog, private quotations: QuotationsService
+    , private quotationStates: QuotationStatesService, private selectDialog: SelectDialogService) { 
     this.config = {
       id: 'pagination',
-      itemsPerPage: 2,
+      itemsPerPage: 5,
       currentPage: 1
     };
   }
@@ -44,12 +47,12 @@ export class QuotationsComponent implements OnInit {
             this.quotationList = Observable.of(list);
         })
         .catch( err => Observable.of([]) ).subscribe();
-}
+  }
 
   crud(mode: string, quotation?: Quotation): void {
     if(['c','u'].includes(mode)){
       let dialogRef = this.dialog.open(ModalCrudComponent, {
-        width: '720px',
+        width: '500px',
         disableClose: true,
         data: { 
           quotation: quotation 
@@ -62,5 +65,23 @@ export class QuotationsComponent implements OnInit {
         }
       });
     }
+  }
+
+  changeState(quotation: Quotation){
+      this.selectDialog.open('Cambiar estado', [
+        {
+          label: 'Enviado',
+          value: 'Enviado',
+          color: 'white',
+          bkColor: 'green'
+        },
+        {
+          label: 'Aceptado',
+          value: 'Aceptado',
+          color: 'white',
+          bkColor: 'purple'
+        }
+      ]).subscribe( result => {
+      });
   }
 }

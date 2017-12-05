@@ -33,6 +33,10 @@ import { CurrentUserResolver } from "./resolvers/current-user-resolver";
 import { MonthSelectorComponent } from "./utils/month-selector/month-selector.component";
 import { ProvidersPaymentsService } from './services/providers-payments.service';
 import { QuotationsService } from './services/quotations.service';
+import { ConfirmDialogService } from './utils/confirm-dialog/confirm-dialog.service';
+import { SelectDialogComponent } from './utils/select-dialog/select-dialog.component';
+import { SelectDialogService } from './utils/select-dialog/select-dialog.service';
+import { QuotationStatesService } from './services/quotation-states.service';
 
 
 @NgModule({
@@ -41,7 +45,7 @@ import { QuotationsService } from './services/quotations.service';
     MatSnackBarModule,
     SharedModule,
   ],
-  declarations: [ToastComponent, SimpleCrudComponent, MonthSelectorComponent],
+  declarations: [ToastComponent, SimpleCrudComponent, MonthSelectorComponent, SelectDialogComponent],
   providers: [
     //SERVICES
     AuthenticationService,
@@ -58,6 +62,7 @@ import { QuotationsService } from './services/quotations.service';
     FreelancersPaymentsService,
     ProvidersPaymentsService,
     QuotationsService,
+    QuotationStatesService,
 
     //RESOLVERS
     EnterpriseListResolver,
@@ -70,6 +75,8 @@ import { QuotationsService } from './services/quotations.service';
     ToastService,
     MonthSelectorService,
     SimpleCrudService,    
+    ConfirmDialogService,
+    SelectDialogService,
     { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
 
     //GUARDS
@@ -82,7 +89,8 @@ import { QuotationsService } from './services/quotations.service';
   entryComponents: [
     ToastComponent,
     SimpleCrudComponent,
-    MonthSelectorComponent
+    MonthSelectorComponent,
+    SelectDialogComponent
   ]
 })
 export class CoreModule { }

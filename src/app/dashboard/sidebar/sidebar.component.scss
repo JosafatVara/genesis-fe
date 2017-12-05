@@ -25,6 +25,10 @@
             &:hover {
                 background-color: $grey-3;
             }
+            &.active{
+                background-color: darken($white-0,20%);
+                color: $white-0;
+            }
         }
         .menu-item__submenu {
             text-align: center;
@@ -33,6 +37,9 @@
                 color: $white-1;
                 &:hover {
                     background-color: $grey-4;
+                }
+                &.active{
+                    background-color: darken($grey-4,15%);
                 }
             }
         }

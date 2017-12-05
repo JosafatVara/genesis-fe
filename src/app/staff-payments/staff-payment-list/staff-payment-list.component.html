@@ -8,7 +8,7 @@
       <div [ngClass]="{'cmp-card__body':inDashboard}">
         <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="space-between center">
             <div fxLayout="row" fxLayoutAlign="start center">
-              <input class="cmp-input cmp-input--search" fxFlex="350px" type="text" placeholder="Buscar por nombre...">              
+              <input [formControl]="searchFC" class="cmp-input cmp-input--search" fxFlex="350px" type="text" placeholder="Buscar por nombre...">              
             </div>
             <button class="cmp-btn cmp-btn--violet" (click)="selectPeriod()" fxLayout="row" fxLayoutAlign="start center"
             fxLayoutGap="8px">
@@ -26,7 +26,7 @@
             <li fxFlex="25" class="header__title header__title--action u-h-center">Pago (S/.)</li>
             <li fxFlex="30" class="header__title u-h-center"></li>
           </ul>
-          <ul class="cmp-table__body payment-list__dataset__item" *ngFor="let payment of paymentList"
+          <ul class="cmp-table__body payment-list__dataset__item" *ngFor="let payment of paymentList   | async | paginate: config"
           fxLayout="row" fxLayoutAlign="start center">
             <li fxFlex="20" class="body__text u-h-center">{{payment.paymentDate | date:'dd/MM/yyyy'  }}</li>
             <li fxFlex="25" class="body__text u-h-center">{{payment.employee ? payment.employee.fullName : ''}}</li>
@@ -44,6 +44,9 @@
                 </button>
             </li>
           </ul>
+          <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="load($event)">
+              <gen-paginator [pagination]="p"></gen-paginator>
+          </pagination-template>
         </div>
       </div>  
       <div *ngIf="!paymentList" class="select-period-label">

@@ -1,0 +1,18 @@
+.select-dialog{
+    position: relative;
+    &__closer{
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+    &__title{
+        padding: 16px;
+    }
+    &__options{
+        &__option{
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+}
