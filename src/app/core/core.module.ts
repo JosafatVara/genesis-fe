@@ -37,6 +37,7 @@ import { ConfirmDialogService } from './utils/confirm-dialog/confirm-dialog.serv
 import { SelectDialogComponent } from './utils/select-dialog/select-dialog.component';
 import { SelectDialogService } from './utils/select-dialog/select-dialog.service';
 import { QuotationStatesService } from './services/quotation-states.service';
+import { DatetimeHelperService } from "./utils/datetime-helper/datetime-helper.service";
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { QuotationStatesService } from './services/quotation-states.service';
     SimpleCrudService,    
     ConfirmDialogService,
     SelectDialogService,
+    DatetimeHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
 
     //GUARDS

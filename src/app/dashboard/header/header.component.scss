@@ -18,7 +18,13 @@
     .header__logo {
         .logo {
             // width: 100px;
-            max-width: 60px;
+            // max-width: 150px;
+            height: 100%;
+            width: 220px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0px;
         }
     }
     .header__icon-bell {

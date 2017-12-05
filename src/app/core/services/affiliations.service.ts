@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 export class AffiliationsService implements CrudService<Affiliation> {
 
   public mockData: Affiliation[] = [
-    new Affiliation({id: 1, description: 'AFP'})
+    new Affiliation({id: 1, description: 'AFP', choice: 'AFP'})
   ];
 
   get(specification?: Specification<Affiliation>): Observable<Affiliation[]> {
@@ -24,7 +24,10 @@ export class AffiliationsService implements CrudService<Affiliation> {
     throw new Error("Method not implemented.");
   }
   getSync(specification?: Specification<Affiliation>): Affiliation[] {
-    throw new Error("Method not implemented.");
+    if(specification){
+      return this.mockData.filter( a => specification.isSatisfiedBy(a) );
+    }
+      return this.mockData
   }
 
 }

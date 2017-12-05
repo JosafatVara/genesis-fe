@@ -6,11 +6,11 @@
   </div>  
   <div class="freelancer-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
     <div [ngClass]="{'cmp-card__body':inDashboard}">
-      <div class="body__cont-actions" fxLayoutAlign="space-between center">
+      <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="space-between center">
           <input [formControl] ="searchFC" class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar...">
       </div>
       <div class="cmp-table">
-        <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+        <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
           <li fxFlex="20" class="header__title header__title--action u-h-center">DNI</li>
           <li fxFlex="20" class="header__title header__title--action u-h-center">Nombre</li>
           <li fxFlex="15" class="header__title header__title--action u-h-center">Último mes que se pagó</li>

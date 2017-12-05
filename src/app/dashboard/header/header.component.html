@@ -2,7 +2,8 @@
     <div class="wrapper wrapper--header" fxLayoutAlign="space-between center">
         <div>
             <div class="header__logo">
-                <img class="logo" src="assets/images/n.png" alt="">
+                <!-- <img class="logo" src="assets/images/n.png" alt=""> -->
+                <img class="logo" [src]=" currentEnterprise? currentEnterprise.photoPublicUrl:''" alt="">
             </div>
         </div>
         <div fxLayoutAlign="space-between center">

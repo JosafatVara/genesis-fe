@@ -8,7 +8,7 @@
         </ng-template>
         <form [formGroup]="frmEmployeePhoto" fxLayout="column" fxLayoutAlign="center center">
            <gen-photo-input class="staff-details__photo" [required]="true" [asBase64]="false" [(photoSrc)]="employeePhoto" 
-            (onChange)="onChangePhoto($event)"></gen-photo-input>
+            [photoPublicUrl]="managedEntity.photoPublicUrl" (onChange)="onChangePhoto($event)"></gen-photo-input>
           <input class="u-hidden" type="text" formControlName="photoFlag">
           <button class="cmp-btn" matStepperNext>Siguiente</button>
         </form>
@@ -118,7 +118,7 @@
         <ng-template matStepLabel>
           <span>Información bancaria</span>
         </ng-template>
-        <form [formGroup]="frmBankAccounts" fxLayout="column" fxLayoutGap="10px">
+        <form [formGroup]="frmBankAccounts" fxLayout="column" fxLayoutGap="10px" (submit)="finish(frmEmployee)">
           <div formArrayName="bankAccounts" fxLayout="column" fxLayoutGap="10px">
             <div class="cmp-table">
                 <ul class="cmp-table__header" fxLayout="row">

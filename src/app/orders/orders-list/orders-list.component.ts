@@ -40,12 +40,12 @@ export class OrdersListComponent implements OnInit {
     }
 
     private refreshGroups() {
-        console.log(this.currentEnterprise.id, "id de empresa catual");
+        // console.log(this.currentEnterprise.id, "id de empresa catual");
 
-        this.groupService.getList(this.currentEnterprise.id).subscribe(
-            res => this.groups = res
-        )
-        console.log(this.groups);
+        // this.groupService.getList(this.currentEnterprise.id).subscribe(
+        //     res => this.groups = res
+        // )
+        // console.log(this.groups);
     }
 
     crud(action: string, order: Order = undefined) {

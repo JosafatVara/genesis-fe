@@ -94,7 +94,9 @@ export class ProvidersModalCrudComponent {
         this.provider = this.data.action == 'create' ? new Provider() : this.data.provider;
         this.createForm();
         this.fillForm();
-        this.getGroupList();
+        if(selected == 2){
+            this.getGroupList();
+        }
         if (this.data.action == 'update') this.provider.photo = 'http://genesis.indagostudio.pe' + this.provider.photo
         this.providerPhoto = this.provider.photo
     }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CrudComponent } from "../../shared/components/base/crud-component";
 import { Employee } from "../../shared/models/employee";
 import { EmployeesService } from "../../core/services/employees.service";
-import { FormGroup, FormArray, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { AffiliationsService } from '../../core/services/affiliations.service';
 import { Affiliation } from '../../shared/models/affiliation';
 import { ImagesService } from '../../core/utils/images/images.service';
@@ -21,6 +21,7 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
   public buttonLabel: string;
   affiliationList: Affiliation[];
   employeePhoto: any;
+  frmEmployee: FormGroup;
   frmEmployeePhoto: FormGroup;
   frmPersonalInformation: FormGroup;
   frmWorkInformation: FormGroup;
@@ -30,7 +31,6 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
   constructor(employees: EmployeesService, private affiliations: AffiliationsService, private simpleCrud: SimpleCrudService
     ,private images: ImagesService, private fb: FormBuilder) { 
     super(employees);
-    this.createForms();
     this.affiliations.get().subscribe( as => {
       this.affiliationList = as;
     });
@@ -38,18 +38,20 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
 
   ngOnInit() {
     this.managedEntity = this.employee || new Employee();
-    if(this.mode!='create' && this.managedEntity.photoPublicUrl){
-      this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( image => {
-        this.employeePhoto = image;
-      });      
-    }
+    // if(this.mode!='create' && this.managedEntity.photoPublicUrl){
+    //   this.images.getBlobFromImageUrl(this.managedEntity.photoPublicUrl).subscribe( image => {
+    //     this.employeePhoto = image;
+    //   });      
+    // }
+    this.employeePhoto = this.managedEntity.photo;
+    this.createForms();
     this.fillFormsModels();
   }
 
   //#region FormManagement
   private createForms(){
     this.frmEmployeePhoto = this.fb.group({
-      photoFlag: ['', Validators.required]
+      photoFlag: ['', this.photoIsNotEmptyValidator.bind(this)]
     });
     this.frmPersonalInformation = this.fb.group({
       firstName: ['', [Validators.required]],
@@ -73,7 +75,22 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
     this.frmBankAccounts = this.fb.group({
       bankAccounts: this.fb.array([])
     });
+    this.frmEmployee = this.fb.group({
+      photo: [this.frmEmployeePhoto],
+      personalInformation: [this.frmPersonalInformation],
+      workInformation: [this.frmWorkInformation],
+      affiliation: [this.frmAffiliationInformation],
+      bankAccounts: [this.bankAccounts]
+    });
   }
+
+  photoIsNotEmptyValidator(control: FormControl){
+      if( !this.employeePhoto && (!this.managedEntity.photoPublicUrl || this.managedEntity.photoPublicUrl == "" ) ){
+        return { required: true };
+      }
+      return null;
+  }
+
 
   private fillFormsModels(){
     this.frmPersonalInformation.patchValue(this.managedEntity);
@@ -84,6 +101,7 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
     this.frmAffiliationInformation.patchValue({ affiliation: affiliationInList });
     let bankAccountsFGs = this.managedEntity.bankAccounts?this.managedEntity.bankAccounts.map( ba => {
       return this.fb.group({
+        id: [ba.id],
         bankName: [ba.bankName,[Validators.required]],
         number: [ba.number,[Validators.required]],
         interbankNumber: [ba.interbankNumber, [Validators.required]]
@@ -183,5 +201,11 @@ export class StaffDetailsComponent extends CrudComponent<Employee> implements On
     if(photo){
       this.frmEmployeePhoto.setValue({photoFlag: 'OK'});
     }
+  }
+
+  protected validate(): boolean{
+    this.managedEntity.photo = this.employeePhoto;
+    this.managedEntity.photoFileName = this.employeePhoto? this.employeePhoto.name : undefined;
+    return true;
   }
 }

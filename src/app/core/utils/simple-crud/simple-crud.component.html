@@ -29,7 +29,7 @@
         <button type="button" (click)="removeControl(i);" class="cmp-btn"><i class="fa fa-times"></i></button>
     </div>    
   </div>
-  <div class="simple-crud__manual-actions" fxLayout="row" fxLayoutAlign="center start">
+  <div class="simple-crud__manual-actions" fxLayout="row" fxLayoutAlign="center start" *ngIf="isManual">
     <button type="button" class="cmp-btn" (click)="addControl()"><i class="fa fa-plus"></i>&nbsp;Agregar campo</button>
   </div>
   <div class="simple-crud__actions" fxLayout="row" fxLayoutAlign="space-between center">

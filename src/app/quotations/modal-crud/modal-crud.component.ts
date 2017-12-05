@@ -11,6 +11,8 @@ import { QuotationsService } from '../../core/services/quotations.service';
 import { CustomersSearchPagedSpecification } from '../../core/services/specifications/customer-specification';
 import { SimpleCrudService } from '../../core/utils/simple-crud/simple-crud.service';
 import { CustomerModalCrudComponent } from '../../customers/customer-modal-crud/customer-modal-crud.component';
+import { Observable } from "rxjs/Observable";
+import { UsersService } from "../../core/services/users.service";
 
 @Component({
     moduleId: module.id,
@@ -23,12 +25,18 @@ export class ModalCrudComponent {
     quotation: Quotation;
     quotationInformationFG: FormGroup;
     quotationDetailsFG: FormGroup;
+    isAdmin: boolean;
 
     constructor(private customers: CustomerService, private quotations: QuotationsService
         , private simpleCrud: SimpleCrudService, private matDialog: MatDialog,
          private fb: FormBuilder, public thisDialogRef: MatDialogRef<ModalCrudComponent>, 
-        @Inject(MAT_DIALOG_DATA) public data: { quotation: Quotation}) {
+        @Inject(MAT_DIALOG_DATA) public data: { quotation: Quotation},
+        private users: UsersService) {
         this.quotation = data.quotation;
+        Observable.zip( this.users.getCurrentUser(), this.users.get() ).subscribe( rs => {
+            let myRole = rs[1].find( u => u.id == rs[0].id).role.name;
+            this.isAdmin = myRole.toLowerCase() == 'administrador';
+        });
     }
 
     ngOnInit() {

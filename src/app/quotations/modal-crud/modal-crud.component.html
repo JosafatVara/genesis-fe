@@ -15,7 +15,7 @@
                             <input matInput formControlName="customer" [matAutocomplete]="auto" placeholder="Cliente" required>
                             <mat-error>Debe seleccionar un cliente</mat-error>
                         </mat-form-field>
-                        <button type="button" class="cmp-btn cmp-btn--violet" (click)="createCustomer()">
+                        <button type="button" class="cmp-btn cmp-btn--violet" (click)="createCustomer()" *ngIf="isAdmin">
                             <span>Nuevo Cliente</span>
                         </button>
                     </div>                    

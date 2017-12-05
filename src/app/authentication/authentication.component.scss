@@ -1,6 +1,14 @@
 @import "../../assets/styles/1.settings/_colors.scss";
 
 :host{    
+    .genesis-logo{
+        width: 300px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 2;
+        transform: translateX(-50%);
+    }
     .authentication{
         overflow: hidden;
         &--left{

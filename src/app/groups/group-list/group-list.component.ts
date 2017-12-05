@@ -55,7 +55,7 @@ export class GroupListComponent implements OnInit {
         this.load();
     }
 
-    private load(page?: number){
+    load(page?: number){
         page = page || this.config.currentPage;
         this.config.currentPage = page;
         let specification = new GroupsSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);

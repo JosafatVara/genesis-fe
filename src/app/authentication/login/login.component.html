@@ -1,20 +1,22 @@
-<form #form="ngForm" fxLayout="column" class="o-full-size login" fxLayoutGap="20px">
-  <mat-form-field class="o-full-width login__credential">
-    <input required matInput placeholder="Usuario" email="true" name="user" [(ngModel)]="user">
-    <mat-error>Usuario requerido</mat-error>
-  </mat-form-field>
-  <mat-form-field class="o-full-width login__credential">
-    <input required matInput placeholder="Contraseña" name="password" [(ngModel)]="password" type="password">
-    <mat-error>Contraseña requerida</mat-error>
-  </mat-form-field>
-  <!-- <div class="cmp-message--error" fxLayout="row" fxLayoutAlign="start center" *ngIf="failedLogin">
-    Credenciales incorrectas
-  </div> -->
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <a class="cmp-btn" routerLink="recuperarPassword">¿No recuerdas tu contraseña?</a>
-    <span fxFlex></span>
-    <button type="submit" class="cmp-btn cmp-btn--violet" (click)="login(form)" [disabled]="isLoading">
-      <span>Ingresar</span>
-    </button>
-  </div>
-</form>
+<div fxLayout="row" fxLayoutAlign="start center">
+  <form #form="ngForm" fxLayout="column" class="o-full-size login" fxLayoutGap="20px">
+    <mat-form-field class="o-full-width login__credential">
+      <input required matInput placeholder="Usuario" email="true" name="user" [(ngModel)]="user">
+      <mat-error>Usuario requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="o-full-width login__credential">
+      <input required matInput placeholder="Contraseña" name="password" [(ngModel)]="password" type="password">
+      <mat-error>Contraseña requerida</mat-error>
+    </mat-form-field>
+    <!-- <div class="cmp-message--error" fxLayout="row" fxLayoutAlign="start center" *ngIf="failedLogin">
+      Credenciales incorrectas
+    </div> -->
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <a class="cmp-btn" routerLink="recuperarPassword">¿No recuerdas tu contraseña?</a>
+      <span fxFlex></span>
+      <button type="submit" class="cmp-btn cmp-btn--violet" (click)="login(form)" [disabled]="isLoading">
+        <span>Ingresar</span>
+      </button>
+    </div>
+  </form>
+</div>

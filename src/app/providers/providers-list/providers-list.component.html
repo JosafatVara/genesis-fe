@@ -6,18 +6,18 @@
     </div>
     <div class="cmp-card">
         <div class="cmp-card__body">
-            <div class="body__cont-actions" fxLayoutAlign="space-between center">
+            <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="space-between center">
                 <input [formControl]="searchFC" class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar(Nombre/Ruc/Contacto)...">
             </div>
             <div class="body__cont-body">
                 <div class="cmp-table">
-                    <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                    <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
                         <li fxFlex class="header__title header__title--action">RUC/DNI <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                         <li fxFlex class="header__title header__title--action">Nombre <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                         <li fxFlex=20 class="header__title header__title--action">Pedidos <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                         <li fxFlex=30 class="header__title ">Acciones</li>
                     </ul>
-                    <ul class="cmp-table__body" *ngFor="let item of providers  | async | paginate: config">
+                    <ul class="cmp-table__body" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of providers  | async | paginate: config">
                         <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.ruc}}</li>
                         <li fxFlex class="body__text" fxLayoutAlign="start center">
                             <span *ngIf="item.businessName!='undefined'">{{item.businessName}}</span>

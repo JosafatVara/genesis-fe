@@ -2,11 +2,13 @@
     <div fxLayout="row" class="employee-list__header" [ngClass]="{'cont__title':inDashboard}">
       <h2>Personal</h2>
       <span fxFlex></span>
-      <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">Crear Nuevo Trabajador</button> 
+      <button class="cmp-btn cmp-btn--violet" (click)="crud('create')">
+        <i class="fa fa-plus"></i>&nbsp;
+         Nuevo Trabajador</button> 
     </div>  
     <div class="employee-list__dataset" [ngClass]="{'cmp-card':inDashboard}">
       <div [ngClass]="{'cmp-card__body':inDashboard}">
-        <div class="body__cont-actions" fxLayoutAlign="space-between center">
+        <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="space-between center">
             <input [formControl] ="searchFC"class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar...">
         </div>
         <div class="cmp-table">

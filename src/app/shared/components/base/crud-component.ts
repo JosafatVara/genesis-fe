@@ -22,6 +22,7 @@ export abstract class CrudComponent<T extends BaseEntity<T>> extends BaseCompone
     public finish(form: FormGroup){
         this.fillDataModels();
         if( (form && form.valid) && this.validate()){
+            this.fillDataModels();
             switch(this.mode){
                 case 'create':
                     this.create();

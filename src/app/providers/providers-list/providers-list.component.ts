@@ -50,7 +50,7 @@ export class ProvidersListComponent implements OnInit {
         this.load();
     }
 
-    private load(page?: number){
+    load(page?: number){
         page = page || this.config.currentPage;
         this.config.currentPage = page;
         let specification = new ProvidersSearchPagedSpecification(this.searchFC.value || '',page,this.config.itemsPerPage);

@@ -23,6 +23,7 @@ export class Employee extends Worker{
     public lastDayPaid: Date;
     public photo: any;
     public photoPublicUrl: string;
+    public photoFileName: string;
 
     public get fullName(): string{
         return this.firstName + ' ' + this.lastName;

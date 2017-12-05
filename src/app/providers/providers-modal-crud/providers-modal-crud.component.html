@@ -82,12 +82,12 @@
                 <!-- <form [formGroup]="nthirdFormGroup"> -->
                 <ng-template matStepLabel>Cuentas Bancarias</ng-template>
                 <div class="cmp-table ">
-                    <ul class="cmp-table__header" fxLayoutAlign="space-between center" *ngIf="bankAccounts.length!=0">
+                    <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="bankAccounts.length!=0">
                         <li fxFlex class="header__title header__title--action">Banco <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                         <li fxFlex class="header__title header__title--action">Cuenta Bancaria <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                         <li fxFlex class="header__title ">Acciones</li>
                     </ul>
-                    <ul class="cmp-table__body" *ngFor="let item of bankAccounts">
+                    <ul class="cmp-table__body" fxLayout="row" fxLayoutAlign="space-between center"  *ngFor="let item of bankAccounts">
                         <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.bankName}}</li>
                         <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.number}}</li>
                         <li fxFlex class="body__text">
@@ -176,7 +176,7 @@
                 <form [formGroup]="frmLegalContacts">
                     <ng-template matStepLabel>Contactos</ng-template>
                     <div class="cmp-table ">
-                        <ul class="cmp-table__header" fxLayoutAlign="space-between center" *ngIf="contacts.length!=0">
+                        <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="contacts.length!=0">
                             <li fxFlex class="header__title header__title--action">Nombre </li>
                             <!-- <li fxFlex class="header__title header__title--action">Apellido </li> -->
                             <li fxFlex class="header__title header__title--action">Cargo </li>
@@ -184,7 +184,7 @@
                             <!-- <li fxFlex class="header__title header__title--action">Email </li> -->
                             <li fxFlex class="header__title ">Acciones</li>
                         </ul>
-                        <ul class="cmp-table__body" *ngFor="let item of contacts">
+                        <ul class="cmp-table__body" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of contacts">
                             <!-- <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.firstName}}</li> -->
                             <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.firstName+' '+item.lastName}}</li>
                             <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.position}}</li>
@@ -209,12 +209,12 @@
                 <form [formGroup]="frmLegalBankAccounts">
                     <ng-template matStepLabel>Cuentas Bancarias</ng-template>
                     <div class="cmp-table ">
-                        <ul class="cmp-table__header" fxLayoutAlign="space-between center" *ngIf="bankAccounts.length!=0">
+                        <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="bankAccounts.length!=0">
                             <li fxFlex class="header__title header__title--action">Banco <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                             <li fxFlex class="header__title header__title--action">Cuenta Bancaria <i class="fa fa-angle-down" aria-hidden="true"></i></li>
                             <li fxFlex class="header__title ">Acciones</li>
                         </ul>
-                        <ul class="cmp-table__body" *ngFor="let item of bankAccounts">
+                        <ul class="cmp-table__body" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of bankAccounts">
                             <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.bankName}}</li>
                             <li fxFlex class="body__text" fxLayoutAlign="start center">{{item.number}}</li>
                             <li fxFlex class="body__text">

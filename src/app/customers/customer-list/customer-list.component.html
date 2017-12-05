@@ -7,13 +7,13 @@
         </div>
         <div class="cmp-card">
             <div class="cmp-card__body">
-                <div class="body__cont-actions" fxLayoutAlign="space-between center">
+                <div class="body__cont-actions" fxLayout="row" fxLayoutAlign="space-between center">
                     <input [formControl] ="searchFC"class="cmp-input cmp-input--search" fxFlex=350px type="text" placeholder="Buscar (Nombre/Ruc/Contacto)...">
                     <!-- <button class="cmp-btn cmp-btn--violet" (click)="crud('create')"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar </button> -->
                 </div>
                 <div class="body__cont-body">
                     <div class="cmp-table">
-                        <ul class="cmp-table__header" fxLayoutAlign="space-between center">
+                        <ul class="cmp-table__header" fxLayout="row" fxLayoutAlign="space-between center">
                             <li fxFlex class="header__title header__title--action">Nombre </li>
                             <li fxFlex class="header__title header__title--action">RUC/DNI </li>
                             <li fxFlex class="header__title header__title--action">Dirección Fiscal </li>
@@ -21,7 +21,7 @@
                             <li fxFlex class="header__title header__title--action">Deuda Total </li>
                             <li fxFlex=30 class="header__title ">Acciones</li>
                         </ul>
-                        <ul class="cmp-table__body" *ngFor="let item of customers | async | paginate: config">
+                        <ul class="cmp-table__body" fxLayout="row" *ngFor="let item of customers | async | paginate: config">
                             <li fxFlex class="body__text" fxLayout="column" fxLayoutAlign="center start">
                                 <span *ngIf="item.businessName!='undefined'" class="font-bold">{{item.businessName}}</span>
                                 <span *ngIf="item.firstName!='undefined'">{{item.firstName+" "+item.lastName}}</span>
