@@ -1,7 +1,7 @@
 @import "../../../assets/styles/1.settings/_colors.scss";
 
 :host{
-    width: 80%;
+    width: 60%;
 }
 
 .login{
@@ -14,5 +14,9 @@
     }
     .login__img{
         background-color: $purple-1;
+    }
+    .genesis-logo{
+        width: 300px;
+        margin: auto;
     }
 }
